@@ -1,6 +1,6 @@
 package com.arvato.oms.service;
 
-import com.arvato.oms.model.User;
+import com.arvato.oms.model.UserTest;
 
 import java.util.List;
 
@@ -9,9 +9,9 @@ import java.util.List;
  */
 public interface UserService {
 
-    List<User> getAllUser();
+    List<UserTest> getAllUser();
 
-    User getUserByPhoneOrEmail(String emailOrPhone, Short state);
+    UserTest getUserByPhoneOrEmail(String emailOrPhone, Short state);
 
-    User getUserById(Long userId);
+    UserTest getUserById(Long userId);
 }

@@ -1,7 +1,7 @@
 package com.arvato.oms.service.impl;
 
 import com.arvato.oms.dao.UserDao;
-import com.arvato.oms.model.User;
+import com.arvato.oms.model.UserTest;
 import com.arvato.oms.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,15 +20,15 @@ public class UserServiceImpl implements UserService {
     @Resource
     private UserDao userDao;
 
-    public User getUserById(Long userId) {
+    public UserTest getUserById(Long userId) {
         return userDao.selectUserById(userId);
     }
     
-    public User getUserByPhoneOrEmail(String emailOrPhone, Short state) {
+    public UserTest getUserByPhoneOrEmail(String emailOrPhone, Short state) {
         return userDao.selectUserByPhoneOrEmail(emailOrPhone,state);
     }
     
-    public List<User> getAllUser() {
+    public List<UserTest> getAllUser() {
         return userDao.selectAllUser();
     }
 }

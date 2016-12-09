@@ -1,7 +1,6 @@
-package com.arvato.oms.model;
+package com.arvato.oms.model.test;
 
-public class UsersModel
-{
+public class UsersModel {
     private Integer uid;
 
     private String uname;
