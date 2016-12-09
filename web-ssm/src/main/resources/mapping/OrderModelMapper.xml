@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.arvato.oms.dao.OrderModelMapper" >
+  <resultMap id="BaseResultMap" type="com.arvato.oms.model.OrderModel" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="oId" property="oid" jdbcType="VARCHAR" />
+    <result column="channelOid" property="channeloid" jdbcType="VARCHAR" />
+    <result column="orderStatus" property="orderstatus" jdbcType="VARCHAR" />
+    <result column="orderForm" property="orderform" jdbcType="VARCHAR" />
+    <result column="buyerId" property="buyerid" jdbcType="VARCHAR" />
+    <result column="orderTime" property="ordertime" jdbcType="TIMESTAMP" />
+    <result column="baseStatus" property="basestatus" jdbcType="VARCHAR" />
+    <result column="payStatus" property="paystatus" jdbcType="VARCHAR" />
+    <result column="payStyle" property="paystyle" jdbcType="VARCHAR" />
+    <result column="payTime" property="paytime" jdbcType="TIMESTAMP" />
+    <result column="goodsTolprice" property="goodstolprice" jdbcType="DECIMAL" />
+    <result column="discountPrice" property="discountprice" jdbcType="DOUBLE" />
+    <result column="orderTolprice" property="ordertolprice" jdbcType="DECIMAL" />
+    <result column="goodsWarehouse" property="goodswarehouse" jdbcType="VARCHAR" />
+    <result column="logisticsCompany" property="logisticscompany" jdbcType="VARCHAR" />
+    <result column="logisticsId" property="logisticsid" jdbcType="VARCHAR" />
+    <result column="sendTime" property="sendtime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="receiverName" property="receivername" jdbcType="VARCHAR" />
+    <result column="receiverMobel" property="receivermobel" jdbcType="VARCHAR" />
+    <result column="receiverTelnum" property="receivertelnum" jdbcType="VARCHAR" />
+    <result column="receiverProvince" property="receiverprovince" jdbcType="VARCHAR" />
+    <result column="receiverCity" property="receivercity" jdbcType="VARCHAR" />
+    <result column="receiverArea" property="receiverarea" jdbcType="VARCHAR" />
+    <result column="detailAddress" property="detailaddress" jdbcType="VARCHAR" />
+    <result column="zipCode" property="zipcode" jdbcType="VARCHAR" />
+    <result column="modifyTime" property="modifytime" jdbcType="TIMESTAMP" />
+    <result column="modifyMan" property="modifyman" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, oId, channelOid, orderStatus, orderForm, buyerId, orderTime, baseStatus, payStatus, 
+    payStyle, payTime, goodsTolprice, discountPrice, orderTolprice, goodsWarehouse, logisticsCompany, 
+    logisticsId, sendTime, remark, receiverName, receiverMobel, receiverTelnum, receiverProvince, 
+    receiverCity, receiverArea, detailAddress, zipCode, modifyTime, modifyMan
+  </sql>
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List" />
+    from oms_schema.order limit #{0},#{1}
+  </select>
+  <select id="selectCount" resultType="java.lang.Integer" >
+    select count(*)
+    from oms_schema.order
+  </select>
+  <select id="selectByOid" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from oms_schema.order
+    where oId = #{oId,jdbcType=VARCHAR}
+  </select>
+  <!--按订单号模糊查询，分页-->
+  <select id="CountByOid" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select count(*) from oms_schema.order where oId like #{oId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByOids" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from oms_schema.order
+    where oId like #{2,jdbcType=VARCHAR} limit #{0},#{1}
+  </select>
+  <!--按渠道订单号模糊查询，分页-->
+  <select id="CountByChanneloid" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select count(*) from oms_schema.order where channelOid like #{channelOid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByChanneloids" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from oms_schema.order
+    where channelOid like #{2,jdbcType=VARCHAR} limit #{0},#{1}
+  </select>
+    <!--按订单状态查询，模糊，分页 -->
+  <select id="CountByOrderStatus" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select count(*) from oms_schema.order where orderStatus like #{orderStatus,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByOrderStatuss" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from oms_schema.order
+    where orderStatus like #{2,jdbcType=VARCHAR} limit #{0},#{1}
+  </select>
+    <!--按支付方式查询，模糊，分页 -->
+  <select id="CountByPayStyle" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select count(*) from oms_schema.order where payStyle like #{payStyle,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPayStyles" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from oms_schema.order
+    where payStyle like #{2,jdbcType=VARCHAR} limit #{0},#{1}
+  </select>
+    <!--按物流公司查询，模糊，分页 -->
+  <select id="CountByLogisticsCompany" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select count(*) from oms_schema.order where logisticsCompany like #{logisticsCompany,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByLogisticsCompanys" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from oms_schema.order
+    where logisticsCompany like #{2,jdbcType=VARCHAR} limit #{0},#{1}
+  </select>
+    <!--按省查询，模糊，分页 -->
+  <select id="CountByReceiverProvince" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select count(*) from oms_schema.order where receiverProvince like #{receiverProvince,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByReceiverProvinces" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from oms_schema.order
+    where receiverProvince like #{2,jdbcType=VARCHAR} limit #{0},#{1}
+  </select>
+    <!--按市查询，模糊，分页 -->
+  <select id="CountByReceiverCity" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select count(*) from oms_schema.order where receiverCity like #{receiverCity,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByReceiverCitys" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from oms_schema.order
+    where receiverCity like #{2,jdbcType=VARCHAR} limit #{0},#{1}
+  </select>
+    <!--按区查询，模糊，分页 -->
+  <select id="CountByReceiverArea" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select count(*) from oms_schema.order where receiverArea like #{receiverArea,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByReceiverAreas" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from oms_schema.order
+    where receiverArea like #{2,jdbcType=VARCHAR} limit #{0},#{1}
+  </select>
+    <!--按收货人手机号查询，模糊，分页 -->
+  <select id="CountByReceiverMobel" resultType="java.lang.Integer" parameterType="java.lang.String">
+    select count(*) from oms_schema.order where receiverMobel like #{receiverMobel,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByReceiverMobels" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from oms_schema.order
+    where receiverMobel like #{2,jdbcType=VARCHAR} limit #{0},#{1}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.arvato.oms.model.OrderModel" >
+    insert into order (id, oId, channelOid, 
+      orderStatus, orderForm, buyerId, 
+      orderTime, baseStatus, payStatus, 
+      payStyle, payTime, goodsTolprice, 
+      discountPrice, orderTolprice, goodsWarehouse, 
+      logisticsCompany, logisticsId, sendTime, 
+      remark, receiverName, receiverMobel, 
+      receiverTelnum, receiverProvince, receiverCity, 
+      receiverArea, detailAddress, zipCode, 
+      modifyTime, modifyMan)
+    values (#{id,jdbcType=INTEGER}, #{oid,jdbcType=VARCHAR}, #{channeloid,jdbcType=VARCHAR}, 
+      #{orderstatus,jdbcType=VARCHAR}, #{orderform,jdbcType=VARCHAR}, #{buyerid,jdbcType=VARCHAR}, 
+      #{ordertime,jdbcType=TIMESTAMP}, #{basestatus,jdbcType=VARCHAR}, #{paystatus,jdbcType=VARCHAR}, 
+      #{paystyle,jdbcType=VARCHAR}, #{paytime,jdbcType=TIMESTAMP}, #{goodstolprice,jdbcType=DECIMAL}, 
+      #{discountprice,jdbcType=DOUBLE}, #{ordertolprice,jdbcType=DECIMAL}, #{goodswarehouse,jdbcType=VARCHAR}, 
+      #{logisticscompany,jdbcType=VARCHAR}, #{logisticsid,jdbcType=VARCHAR}, #{sendtime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR}, #{receivername,jdbcType=VARCHAR}, #{receivermobel,jdbcType=VARCHAR}, 
+      #{receivertelnum,jdbcType=VARCHAR}, #{receiverprovince,jdbcType=VARCHAR}, #{receivercity,jdbcType=VARCHAR}, 
+      #{receiverarea,jdbcType=VARCHAR}, #{detailaddress,jdbcType=VARCHAR}, #{zipcode,jdbcType=VARCHAR}, 
+      #{modifytime,jdbcType=TIMESTAMP}, #{modifyman,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.arvato.oms.model.OrderModel" >
+    insert into order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="oid != null" >
+        oId,
+      </if>
+      <if test="channeloid != null" >
+        channelOid,
+      </if>
+      <if test="orderstatus != null" >
+        orderStatus,
+      </if>
+      <if test="orderform != null" >
+        orderForm,
+      </if>
+      <if test="buyerid != null" >
+        buyerId,
+      </if>
+      <if test="ordertime != null" >
+        orderTime,
+      </if>
+      <if test="basestatus != null" >
+        baseStatus,
+      </if>
+      <if test="paystatus != null" >
+        payStatus,
+      </if>
+      <if test="paystyle != null" >
+        payStyle,
+      </if>
+      <if test="paytime != null" >
+        payTime,
+      </if>
+      <if test="goodstolprice != null" >
+        goodsTolprice,
+      </if>
+      <if test="discountprice != null" >
+        discountPrice,
+      </if>
+      <if test="ordertolprice != null" >
+        orderTolprice,
+      </if>
+      <if test="goodswarehouse != null" >
+        goodsWarehouse,
+      </if>
+      <if test="logisticscompany != null" >
+        logisticsCompany,
+      </if>
+      <if test="logisticsid != null" >
+        logisticsId,
+      </if>
+      <if test="sendtime != null" >
+        sendTime,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="receivername != null" >
+        receiverName,
+      </if>
+      <if test="receivermobel != null" >
+        receiverMobel,
+      </if>
+      <if test="receivertelnum != null" >
+        receiverTelnum,
+      </if>
+      <if test="receiverprovince != null" >
+        receiverProvince,
+      </if>
+      <if test="receivercity != null" >
+        receiverCity,
+      </if>
+      <if test="receiverarea != null" >
+        receiverArea,
+      </if>
+      <if test="detailaddress != null" >
+        detailAddress,
+      </if>
+      <if test="zipcode != null" >
+        zipCode,
+      </if>
+      <if test="modifytime != null" >
+        modifyTime,
+      </if>
+      <if test="modifyman != null" >
+        modifyMan,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="oid != null" >
+        #{oid,jdbcType=VARCHAR},
+      </if>
+      <if test="channeloid != null" >
+        #{channeloid,jdbcType=VARCHAR},
+      </if>
+      <if test="orderstatus != null" >
+        #{orderstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="orderform != null" >
+        #{orderform,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerid != null" >
+        #{buyerid,jdbcType=VARCHAR},
+      </if>
+      <if test="ordertime != null" >
+        #{ordertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="basestatus != null" >
+        #{basestatus,jdbcType=VARCHAR},
+      </if>
+      <if test="paystatus != null" >
+        #{paystatus,jdbcType=VARCHAR},
+      </if>
+      <if test="paystyle != null" >
+        #{paystyle,jdbcType=VARCHAR},
+      </if>
+      <if test="paytime != null" >
+        #{paytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodstolprice != null" >
+        #{goodstolprice,jdbcType=DECIMAL},
+      </if>
+      <if test="discountprice != null" >
+        #{discountprice,jdbcType=DOUBLE},
+      </if>
+      <if test="ordertolprice != null" >
+        #{ordertolprice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodswarehouse != null" >
+        #{goodswarehouse,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticscompany != null" >
+        #{logisticscompany,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsid != null" >
+        #{logisticsid,jdbcType=VARCHAR},
+      </if>
+      <if test="sendtime != null" >
+        #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="receivername != null" >
+        #{receivername,jdbcType=VARCHAR},
+      </if>
+      <if test="receivermobel != null" >
+        #{receivermobel,jdbcType=VARCHAR},
+      </if>
+      <if test="receivertelnum != null" >
+        #{receivertelnum,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverprovince != null" >
+        #{receiverprovince,jdbcType=VARCHAR},
+      </if>
+      <if test="receivercity != null" >
+        #{receivercity,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverarea != null" >
+        #{receiverarea,jdbcType=VARCHAR},
+      </if>
+      <if test="detailaddress != null" >
+        #{detailaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="zipcode != null" >
+        #{zipcode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByOidSelective" parameterType="com.arvato.oms.model.OrderModel" >
+    update oms_schema.order
+    <set >
+      <if test="oid != null" >
+        oId = #{oid,jdbcType=VARCHAR},
+      </if>
+      <if test="channeloid != null" >
+        channelOid = #{channeloid,jdbcType=VARCHAR},
+      </if>
+      <if test="orderstatus != null" >
+        orderStatus = #{orderstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="orderform != null" >
+        orderForm = #{orderform,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerid != null" >
+        buyerId = #{buyerid,jdbcType=VARCHAR},
+      </if>
+      <if test="ordertime != null" >
+        orderTime = #{ordertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="basestatus != null" >
+        baseStatus = #{basestatus,jdbcType=VARCHAR},
+      </if>
+      <if test="paystatus != null" >
+        payStatus = #{paystatus,jdbcType=VARCHAR},
+      </if>
+      <if test="paystyle != null" >
+        payStyle = #{paystyle,jdbcType=VARCHAR},
+      </if>
+      <if test="paytime != null" >
+        payTime = #{paytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodstolprice != null" >
+        goodsTolprice = #{goodstolprice,jdbcType=DECIMAL},
+      </if>
+      <if test="discountprice != null" >
+        discountPrice = #{discountprice,jdbcType=DOUBLE},
+      </if>
+      <if test="ordertolprice != null" >
+        orderTolprice = #{ordertolprice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodswarehouse != null" >
+        goodsWarehouse = #{goodswarehouse,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticscompany != null" >
+        logisticsCompany = #{logisticscompany,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsid != null" >
+        logisticsId = #{logisticsid,jdbcType=VARCHAR},
+      </if>
+      <if test="sendtime != null" >
+        sendTime = #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="receivername != null" >
+        receiverName = #{receivername,jdbcType=VARCHAR},
+      </if>
+      <if test="receivermobel != null" >
+        receiverMobel = #{receivermobel,jdbcType=VARCHAR},
+      </if>
+      <if test="receivertelnum != null" >
+        receiverTelnum = #{receivertelnum,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverprovince != null" >
+        receiverProvince = #{receiverprovince,jdbcType=VARCHAR},
+      </if>
+      <if test="receivercity != null" >
+        receiverCity = #{receivercity,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverarea != null" >
+        receiverArea = #{receiverarea,jdbcType=VARCHAR},
+      </if>
+      <if test="detailaddress != null" >
+        detailAddress = #{detailaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="zipcode != null" >
+        zipCode = #{zipcode,jdbcType=VARCHAR},
+      </if>
+      <if test="modifytime != null" >
+        modifyTime = #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyman != null" >
+        modifyMan = #{modifyman,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where oId = #{oid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.arvato.oms.model.OrderModel" >
+    update order
+    set oId = #{oid,jdbcType=VARCHAR},
+      channelOid = #{channeloid,jdbcType=VARCHAR},
+      orderStatus = #{orderstatus,jdbcType=VARCHAR},
+      orderForm = #{orderform,jdbcType=VARCHAR},
+      buyerId = #{buyerid,jdbcType=VARCHAR},
+      orderTime = #{ordertime,jdbcType=TIMESTAMP},
+      baseStatus = #{basestatus,jdbcType=VARCHAR},
+      payStatus = #{paystatus,jdbcType=VARCHAR},
+      payStyle = #{paystyle,jdbcType=VARCHAR},
+      payTime = #{paytime,jdbcType=TIMESTAMP},
+      goodsTolprice = #{goodstolprice,jdbcType=DECIMAL},
+      discountPrice = #{discountprice,jdbcType=DOUBLE},
+      orderTolprice = #{ordertolprice,jdbcType=DECIMAL},
+      goodsWarehouse = #{goodswarehouse,jdbcType=VARCHAR},
+      logisticsCompany = #{logisticscompany,jdbcType=VARCHAR},
+      logisticsId = #{logisticsid,jdbcType=VARCHAR},
+      sendTime = #{sendtime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      receiverName = #{receivername,jdbcType=VARCHAR},
+      receiverMobel = #{receivermobel,jdbcType=VARCHAR},
+      receiverTelnum = #{receivertelnum,jdbcType=VARCHAR},
+      receiverProvince = #{receiverprovince,jdbcType=VARCHAR},
+      receiverCity = #{receivercity,jdbcType=VARCHAR},
+      receiverArea = #{receiverarea,jdbcType=VARCHAR},
+      detailAddress = #{detailaddress,jdbcType=VARCHAR},
+      zipCode = #{zipcode,jdbcType=VARCHAR},
+      modifyTime = #{modifytime,jdbcType=TIMESTAMP},
+      modifyMan = #{modifyman,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

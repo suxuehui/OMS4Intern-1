@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.arvato.oms.dao.GoodsModelMapper" >
+  <resultMap id="BaseResultMap" type="com.arvato.oms.model.GoodsModel" >
+    <id column="goodsNo" property="goodsno" jdbcType="VARCHAR" />
+    <result column="goodsName" property="goodsname" jdbcType="VARCHAR" />
+    <result column="goodsVnum" property="goodsvnum" jdbcType="INTEGER" />
+    <result column="goodsPrice" property="goodsprice" jdbcType="DECIMAL" />
+    <result column="goodsRnum" property="goodsrnum" jdbcType="INTEGER" />
+    <result column="goodsTolnum" property="goodstolnum" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="GoodsPojo" type="com.arvato.oms.model.GoodsPojo" >
+    <id column="goodsNo" property="goodsno" jdbcType="VARCHAR" />
+    <result column="goodsName" property="goodsname" jdbcType="VARCHAR" />
+    <result column="oId" property="oid" jdbcType="VARCHAR" />
+    <result column="goodsVnum" property="goodsvnum" jdbcType="INTEGER" />
+    <result column="goodsPrice" property="goodsprice" jdbcType="DECIMAL" />
+    <result column="goodsRnum" property="goodsrnum" jdbcType="INTEGER" />
+    <result column="goodsTolnum" property="goodstolnum" jdbcType="INTEGER" />
+    <result column="goodNum" property="goodNum" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    goodsNo, goodsName, goodsVnum, goodsPrice, goodsRnum, goodsTolnum
+  </sql>
+  <sql id="GoodsPojo_Column_List" >
+    goods.goodsNo, goodsName, goodsVnum, goodsPrice, goodsRnum, goodsTolnum, goodNum
+  </sql>
+  <select id="selectByOid" resultMap="GoodsPojo"  >
+    select
+    <include refid="GoodsPojo_Column_List" />
+    from goods,relationog
+    where oId = #{2,jdbcType=VARCHAR} AND goods.goodsNo = relationog.goodsNo limit #{0},#{1}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from goods
+    where goodsNo = #{goodsno,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from goods
+    where goodsNo = #{goodsno,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.arvato.oms.model.GoodsModel" >
+    insert into goods (goodsNo, goodsName, goodsVnum, 
+      goodsPrice, goodsRnum, goodsTolnum
+      )
+    values (#{goodsno,jdbcType=VARCHAR}, #{goodsname,jdbcType=VARCHAR}, #{goodsvnum,jdbcType=INTEGER}, 
+      #{goodsprice,jdbcType=DECIMAL}, #{goodsrnum,jdbcType=INTEGER}, #{goodstolnum,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.arvato.oms.model.GoodsModel" >
+    insert into goods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="goodsno != null" >
+        goodsNo,
+      </if>
+      <if test="goodsname != null" >
+        goodsName,
+      </if>
+      <if test="goodsvnum != null" >
+        goodsVnum,
+      </if>
+      <if test="goodsprice != null" >
+        goodsPrice,
+      </if>
+      <if test="goodsrnum != null" >
+        goodsRnum,
+      </if>
+      <if test="goodstolnum != null" >
+        goodsTolnum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="goodsno != null" >
+        #{goodsno,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsname != null" >
+        #{goodsname,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsvnum != null" >
+        #{goodsvnum,jdbcType=INTEGER},
+      </if>
+      <if test="goodsprice != null" >
+        #{goodsprice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsrnum != null" >
+        #{goodsrnum,jdbcType=INTEGER},
+      </if>
+      <if test="goodstolnum != null" >
+        #{goodstolnum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.arvato.oms.model.GoodsModel" >
+    update goods
+    <set >
+      <if test="goodsname != null" >
+        goodsName = #{goodsname,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsvnum != null" >
+        goodsVnum = #{goodsvnum,jdbcType=INTEGER},
+      </if>
+      <if test="goodsprice != null" >
+        goodsPrice = #{goodsprice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsrnum != null" >
+        goodsRnum = #{goodsrnum,jdbcType=INTEGER},
+      </if>
+      <if test="goodstolnum != null" >
+        goodsTolnum = #{goodstolnum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where goodsNo = #{goodsno,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.arvato.oms.model.GoodsModel" >
+    update goods
+    set goodsName = #{goodsname,jdbcType=VARCHAR},
+      goodsVnum = #{goodsvnum,jdbcType=INTEGER},
+      goodsPrice = #{goodsprice,jdbcType=DECIMAL},
+      goodsRnum = #{goodsrnum,jdbcType=INTEGER},
+      goodsTolnum = #{goodstolnum,jdbcType=INTEGER}
+    where goodsNo = #{goodsno,jdbcType=VARCHAR}
+  </update>
+</mapper>
