@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.arvato.oms.dao.OrderModelMapper;
 import com.arvato.oms.model.OrderModel;
 import com.arvato.oms.service.OrderService;
-import com.arvato.oms.utils.Page;
+import com.arvato.oms.utils.PageS;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -50,7 +50,7 @@ public class OrderServiceImpl implements OrderService
     */
     public JSONObject selects(int queryMode,int pageNo,int pageSize,String data)
     {
-        Page page=new Page(pageNo,pageSize);
+        PageS page=new PageS(pageNo,pageSize);
         int count=page.getStartPos();
         int pageTotal=0;
         List<OrderModel> orderModels=null;

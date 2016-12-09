@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface RelationrgModelMapper
+public interface RelationRgModelMapper
 {
     List<RelationrgModel> selectGoodsByRid(@Param("returnedId") String returnedId);
 }

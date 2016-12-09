@@ -3,7 +3,7 @@ package com.arvato.oms.service.impl;
 import com.arvato.oms.dao.UserModelMapper;
 import com.arvato.oms.model.UsersModel;
 import com.arvato.oms.service.UserModelService;
-import com.arvato.oms.utils.Page;
+import com.arvato.oms.utils.PageS;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -113,7 +113,7 @@ public class UserModelServiceImpl implements UserModelService
          * @Return: List<UsersModel>
          */
         Integer countUser = userModelMapper.countUser();
-        Page page = new Page(countUser, pageNow);
+        PageS page = new PageS(countUser, pageNow);
         List<UsersModel> usersModels = userModelMapper.selectUserByNameAndPage(name, num, page.getStartPos());
         return usersModels;
     }
@@ -129,7 +129,7 @@ public class UserModelServiceImpl implements UserModelService
          * @Return: List<UsersModel>
          */
         Integer countUser = userModelMapper.countUser();
-        Page page = new Page(countUser, pageNow);
+        PageS page = new PageS(countUser, pageNow);
 
         List<UsersModel> usersModels = userModelMapper.selectAllUser(page.getStartPos(), num);
 

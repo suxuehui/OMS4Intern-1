@@ -10,6 +10,15 @@
   <sql id="Base_Column_List" >
     id, oId, goodsNo, goodNum
   </sql>
+
+  <!-- 根据oid选出所有信息-->
+  <select id="selectALLByOid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from relationog
+    where  oId = #{oid,jdbcType=VARCHAR}
+  </select>
+
   <select id="selectByOid" resultMap="BaseResultMap"  >
     select
     <include refid="Base_Column_List" />

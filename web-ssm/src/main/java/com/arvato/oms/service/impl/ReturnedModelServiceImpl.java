@@ -9,7 +9,7 @@ import com.arvato.oms.model.ReturnedModel;
 import com.arvato.oms.model.son.ReturnedSon;
 import com.arvato.oms.model.test.RelationrgModel;
 import com.arvato.oms.service.ReturnedModelService;
-import com.arvato.oms.utils.Page;
+import com.arvato.oms.utils.PageS;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,7 +55,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
          * @param num 一页显示数据条数
          * @Return:  JSONObject：returnedModels，totalPage，size
          */
-        Page page = new Page(returnedModelMapper.countReturnedOrders(),pageNow);
+        PageS page = new PageS(returnedModelMapper.countReturnedOrders(),pageNow);
         List<ReturnedModel> returnedModels = returnedModelMapper.selectAllReturnedByPage(page.getStartPos(), num);
         JSONObject json = new JSONObject();
         json.put("returnedModels",returnedModels);

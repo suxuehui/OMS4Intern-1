@@ -18,6 +18,8 @@ public interface RelationogModelMapper {
 
     List<RelationogModel> selectByOid(Integer pageNo,Integer pageSize,String oId);
 
+    List<RelationogModel> selectALLByOid(String oid);
+
     int updateByPrimaryKeySelective(RelationogModel record);
 
     int updateByPrimaryKey(RelationogModel record);

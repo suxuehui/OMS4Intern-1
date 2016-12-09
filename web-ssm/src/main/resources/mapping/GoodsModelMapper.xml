@@ -25,6 +25,14 @@
   <sql id="GoodsPojo_Column_List" >
     goods.goodsNo, goodsName, goodsVnum, goodsPrice, goodsRnum, goodsTolnum, goodNum
   </sql>
+
+
+
+
+
+
+
+
   <select id="selectByOid" resultMap="GoodsPojo"  >
     select
     <include refid="GoodsPojo_Column_List" />
