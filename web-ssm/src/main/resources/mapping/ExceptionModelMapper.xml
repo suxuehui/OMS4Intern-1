@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.arvato.oms.dao.ExceptionModelMapper" >
+  <resultMap id="BaseResultMap" type="com.arvato.oms.model.ExceptionModel" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="oId" property="oid" jdbcType="VARCHAR" />
+    <result column="channelOid" property="channeloid" jdbcType="VARCHAR" />
+    <result column="orderStatus" property="orderstatus" jdbcType="VARCHAR" />
+    <result column="orderFrom" property="orderfrom" jdbcType="VARCHAR" />
+    <result column="exceptionType" property="exceptiontype" jdbcType="VARCHAR" />
+    <result column="expceptionCause" property="expceptioncause" jdbcType="VARCHAR" />
+    <result column="exceptionStatus" property="exceptionstatus" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="modifyTime" property="modifytime" jdbcType="TIMESTAMP" />
+    <result column="modifyMan" property="modifyman" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, oId, channelOid, orderStatus, orderFrom, exceptionType, expceptionCause, exceptionStatus, 
+    createTime, modifyTime, modifyMan
+  </sql>
+
+  <!--获取总数-->
+  <select id="Count"  resultType="java.lang.Long" >
+    select  count(*) from exception
+  </select>
+
+  <!--列出所有的信息-->
+  <select id="selectAll" resultMap="BaseResultMap"   >
+    select
+    <include refid="Base_Column_List" />
+    from exception
+    limit #{startPos},#{pageSize}
+  </select>
+
+  <!--通过订单号查询-->
+  <select id="selectByOid" resultMap="BaseResultMap"   >
+    select
+    <include refid="Base_Column_List" />
+    from exception
+    WHERE oId = #{oid,jdbcType=VARCHAR}
+  </select>
+
+  <!--通过渠道订单号查询-->
+  <select id="selectByChannelOid" resultMap="BaseResultMap"   >
+    select
+    <include refid="Base_Column_List" />
+    from exception
+    WHERE channelOid = #{channeloid,jdbcType=VARCHAR}
+  </select>
+
+  <!--通过异常类型查询-->
+  <select id="selectByExceptionStatus" resultMap="BaseResultMap"   >
+    select
+    <include refid="Base_Column_List" />
+    from exception
+    WHERE exceptionStatus = #{exceptionstatus,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from exception
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from exception
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.arvato.oms.model.ExceptionModel" >
+    insert into exception (id, oId, channelOid, 
+      orderStatus, orderFrom, exceptionType, 
+      expceptionCause, exceptionStatus, createTime, 
+      modifyTime, modifyMan)
+    values (#{id,jdbcType=INTEGER}, #{oid,jdbcType=VARCHAR}, #{channeloid,jdbcType=VARCHAR}, 
+      #{orderstatus,jdbcType=VARCHAR}, #{orderfrom,jdbcType=VARCHAR}, #{exceptiontype,jdbcType=VARCHAR}, 
+      #{expceptioncause,jdbcType=VARCHAR}, #{exceptionstatus,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{modifytime,jdbcType=TIMESTAMP}, #{modifyman,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.arvato.oms.model.ExceptionModel" >
+    insert into exception
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="oid != null" >
+        oId,
+      </if>
+      <if test="channeloid != null" >
+        channelOid,
+      </if>
+      <if test="orderstatus != null" >
+        orderStatus,
+      </if>
+      <if test="orderfrom != null" >
+        orderFrom,
+      </if>
+      <if test="exceptiontype != null" >
+        exceptionType,
+      </if>
+      <if test="expceptioncause != null" >
+        expceptionCause,
+      </if>
+      <if test="exceptionstatus != null" >
+        exceptionStatus,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="modifytime != null" >
+        modifyTime,
+      </if>
+      <if test="modifyman != null" >
+        modifyMan,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="oid != null" >
+        #{oid,jdbcType=VARCHAR},
+      </if>
+      <if test="channeloid != null" >
+        #{channeloid,jdbcType=VARCHAR},
+      </if>
+      <if test="orderstatus != null" >
+        #{orderstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="orderfrom != null" >
+        #{orderfrom,jdbcType=VARCHAR},
+      </if>
+      <if test="exceptiontype != null" >
+        #{exceptiontype,jdbcType=VARCHAR},
+      </if>
+      <if test="expceptioncause != null" >
+        #{expceptioncause,jdbcType=VARCHAR},
+      </if>
+      <if test="exceptionstatus != null" >
+        #{exceptionstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifytime != null" >
+        #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.arvato.oms.model.ExceptionModel" >
+    update exception
+    <set >
+      <if test="oid != null" >
+        oId = #{oid,jdbcType=VARCHAR},
+      </if>
+      <if test="channeloid != null" >
+        channelOid = #{channeloid,jdbcType=VARCHAR},
+      </if>
+      <if test="orderstatus != null" >
+        orderStatus = #{orderstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="orderfrom != null" >
+        orderFrom = #{orderfrom,jdbcType=VARCHAR},
+      </if>
+      <if test="exceptiontype != null" >
+        exceptionType = #{exceptiontype,jdbcType=VARCHAR},
+      </if>
+      <if test="expceptioncause != null" >
+        expceptionCause = #{expceptioncause,jdbcType=VARCHAR},
+      </if>
+      <if test="exceptionstatus != null" >
+        exceptionStatus = #{exceptionstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifytime != null" >
+        modifyTime = #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyman != null" >
+        modifyMan = #{modifyman,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.arvato.oms.model.ExceptionModel" >
+    update exception
+    set oId = #{oid,jdbcType=VARCHAR},
+      channelOid = #{channeloid,jdbcType=VARCHAR},
+      orderStatus = #{orderstatus,jdbcType=VARCHAR},
+      orderFrom = #{orderfrom,jdbcType=VARCHAR},
+      exceptionType = #{exceptiontype,jdbcType=VARCHAR},
+      expceptionCause = #{expceptioncause,jdbcType=VARCHAR},
+      exceptionStatus = #{exceptionstatus,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      modifyTime = #{modifytime,jdbcType=TIMESTAMP},
+      modifyMan = #{modifyman,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
