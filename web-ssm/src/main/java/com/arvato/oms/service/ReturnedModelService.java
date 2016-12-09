@@ -1,15 +1,17 @@
 package com.arvato.oms.service;
 
-import com.arvato.oms.model.RelationRgModel;
-import com.arvato.oms.model.ReturnedModel;
+import com.alibaba.fastjson.JSONObject;
 
+import java.util.List;
 
 /**
- * Created by ZHAN545 on 2016/12/9.
+ * Created by 马潇霄 on 2016/12/9.
  */
-public interface ReturnedModelService {
+public interface ReturnedModelService
+{
+    public int cancelReturn(List<Integer> ids);
 
-    public int insertSelective(ReturnedModel record);
+    public JSONObject getAllReturnedOrders(int pageNow, int num);
 
-    public int insertSelective(RelationRgModel record);
+    public JSONObject getGoodsListByRid(String returnedId,int pageNow, int num);
 }

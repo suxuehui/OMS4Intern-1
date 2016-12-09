@@ -1,24 +1,33 @@
 package com.arvato.oms.dao;
 
 import com.arvato.oms.model.GoodsModel;
-import com.arvato.oms.model.GoodsPojo;
-import org.springframework.stereotype.Service;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
-@Service
-public interface GoodsModelMapper {
-    int deleteByPrimaryKey(String goodsno);
+/**
+ * Created by 马潇霄 on 2016/12/7.
+ */
+@Repository
+public interface GoodsModelMapper
+{
+    List<GoodsModel> selectAllGoodsByPage(@Param("startPage")int page,@Param("num") int num);
 
-    int insert(GoodsModel record);
+    GoodsModel selectOneGoodsByNo(@Param("goodsNo")String goodsNo);
 
-    int insertSelective(GoodsModel record);
+    int insertGoods(@Param("goodsNo")String goodsNo,@Param("goodsName")String goodsName,@Param("goodsTolnum")int goodsTolnum,@Param("goodsPrice")BigDecimal goodsPrice);
 
-    GoodsModel selectByPrimaryKey(String goodsno);
+    int deleteGoodsByNo(@Param("goodsNo")String goodsNo);
 
-    List<GoodsPojo> selectByOid(Integer pageNo,Integer pageSize,String oId);
+    int deleteGoodsByNos(@Param("goodsNos")List<String> goodsNos);
 
-    int updateByPrimaryKeySelective(GoodsModel record);
+    List<GoodsModel> selectGoodsByNoAndPage(@Param("goodsNo")String goodsNo,@Param("startPage")int page,@Param("num") int num);
 
-    int updateByPrimaryKey(GoodsModel record);
+    List<GoodsModel> selectGoodsByNameAndPage(@Param("goodsName")String goodsName,@Param("startPage")int page,@Param("num") int num);
+
+    List<GoodsModel> selectGoodsByNosAndPage(@Param("goodsNos")List<String> goodsNos,@Param("startPage")int page,@Param("num") int num);
+
+    int countGoods();
 }

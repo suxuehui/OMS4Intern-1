@@ -1,19 +1,19 @@
 package com.arvato.oms.dao;
 
+import com.arvato.oms.model.GoodsModel;
 import com.arvato.oms.model.ReturnedModel;
-import org.springframework.stereotype.Service;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
-@Service
-public interface ReturnedModelMapper {
-    int deleteByPrimaryKey(Integer id);
+import java.util.List;
 
-    int insert(ReturnedModel record);
+@Repository
+public interface ReturnedModelMapper
+{
+    int updateStatusToDisable(@Param("ids")List<Integer> ids,@Param("returnedstatus")String returnedstatus);
 
-    int insertSelective(ReturnedModel record);
+    int countReturnedOrders();
 
-    ReturnedModel selectByPrimaryKey(Integer id);
+    List<ReturnedModel> selectAllReturnedByPage(@Param("startPage")int page, @Param("num") int num);
 
-    int updateByPrimaryKeySelective(ReturnedModel record);
-
-    int updateByPrimaryKey(ReturnedModel record);
 }

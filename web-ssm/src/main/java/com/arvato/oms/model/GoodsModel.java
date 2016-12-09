@@ -2,7 +2,8 @@ package com.arvato.oms.model;
 
 import java.math.BigDecimal;
 
-public class GoodsModel {
+public class GoodsModel
+{
     private String goodsno;
 
     private String goodsname;

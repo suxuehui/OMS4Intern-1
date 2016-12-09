@@ -3,14 +3,16 @@ package com.arvato.oms.utils;
 import java.io.Serializable;
 
 /**
- * Created by ZHAN545 on 2016/12/7.
+ * Created by MAVI003 on 2016/12/7.
  */
-public class Page implements Serializable {
+public class Page implements Serializable
+{
+
     private static final long serialVersionUID = -3198048449643774660L;
 
     private int pageNow = 1; // 当前页数
 
-    private int pageSize; // 每页显示记录的条数
+    private int pageSize = 5; // 每页显示记录的条数
 
     private int totalCount; // 总的记录条数
 
@@ -34,18 +36,18 @@ public class Page implements Serializable {
     /**
 
      * 通过构造函数 传入 总记录数 和 当前页
-     * @param pageSize
+
+     * @param totalCount
 
      * @param pageNow
      */
-    public Page(int pageNow,int pageSize) {
+    public Page(int totalCount, int pageNow) {
+        this.totalCount = totalCount;
         this.pageNow = pageNow;
-        this.pageSize=pageSize;
     }
 
     // 取得总页数，总页数=总记录数/总页数
-    public int getTotalPageCount(int totalCount) {
-        this.totalCount=totalCount;
+    public int getTotalPageCount() {
         totalPageCount = getTotalCount() / getPageSize();
         return (totalCount % pageSize == 0) ? totalPageCount
                 : totalPageCount + 1;
@@ -115,4 +117,5 @@ public class Page implements Serializable {
         this.hasLast = hasLast;
 
     }
+
 }

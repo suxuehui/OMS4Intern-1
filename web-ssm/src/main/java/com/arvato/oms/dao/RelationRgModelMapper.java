@@ -1,19 +1,13 @@
 package com.arvato.oms.dao;
 
-import com.arvato.oms.model.RelationRgModel;
-import org.springframework.stereotype.Service;
+import com.arvato.oms.model.test.RelationrgModel;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
-@Service
-public interface RelationRgModelMapper {
-    int deleteByPrimaryKey(Integer id);
+import java.util.List;
 
-    int insert(RelationRgModel record);
-
-    int insertSelective(RelationRgModel record);
-
-    RelationRgModel selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(RelationRgModel record);
-
-    int updateByPrimaryKey(RelationRgModel record);
+@Repository
+public interface RelationrgModelMapper
+{
+    List<RelationrgModel> selectGoodsByRid(@Param("returnedId") String returnedId);
 }
