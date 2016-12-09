@@ -18,6 +18,7 @@ public class OrderServiceImpl implements OrderService
 {
     @Resource
     OrderModelMapper orderModelMapper;
+   private OrderModelMapper orderModelMapper;
 //分页查询所有订单信息
     public JSONObject selectAll(int pageNo, int pageSize)
     {

@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.arvato.oms.dao.OutboundorderDao" >
+  <resultMap id="BaseResultMap" type="com.arvato.oms.model.OutboundorderModel" >
+    <id column="cid" property="cid" jdbcType="INTEGER" />
+    <result column="oId" property="oid" jdbcType="VARCHAR" />
+    <result column="channelOid" property="channeloid" jdbcType="VARCHAR" />
+    <result column="orderStatus" property="orderstatus" jdbcType="VARCHAR" />
+    <result column="warehouseObId" property="warehouseobid" jdbcType="VARCHAR" />
+    <result column="outboundId" property="outboundid" jdbcType="VARCHAR" />
+    <result column="outboundState" property="outboundstate" jdbcType="VARCHAR" />
+    <result column="synchroState" property="synchrostate" jdbcType="TINYINT" />
+    <result column="receiverName" property="receivername" jdbcType="VARCHAR" />
+    <result column="expressCompany" property="expresscompany" jdbcType="VARCHAR" />
+    <result column="expressId" property="expressid" jdbcType="VARCHAR" />
+    <result column="receiverAddress" property="receiveraddress" jdbcType="VARCHAR" />
+    <result column="createdTime" property="createdtime" jdbcType="TIMESTAMP" />
+    <result column="modifyTime" property="modifytime" jdbcType="TIMESTAMP" />
+    <result column="modifyMan" property="modifyman" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    cid, oId, channelOid, orderStatus, warehouseObId, outboundId, outboundState, synchroState, 
+    receiverName, expressCompany, expressId, receiverAddress, createdTime, modifyTime, 
+    modifyMan
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from outboundorder
+    where cid = #{cid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from outboundorder
+    where cid = #{cid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.arvato.oms.model.OutboundorderModel" >
+    insert into outboundorder (cid, oId, channelOid, 
+      orderStatus, warehouseObId, outboundId, 
+      outboundState, synchroState, receiverName, 
+      expressCompany, expressId, receiverAddress, 
+      createdTime, modifyTime, modifyMan
+      )
+    values (#{cid,jdbcType=INTEGER}, #{oid,jdbcType=VARCHAR}, #{channeloid,jdbcType=VARCHAR}, 
+      #{orderstatus,jdbcType=VARCHAR}, #{warehouseobid,jdbcType=VARCHAR}, #{outboundid,jdbcType=VARCHAR}, 
+      #{outboundstate,jdbcType=VARCHAR}, #{synchrostate,jdbcType=TINYINT}, #{receivername,jdbcType=VARCHAR}, 
+      #{expresscompany,jdbcType=VARCHAR}, #{expressid,jdbcType=VARCHAR}, #{receiveraddress,jdbcType=VARCHAR}, 
+      #{createdtime,jdbcType=TIMESTAMP}, #{modifytime,jdbcType=TIMESTAMP}, #{modifyman,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.arvato.oms.model.OutboundorderModel" >
+    insert into outboundorder
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="cid != null" >
+        cid,
+      </if>
+      <if test="oid != null" >
+        oId,
+      </if>
+      <if test="channeloid != null" >
+        channelOid,
+      </if>
+      <if test="orderstatus != null" >
+        orderStatus,
+      </if>
+      <if test="warehouseobid != null" >
+        warehouseObId,
+      </if>
+      <if test="outboundid != null" >
+        outboundId,
+      </if>
+      <if test="outboundstate != null" >
+        outboundState,
+      </if>
+      <if test="synchrostate != null" >
+        synchroState,
+      </if>
+      <if test="receivername != null" >
+        receiverName,
+      </if>
+      <if test="expresscompany != null" >
+        expressCompany,
+      </if>
+      <if test="expressid != null" >
+        expressId,
+      </if>
+      <if test="receiveraddress != null" >
+        receiverAddress,
+      </if>
+      <if test="createdtime != null" >
+        createdTime,
+      </if>
+      <if test="modifytime != null" >
+        modifyTime,
+      </if>
+      <if test="modifyman != null" >
+        modifyMan,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="cid != null" >
+        #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="oid != null" >
+        #{oid,jdbcType=VARCHAR},
+      </if>
+      <if test="channeloid != null" >
+        #{channeloid,jdbcType=VARCHAR},
+      </if>
+      <if test="orderstatus != null" >
+        #{orderstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseobid != null" >
+        #{warehouseobid,jdbcType=VARCHAR},
+      </if>
+      <if test="outboundid != null" >
+        #{outboundid,jdbcType=VARCHAR},
+      </if>
+      <if test="outboundstate != null" >
+        #{outboundstate,jdbcType=VARCHAR},
+      </if>
+      <if test="synchrostate != null" >
+        #{synchrostate,jdbcType=TINYINT},
+      </if>
+      <if test="receivername != null" >
+        #{receivername,jdbcType=VARCHAR},
+      </if>
+      <if test="expresscompany != null" >
+        #{expresscompany,jdbcType=VARCHAR},
+      </if>
+      <if test="expressid != null" >
+        #{expressid,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveraddress != null" >
+        #{receiveraddress,jdbcType=VARCHAR},
+      </if>
+      <if test="createdtime != null" >
+        #{createdtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifytime != null" >
+        #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.arvato.oms.model.OutboundorderModel" >
+    update outboundorder
+    <set >
+      <if test="oid != null" >
+        oId = #{oid,jdbcType=VARCHAR},
+      </if>
+      <if test="channeloid != null" >
+        channelOid = #{channeloid,jdbcType=VARCHAR},
+      </if>
+      <if test="orderstatus != null" >
+        orderStatus = #{orderstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseobid != null" >
+        warehouseObId = #{warehouseobid,jdbcType=VARCHAR},
+      </if>
+      <if test="outboundid != null" >
+        outboundId = #{outboundid,jdbcType=VARCHAR},
+      </if>
+      <if test="outboundstate != null" >
+        outboundState = #{outboundstate,jdbcType=VARCHAR},
+      </if>
+      <if test="synchrostate != null" >
+        synchroState = #{synchrostate,jdbcType=TINYINT},
+      </if>
+      <if test="receivername != null" >
+        receiverName = #{receivername,jdbcType=VARCHAR},
+      </if>
+      <if test="expresscompany != null" >
+        expressCompany = #{expresscompany,jdbcType=VARCHAR},
+      </if>
+      <if test="expressid != null" >
+        expressId = #{expressid,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveraddress != null" >
+        receiverAddress = #{receiveraddress,jdbcType=VARCHAR},
+      </if>
+      <if test="createdtime != null" >
+        createdTime = #{createdtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifytime != null" >
+        modifyTime = #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyman != null" >
+        modifyMan = #{modifyman,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where cid = #{cid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.arvato.oms.model.OutboundorderModel" >
+    update outboundorder
+    set oId = #{oid,jdbcType=VARCHAR},
+      channelOid = #{channeloid,jdbcType=VARCHAR},
+      orderStatus = #{orderstatus,jdbcType=VARCHAR},
+      warehouseObId = #{warehouseobid,jdbcType=VARCHAR},
+      outboundId = #{outboundid,jdbcType=VARCHAR},
+      outboundState = #{outboundstate,jdbcType=VARCHAR},
+      synchroState = #{synchrostate,jdbcType=TINYINT},
+      receiverName = #{receivername,jdbcType=VARCHAR},
+      expressCompany = #{expresscompany,jdbcType=VARCHAR},
+      expressId = #{expressid,jdbcType=VARCHAR},
+      receiverAddress = #{receiveraddress,jdbcType=VARCHAR},
+      createdTime = #{createdtime,jdbcType=TIMESTAMP},
+      modifyTime = #{modifytime,jdbcType=TIMESTAMP},
+      modifyMan = #{modifyman,jdbcType=VARCHAR}
+    where cid = #{cid,jdbcType=INTEGER}
+  </update>
+
+    <!--获取总数-->
+    <select id="Count" resultType="java.lang.Long">
+        select  count(*) from outboundorder
+    </select>
+
+    <!--列出所有的信息-->
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from outboundorder
+        limit #{startPos},#{pageSize}
+    </select>
+
+    <!--获取总数-->
+    <select id="Countoid" resultType="java.lang.Long">
+        select  count(*) from outboundorder where oId like '%${oid}%'
+    </select>
+
+    <!--通过oid选出所有信息-->
+    <select id="selectAllByOid" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from outboundorder
+        where
+        oId like '%${oid}%'
+        limit #{startPos},#{pageSize}
+    </select>
+
+  <!--精确的订单号选出所有信息-->
+  <select id="selectByOid" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from outboundorder
+    where oId = #{oid,jdbcType=VARCHAR}
+  </select>
+
+    <!--获取总数-->
+    <select id="Countchid" resultType="java.lang.Long">
+        select  count(*) from outboundorder where channelOid like '%${channeloid}%'
+    </select>
+
+    <!--通过channeloid选出所有信息-->
+    <select id="selectAllBychannelOid" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from outboundorder
+        where channelOid like '%${channeloid}%'
+        limit #{startPos},#{pageSize}
+    </select>
+
+    <!--获取总数-->
+    <select id="Countobid" resultType="java.lang.Long">
+        select  count(*) from outboundorder where outboundId like '%${outboundid}%'
+    </select>
+    <!--通过 outboundId选出所有信息-->
+    <select id="selectAllByoutboundId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from outboundorder
+        where outboundId like '%${outboundid}%'
+        limit #{startPos},#{pageSize}
+
+    </select>
+
+
+
+
+
+
+</mapper>

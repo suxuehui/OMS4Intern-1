@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.arvato.oms.dao.InboundorderDao" >
+  <resultMap id="BaseResultMap" type="com.arvato.oms.model.InboundorderModel" >
+    <id column="iid" property="iid" jdbcType="INTEGER" />
+    <result column="oId" property="oid" jdbcType="VARCHAR" />
+    <result column="channelOid" property="channeloid" jdbcType="VARCHAR" />
+    <result column="returnedId" property="returnedid" jdbcType="VARCHAR" />
+    <result column="inboundState" property="inboundstate" jdbcType="VARCHAR" />
+    <result column="inboundId" property="inboundid" jdbcType="VARCHAR" />
+    <result column="synchroState" property="synchrostate" jdbcType="TINYINT" />
+    <result column="warehouse" property="warehouse" jdbcType="VARCHAR" />
+    <result column="createdTime" property="createdtime" jdbcType="TIMESTAMP" />
+    <result column="modifyTime" property="modifytime" jdbcType="TIMESTAMP" />
+    <result column="modifyMan" property="modifyman" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    iid, oId, channelOid, returnedId, inboundState, inboundId, synchroState, warehouse, 
+    createdTime, modifyTime, modifyMan
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from inboundorder
+    where iid = #{iid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from inboundorder
+    where iid = #{iid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.arvato.oms.model.InboundorderModel" >
+    insert into inboundorder (iid, oId, channelOid, 
+      returnedId, inboundState, inboundId, 
+      synchroState, warehouse, createdTime, 
+      modifyTime, modifyMan)
+    values (#{iid,jdbcType=INTEGER}, #{oid,jdbcType=VARCHAR}, #{channeloid,jdbcType=VARCHAR}, 
+      #{returnedid,jdbcType=VARCHAR}, #{inboundstate,jdbcType=VARCHAR}, #{inboundid,jdbcType=VARCHAR}, 
+      #{synchrostate,jdbcType=TINYINT}, #{warehouse,jdbcType=VARCHAR}, #{createdtime,jdbcType=TIMESTAMP}, 
+      #{modifytime,jdbcType=TIMESTAMP}, #{modifyman,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.arvato.oms.model.InboundorderModel" >
+    insert into inboundorder
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="iid != null" >
+        iid,
+      </if>
+      <if test="oid != null" >
+        oId,
+      </if>
+      <if test="channeloid != null" >
+        channelOid,
+      </if>
+      <if test="returnedid != null" >
+        returnedId,
+      </if>
+      <if test="inboundstate != null" >
+        inboundState,
+      </if>
+      <if test="inboundid != null" >
+        inboundId,
+      </if>
+      <if test="synchrostate != null" >
+        synchroState,
+      </if>
+      <if test="warehouse != null" >
+        warehouse,
+      </if>
+      <if test="createdtime != null" >
+        createdTime,
+      </if>
+      <if test="modifytime != null" >
+        modifyTime,
+      </if>
+      <if test="modifyman != null" >
+        modifyMan,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="iid != null" >
+        #{iid,jdbcType=INTEGER},
+      </if>
+      <if test="oid != null" >
+        #{oid,jdbcType=VARCHAR},
+      </if>
+      <if test="channeloid != null" >
+        #{channeloid,jdbcType=VARCHAR},
+      </if>
+      <if test="returnedid != null" >
+        #{returnedid,jdbcType=VARCHAR},
+      </if>
+      <if test="inboundstate != null" >
+        #{inboundstate,jdbcType=VARCHAR},
+      </if>
+      <if test="inboundid != null" >
+        #{inboundid,jdbcType=VARCHAR},
+      </if>
+      <if test="synchrostate != null" >
+        #{synchrostate,jdbcType=TINYINT},
+      </if>
+      <if test="warehouse != null" >
+        #{warehouse,jdbcType=VARCHAR},
+      </if>
+      <if test="createdtime != null" >
+        #{createdtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifytime != null" >
+        #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.arvato.oms.model.InboundorderModel" >
+    update inboundorder
+    <set >
+      <if test="oid != null" >
+        oId = #{oid,jdbcType=VARCHAR},
+      </if>
+      <if test="channeloid != null" >
+        channelOid = #{channeloid,jdbcType=VARCHAR},
+      </if>
+      <if test="returnedid != null" >
+        returnedId = #{returnedid,jdbcType=VARCHAR},
+      </if>
+      <if test="inboundstate != null" >
+        inboundState = #{inboundstate,jdbcType=VARCHAR},
+      </if>
+      <if test="inboundid != null" >
+        inboundId = #{inboundid,jdbcType=VARCHAR},
+      </if>
+      <if test="synchrostate != null" >
+        synchroState = #{synchrostate,jdbcType=TINYINT},
+      </if>
+      <if test="warehouse != null" >
+        warehouse = #{warehouse,jdbcType=VARCHAR},
+      </if>
+      <if test="createdtime != null" >
+        createdTime = #{createdtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifytime != null" >
+        modifyTime = #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyman != null" >
+        modifyMan = #{modifyman,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where iid = #{iid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.arvato.oms.model.InboundorderModel" >
+    update inboundorder
+    set oId = #{oid,jdbcType=VARCHAR},
+      channelOid = #{channeloid,jdbcType=VARCHAR},
+      returnedId = #{returnedid,jdbcType=VARCHAR},
+      inboundState = #{inboundstate,jdbcType=VARCHAR},
+      inboundId = #{inboundid,jdbcType=VARCHAR},
+      synchroState = #{synchrostate,jdbcType=TINYINT},
+      warehouse = #{warehouse,jdbcType=VARCHAR},
+      createdTime = #{createdtime,jdbcType=TIMESTAMP},
+      modifyTime = #{modifytime,jdbcType=TIMESTAMP},
+      modifyMan = #{modifyman,jdbcType=VARCHAR}
+    where iid = #{iid,jdbcType=INTEGER}
+  </update>
+
+
+    <!--获取总数-->
+    <select id="Count" resultType="java.lang.Long">
+        select  count(*) from inboundorder
+    </select>
+
+    <!--列出所有的信息-->
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from inboundorder
+        limit #{startPos},#{pageSize}
+    </select>
+
+    <!--获取总数-->
+    <select id="Countoid" resultType="java.lang.Long">
+        select  count(*) from inboundorder where oId like '%${oid}%'
+    </select>
+
+    <!--通过oid选出所有信息-->
+    <select id="selectAllByOid" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from inboundorder
+        where
+        oId like '%${oid}%'
+        limit #{startPos},#{pageSize}
+    </select>
+
+
+  <!--通过oid选出所有信息-->
+  <select id="selectByOid" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from inboundorder
+    where oId = #{oid,jdbcType=VARCHAR}
+
+  </select>
+
+
+
+
+    <!--获取总数-->
+    <select id="Countchid" resultType="java.lang.Long">
+        select  count(*) from inboundorder where channelOid like '%${channeloid}%'
+    </select>
+
+    <!--通过channeloid选出所有信息-->
+    <select id="selectAllBychannelOid" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from inboundorder
+        where channelOid like '%${channeloid}%'
+        limit #{startPos},#{pageSize}
+    </select>
+
+    <!--获取总数-->
+    <select id="Countobid" resultType="java.lang.Long">
+        select  count(*) from inboundorder where inboundId like '%${inboundid}%'
+    </select>
+    <!--通过 inboundId选出所有信息-->
+    <select id="selectAllByoutboundId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from inboundorder
+        where inboundId like '%${inboundid}%'
+        limit #{startPos},#{pageSize}
+    </select>
+
+    <!--获取总数-->
+    <select id="Countrid" resultType="java.lang.Long">
+        select  count(*) from inboundorder where returnedId like '%${returnedid}%'
+    </select>
+    <!--通过 returnedId选出所有信息-->
+    <select id="selectAllByreturnedId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from inboundorder
+        where returnedId like '%${returnedid}%'
+        limit #{startPos},#{pageSize}
+
+    </select>
+
+
+
+</mapper>
