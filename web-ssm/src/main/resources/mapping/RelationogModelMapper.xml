@@ -10,15 +10,12 @@
   <sql id="Base_Column_List" >
     id, oId, goodsNo, goodNum
   </sql>
-
-  <!-- 根据oid选出所有信息-->
-  <select id="selectALLByOid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectAllByOid" resultMap="BaseResultMap"  >
     select
     <include refid="Base_Column_List" />
     from relationog
-    where  oId = #{oid,jdbcType=VARCHAR}
+    where oId = #{oId,jdbcType=VARCHAR}
   </select>
-
   <select id="selectByOid" resultMap="BaseResultMap"  >
     select
     <include refid="Base_Column_List" />
@@ -26,7 +23,7 @@
     where oId = #{2,jdbcType=VARCHAR} limit #{0},#{1}
   </select>
   <select id="selectCount" resultType="java.lang.Integer"  >
-    select count(1)
+    select count(*)
     from relationog
     where oId = #{2,jdbcType=VARCHAR}
   </select>

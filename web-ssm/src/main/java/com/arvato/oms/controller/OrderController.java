@@ -3,15 +3,13 @@ package com.arvato.oms.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
-import com.arvato.oms.model.GoodsPojo;
-import com.arvato.oms.model.OrderModel;
-import com.arvato.oms.model.RelationRgModel;
-import com.arvato.oms.model.ReturnedModel;
+import com.arvato.oms.model.*;
 import com.arvato.oms.service.GoodsService;
 import com.arvato.oms.service.OrderService;
 import com.arvato.oms.service.ReturnedModelService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -101,11 +99,11 @@ public class OrderController
     @RequestMapping("returnGoods")
     public @ResponseBody int returnGoods(String jsonStr)
     {
-        //System.out.println(jsonStr);
+        System.out.println(jsonStr);
         JSONObject jsonObject=JSON.parseObject(jsonStr);
         ArrayList<GoodsPojo> goodsList=JSON.parseObject(jsonObject.getString("goods"),new TypeReference<ArrayList<GoodsPojo>>(){});
         ReturnedModel returnedModel=new ReturnedModel();
-        RelationRgModel[] relationRgModel=new RelationRgModel[goodsList.size()];
+        RelationrgModel[] relationRgModel=new RelationrgModel[goodsList.size()];
         returnedModel.setOid(jsonObject.getString("oid"));
         OrderModel orderModel=orderService.selectByOid(jsonObject.getString("oid"));
         if(!orderModel.getOrderstatus().equals("已完成"))
@@ -119,7 +117,7 @@ public class OrderController
         for(int i=0;i<goodsList.size();i++)
         {
             returnedMoney+=goodsList.get(i).getGoodNum()*(goodsList.get(i).getGoodsprice()).doubleValue();
-            relationRgModel[i]=new RelationRgModel();
+            relationRgModel[i]=new RelationrgModel();
             relationRgModel[i].setReturnedid("RT"+jsonObject.getString("oid"));
             relationRgModel[i].setGoodsno(goodsList.get(i).getGoodsno());
             relationRgModel[i].setGoodnum(goodsList.get(i).getGoodNum());
@@ -133,7 +131,7 @@ public class OrderController
         {
             return 0;
         }
-        for(RelationRgModel re:relationRgModel)
+        for(RelationrgModel re:relationRgModel)
         {
             int j=returnedModelService.insertSelective(re);
             if(j==0)
@@ -151,43 +149,50 @@ public class OrderController
         for(String str:oIds){
             System.out.println(str);
         }
+        int count=0;
         for(int i=0;i<oIds.length;i++)
         {
             OrderModel orderModel=orderService.selectByOid(oIds[i]);
-            if(orderModel==null)
-            {
-                return 0;//订单号异常，没有该订单
-            }
-            if(orderModel.getBasestatus().equals("冻结"))
-            {
-                return 1;//订单冻结
-            }
-            if(!orderModel.getOrderstatus().equals("待路由"))
-            {
-                return 2;//订单状态不是带路由状态。
-            }
             orderModel.setGoodswarehouse("南京仓");
             int j=0;
             j=orderService.updateByOidSelective(orderModel);
-            if(j!=1)
-            {
-                return 3;//数据库更新失败
-            }
+            count++;
         }
-        return 4;
+        return count;
     }
 
     //预检
     @RequestMapping("previewOrder ")
-    public @ResponseBody String previewOrder(String[] oIds)
+    public @ResponseBody JSONObject previewOrder(String[] oIds)
     {
-        return null;
+        int success=0;
+        int exception=0;
+        for(int i=0;i<oIds.length;i++)
+        {
+            int j=orderService.previewOrder(oIds[i],null);
+            if(j==0)
+            {
+                success++;
+            }
+            else
+            {
+                exception++;
+            }
+        }
+        JSONObject jsonObject=new JSONObject();
+        jsonObject.put("success",success);
+        jsonObject.put("exception",exception);
+        return jsonObject;
     }
 
     //出库
     @RequestMapping("outboundOrder")
     public @ResponseBody int outboundOrder(String[] oIds)
     {
+        for(String str:oIds)
+        {
+            
+        }
         return 0;
     }
     //取消订单

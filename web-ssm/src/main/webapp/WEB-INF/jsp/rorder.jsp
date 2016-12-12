@@ -16,6 +16,11 @@
         var order1={"goodsno":"1","goodnum":2,"goodsPrice":2.20};
         orderArray.push(order1);
         var data={"oid":123,"channeloid":123,"goods":orderArray,"returnedOrChange":"returned"};
+        var oIds=new Array();
+        oIds[0]=11;
+        oIds[1]=12;
+        oIds[2]=13;
+        oIds[3]=14;
         $(function () {
             $("#preview").click(function () {
                 alert("cc");
@@ -23,7 +28,8 @@
                 $.ajax({
                     url:"previewOrder",
                     type:"post",
-                    data:{jsonStr:JSON.stringify(data)},
+                    //data:{jsonStr:JSON.stringify(data)},
+                    data:{oIds:oIds},
                     traditional: true,
                     success:function(data){
                         alert(data);

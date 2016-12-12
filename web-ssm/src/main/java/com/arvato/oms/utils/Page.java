@@ -3,7 +3,7 @@ package com.arvato.oms.utils;
 import java.io.Serializable;
 
 /**
- * Created by MAVI003 on 2016/12/7.
+ * Created by ZHAN545 on 2016/12/7.
  */
 public class Page implements Serializable {
     private static final long serialVersionUID = -3198048449643774660L;

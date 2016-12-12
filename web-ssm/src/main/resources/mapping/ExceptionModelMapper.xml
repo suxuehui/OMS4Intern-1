@@ -18,49 +18,11 @@
     id, oId, channelOid, orderStatus, orderFrom, exceptionType, expceptionCause, exceptionStatus, 
     createTime, modifyTime, modifyMan
   </sql>
-
-  <!--获取总数-->
-  <select id="Count"  resultType="java.lang.Long" >
-    select  count(1) from exception
-  </select>
-
-  <!--列出所有的信息-->
-  <select id="selectAll" resultMap="BaseResultMap"   >
-    select
-    <include refid="Base_Column_List" />
-    from exception
-    limit #{startPos},#{pageSize}
-  </select>
-
-  <!--通过订单号查询-->
-  <select id="selectByOid" resultMap="BaseResultMap"   >
-    select
-    <include refid="Base_Column_List" />
-    from exception
-    WHERE oId = #{oid,jdbcType=VARCHAR}
-  </select>
-
-  <!--通过渠道订单号查询-->
-  <select id="selectByChannelOid" resultMap="BaseResultMap"   >
-    select
-    <include refid="Base_Column_List" />
-    from exception
-    WHERE channelOid = #{channeloid,jdbcType=VARCHAR}
-  </select>
-
-  <!--通过异常类型查询-->
-  <select id="selectByExceptionStatus" resultMap="BaseResultMap"   >
-    select
-    <include refid="Base_Column_List" />
-    from exception
-    WHERE exceptionStatus = #{exceptionstatus,jdbcType=VARCHAR}
-  </select>
-
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByOid" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from exception
-    where id = #{id,jdbcType=INTEGER}
+    where oId = #{oId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from exception
@@ -149,7 +111,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.arvato.oms.model.ExceptionModel" >
+  <update id="updateByOidSelective" parameterType="com.arvato.oms.model.ExceptionModel" >
     update exception
     <set >
       <if test="oid != null" >
@@ -183,7 +145,7 @@
         modifyMan = #{modifyman,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where oId = #{oId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.arvato.oms.model.ExceptionModel" >
     update exception

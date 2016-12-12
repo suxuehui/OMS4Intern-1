@@ -44,7 +44,7 @@
     from oms_schema.order limit #{0},#{1}
   </select>
   <select id="selectCount" resultType="java.lang.Integer" >
-    select count(1)
+    select count(*)
     from oms_schema.order
   </select>
   <select id="selectByOid" resultMap="BaseResultMap" parameterType="java.lang.String">
@@ -350,6 +350,7 @@
       </if>
     </trim>
   </insert>
+  <!-- 根据订单号更新数据-->
   <update id="updateByOidSelective" parameterType="com.arvato.oms.model.OrderModel" >
     update oms_schema.order
     <set >

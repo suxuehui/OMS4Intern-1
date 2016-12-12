@@ -2,8 +2,7 @@ package com.arvato.oms.model;
 
 import java.math.BigDecimal;
 
-public class GoodsModel
-{
+public class GoodsModel {
     private String goodsno;
 
     private String goodsname;
@@ -62,5 +61,17 @@ public class GoodsModel
 
     public void setGoodstolnum(Integer goodstolnum) {
         this.goodstolnum = goodstolnum;
+    }
+
+    @Override
+    public String toString() {
+        return "GoodsModel{" +
+                "goodsno='" + goodsno + '\'' +
+                ", goodsname='" + goodsname + '\'' +
+                ", goodsvnum=" + goodsvnum +
+                ", goodsprice=" + goodsprice +
+                ", goodsrnum=" + goodsrnum +
+                ", goodstolnum=" + goodstolnum +
+                '}';
     }
 }

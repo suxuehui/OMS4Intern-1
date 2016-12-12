@@ -1,7 +1,5 @@
 package com.arvato.oms.model;
 
-import com.arvato.oms.utils.DatetoString;
-
 import java.util.Date;
 
 public class OutboundorderModel {
@@ -19,7 +17,7 @@ public class OutboundorderModel {
 
     private String outboundstate;
 
-    private Byte synchrostate;
+    private boolean synchrostate;
 
     private String receivername;
 
@@ -29,15 +27,11 @@ public class OutboundorderModel {
 
     private String receiveraddress;
 
-    private String createdtime;
+    private Date createdtime;
 
-    private String modifytime;
+    private Date modifytime;
 
     private String modifyman;
-
-    //日期格式转换
-    DatetoString dss=new DatetoString();
-
 
     public Integer getCid() {
         return cid;
@@ -95,11 +89,11 @@ public class OutboundorderModel {
         this.outboundstate = outboundstate == null ? null : outboundstate.trim();
     }
 
-    public Byte getSynchrostate() {
+    public boolean getSynchrostate() {
         return synchrostate;
     }
 
-    public void setSynchrostate(Byte synchrostate) {
+    public void setSynchrostate(boolean synchrostate) {
         this.synchrostate = synchrostate;
     }
 
@@ -135,22 +129,21 @@ public class OutboundorderModel {
         this.receiveraddress = receiveraddress == null ? null : receiveraddress.trim();
     }
 
-    public String getCreatedtime() {
+    public Date getCreatedtime() {
         return createdtime;
     }
 
     public void setCreatedtime(Date createdtime) {
-        this.createdtime = dss.formmat(createdtime);
+        this.createdtime = createdtime;
     }
 
-    public String getModifytime() {
+    public Date getModifytime() {
         return modifytime;
     }
 
     public void setModifytime(Date modifytime) {
-        this.modifytime =dss.formmat(modifytime) ;
+        this.modifytime = modifytime;
     }
-
 
     public String getModifyman() {
         return modifyman;

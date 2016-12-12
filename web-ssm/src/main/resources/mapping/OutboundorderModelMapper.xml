@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.arvato.oms.dao.OutboundorderDao" >
+<mapper namespace="com.arvato.oms.dao.OutboundorderModelMapper" >
   <resultMap id="BaseResultMap" type="com.arvato.oms.model.OutboundorderModel" >
     <id column="cid" property="cid" jdbcType="INTEGER" />
     <result column="oId" property="oid" jdbcType="VARCHAR" />
@@ -210,74 +210,4 @@
       modifyMan = #{modifyman,jdbcType=VARCHAR}
     where cid = #{cid,jdbcType=INTEGER}
   </update>
-
-    <!--获取总数-->
-    <select id="Count" resultType="java.lang.Long">
-        select  count(*) from outboundorder
-    </select>
-
-    <!--列出所有的信息-->
-    <select id="selectAll" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List" />
-        from outboundorder
-        limit #{startPos},#{pageSize}
-    </select>
-
-    <!--获取总数-->
-    <select id="Countoid" resultType="java.lang.Long">
-        select  count(*) from outboundorder where oId like '%${oid}%'
-    </select>
-
-    <!--通过oid选出所有信息-->
-    <select id="selectAllByOid" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List" />
-        from outboundorder
-        where
-        oId like '%${oid}%'
-        limit #{startPos},#{pageSize}
-    </select>
-
-  <!--精确的订单号选出所有信息-->
-  <select id="selectByOid" resultMap="BaseResultMap" parameterType="java.lang.String">
-    select
-    <include refid="Base_Column_List" />
-    from outboundorder
-    where oId = #{oid,jdbcType=VARCHAR}
-  </select>
-
-    <!--获取总数-->
-    <select id="Countchid" resultType="java.lang.Long">
-        select  count(*) from outboundorder where channelOid like '%${channeloid}%'
-    </select>
-
-    <!--通过channeloid选出所有信息-->
-    <select id="selectAllBychannelOid" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List" />
-        from outboundorder
-        where channelOid like '%${channeloid}%'
-        limit #{startPos},#{pageSize}
-    </select>
-
-    <!--获取总数-->
-    <select id="Countobid" resultType="java.lang.Long">
-        select  count(*) from outboundorder where outboundId like '%${outboundid}%'
-    </select>
-    <!--通过 outboundId选出所有信息-->
-    <select id="selectAllByoutboundId" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List" />
-        from outboundorder
-        where outboundId like '%${outboundid}%'
-        limit #{startPos},#{pageSize}
-
-    </select>
-
-
-
-
-
-
 </mapper>

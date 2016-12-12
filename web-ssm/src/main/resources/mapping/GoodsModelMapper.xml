@@ -9,7 +9,6 @@
     <result column="goodsRnum" property="goodsrnum" jdbcType="INTEGER" />
     <result column="goodsTolnum" property="goodstolnum" jdbcType="INTEGER" />
   </resultMap>
-
   <resultMap id="GoodsPojo" type="com.arvato.oms.model.GoodsPojo" >
     <id column="goodsNo" property="goodsno" jdbcType="VARCHAR" />
     <result column="goodsName" property="goodsname" jdbcType="VARCHAR" />
@@ -20,43 +19,28 @@
     <result column="goodsTolnum" property="goodstolnum" jdbcType="INTEGER" />
     <result column="goodNum" property="goodNum" jdbcType="INTEGER" />
   </resultMap>
-
   <sql id="Base_Column_List" >
     goodsNo, goodsName, goodsVnum, goodsPrice, goodsRnum, goodsTolnum
   </sql>
   <sql id="GoodsPojo_Column_List" >
     goods.goodsNo, goodsName, goodsVnum, goodsPrice, goodsRnum, goodsTolnum, goodNum
   </sql>
-
-
-<!--zhang-->
   <select id="selectByOid" resultMap="GoodsPojo"  >
     select
     <include refid="GoodsPojo_Column_List" />
     from goods,relationog
     where oId = #{2,jdbcType=VARCHAR} AND goods.goodsNo = relationog.goodsNo limit #{0},#{1}
   </select>
-
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from goods
     where goodsNo = #{goodsno,jdbcType=VARCHAR}
   </select>
-
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from goods
     where goodsNo = #{goodsno,jdbcType=VARCHAR}
   </delete>
-
-
-  <select id="selectByGoodsNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select
-    <include refid="Base_Column_List" />
-    from goods
-    where goodsNo = #{goodsno,jdbcType=VARCHAR}
-  </select>
-
   <insert id="insert" parameterType="com.arvato.oms.model.GoodsModel" >
     insert into goods (goodsNo, goodsName, goodsVnum, 
       goodsPrice, goodsRnum, goodsTolnum
@@ -65,7 +49,6 @@
       #{goodsprice,jdbcType=DECIMAL}, #{goodsrnum,jdbcType=INTEGER}, #{goodstolnum,jdbcType=INTEGER}
       )
   </insert>
-
   <insert id="insertSelective" parameterType="com.arvato.oms.model.GoodsModel" >
     insert into goods
     <trim prefix="(" suffix=")" suffixOverrides="," >

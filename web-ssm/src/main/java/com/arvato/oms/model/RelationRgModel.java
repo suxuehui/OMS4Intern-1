@@ -1,7 +1,6 @@
 package com.arvato.oms.model;
 
-public class RelationrgModel
-{
+public class RelationrgModel {
     private Integer id;
 
     private String returnedid;
