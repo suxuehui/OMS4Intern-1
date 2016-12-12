@@ -49,6 +49,14 @@
     where goodsNo = #{goodsno,jdbcType=VARCHAR}
   </delete>
 
+
+  <select id="selectByGoodsNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from goods
+    where goodsNo = #{goodsno,jdbcType=VARCHAR}
+  </select>
+
   <insert id="insert" parameterType="com.arvato.oms.model.GoodsModel" >
     insert into goods (goodsNo, goodsName, goodsVnum, 
       goodsPrice, goodsRnum, goodsTolnum

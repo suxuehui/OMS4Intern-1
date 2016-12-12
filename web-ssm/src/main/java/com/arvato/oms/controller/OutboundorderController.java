@@ -46,10 +46,8 @@ public class OutboundorderController {
             return  str;
     }
 
-
-
     //子页面显示
-    @RequestMapping(value="listinodson")
+    @RequestMapping(value="listobolson")
     @ResponseBody
     public String  listobolson(HttpServletRequest request )
     {

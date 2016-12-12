@@ -22,7 +22,6 @@ function GetnowPage(pagenow){
         dataType:"json",
 
         success : function(data) {
-
             var datapage = data.pagelist;
             var datalist =  data.list ;
             $("table tbody tr").eq(0).nextAll().remove();
@@ -58,7 +57,7 @@ function sgclick(oid) {
     function cc() {
         if (isdb != false)return;
         alert("测试单击" +oid+"--"+isdb)
-        document.getElementById("d").innerText = 909090 + "" + isdb + oid;
+
         postOid(oid);
     }
 }
@@ -71,13 +70,14 @@ function dblclick(oid) {
 
 //单击跳转子页面
 function  postOid(oid)
-{
+{ 
     //OOYYYYMMDD12345
     oid=oid.substring(10);//1234
     pageson(oid,1);
 }
 
 function pageson(oid,pagenow){
+
     oid="OOYYYYMMDD"+oid;
     $.ajax({
         type : 'get',

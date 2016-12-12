@@ -121,8 +121,6 @@ public class OutboundorderServiceImpl implements OutboundorderService {
       }
 
    }
-
-
         JSONObject json1 = JSONObject.fromObject(pagelist);//将java对象转换为json对象
         String jsonstr = "{\"pagelist\":"+json1.toString();//将json对象转换为字符串
         JSONArray array = JSONArray.fromObject(list);

@@ -69,7 +69,6 @@ ${list}
 <script src="${pageContext.request.contextPath}/js/outboundpagelist.js"></script>
 <br><br>
 <script src="${pageContext.request.contextPath}/js/pagelistson.js"></script>
-
 <h1>商品页数据</h1>
 <div id="d"></div>
 <div style=" overflow-y:auto; overflow-x:auto; width:1200px; height:400px;">
@@ -85,5 +84,7 @@ ${list}
     </table>
 </div>
 <div id="sonpl"></div>
+
+
 </body>
 </html>

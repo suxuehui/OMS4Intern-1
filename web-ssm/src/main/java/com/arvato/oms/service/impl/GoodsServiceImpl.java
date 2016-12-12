@@ -34,7 +34,13 @@ public class GoodsServiceImpl implements GoodsService
         return jObj;
     }
 
-    public GoodsModel selectByGoodsNo(String goodsno) {
-        return null;
+    public GoodsModel selectByGoodsNo(String goodsno)
+    {
+        //通过goodsno获取一件商品的全部信息
+
+        GoodsModel   gm= goodsModelMapper.selectByGoodsNo(goodsno);
+
+        return gm;
+
     }
 }

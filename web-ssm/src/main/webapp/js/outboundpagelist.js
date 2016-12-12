@@ -74,11 +74,14 @@ function  postOid(oid)
 {
        //OOYYYYMMDD12345
        oid=oid.substring(10);//1234
+
        pageson(oid,1);
+
 }
 
 function pageson(oid,pagenow){
     oid="OOYYYYMMDD"+oid;
+
     $.ajax({
         type : 'get',
         url :'/oms/outboundorder/listobolson',
@@ -88,7 +91,7 @@ function pageson(oid,pagenow){
         contentType: "application/json; charset=utf-8",
         dataType:"json",
         success:function (data) {
-            alert("son"+data);
+
             var outboindid=data.obolist[0].outboundid;//出库单号
             var warehouseobid=data.obolist[0].warehouseobid;//仓库出库单号
             var rglist=data.rglist;
