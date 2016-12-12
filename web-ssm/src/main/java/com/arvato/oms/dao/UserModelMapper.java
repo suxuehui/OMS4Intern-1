@@ -13,6 +13,9 @@ import java.util.List;
 @Repository
 public interface UserModelMapper
 {
+
+
+
     List<UsersModel> selectUserByNameAndPWD(@Param("uName") String uName, @Param("uPassword") String uPassword);
 
     int insertUser(@Param("uName") String uName, @Param("uPassword") String uPassword);

@@ -44,7 +44,7 @@
     from oms_schema.order limit #{0},#{1}
   </select>
   <select id="selectCount" resultType="java.lang.Integer" >
-    select count(*)
+    select count(1)
     from oms_schema.order
   </select>
   <select id="selectByOid" resultMap="BaseResultMap" parameterType="java.lang.String">

@@ -5,14 +5,12 @@ import com.arvato.oms.dao.OutboundorderDao;
 import com.arvato.oms.dao.RelationogModelMapper;
 import com.arvato.oms.model.GoodsModel;
 import com.arvato.oms.model.OutboundorderModel;
-
 import com.arvato.oms.model.RelationogModel;
 import com.arvato.oms.service.OutboundorderService;
 import com.arvato.oms.utils.Page;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -33,10 +31,7 @@ public class OutboundorderServiceImpl implements OutboundorderService {
     private GoodsModelMapper gddao;
     @Resource
     private RelationogModelMapper rogdao;
-
-//分页查询
-    public Model searchAllByparam(HttpServletRequest request,Model model) throws UnsupportedEncodingException {
-    //分页查询
+  //分页查询
     public String searchAllByparam(HttpServletRequest request  ) throws UnsupportedEncodingException {
             String pageNow = request.getParameter("currentpage");//获取当前页数pagenow
             String id=request.getParameter("txtvalue"); //用户输入的值id
@@ -49,7 +44,7 @@ public class OutboundorderServiceImpl implements OutboundorderService {
             //获取对象总数量
             int totalCount ;
         // 页面显示所有信息
-   if(id==null) {
+   if(id==null || id.length()<=0) {
 
      if (pageNow != null)
      {
@@ -127,9 +122,7 @@ public class OutboundorderServiceImpl implements OutboundorderService {
 
    }
 
-        model.addAttribute("pagelist",pagelist);
-        model.addAttribute("list",list);
-        return model;
+
         JSONObject json1 = JSONObject.fromObject(pagelist);//将java对象转换为json对象
         String jsonstr = "{\"pagelist\":"+json1.toString();//将json对象转换为字符串
         JSONArray array = JSONArray.fromObject(list);
@@ -139,8 +132,7 @@ public class OutboundorderServiceImpl implements OutboundorderService {
         }
 
         //精确查询所有信息by oid
-    public List<OutboundorderModel> selectByOid(String oid) {
-        List<OutboundorderModel> list=obodao.selectByOid(oid);
+
     public OutboundorderModel  selectByOid(String oid) {
         OutboundorderModel  list=obodao.selectByOid(oid);
         return list;

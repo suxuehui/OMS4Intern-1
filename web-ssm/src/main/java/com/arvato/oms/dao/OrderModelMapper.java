@@ -59,9 +59,4 @@ public interface OrderModelMapper {
         int updateByOidSelective(OrderModel record);
 
         int updateByPrimaryKey(OrderModel record);
-
-
-
-
-
 }

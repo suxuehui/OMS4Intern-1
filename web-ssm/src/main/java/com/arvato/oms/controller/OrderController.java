@@ -1,7 +1,6 @@
 package com.arvato.oms.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.arvato.oms.model.GoodsPojo;
@@ -13,7 +12,6 @@ import com.arvato.oms.service.OrderService;
 import com.arvato.oms.service.ReturnedModelService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -23,7 +21,6 @@ import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by ZHAN545 on 2016/12/6.
@@ -101,15 +98,20 @@ public class OrderController
         return orderModelList;
     }
     //退换货
-    @RequestMapping("previewOrder")
-    public @ResponseBody String previewOrder(@RequestBody String jsonStr)
+    @RequestMapping("returnGoods")
+    public @ResponseBody int returnGoods(String jsonStr)
     {
-        System.out.println(jsonStr);
+        //System.out.println(jsonStr);
         JSONObject jsonObject=JSON.parseObject(jsonStr);
         ArrayList<GoodsPojo> goodsList=JSON.parseObject(jsonObject.getString("goods"),new TypeReference<ArrayList<GoodsPojo>>(){});
         ReturnedModel returnedModel=new ReturnedModel();
         RelationRgModel[] relationRgModel=new RelationRgModel[goodsList.size()];
         returnedModel.setOid(jsonObject.getString("oid"));
+        OrderModel orderModel=orderService.selectByOid(jsonObject.getString("oid"));
+        if(!orderModel.getOrderstatus().equals("已完成"))
+        {
+            return 0;
+        }
         returnedModel.setChanneloid(jsonObject.getString("channeloid"));
         returnedModel.setReturnedid("RT"+jsonObject.getString("oid"));
         returnedModel.setReturnedorchange(jsonObject.getString("returnedOrChange"));
@@ -129,17 +131,68 @@ public class OrderController
         int i=returnedModelService.insertSelective(returnedModel);
         if(i==0)
         {
-            return "n";
+            return 0;
         }
         for(RelationRgModel re:relationRgModel)
         {
             int j=returnedModelService.insertSelective(re);
             if(j==0)
             {
-                return "n";
+                return 0;
             }
         }
-        return "y";
+        return 1;
     }
+
+    //路由
+    @RequestMapping("routeOrder")
+    public @ResponseBody int routeOrder(String[] oIds)
+    {
+        for(String str:oIds){
+            System.out.println(str);
+        }
+        for(int i=0;i<oIds.length;i++)
+        {
+            OrderModel orderModel=orderService.selectByOid(oIds[i]);
+            if(orderModel==null)
+            {
+                return 0;//订单号异常，没有该订单
+            }
+            if(orderModel.getBasestatus().equals("冻结"))
+            {
+                return 1;//订单冻结
+            }
+            if(!orderModel.getOrderstatus().equals("待路由"))
+            {
+                return 2;//订单状态不是带路由状态。
+            }
+            orderModel.setGoodswarehouse("南京仓");
+            int j=0;
+            j=orderService.updateByOidSelective(orderModel);
+            if(j!=1)
+            {
+                return 3;//数据库更新失败
+            }
+        }
+        return 4;
+    }
+
     //预检
+    @RequestMapping("previewOrder ")
+    public @ResponseBody String previewOrder(String[] oIds)
+    {
+        return null;
+    }
+
+    //出库
+    @RequestMapping("outboundOrder")
+    public @ResponseBody int outboundOrder(String[] oIds)
+    {
+        return 0;
+    }
+    //取消订单
+    @RequestMapping("cancleOrder")
+    public @ResponseBody int cancleOrder(String[] oIds){
+        return 0;
+    }
 }

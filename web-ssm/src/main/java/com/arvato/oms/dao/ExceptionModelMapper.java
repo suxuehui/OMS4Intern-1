@@ -21,7 +21,7 @@ public interface ExceptionModelMapper {
 
     //通过异常状态查询
     List<ExceptionModel> selectByExceptionStatus(String exceptionStatus);
-
+    //ZHANG
     int deleteByPrimaryKey(Integer id);
 
     int insert(ExceptionModel record);
@@ -33,4 +33,7 @@ public interface ExceptionModelMapper {
     int updateByPrimaryKeySelective(ExceptionModel record);
 
     int updateByPrimaryKey(ExceptionModel record);
+
+
+
 }

@@ -26,7 +26,5 @@ public interface OutboundorderDao {
     List<OutboundorderModel> selectAllByoutboundId(@Param(value = "outboundid") String outboundid, @Param(value = "startPos") Integer startPos, @Param(value = "pageSize") Integer pageSize);
 
    //精确匹配 通过oid选出所有信息
-    List<OutboundorderModel> selectByOid(String oid);
-
-    OutboundorderModel  selectByOid(String oid);
+      OutboundorderModel  selectByOid(String oid);
 }

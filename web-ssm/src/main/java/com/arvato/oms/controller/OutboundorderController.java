@@ -40,12 +40,9 @@ public class OutboundorderController {
     //通过分页查询所有列表 listseach'
     @RequestMapping(value="listseach")
     @ResponseBody
-    public Model listseach(HttpServletRequest request , Model model)
-    public String listseach(HttpServletRequest request )
-            throws UnsupportedEncodingException{
-            model = oboserciveimpl.searchAllByparam(request,model);
-            return  model;
-            String str = oboserciveimpl.searchAllByparam(request );
+     public String listseach(HttpServletRequest request ) throws UnsupportedEncodingException{
+        String str = oboserciveimpl.searchAllByparam(request);
+        System.out.print("str = "+str);
             return  str;
     }
 
@@ -66,7 +63,6 @@ public class OutboundorderController {
     public String  details(HttpServletRequest request,Model model){
         String oid=request.getParameter("oid");
         //查询出库单列表
-        List<OutboundorderModel> obolist=oboserciveimpl.selectByOid(oid);
         OutboundorderModel  obolist=oboserciveimpl.selectByOid(oid);
        //获取商品编码  查询关系表
         List<RelationogModel> roglist=rogserviceimpl.selectALLByOid(oid);

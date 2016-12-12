@@ -30,7 +30,7 @@ function GetnowPage(pagenow){
             $("table tbody tr").eq(0).nextAll().remove();
             for(var obj in datalist){
                 var  list=datalist[obj];
-                var html='<tr><input type="checkbox" name="ck"><td></td><td>';
+                var html='<tr><input type="checkbox" name="ck" ><td></td><td>';
                 html+= '<button id="'+list.oid+'" style="border-style:none;outline:none;" ' +
                     'ondblclick="dblclick(this.id)" onclick="sgclick(this.id)">'+list.oid+'</button>'+
                     '</td><td>'

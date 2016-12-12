@@ -27,7 +27,6 @@ public interface InboundorderDao {
     List<InboundorderModel> selectAllByreturnedId(@Param(value = "returnedid") String returnedid, @Param(value = "startPos") Integer startPos, @Param(value = "pageSize") Integer pageSize);
 
     //精确匹配 通过oid选出所有信息
-    List<InboundorderModel> selectByOid(String oid);
     InboundorderModel  selectByOid(String oid);
 
 

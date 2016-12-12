@@ -22,11 +22,8 @@ function GetnowPage(pagenow){
         dataType:"json",
 
         success : function(data) {
-            alert(data)
-            var data = JSON.parse(data);
-            var datapage = data.pagelist;
-            var datalist = eval(data.list);
 
+            var datapage = data.pagelist;
             var datalist =  data.list ;
             $("table tbody tr").eq(0).nextAll().remove();
             for(var obj in datalist){
@@ -52,7 +49,7 @@ function GetnowPage(pagenow){
 
 }
 
-/*单击双击事件跳转*/
+
 /*单、双击事件跳转*/
 var isdb;
 function sgclick(oid) {
@@ -69,7 +66,7 @@ function dblclick(oid) {
     isdb = true;
     alert("测试双击"+oid+"--"+isdb)
     window.open("/oms/inboundorder/details?oid="+oid);
-}}}}
+}
 
 
 //单击跳转子页面

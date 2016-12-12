@@ -1,5 +1,7 @@
 package com.arvato.oms.model;
 
+import com.arvato.oms.utils.DatetoString;
+
 import java.util.Date;
 
 public class InboundorderModel {
@@ -19,11 +21,14 @@ public class InboundorderModel {
 
     private String warehouse;
 
-    private Date createdtime;
+    private String createdtime;
 
-    private Date modifytime;
+    private String modifytime;
 
     private String modifyman;
+
+    //日期格式转换
+    DatetoString dss=new DatetoString();
 
     public Integer getIid() {
         return iid;
@@ -89,20 +94,20 @@ public class InboundorderModel {
         this.warehouse = warehouse == null ? null : warehouse.trim();
     }
 
-    public Date getCreatedtime() {
+    public String getCreatedtime() {
         return createdtime;
     }
 
     public void setCreatedtime(Date createdtime) {
-        this.createdtime = createdtime;
+        this.createdtime = dss.formmat(createdtime);
     }
 
-    public Date getModifytime() {
+    public String getModifytime() {
         return modifytime;
     }
 
     public void setModifytime(Date modifytime) {
-        this.modifytime = modifytime;
+        this.modifytime = dss.formmat(modifytime);
     }
 
     public String getModifyman() {

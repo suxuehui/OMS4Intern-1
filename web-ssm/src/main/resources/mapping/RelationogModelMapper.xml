@@ -26,7 +26,7 @@
     where oId = #{2,jdbcType=VARCHAR} limit #{0},#{1}
   </select>
   <select id="selectCount" resultType="java.lang.Integer"  >
-    select count(*)
+    select count(1)
     from relationog
     where oId = #{2,jdbcType=VARCHAR}
   </select>

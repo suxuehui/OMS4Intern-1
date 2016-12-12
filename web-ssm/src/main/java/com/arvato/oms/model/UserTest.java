@@ -1,5 +1,7 @@
 package com.arvato.oms.model;
 
+import com.arvato.oms.utils.DatetoString;
+
 import java.util.Date;
 
 /**
@@ -14,8 +16,8 @@ public class UserTest
     private String userEmail;
     private String userPwd;
     private String pwdSalt;
-    private Date createTime;
-    private Date modifyTime;
+    private String createTime;
+    private String modifyTime;
     private Short isDelete;
 
     public Long getId() {
@@ -66,20 +68,22 @@ public class UserTest
         this.pwdSalt = pwdSalt;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
+    //日期格式转换
+    DatetoString dss=new DatetoString();
 
     public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+        this.createTime = dss.formmat(createTime);
     }
 
-    public Date getModifyTime() {
+    public String getModifyTime() {
         return modifyTime;
     }
 
     public void setModifyTime(Date modifyTime) {
-        this.modifyTime = modifyTime;
+        this.modifyTime = dss.formmat(modifyTime);
     }
 
     public Short getIsDelete() {

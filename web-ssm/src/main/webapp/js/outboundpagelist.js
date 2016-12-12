@@ -17,16 +17,12 @@ function GetnowPage(pagenow){
             currentpage: s1,
             toseachid: optxt,
             txtvalue: search_value
-
         },
         contentType: "application/json; charset=utf-8",
-
+        dataType:"json",
         success : function(data) {
-
-            alert(data)
-            var data = JSON.parse(data);
             var datapage = data.pagelist;
-            var datalist = eval(data.list);
+            var datalist = data.list ;
 
             $("table tbody tr").eq(0).nextAll().remove();
             for(var obj in datalist){
@@ -35,7 +31,7 @@ function GetnowPage(pagenow){
   html+= '<button id="'+list.oid+'" style="border-style:none;outline:none;" ' +
                     'ondblclick="dblclick(this.id)" onclick="sgclick(this.id)">'+list.oid+'</button>'+
                     '</td><td>'
-                html+=list.channeloid+'</td><td>'
+                    html+=list.channeloid+'</td><td>'
                     +list.orderstatus+'</td><td>'+list.warehouseobid+'</td><td>'
                     +list.outboundid+'</td><td>'+list.outboundstate+'</td><td>'
                     +list.synchrostate+'</td><td>' +list.receivername+'</td><td>'
@@ -63,12 +59,9 @@ function sgclick(oid) {
     function cc() {
         if (isdb != false)return;
         alert(isdb + "测试单击" +oid+"--"+isdb)
-        document.getElementById("d").innerText = 909090 + "" + isdb + oid;
-
         postOid(oid);
     }
 }
-    function dblclick(oid) {
 
 //双击跳转详细页面
 function dblclick(oid) {
@@ -95,6 +88,7 @@ function pageson(oid,pagenow){
         contentType: "application/json; charset=utf-8",
         dataType:"json",
         success:function (data) {
+            alert("son"+data);
             var outboindid=data.obolist[0].outboundid;//出库单号
             var warehouseobid=data.obolist[0].warehouseobid;//仓库出库单号
             var rglist=data.rglist;

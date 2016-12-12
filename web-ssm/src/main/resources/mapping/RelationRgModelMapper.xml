@@ -10,22 +10,26 @@
   <sql id="Base_Column_List" >
     id, returnedId, goodsNo, goodNum
   </sql>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from relationrg
     where id = #{id,jdbcType=INTEGER}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from relationrg
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
   <insert id="insert" parameterType="com.arvato.oms.model.RelationRgModel" >
     insert into relationrg (id, returnedId, goodsNo, 
       goodNum)
     values (#{id,jdbcType=INTEGER}, #{returnedid,jdbcType=VARCHAR}, #{goodsno,jdbcType=VARCHAR}, 
       #{goodnum,jdbcType=INTEGER})
   </insert>
+
   <insert id="insertSelective" parameterType="com.arvato.oms.model.RelationRgModel" >
     insert into relationrg
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -57,6 +61,7 @@
       </if>
     </trim>
   </insert>
+<!--zhang-->
   <update id="updateByPrimaryKeySelective" parameterType="com.arvato.oms.model.RelationRgModel" >
     update relationrg
     <set >
@@ -72,6 +77,8 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!--zhang-->
   <update id="updateByPrimaryKey" parameterType="com.arvato.oms.model.RelationRgModel" >
     update relationrg
     set returnedId = #{returnedid,jdbcType=VARCHAR},

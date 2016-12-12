@@ -8,7 +8,7 @@ public class Page implements Serializable {
 
 	private int pageNow = 1; // 当前页数
 
-	private int pageSize;//= 2; // 每页显示记录的条数
+	private int pageSize=0;  // 每页显示记录的条数
 
 	private int totalCount; // 总的记录条数
 
@@ -30,22 +30,37 @@ public class Page implements Serializable {
 	private boolean hasLast;// 是否有最后一页
 	public Page(){}
 	/**
-	 
+	 *  gong
 	 * 通过构造函数 传入 size 和 当前页
-	  
 	 * @param pageSize
 	 * @param totalCount
-	 
 	 * @param pageNow
 	 */
-
 	public Page(int totalCount, int pageNow ,int pageSize) {
-		 this.pageSize = pageSize;
+		this.pageSize = pageSize;
 		this.pageNow = pageNow;
 		this.totalCount=totalCount;
 	}
 
-	// 取得总页数，总页数=总记录数/总size
+	public Page(int pageNow,int pageSize) {
+		this.pageNow = pageNow;
+		this.pageSize=pageSize;
+	}
+/*
+*  ZHANG
+* 取得总页数，总页数=总记录数/总页数
+* @param totalCount
+* getTotalPageCount(int totalCount)
+* */
+
+	public int getTotalPageCount(int totalCount) {
+		this.totalCount=totalCount;
+		totalPageCount = getTotalCount() / getPageSize();
+		return (totalCount % pageSize == 0) ? totalPageCount
+				: totalPageCount + 1;
+	}
+
+	//GONG 取得总页数，总页数=总记录数/总size
 	public int getTotalPageCount(){//int totalCount) {
 		//this.totalCount=totalCount;
 		totalPageCount = getTotalCount() / getPageSize();

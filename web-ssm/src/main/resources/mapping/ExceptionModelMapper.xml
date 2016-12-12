@@ -21,7 +21,7 @@
 
   <!--获取总数-->
   <select id="Count"  resultType="java.lang.Long" >
-    select  count(*) from exception
+    select  count(1) from exception
   </select>
 
   <!--列出所有的信息-->

@@ -1,6 +1,8 @@
 package com.arvato.oms.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.arvato.oms.model.RelationRgModel;
+import com.arvato.oms.model.ReturnedModel;
 
 import java.util.List;
 
@@ -14,6 +16,11 @@ public interface ReturnedModelService
     public JSONObject getAllReturnedOrders(int pageNow, int num);
 
     public JSONObject getGoodsListByRid(String returnedId,int pageNow, int num);
+
+    //修改  zhang的
+    public int insertSelective(ReturnedModel  record);
+
+    public int insertSelective(RelationRgModel  record);
 
 
 }

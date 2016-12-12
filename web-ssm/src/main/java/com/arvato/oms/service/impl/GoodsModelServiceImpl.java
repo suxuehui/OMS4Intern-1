@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.arvato.oms.dao.GoodsModelMapper;
 import com.arvato.oms.model.GoodsModel;
 import com.arvato.oms.service.GoodsModelService;
-import com.arvato.oms.utils.PageS;
+import com.arvato.oms.utils.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,7 +35,7 @@ public class GoodsModelServiceImpl implements GoodsModelService
          * @Return: List<GoodsModel>
          */
         Integer countUser = goodsModelMapper.countGoods();
-        PageS page = new PageS(countUser, pageNow);
+        Page page = new Page (countUser, pageNow);
         List<GoodsModel> goodsModels = goodsModelMapper.selectAllGoodsByPage(page.getStartPos(), num);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("goodsModels", goodsModels);
@@ -117,7 +117,7 @@ public class GoodsModelServiceImpl implements GoodsModelService
          */
         int goodsCount = goodsModelMapper.countGoods();
 
-        PageS page = new PageS(goodsCount,nowPage);
+        Page  page = new Page (goodsCount,nowPage);
         int startPage = page.getStartPos();
         JSONObject json = new JSONObject();
         if (select.equals("name"))

@@ -1,11 +1,10 @@
 package com.arvato.oms.service.impl;
 
 
-
 import com.arvato.oms.dao.ExceptionModelMapper;
 import com.arvato.oms.model.ExceptionModel;
 import com.arvato.oms.service.ExceptionService;
-import com.arvato.oms.utils.PageS;
+import com.arvato.oms.utils.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -28,17 +27,17 @@ public class ExceptionServiceImpl implements ExceptionService {
     public void showExceptionOrder(HttpServletRequest request, Model model) {
         //获取当前页数
         String pageNow = request.getParameter("pageNow");
-        PageS page = null;
+        Page page = null;
         List<ExceptionModel> list = new ArrayList<ExceptionModel>();
         //获取对象总数量
         int totalCount = (int) exceptionModelMapper.Count();
         if (pageNow != null) {
             //调用Page工具类传入参数
-            page = new PageS(totalCount, Integer.parseInt(pageNow));
+            page = new Page (totalCount, Integer.parseInt(pageNow));
             list  = this.exceptionModelMapper.selectAll(page.getStartPos(), page.getPageSize());
         }
         else {
-            page = new PageS(totalCount, 1);
+            page = new Page(totalCount, 1);
             list = this.exceptionModelMapper.selectAll(page.getStartPos(),page.getPageSize());
         }
 

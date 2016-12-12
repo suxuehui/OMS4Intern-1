@@ -16,11 +16,14 @@ public interface RelationogModelMapper {
 
     RelationogModel selectByPrimaryKey(Integer id);
 
-    List<RelationogModel> selectByOid(Integer pageNo,Integer pageSize,String oId);
+    List<RelationogModel> selectByOid(Integer pageNo, Integer pageSize, String oId);
 
+    //GONG
     List<RelationogModel> selectALLByOid(String oid);
 
     int updateByPrimaryKeySelective(RelationogModel record);
 
     int updateByPrimaryKey(RelationogModel record);
+
+
 }

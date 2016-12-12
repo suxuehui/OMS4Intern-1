@@ -1,11 +1,8 @@
 package com.arvato.oms.controller;
 
-import com.arvato.oms.model.goodsModel;
-import com.arvato.oms.model.inboundorderModel;
-import com.arvato.oms.model.relationogModel;
-import com.arvato.oms.model.GoodsModel ;
-import com.arvato.oms.model.InboundorderModel ;
-import com.arvato.oms.model.RelationogModel ;
+import com.arvato.oms.model.GoodsModel;
+import com.arvato.oms.model.InboundorderModel;
+import com.arvato.oms.model.RelationogModel;
 import com.arvato.oms.service.impl.GoodsServiceImpl;
 import com.arvato.oms.service.impl.InboundorderServiceImpl;
 import com.arvato.oms.service.impl.RelationOGServiceImpl;
@@ -42,11 +39,9 @@ public class InboundorderController {
     //通过分页查询所有列表 listseach'
     @RequestMapping(value="listseach")
     @ResponseBody
-    public Model listseach(HttpServletRequest request , Model model)
-    public String listseach(HttpServletRequest request  )
+     public String listseach(HttpServletRequest request  )
             throws UnsupportedEncodingException {
-        model = inboserciveimpl.searchAllByparam(request,model);
-        return  model;
+
         String str = inboserciveimpl.searchAllByparam(request );
         return  str;
     }
@@ -61,23 +56,19 @@ public class InboundorderController {
         return str;
     }
 
-
-    //详情页面展示
+     //入库单详情页面展示
     @RequestMapping(value="details")
     public String  details(HttpServletRequest request,Model model){
         String oid=request.getParameter("oid");
         //查询入库单列表
-       List<inboundorderModel> obolist=inboserciveimpl.selectByOid(oid);
         InboundorderModel  obolist=inboserciveimpl.selectByOid(oid);
         //获取商品编码  查询关系表
-        List<relationogModel> roglist=rogserviceimpl.selectByOid(oid);
-        List<RelationogModel> roglist=rogserviceimpl.selectALLByOid(oid);
+         List<RelationogModel> roglist=rogserviceimpl.selectALLByOid(oid);
         //获取商品实体 查询商品表
         List<Object> godslist=new ArrayList<Object>();
          for(int i=0;i<roglist.size();i++){
             //获取商品编号
             String sno= roglist.get(i).getGoodsno();
-            goodsModel gm=godserviceimpl.selectByGoodsNo(sno);
             GoodsModel gm=godserviceimpl.selectByGoodsNo(sno);
             godslist.add(gm);
         }

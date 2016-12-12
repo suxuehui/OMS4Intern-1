@@ -2,15 +2,15 @@ package com.arvato.oms.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.arvato.oms.dao.GoodsModelMapper;
-import com.arvato.oms.dao.RelationrgModelMapper;
 import com.arvato.oms.dao.RelationRgModelMapper;
 import com.arvato.oms.dao.ReturnedModelMapper;
 import com.arvato.oms.model.GoodsModel;
+import com.arvato.oms.model.RelationRgModel;
 import com.arvato.oms.model.ReturnedModel;
 import com.arvato.oms.model.son.ReturnedSon;
 import com.arvato.oms.model.test.RelationrgModel;
 import com.arvato.oms.service.ReturnedModelService;
-import com.arvato.oms.utils.PageS;
+import com.arvato.oms.utils.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,11 +29,24 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
     ReturnedModelMapper returnedModelMapper;
 
     @Resource
-    RelationrgModelMapper relationrgModelMapper;
     RelationRgModelMapper relationrgModelMapper;
 
     @Resource
     GoodsModelMapper goodsModelMapper;
+
+    //张伟
+    public int insertSelective(ReturnedModel record) {
+        return returnedModelMapper.insertSelective(record);
+    }
+
+    public int insertSelective(RelationRgModel record) {
+        return 0;
+    }
+
+    public int insertSelective(RelationrgModel record) {
+        return relationrgModelMapper.insertSelective(record);
+    }
+
 
     public int cancelReturn(List<Integer> ids)
     {
@@ -57,7 +70,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
          * @param num 一页显示数据条数
          * @Return:  JSONObject：returnedModels，totalPage，size
          */
-        PageS page = new PageS(returnedModelMapper.countReturnedOrders(),pageNow);
+        Page  page = new Page(returnedModelMapper.countReturnedOrders(),pageNow);
         List<ReturnedModel> returnedModels = returnedModelMapper.selectAllReturnedByPage(page.getStartPos(), num);
         JSONObject json = new JSONObject();
         json.put("returnedModels",returnedModels);
@@ -68,13 +81,13 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
 
     public JSONObject getGoodsListByRid(String returnedId, int pageNow, int num)
     {
-        List<RelationrgModel> relationrgModels = relationrgModelMapper.selectGoodsByRid(returnedId);
+        List<RelationRgModel> relationrgModels = relationrgModelMapper.selectGoodsByRid(returnedId);
         List<String> goodsNos = new ArrayList<String>();
 
         for (int i = 0; i < relationrgModels.size(); i++)
         {
             ReturnedSon returnedSon = new ReturnedSon();
-            RelationrgModel relationrgModel = relationrgModels.get(i);
+            RelationRgModel relationrgModel = relationrgModels.get(i);
             returnedSon.setGoodnum(relationrgModel.getGoodnum());
             returnedSon.setGoodsno(relationrgModel.getGoodsno());
             goodsNos.add(relationrgModel.getGoodsno());
