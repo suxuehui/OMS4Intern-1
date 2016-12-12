@@ -113,7 +113,7 @@ public class UserModelServiceImpl implements UserModelService
          * @Return: List<UsersModel>
          */
         Integer countUser = userModelMapper.countUser();
-        Page page = new Page (countUser, pageNow);
+        Page page = new Page(countUser, pageNow);
         List<UsersModel> usersModels = userModelMapper.selectUserByNameAndPage(name, num, page.getStartPos());
         return usersModels;
     }
@@ -129,7 +129,7 @@ public class UserModelServiceImpl implements UserModelService
          * @Return: List<UsersModel>
          */
         Integer countUser = userModelMapper.countUser();
-        Page  page = new Page (countUser, pageNow);
+        Page page = new Page(countUser, pageNow);
 
         List<UsersModel> usersModels = userModelMapper.selectAllUser(page.getStartPos(), num);
 

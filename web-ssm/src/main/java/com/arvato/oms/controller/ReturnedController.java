@@ -43,7 +43,7 @@ public class ReturnedController
 
     @RequestMapping("/getAllReturned")
     @ResponseBody
-    public JSONObject getAllReturned(int pageNow,int pageSize)
+    public JSONObject getAllReturned(int pageNow, int pageSize)
     {
         /**
          * @Author: 马潇霄
@@ -53,8 +53,43 @@ public class ReturnedController
          * @Return:
          */
         JSONObject allReturnedOrders = returnedModelService.getAllReturnedOrders(pageNow, pageSize);
-        return  allReturnedOrders;
+        return allReturnedOrders;
     }
 
+
+    @RequestMapping("/getGoods")
+    @ResponseBody
+    public JSONObject getGoods(int pageNow, int pageSize, String returnedId)
+    {
+        /**
+         * @Author: 马潇霄
+         * @Description: 根据退货单号获得字表信息
+         * @Date: 16:19 2016/12/12
+         * @param pageNow 当前页数
+         * @param pageSize 每页显示个数
+         * @param returnedId 退货单号
+         * @Return: JSONObject
+         */
+        JSONObject goodsListByRid = returnedModelService.getGoodsListByRid(returnedId, pageNow, pageSize);
+        return  goodsListByRid;
+    }
+
+    @RequestMapping("/getReturnedBySelect")
+    @ResponseBody
+    public JSONObject getReturnedBySelect(int pageNow, int pageSize, String select ,String value)
+    {
+        /**
+         * @Author: 马潇霄
+         * @Description: 分页条件模糊查询
+         * @Date: 16:16 2016/12/12
+         * @param pageNow 当前页
+         * @param pageSize 每页条数
+         * @param select 条件类型1：returnedId,2:oId,3:returnedStatus,4.channelOid
+         * @param value 条件内容
+         * @Return: JSONObject
+         */
+        JSONObject getReturnedBySelect = returnedModelService.getReturnedListBySelect(select,value,pageNow,pageSize);
+        return  getReturnedBySelect;
+    }
 
 }

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.arvato.oms.dao.UserModelMapper" >
+  <resultMap id="BaseResultMap" type="com.arvato.oms.model.UsersModel" >
+    <id column="uId" property="uid" jdbcType="INTEGER" />
+    <result column="uName" property="uname" jdbcType="VARCHAR" />
+    <result column="uPassword" property="upassword" jdbcType="VARCHAR" />
+    <result column="uRole" property="urole" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="selectUserByNameAndPWD" resultMap="BaseResultMap">
+    SELECT * FROM user
+    WHERE uName = #{uName} AND uPassword = #{uPassword}
+  </select>
+
+  <insert id="insertUser">
+    insert into user (uName, uPassword,uRole)
+   VALUES (#{uName},#{uPassword},'2')
+  </insert>
+
+  <select id="selectUserByName" resultMap="BaseResultMap">
+    SELECT * FROM user
+    WHERE uName = #{uName}
+  </select>
+
+  <update id="updateUser">
+    update user
+    set uName = #{uName},
+    uPassword = #{uPassword}
+    where uId = #{uId}
+  </update>
+
+
+  <select id="selectUserByNameAndPage" resultMap="BaseResultMap">
+    SELECT * FROM user
+    WHERE uName LIKE '%${uName}%'
+     limit #{startPage},#{num}
+  </select>
+
+
+  <select id="selectAllUser" resultMap="BaseResultMap">
+    SELECT * FROM user
+    limit #{startPage},#{num}
+  </select>
+
+  <select id="countUser" resultType="int">
+    SELECT COUNT(*) FROM user
+  </select>
+
+  <delete id="deleteUserById">
+    delete from user where uId in
+    <foreach item="uIdItem" collection="uIds" open="(" separator="," close=")">
+      #{uIdItem}
+    </foreach>
+  </delete>
+</mapper>
