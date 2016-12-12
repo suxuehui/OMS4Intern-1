@@ -3,6 +3,9 @@ package com.arvato.oms.controller;
 import com.arvato.oms.model.goodsModel;
 import com.arvato.oms.model.inboundorderModel;
 import com.arvato.oms.model.relationogModel;
+import com.arvato.oms.model.GoodsModel ;
+import com.arvato.oms.model.InboundorderModel ;
+import com.arvato.oms.model.RelationogModel ;
 import com.arvato.oms.service.impl.GoodsServiceImpl;
 import com.arvato.oms.service.impl.InboundorderServiceImpl;
 import com.arvato.oms.service.impl.RelationOGServiceImpl;
@@ -40,10 +43,24 @@ public class InboundorderController {
     @RequestMapping(value="listseach")
     @ResponseBody
     public Model listseach(HttpServletRequest request , Model model)
+    public String listseach(HttpServletRequest request  )
             throws UnsupportedEncodingException {
         model = inboserciveimpl.searchAllByparam(request,model);
         return  model;
+        String str = inboserciveimpl.searchAllByparam(request );
+        return  str;
     }
+
+    //子页面显示
+    @RequestMapping(value="listinodson")
+    @ResponseBody
+    public String  listobolson(HttpServletRequest request )
+    {
+        String str=inboserciveimpl.listSonPage(request);
+        System.out.println("子页面----"+str);
+        return str;
+    }
+
 
     //详情页面展示
     @RequestMapping(value="details")
@@ -51,14 +68,17 @@ public class InboundorderController {
         String oid=request.getParameter("oid");
         //查询入库单列表
        List<inboundorderModel> obolist=inboserciveimpl.selectByOid(oid);
+        InboundorderModel  obolist=inboserciveimpl.selectByOid(oid);
         //获取商品编码  查询关系表
         List<relationogModel> roglist=rogserviceimpl.selectByOid(oid);
+        List<RelationogModel> roglist=rogserviceimpl.selectALLByOid(oid);
         //获取商品实体 查询商品表
         List<Object> godslist=new ArrayList<Object>();
          for(int i=0;i<roglist.size();i++){
             //获取商品编号
             String sno= roglist.get(i).getGoodsno();
             goodsModel gm=godserviceimpl.selectByGoodsNo(sno);
+            GoodsModel gm=godserviceimpl.selectByGoodsNo(sno);
             godslist.add(gm);
         }
         model.addAttribute("gods",godslist);

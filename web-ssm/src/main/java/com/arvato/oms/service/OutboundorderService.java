@@ -14,9 +14,13 @@ public interface OutboundorderService {
 
     //条件模糊查询
     Model searchAllByparam(HttpServletRequest request, Model model) throws UnsupportedEncodingException;
+   // Model searchAllByparam(HttpServletRequest request, Model model) throws UnsupportedEncodingException;
+    String searchAllByparam(HttpServletRequest request ) throws UnsupportedEncodingException;
 
     //精确获取信息by oid
     List<OutboundorderModel> selectByOid(String oid);
+  //  List<OutboundorderModel> selectByOid(String oid);
+     OutboundorderModel selectByOid(String oid);
 
 }
 

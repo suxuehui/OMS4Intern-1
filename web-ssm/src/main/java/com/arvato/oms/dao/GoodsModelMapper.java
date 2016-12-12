@@ -30,4 +30,19 @@ public interface GoodsModelMapper
     List<GoodsModel> selectGoodsByNosAndPage(@Param("goodsNos")List<String> goodsNos,@Param("startPage")int page,@Param("num") int num);
 
     int countGoods();
+
+
+    int deleteByPrimaryKey(String goodsno);
+
+    int insert(GoodsModel  record);
+
+    int insertSelective(GoodsModel record);
+
+    GoodsModel selectByGoodsNo(String goodsno);
+
+    int updateByPrimaryKeySelective(GoodsModel record);
+
+    int updateByPrimaryKey(GoodsModel record);
+
+
 }

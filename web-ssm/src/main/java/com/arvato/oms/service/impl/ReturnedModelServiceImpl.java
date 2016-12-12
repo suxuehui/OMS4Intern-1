@@ -3,6 +3,7 @@ package com.arvato.oms.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.arvato.oms.dao.GoodsModelMapper;
 import com.arvato.oms.dao.RelationrgModelMapper;
+import com.arvato.oms.dao.RelationRgModelMapper;
 import com.arvato.oms.dao.ReturnedModelMapper;
 import com.arvato.oms.model.GoodsModel;
 import com.arvato.oms.model.ReturnedModel;
@@ -29,6 +30,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
 
     @Resource
     RelationrgModelMapper relationrgModelMapper;
+    RelationRgModelMapper relationrgModelMapper;
 
     @Resource
     GoodsModelMapper goodsModelMapper;

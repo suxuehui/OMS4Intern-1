@@ -14,4 +14,6 @@ public interface ReturnedModelService
     public JSONObject getAllReturnedOrders(int pageNow, int num);
 
     public JSONObject getGoodsListByRid(String returnedId,int pageNow, int num);
+
+
 }

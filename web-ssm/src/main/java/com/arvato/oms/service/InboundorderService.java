@@ -13,6 +13,8 @@ import java.util.List;
 public interface InboundorderService {
 
     Model searchAllByparam(HttpServletRequest request, Model model) throws UnsupportedEncodingException;
+    String searchAllByparam(HttpServletRequest request) throws UnsupportedEncodingException;
 
     List<InboundorderModel> selectByOid(String oid);
+     InboundorderModel  selectByOid(String oid);
 }

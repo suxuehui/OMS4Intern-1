@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.arvato.oms.dao.OrderModelMapper;
 import com.arvato.oms.model.OrderModel;
 import com.arvato.oms.service.OrderService;
-import com.arvato.oms.utils.PageS;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -37,6 +36,9 @@ public class OrderServiceImpl implements OrderService
         OrderModel orderModel=orderModelMapper.selectByOid(oid);
         return orderModel;
     }
+
+
+
     //分条件查询，分页，模糊查询
     /*
     * 1：按订单号查询
@@ -50,6 +52,10 @@ public class OrderServiceImpl implements OrderService
     * 9：按收货人手机号查询
     */
     public JSONObject selects(int queryMode,int pageNo,int pageSize,String data)
+    public JSONObject selects(int queryMode, int pageNo, int pageSize, String oid) {
+        return null;
+    }
+  /*  public JSONObject selects(int queryMode,int pageNo,int pageSize,String data)
     {
         PageS page=new PageS(pageNo,pageSize);
         int count=page.getStartPos();
@@ -115,6 +121,7 @@ public class OrderServiceImpl implements OrderService
         jObj.put("orderModels",orderModels);
         return jObj;
     }
+    }*/
     public int updateByOidSelective(OrderModel record) {
         return orderModelMapper.updateByOidSelective(record);
     }

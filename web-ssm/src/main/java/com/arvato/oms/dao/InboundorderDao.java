@@ -28,6 +28,7 @@ public interface InboundorderDao {
 
     //精确匹配 通过oid选出所有信息
     List<InboundorderModel> selectByOid(String oid);
+    InboundorderModel  selectByOid(String oid);
 
 
 

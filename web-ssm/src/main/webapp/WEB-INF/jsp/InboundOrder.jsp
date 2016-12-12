@@ -26,6 +26,7 @@
 ${list}
 
 <h1>出库单页面显示</h1>
+<h1>入库单页面显示</h1>
 <div id="div"></div>
 
 <div>
@@ -63,7 +64,21 @@ ${list}
 <div id="divpage"></div>
 <%--显示加载的信息，该引用只能放在页面下面--%>
  <script src="${pageContext.request.contextPath}/js/inboundpagelist.js"></script>
+<script src="${pageContext.request.contextPath}/js/pagelistson.js"></script>
 
+<h1>商品页数据</h1>
+
+<div style=" overflow-y:auto; overflow-x:auto; width:1200px; height:400px;">
+    <table id="table2" >
+        <tr>
+            <td>商品编码    </td>
+            <td>商品名称    </td>
+            <td>商品数量    </td>
+            <td>出库数量    </td>
+        </tr>
+    </table>
+</div>
+<div id="sonpl"></div>
 </body>
 </html>
 

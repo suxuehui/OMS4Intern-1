@@ -68,7 +68,22 @@ ${list}
 <%--显示加载的信息，该引用只能放在页面下面--%>
 <script src="${pageContext.request.contextPath}/js/outboundpagelist.js"></script>
 <br><br>
+<script src="${pageContext.request.contextPath}/js/pagelistson.js"></script>
+
 <h1>商品页数据</h1>
 <div id="d"></div>
+<div style=" overflow-y:auto; overflow-x:auto; width:1200px; height:400px;">
+    <table id="table2" >
+        <tr>
+            <td>出库单号     </td>
+            <td>仓库出库单号 </td>
+            <td>商品编码    </td>
+            <td>商品名称    </td>
+            <td>商品数量    </td>
+            <td>出库数量    </td>
+        </tr>
+    </table>
+</div>
+<div id="sonpl"></div>
 </body>
 </html>
