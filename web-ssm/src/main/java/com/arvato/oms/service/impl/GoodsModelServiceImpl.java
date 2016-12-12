@@ -35,12 +35,12 @@ public class GoodsModelServiceImpl implements GoodsModelService
          * @Return: List<GoodsModel>
          */
         Integer countUser = goodsModelMapper.countGoods();
-        Page page = new Page (countUser, pageNow);
+        Page page = new Page(countUser, pageNow);
         List<GoodsModel> goodsModels = goodsModelMapper.selectAllGoodsByPage(page.getStartPos(), num);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("goodsModels", goodsModels);
         jsonObject.put("pageNow", pageNow);
-        jsonObject.put("pageTotal", page.getTotalPageCount());
+        jsonObject.put("pageTotal", page.getTotalPageCount(num));
         return jsonObject;
     }
 
@@ -117,7 +117,7 @@ public class GoodsModelServiceImpl implements GoodsModelService
          */
         int goodsCount = goodsModelMapper.countGoods();
 
-        Page  page = new Page (goodsCount,nowPage);
+        Page page = new Page(goodsCount,nowPage);
         int startPage = page.getStartPos();
         JSONObject json = new JSONObject();
         if (select.equals("name"))
@@ -131,7 +131,7 @@ public class GoodsModelServiceImpl implements GoodsModelService
             json.put("goodsModels",goodsModels);
             json.put("size",goodsModels.size());
         }
-        json.put("totalPage",page.getTotalPageCount());
+        json.put("totalPage",page.getTotalPageCount(pageSize));
 
         return json;
     }

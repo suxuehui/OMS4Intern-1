@@ -1,7 +1,5 @@
 package com.arvato.oms.model;
 
-import com.arvato.oms.utils.DatetoString;
-
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -21,13 +19,11 @@ public class ReturnedModel
 
     private BigDecimal returnedmoney;
 
-    private String createtime;
+    private Date createtime;
 
-    private String modifytime;
+    private Date modifytime;
 
     private String modifyman;
-    //日期格式转换
-    DatetoString dss=new DatetoString();
 
     public Integer getId() {
         return id;
@@ -85,20 +81,20 @@ public class ReturnedModel
         this.returnedmoney = returnedmoney;
     }
 
-    public String getCreatetime() {
+    public Date getCreatetime() {
         return createtime;
     }
 
     public void setCreatetime(Date createtime) {
-        this.createtime = dss.formmat(createtime);
+        this.createtime = createtime;
     }
 
-    public String getModifytime() {
+    public Date getModifytime() {
         return modifytime;
     }
 
     public void setModifytime(Date modifytime) {
-        this.modifytime = dss.formmat(modifytime);
+        this.modifytime = modifytime;
     }
 
     public String getModifyman() {

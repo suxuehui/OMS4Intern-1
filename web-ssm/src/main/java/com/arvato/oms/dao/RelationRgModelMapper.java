@@ -1,37 +1,19 @@
 package com.arvato.oms.dao;
 
-import com.arvato.oms.model.RelationRgModel;
-import com.arvato.oms.model.test.RelationrgModel;
+import com.arvato.oms.model.RelationrgModel;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface RelationRgModelMapper
+public interface RelationrgModelMapper
 {
+    List<RelationrgModel> selectGoodsByRid(@Param("returnedId") String returnedId, @Param("startPage")int page, @Param("num") int num);
+    //根据退货单编码，分页查询商品-退货单关系表信息
+
+    int countGoods(@Param("returnedId") String returnedId);
+    //查询商品总数
 
 
-    int insert(RelationrgModel record);
-
-    int insertSelective(RelationrgModel record);
-
-    int updateByPrimaryKeySelective(RelationrgModel record);
-
-    int updateByPrimaryKey(RelationrgModel record);
-    //
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(RelationRgModel record);
-
-    int insertSelective(RelationRgModel record);
-
-    RelationRgModel selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(RelationRgModel record);
-
-    int updateByPrimaryKey(RelationRgModel record);
-
-
-    List<RelationRgModel> selectGoodsByRid(@Param("returnedId") String returnedId);
 }
