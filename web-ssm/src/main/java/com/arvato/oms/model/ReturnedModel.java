@@ -1,10 +1,10 @@
 package com.arvato.oms.model;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ReturnedModel {
+public class ReturnedModel
+{
     private Integer id;
 
     private String returnedid;
@@ -19,9 +19,9 @@ public class ReturnedModel {
 
     private BigDecimal returnedmoney;
 
-    private String createtime;
+    private Date createtime;
 
-    private String modifytime;
+    private Date modifytime;
 
     private String modifyman;
 
@@ -81,20 +81,20 @@ public class ReturnedModel {
         this.returnedmoney = returnedmoney;
     }
 
-    public String getCreatetime() {
+    public Date getCreatetime() {
         return createtime;
     }
 
     public void setCreatetime(Date createtime) {
-        this.createtime = formmat(createtime);
+        this.createtime = createtime;
     }
 
-    public String getModifytime() {
+    public Date getModifytime() {
         return modifytime;
     }
 
     public void setModifytime(Date modifytime) {
-        this.modifytime = formmat(modifytime);
+        this.modifytime = modifytime;
     }
 
     public String getModifyman() {
@@ -103,12 +103,5 @@ public class ReturnedModel {
 
     public void setModifyman(String modifyman) {
         this.modifyman = modifyman == null ? null : modifyman.trim();
-    }
-
-    public String formmat(Date date)
-    {
-        SimpleDateFormat sim=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        String str=sim.format(date);
-        return str;
     }
 }

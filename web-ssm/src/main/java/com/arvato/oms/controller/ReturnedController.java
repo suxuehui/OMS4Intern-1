@@ -92,4 +92,14 @@ public class ReturnedController
         return  getReturnedBySelect;
     }
 
+    @RequestMapping("/createRefoundOrder")
+    @ResponseBody
+    public int createRefoundOrder()
+    {
+       List<String> list = new ArrayList<String>();
+        list.add("123");
+        list.add("221");
+       return returnedModelService.createRefoundOrders(list);
+    }
+
 }
