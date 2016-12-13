@@ -4,7 +4,6 @@
 //totalpages  总页数   currentPage  当前页数  divpage  div的id属性
 function  GetNavPage(totalpages,currentPage,divpage){
     var output = "<h1>第" + currentPage + "页 / 共" + totalpages + "页</h1>";
-    var output = "<h5>第" + currentPage + "页 / 共" + totalpages + "页</h5>";
     if (totalpages > 1) {
         if (currentPage != 1) {
             //处理首页连接
@@ -17,7 +16,6 @@ function  GetNavPage(totalpages,currentPage,divpage){
         }
         else {
         }
-
         output += " ";
         var currint = 5;
         var page = 1;

@@ -1,34 +1,28 @@
 package com.arvato.oms.service.impl;
 
-
-
-import com.arvato.oms.dao.ExceptionModelMapper;
-import com.arvato.oms.model.ExceptionModel;
-import com.arvato.oms.service.ExceptionService;
+import com.arvato.oms.dao.RefoundOrderModelMapper;
+import com.arvato.oms.model.RefoundOrderModel;
+import com.arvato.oms.service.RefoundOrderService;
 import com.arvato.oms.utils.Page;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
- * Created by ZHOU169 on 2016/12/11.
+ * Created by ZHOU169 on 2016/12/12.
  */
-
 @Service
-public class ExceptionServiceImpl implements ExceptionService {
+public class RefoundOrderServiceImpl implements RefoundOrderService{
 
     @Resource
-    private ExceptionModelMapper exceptionModelMapper;
+    private RefoundOrderModelMapper refoundOrderModelMapper;
 
     //分页查询
-    public String showExceptionOrder(HttpServletRequest request )
+    public String showRefoundOrderList(HttpServletRequest request)
     {
         //获取当前页数
         String pageNow = request.getParameter("currentpage");
@@ -39,23 +33,23 @@ public class ExceptionServiceImpl implements ExceptionService {
         System.out.println("selectValue："+selectValue);
         int pagesize=2;
         Page pagelist = null;
-        List<ExceptionModel> list;
+        List<RefoundOrderModel> list;
 //        Map<String,Object> map=new HashMap<String,Object>();
         //获取对象总数量
         int totalCount ;
         // 页面显示所有信息
         if(txtvalue==null||txtvalue.equals("")) {
             if (pageNow != null) {
-                totalCount= (int) exceptionModelMapper.Count();
+                totalCount= (int) refoundOrderModelMapper.Count();
                 //调用Page工具类传入参数
                 pagelist = new Page(totalCount, Integer.parseInt(pageNow), pagesize);
-                list  = this.exceptionModelMapper.selectAll(pagelist.getStartPos(), pagelist.getPageSize());
+                list  = this.refoundOrderModelMapper.selectAll(pagelist.getStartPos(), pagelist.getPageSize());
             }
             else
             {
-                totalCount= (int) exceptionModelMapper.Count();
+                totalCount= (int) refoundOrderModelMapper.Count();
                 pagelist= new Page(totalCount, 1,pagesize);
-                list = this.exceptionModelMapper.selectAll(pagelist.getStartPos(),pagelist.getPageSize());
+                list = this.refoundOrderModelMapper.selectAll(pagelist.getStartPos(),pagelist.getPageSize());
             }
         }
         else
@@ -64,47 +58,47 @@ public class ExceptionServiceImpl implements ExceptionService {
             if(selectValue==1)
             {
                 if (pageNow != null) {
-                    totalCount= (int) exceptionModelMapper.Countoid(txtvalue);
+                    totalCount= (int) refoundOrderModelMapper.CountDrawbackId(txtvalue);
                     //调用Page工具类传入参数
                     pagelist = new Page(totalCount, Integer.parseInt(pageNow), pagesize);
-                    list=this.exceptionModelMapper.selectAllByOid(txtvalue ,pagelist.getStartPos(),pagelist.getPageSize());
+                    list=this.refoundOrderModelMapper.selectAllByDrawbackId(txtvalue ,pagelist.getStartPos(),pagelist.getPageSize());
                 }
                 else
                 {
-                    totalCount= (int) exceptionModelMapper.Countoid(txtvalue);
+                    totalCount= (int) refoundOrderModelMapper.CountDrawbackId(txtvalue);
                     pagelist = new Page(totalCount, 1,pagesize);
-                    list=this.exceptionModelMapper.selectAllByOid( txtvalue , pagelist.getStartPos(),pagelist.getPageSize());
+                    list=this.refoundOrderModelMapper.selectAllByDrawbackId( txtvalue , pagelist.getStartPos(),pagelist.getPageSize());
                 }
             }
             else if(selectValue==2)
             {
                 if (pageNow != null) {
-                    totalCount= (int) exceptionModelMapper.Countchid( txtvalue);
+                    totalCount= (int) refoundOrderModelMapper.CountdDrawbackStatus( txtvalue);
                     pagelist =new Page(totalCount, Integer.parseInt(pageNow),pagesize);
-                    list=this.exceptionModelMapper.selectAllBychannelOid( txtvalue , pagelist.getStartPos(),pagelist.getPageSize());
+                    list=this.refoundOrderModelMapper.selectAllByDrawbackStatus( txtvalue , pagelist.getStartPos(),pagelist.getPageSize());
                 }
                 else
                 {
-                    totalCount= (int) exceptionModelMapper.Countchid( txtvalue);
+                    totalCount= (int) refoundOrderModelMapper.CountdDrawbackStatus( txtvalue);
                     pagelist = new Page(totalCount, 1,pagesize);
-                    list=this.exceptionModelMapper.selectAllBychannelOid(txtvalue , pagelist.getStartPos(),pagelist.getPageSize());
+                    list=this.refoundOrderModelMapper.selectAllByDrawbackStatus(txtvalue , pagelist.getStartPos(),pagelist.getPageSize());
                 }
             }
             else if(selectValue==3)
             {
                 if (pageNow != null) {
-                    totalCount= (int) exceptionModelMapper.Counttype(txtvalue);
+                    totalCount= (int) refoundOrderModelMapper.CountReturnedId(txtvalue);
                     pagelist =new Page(totalCount, Integer.parseInt(pageNow),pagesize);
-                    list=this.exceptionModelMapper.selectAllByexceptionType(txtvalue , pagelist.getStartPos(),pagelist.getPageSize());
+                    list=this.refoundOrderModelMapper.selectAllByReturnedId(txtvalue , pagelist.getStartPos(),pagelist.getPageSize());
                 }
                 else
                 {
-                    totalCount= (int) exceptionModelMapper.Counttype(txtvalue);
+                    totalCount= (int) refoundOrderModelMapper.CountReturnedId(txtvalue);
                     pagelist = new Page(totalCount, 1,pagesize);
-                    list=this.exceptionModelMapper.selectAllByexceptionType(txtvalue , pagelist.getStartPos(),pagelist.getPageSize());
+                    list=this.refoundOrderModelMapper.selectAllByReturnedId(txtvalue , pagelist.getStartPos(),pagelist.getPageSize());
                 }
             }
-             else
+            else
             {
                 pagelist=null;
                 list=null;
@@ -114,13 +108,7 @@ public class ExceptionServiceImpl implements ExceptionService {
         String jsonstr = "{\"pagelist\":"+json1.toString();//将json对象转换为字符串
         JSONArray array = JSONArray.fromObject(list);
         jsonstr +=",\"list\":"+array.toString()+"}";
-         System.out.print("jsonstr: "+jsonstr);
+        System.out.print("jsonstr: "+jsonstr);
         return jsonstr ;
     }
-
-    //根据订单号删除所选异常订单
-    public List<ExceptionModel> deleteByOid(String oId) {
-        return exceptionModelMapper.deleteByOid(oId);
-    }
-
 }

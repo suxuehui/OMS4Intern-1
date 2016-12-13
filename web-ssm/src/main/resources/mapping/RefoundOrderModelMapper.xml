@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.arvato.oms.dao.RefoundOrderModelMapper" >
+  <resultMap id="BaseResultMap" type="com.arvato.oms.model.RefoundOrderModel" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="drawbackId" property="drawbackid" jdbcType="VARCHAR" />
+    <result column="drawbackMoney" property="drawbackmoney" jdbcType="DECIMAL" />
+    <result column="drawbackStatus" property="drawbackstatus" jdbcType="VARCHAR" />
+    <result column="returnedId" property="returnedid" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="modifyTime" property="modifytime" jdbcType="TIMESTAMP" />
+    <result column="modifyMan" property="modifyman" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, drawbackId, drawbackMoney, drawbackStatus, returnedId, createTime, modifyTime, 
+    modifyMan
+  </sql>
+
+  <!--获取总数-->
+  <select id="Count"  resultType="java.lang.Long" >
+    select  count(1) from refoundorder
+  </select>
+
+  <!--列出所有的信息-->
+  <select id="selectAll" resultMap="BaseResultMap"   >
+    select
+    <include refid="Base_Column_List" />
+    from refoundorder
+    limit #{startPos},#{pageSize}
+  </select>
+
+  <!--获取所查询drawbackId总数-->
+  <select id="CountDrawbackId" resultType="java.lang.Long">
+    select  count(1) from refoundorder where drawbackId like '%${drawbackId}%'
+  </select>
+
+  <!--通过drawbackId选出所有信息分页-->
+  <select id="selectAllByDrawbackId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from refoundorder
+    where
+    drawbackId like '%${drawbackId}%'
+    limit #{startPos},#{pageSize}
+  </select>
+
+  <!--获取所查询drawbackStatus总数-->
+  <select id="CountdDrawbackStatus" resultType="java.lang.Long">
+    select  count(1) from refoundorder where drawbackStatus like '%${drawbackStatus}%'
+  </select>
+
+  <!--通过drawbackStatus选出所有信息分页-->
+  <select id="selectAllByDrawbackStatus" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from refoundorder
+    where drawbackStatus like '%${drawbackStatus}%'
+    limit #{startPos},#{pageSize}
+  </select>
+
+  <!--获取所查询returnedId总数-->
+  <select id="CountReturnedId" resultType="java.lang.Long">
+    select  count(1) from refoundorder where returnedId like '%${returnedId}%'
+  </select>
+
+  <!--通过 returnedId选出所有信息分页-->
+  <select id="selectAllByReturnedId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from refoundorder
+    where returnedId like '%${returnedId}%'
+    limit #{startPos},#{pageSize}
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from refoundorder
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from refoundorder
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.arvato.oms.model.RefoundOrderModel" >
+    insert into refoundorder (id, drawbackId, drawbackMoney, 
+      drawbackStatus, returnedId, createTime, 
+      modifyTime, modifyMan)
+    values (#{id,jdbcType=INTEGER}, #{drawbackid,jdbcType=VARCHAR}, #{drawbackmoney,jdbcType=DECIMAL}, 
+      #{drawbackstatus,jdbcType=VARCHAR}, #{returnedid,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{modifytime,jdbcType=TIMESTAMP}, #{modifyman,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.arvato.oms.model.RefoundOrderModel" >
+    insert into refoundorder
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="drawbackid != null" >
+        drawbackId,
+      </if>
+      <if test="drawbackmoney != null" >
+        drawbackMoney,
+      </if>
+      <if test="drawbackstatus != null" >
+        drawbackStatus,
+      </if>
+      <if test="returnedid != null" >
+        returnedId,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="modifytime != null" >
+        modifyTime,
+      </if>
+      <if test="modifyman != null" >
+        modifyMan,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="drawbackid != null" >
+        #{drawbackid,jdbcType=VARCHAR},
+      </if>
+      <if test="drawbackmoney != null" >
+        #{drawbackmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="drawbackstatus != null" >
+        #{drawbackstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="returnedid != null" >
+        #{returnedid,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifytime != null" >
+        #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyman != null" >
+        #{modifyman,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.arvato.oms.model.RefoundOrderModel" >
+    update refoundorder
+    <set >
+      <if test="drawbackid != null" >
+        drawbackId = #{drawbackid,jdbcType=VARCHAR},
+      </if>
+      <if test="drawbackmoney != null" >
+        drawbackMoney = #{drawbackmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="drawbackstatus != null" >
+        drawbackStatus = #{drawbackstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="returnedid != null" >
+        returnedId = #{returnedid,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifytime != null" >
+        modifyTime = #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyman != null" >
+        modifyMan = #{modifyman,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.arvato.oms.model.RefoundOrderModel" >
+    update refoundorder
+    set drawbackId = #{drawbackid,jdbcType=VARCHAR},
+      drawbackMoney = #{drawbackmoney,jdbcType=DECIMAL},
+      drawbackStatus = #{drawbackstatus,jdbcType=VARCHAR},
+      returnedId = #{returnedid,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      modifyTime = #{modifytime,jdbcType=TIMESTAMP},
+      modifyMan = #{modifyman,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -18,12 +18,76 @@
     id, oId, channelOid, orderStatus, orderFrom, exceptionType, expceptionCause, exceptionStatus, 
     createTime, modifyTime, modifyMan
   </sql>
-  <select id="selectByOid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+
+  <!--获取总数-->
+  <select id="Count"  resultType="java.lang.Long" >
+    select  count(1) from exception
+  </select>
+
+  <!--列出所有的信息-->
+  <select id="selectAll" resultMap="BaseResultMap"   >
+    select
+    <include refid="Base_Column_List" />
+    from exception
+    limit #{startPos},#{pageSize}
+  </select>
+
+  <!--获取所查询oid总数-->
+  <select id="Countoid" resultType="java.lang.Long">
+    select  count(1) from exception where oId like '%${oid}%'
+  </select>
+
+  <!--通过oid选出所有信息分页-->
+  <select id="selectAllByOid" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from exception
+    where
+    oId like '%${oid}%'
+    limit #{startPos},#{pageSize}
+  </select>
+
+  <!--获取所查询channelOid总数-->
+  <select id="Countchid" resultType="java.lang.Long">
+    select  count(1) from exception where channelOid like '%${channeloid}%'
+  </select>
+
+  <!--通过channeloid选出所有信息分页-->
+  <select id="selectAllBychannelOid" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from exception
+    where channelOid like '%${channeloid}%'
+    limit #{startPos},#{pageSize}
+  </select>
+
+  <!--获取所查询exceptionType总数-->
+  <select id="Counttype" resultType="java.lang.Long">
+    select  count(1) from exception where exceptionType like '%${exceptionType}%'
+  </select>
+
+  <!--通过 exceptionType选出所有信息分页-->
+  <select id="selectAllByexceptionType" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from exception
+    where exceptionType like '%${exceptionType}%'
+    limit #{startPos},#{pageSize}
+  </select>
+
+  <!--根据订单号删除所选异常订单-->
+  <select id="deleteByOid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    delete from exception
+    where oid = #{oid,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from exception
-    where oId = #{oId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from exception
     where id = #{id,jdbcType=INTEGER}
@@ -111,7 +175,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByOidSelective" parameterType="com.arvato.oms.model.ExceptionModel" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.arvato.oms.model.ExceptionModel" >
     update exception
     <set >
       <if test="oid != null" >
@@ -145,7 +209,7 @@
         modifyMan = #{modifyman,jdbcType=VARCHAR},
       </if>
     </set>
-    where oId = #{oId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.arvato.oms.model.ExceptionModel" >
     update exception

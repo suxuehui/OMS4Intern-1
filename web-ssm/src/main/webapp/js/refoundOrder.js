@@ -11,7 +11,7 @@ function GetnowPage(pagenow){
     //ajax调用后台方法获取数据并展示
     $.ajax({
         type : 'get',
-        url :'showExceptionList',
+        url :'showRefoundOrderList',
         data : {
             currentpage: s1,
             toseachid: optxt,
@@ -28,14 +28,12 @@ function GetnowPage(pagenow){
             $("table tbody tr").eq(0).nextAll().remove();
             for(var obj in dataList){
                 var  list=dataList[obj];
-                var html='<tr><td><input type="checkbox" value="'+list.oid+'" name="ck" onclick="getOid()" ></td><td>';
+                var html='<tr><td><input type="checkbox" value="'+list.oid+'" name="ck" onclick="check()" ></td><td>';
                 html+= '<button id="'+list.channeloid+'" style="border-style:none;outline:none;" ' +
-                    'ondblclick="dblclick(this.id)" onclick="sgclick(this.id)">'+list.oid+'</button>'+
+                    'ondblclick="dblclick(this.id)" onclick="sgclick(this.id)">'+list.drawbackId+'</button>'+
                     '</td><td>';
-                html+='</td><td>'+list.channeloid+'</td><td>'
-                    +list.orderstatus+'</td><td>'+list.orderfrom+'</td><td>'
-                    +list.exceptiontype+'</td><td>'+list.expceptioncause+'</td><td>'
-                    +list.exceptionstatus+'</td><td>' +list.createtime+'</td><td>'
+                html+='</td><td>'+list.drawbackmoney+'</td><td>'
+                    +list.drawbackstatus+'</td><td>'+list.returnedid+'</td><td>' +list.createtime+'</td><td>'
                     +list.modifytime+'</td><td>' +list.modifyman+'</td></tr>'
                 $("#table1 tbody ").append(html);
             }
@@ -48,7 +46,3 @@ function GetnowPage(pagenow){
 
 
 }
-
-
-
-
