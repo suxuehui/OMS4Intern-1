@@ -162,7 +162,7 @@ public class InboundorderServiceImpl implements InboundorderService {
         //查询出库单列表
         InboundorderModel iodlist=ibodao.selectByOid(oid);
         //获取商品编码  查询关系表
-        List<RelationogModel> roglist=rogdao.selectALLByOid(oid);
+        List<RelationogModel> roglist=rogdao.selectAllByOid(oid);
         //获取商品实体 查询商品表
         List<Object> godslist=new ArrayList<Object>();
 

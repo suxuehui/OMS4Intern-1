@@ -18,7 +18,7 @@ public class RelationOGServiceImpl implements RelationOGService {
 
     //通过oid选出商品与订单关系表的数据
     public List<RelationogModel> selectALLByOid(String oid) {
-        List<RelationogModel> list=rogdao.selectALLByOid(oid);
+        List<RelationogModel> list=rogdao.selectAllByOid(oid);
         return list;
     }
 

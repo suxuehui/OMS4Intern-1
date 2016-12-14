@@ -1,6 +1,7 @@
 package com.arvato.oms.dao;
 
 import com.arvato.oms.model.GoodsModel;
+import com.arvato.oms.model.GoodsPojo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -39,4 +40,26 @@ public interface GoodsModelMapper
 
     int countGoods();
     //统计商品个数
+    List<GoodsPojo> selectByOid(@Param("count")int count,@Param("pagesize") int pageSize, String oId);
+    /**
+     * Created by Gong on 2016/12/7.
+     * 通过商品编码查询 信息
+     */
+    GoodsModel selectByGoodsNo(String goodsno);
+
+    GoodsModel selectByPrimaryKey(String goodsno);
+
+    int deleteByPrimaryKey(String goodsno);
+
+    int insert(GoodsModel record);
+
+    int insertSelective(GoodsModel record);
+
+    int updateByPrimaryKeySelective(GoodsModel record);
+
+    int updateByPrimaryKey(GoodsModel record);
+
+
+
+
 }

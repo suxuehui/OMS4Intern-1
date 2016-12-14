@@ -1,6 +1,7 @@
 package com.arvato.oms.controller;
 
 import com.arvato.oms.model.GoodsModel;
+import com.arvato.oms.model.GoodsPojo;
 import com.arvato.oms.model.InboundorderModel;
 import com.arvato.oms.model.RelationogModel;
 import com.arvato.oms.service.impl.GoodsServiceImpl;
@@ -55,32 +56,34 @@ public class InboundorderController {
         System.out.println("子页面----"+str);
         return str;
     }
-
-     //入库单详情页面展示
+    //详情页面展示
     @RequestMapping(value="details")
     public String  details(HttpServletRequest request,Model model){
         String oid=request.getParameter("oid");
         //查询入库单列表
-        InboundorderModel  obolist=inboserciveimpl.selectByOid(oid);
+        InboundorderModel  iodlist=inboserciveimpl.selectByOid(oid);
         //获取商品编码  查询关系表
-         List<RelationogModel> roglist=rogserviceimpl.selectALLByOid(oid);
+        List<RelationogModel> roglist=rogserviceimpl.selectALLByOid(oid);
         //获取商品实体 查询商品表
         List<Object> godslist=new ArrayList<Object>();
-         for(int i=0;i<roglist.size();i++){
+        for(int i=0;i<roglist.size();i++){
+            GoodsPojo gp=new GoodsPojo();
             //获取商品编号
             String sno= roglist.get(i).getGoodsno();
+            //获取商品数量  xiugai---->---------->
+            int snum= roglist.get(i).getGoodnum() ;
             GoodsModel gm=godserviceimpl.selectByGoodsNo(sno);
-            godslist.add(gm);
+            gp.setGoodNum(snum);
+            gp.setGoodsname(gm.getGoodsname());
+            gp.setGoodsno(gm.getGoodsno());
+            gp.setGoodsprice(gm.getGoodsprice());
+            godslist.add(gp);
         }
         model.addAttribute("gods",godslist);
-        model.addAttribute("obol",obolist);
-        model.addAttribute("rog",roglist);
-        model.addAttribute("oid",oid);
+        model.addAttribute("obol",iodlist);
 
         return "InbounderDetail";
     }
-
-
 
 }
 

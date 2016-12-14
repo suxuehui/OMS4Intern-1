@@ -23,4 +23,10 @@ public interface ReturnedModelService
 
     public int createRefoundOrders(List<String> returnedIds);
     //批量生成退款单
+
+
+
+
+
+
 }

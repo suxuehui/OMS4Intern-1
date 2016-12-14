@@ -1,12 +1,10 @@
 package com.arvato.oms.service.impl;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.arvato.oms.dao.GoodsModelMapper;
 import com.arvato.oms.dao.RelationogModelMapper;
 import com.arvato.oms.model.GoodsModel;
 import com.arvato.oms.model.GoodsPojo;
-import com.arvato.oms.model.RelationogModel;
 import com.arvato.oms.service.GoodsService;
 import org.springframework.stereotype.Service;
 
@@ -34,5 +32,15 @@ public class GoodsServiceImpl implements GoodsService
         jObj.put("goodsPojos",goodsPojos);
         jObj.put("pageNo",pageNo);
         return jObj;
+    }
+
+    /**
+     * Created by Gong on 2016/12/14.
+     */
+    //通过goodsno获取一件商品的全部信息
+    public GoodsModel selectByGoodsNo(String goodsno) {
+        GoodsModel  gm=goodsModelMapper.selectByGoodsNo(goodsno);
+        return gm;
+
     }
 }

@@ -3,11 +3,11 @@ package com.arvato.oms.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.arvato.oms.dao.GoodsModelMapper;
 import com.arvato.oms.dao.RefoundOrderModelMapper;
-import com.arvato.oms.dao.RelationrgModelMapper;
+import com.arvato.oms.dao.RelationRgModelMapper;
 import com.arvato.oms.dao.ReturnedModelMapper;
 import com.arvato.oms.model.GoodsModel;
 import com.arvato.oms.model.RefoundOrderModel;
-import com.arvato.oms.model.RelationrgModel;
+import com.arvato.oms.model.RelationRgModel;
 import com.arvato.oms.model.ReturnedModel;
 import com.arvato.oms.model.son.ReturnedSon;
 import com.arvato.oms.service.ReturnedModelService;
@@ -33,7 +33,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
     ReturnedModelMapper returnedModelMapper;
 
     @Resource
-    RelationrgModelMapper relationrgModelMapper;
+    RelationRgModelMapper relationrgModelMapper;
 
     @Resource
     GoodsModelMapper goodsModelMapper;
@@ -86,13 +86,13 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
          * @Return: JSONObject：returnedSonList，pageSize
          */
         Page page = new Page(pageNow, num);
-        List<RelationrgModel> relationrgModels = relationrgModelMapper.selectGoodsByRid(returnedId, page.getStartPos(), num);
+        List<RelationRgModel> relationrgModels = relationrgModelMapper.selectGoodsByRid(returnedId, page.getStartPos(), num);
         System.out.print(relationrgModels.size());
         List<ReturnedSon> returnedSonList = new ArrayList<ReturnedSon>();
         for (int i = 0; i < relationrgModels.size(); i++)
         {
             ReturnedSon returnedSon = new ReturnedSon();
-            RelationrgModel relationrgModel = relationrgModels.get(i);
+            RelationRgModel relationrgModel = relationrgModels.get(i);
             returnedSon.setGoodnum(relationrgModel.getGoodnum());
             returnedSon.setGoodsno(relationrgModel.getGoodsno());
             GoodsModel goodsModel = goodsModelMapper.selectOneGoodsByNo(returnedSon.getGoodsno());

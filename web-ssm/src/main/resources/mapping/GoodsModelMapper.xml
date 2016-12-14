@@ -25,18 +25,30 @@
   <sql id="GoodsPojo_Column_List" >
     goods.goodsNo, goodsName, goodsVnum, goodsPrice, goodsRnum, goodsTolnum, goodNum
   </sql>
+
+
+  <select id="selectByGoodsNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from goods
+    where goodsNo = #{goodsno,jdbcType=VARCHAR}
+  </select>
+
+
   <select id="selectByOid" resultMap="GoodsPojo"  >
     select
     <include refid="GoodsPojo_Column_List" />
     from goods,relationog
     where oId = #{2,jdbcType=VARCHAR} AND goods.goodsNo = relationog.goodsNo limit #{0},#{1}
   </select>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from goods
     where goodsNo = #{goodsno,jdbcType=VARCHAR}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from goods
     where goodsNo = #{goodsno,jdbcType=VARCHAR}

@@ -23,4 +23,6 @@ public interface RelationogModelMapper {
     int updateByPrimaryKeySelective(RelationogModel record);
 
     int updateByPrimaryKey(RelationogModel record);
+
+
 }

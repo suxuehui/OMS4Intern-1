@@ -10,12 +10,14 @@
   <sql id="Base_Column_List" >
     id, oId, goodsNo, goodNum
   </sql>
+
   <select id="selectAllByOid" resultMap="BaseResultMap"  >
     select
     <include refid="Base_Column_List" />
     from relationog
     where oId = #{oId,jdbcType=VARCHAR}
   </select>
+
   <select id="selectByOid" resultMap="BaseResultMap"  >
     select
     <include refid="Base_Column_List" />
