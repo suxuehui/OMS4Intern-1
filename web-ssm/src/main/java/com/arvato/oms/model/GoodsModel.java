@@ -12,6 +12,15 @@ public class GoodsModel {
     private BigDecimal goodsprice;
 
     private Integer goodstolnum;
+    private Integer goodsrnum;
+
+    public Integer getGoodsrnum() {
+        return goodsrnum;
+    }
+
+    public void setGoodsrnum(Integer goodsrnum) {
+        this.goodsrnum = goodsrnum;
+    }
 
     public String getGoodsno() {
         return goodsno;

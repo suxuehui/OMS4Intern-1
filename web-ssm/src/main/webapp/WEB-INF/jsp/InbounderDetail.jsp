@@ -90,11 +90,11 @@
                                         </tr>
                                         <tr>
                                             <td>商品数量:</td>
-                                            <td>&nbsp;${gd.goodsnum}</td>
+                                            <td>&nbsp;${gd.goodNum}</td>
                                         </tr>
                                         <tr>
                                             <td>出库数量:</td>
-                                            <td>&nbsp;${gd.goodsnum}</td>
+                                            <td>&nbsp;${gd.goodNum}</td>
                                         </tr>
                                     </table>
                                     </td>
