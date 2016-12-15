@@ -1,23 +1,18 @@
 package com.arvato.oms.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
-import com.arvato.oms.model.*;
+import com.arvato.oms.model.OrderModel;
 import com.arvato.oms.service.GoodsService;
 import com.arvato.oms.service.OrderService;
 import com.arvato.oms.service.ReturnedModelService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -96,14 +91,14 @@ public class OrderController
         return orderModelList;
     }
     //退换货
-    @RequestMapping("returnGoods")
+  /*  @RequestMapping("returnGoods")
     public @ResponseBody int returnGoods(String jsonStr)
     {
         System.out.println(jsonStr);
         JSONObject jsonObject=JSON.parseObject(jsonStr);
         ArrayList<GoodsPojo> goodsList=JSON.parseObject(jsonObject.getString("goods"),new TypeReference<ArrayList<GoodsPojo>>(){});
         ReturnedModel returnedModel=new ReturnedModel();
-        RelationrgModel[] relationRgModel=new RelationrgModel[goodsList.size()];
+        RelationRgModel[] relationRgModel=new RelationRgModel[goodsList.size()];
         returnedModel.setOid(jsonObject.getString("oid"));
         OrderModel orderModel=orderService.selectByOid(jsonObject.getString("oid"));
         if(!orderModel.getOrderstatus().equals("已完成"))
@@ -117,8 +112,8 @@ public class OrderController
         for(int i=0;i<goodsList.size();i++)
         {
             returnedMoney+=goodsList.get(i).getGoodNum()*(goodsList.get(i).getGoodsprice()).doubleValue();
-            relationRgModel[i]=new RelationrgModel();
-            relationRgModel[i].setReturnedid("RT"+jsonObject.getString("oid"));
+            relationRgModel[i]=new RelationRgModel();
+             relationRgModel[i].setReturnedid("RT"+jsonObject.getString("oid"));
             relationRgModel[i].setGoodsno(goodsList.get(i).getGoodsno());
             relationRgModel[i].setGoodnum(goodsList.get(i).getGoodNum());
         }
@@ -131,7 +126,7 @@ public class OrderController
         {
             return 0;
         }
-        for(RelationrgModel re:relationRgModel)
+        for(RelationRgModel re:relationRgModel)
         {
             int j=returnedModelService.insertSelective(re);
             if(j==0)
@@ -141,7 +136,7 @@ public class OrderController
         }
         return 1;
     }
-
+*/
     //路由
     @RequestMapping("routeOrder")
     public @ResponseBody int routeOrder(String[] oIds)
