@@ -3,15 +3,15 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
     <classPathEntry
-            location="F:\ideaWorkspace\web-ssm\target\web-ssm\WEB-INF\lib\mysql-connector-java-5.1.29.jar" />
+            location="E:\IDEA workspace\web-ssm\target\web-ssm\WEB-INF\lib\mysql-connector-java-5.1.29.jar" />
     <context id="MysqlTables" targetRuntime="MyBatis3">
         <commentGenerator>
             <property name="suppressAllComments" value="true" />
         </commentGenerator>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/oms_schema?characterEncoding=utf8"
-                        userId="root" password="123">
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/oms_schema?characterEncoding=utf8"
+                        userId="root" password="zhang">
         </jdbcConnection>
 
         <javaTypeResolver>
@@ -34,17 +34,10 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 
-       <!-- <table tableName="user" domainObjectName="UsersModel"
+        <table tableName="outboundorder" domainObjectName="OutboundorderModel"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
-        <table tableName="exception" domainObjectName="ExceptionModel"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>-->
-        <table tableName="refoundorder" domainObjectName="RefoundOrderModel"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"></table>
+               selectByExampleQueryId="false" ></table>
+
     </context>
 </generatorConfiguration>

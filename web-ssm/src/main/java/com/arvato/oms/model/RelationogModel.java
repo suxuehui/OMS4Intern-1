@@ -9,6 +9,16 @@ public class RelationogModel {
 
     private Integer goodnum;
 
+    private byte status;
+
+    public byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(byte status) {
+        this.status = status;
+    }
+
     public Integer getId() {
         return id;
     }

@@ -207,6 +207,7 @@ public class OrderModel {
         this.sendtime = formmat(sendtime);
     }
 
+
     public String getRemark() {
         return remark;
     }
@@ -297,6 +298,10 @@ public class OrderModel {
 
     public String formmat(Date date)
     {
+        if(date==null)
+        {
+            return null;
+        }
         SimpleDateFormat sim=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String str=sim.format(date);
         return str;

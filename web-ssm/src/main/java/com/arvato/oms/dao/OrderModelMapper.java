@@ -54,6 +54,9 @@ public interface OrderModelMapper {
 
         List<OrderModel> selectByReceiverMobels(Integer pageNo,Integer pageSize,String receiverMobel);
 
+        //根据渠道订单号查询订单是否已存在
+        OrderModel selectByChannelOid(String channelOid);
+
         List<OrderModel> selectAll(Integer pageNo,Integer pageSize);
 
         int updateByOidSelective(OrderModel record);

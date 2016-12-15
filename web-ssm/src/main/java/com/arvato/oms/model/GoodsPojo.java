@@ -14,8 +14,6 @@ public class GoodsPojo {
 
     private BigDecimal goodsprice;
 
-    private Integer goodsrnum;
-
     private Integer goodstolnum;
 
     private int goodNum;
@@ -23,12 +21,11 @@ public class GoodsPojo {
     public GoodsPojo() {
     }
 
-    public GoodsPojo(String goodsno, String goodsname, Integer goodsvnum, BigDecimal goodsprice, Integer goodsrnum, Integer goodstolnum, Integer goodNum) {
+    public GoodsPojo(String goodsno, String goodsname, Integer goodsvnum, BigDecimal goodsprice, Integer goodstolnum, Integer goodNum) {
         this.goodsno = goodsno;
         this.goodsname = goodsname;
         this.goodsvnum = goodsvnum;
         this.goodsprice = goodsprice;
-        this.goodsrnum = goodsrnum;
         this.goodstolnum = goodstolnum;
         this.goodNum = goodNum;
     }
@@ -65,14 +62,6 @@ public class GoodsPojo {
         this.goodsprice = goodsprice;
     }
 
-    public Integer getGoodsrnum() {
-        return goodsrnum;
-    }
-
-    public void setGoodsrnum(Integer goodsrnum) {
-        this.goodsrnum = goodsrnum;
-    }
-
     public Integer getGoodstolnum() {
         return goodstolnum;
     }
@@ -96,7 +85,6 @@ public class GoodsPojo {
                 ", goodsname='" + goodsname + '\'' +
                 ", goodsvnum=" + goodsvnum +
                 ", goodsprice=" + goodsprice +
-                ", goodsrnum=" + goodsrnum +
                 ", goodstolnum=" + goodstolnum +
                 ", goodNum=" + goodNum +
                 '}';

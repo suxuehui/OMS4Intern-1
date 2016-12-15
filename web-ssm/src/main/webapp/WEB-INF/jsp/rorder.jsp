@@ -24,13 +24,12 @@
         $(function () {
             $("#preview").click(function () {
                 alert("cc");
-                alert(JSON.stringify(orderArray));
                 $.ajax({
                     url:"previewOrder",
                     type:"post",
                     //data:{jsonStr:JSON.stringify(data)},
-                    data:{oIds:oIds},
-                    traditional: true,
+                    //data:{oIds:oIds},
+                    //traditional: true,
                     success:function(data){
                         alert(data);
                     }

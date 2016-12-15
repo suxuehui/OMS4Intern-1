@@ -11,6 +11,8 @@ public class GoodsModel {
 
     private BigDecimal goodsprice;
 
+    private Integer goodsrnum;
+
     private Integer goodstolnum;
 
     public String getGoodsno() {
@@ -45,11 +47,31 @@ public class GoodsModel {
         this.goodsprice = goodsprice;
     }
 
+    public Integer getGoodsrnum() {
+        return goodsrnum;
+    }
+
+    public void setGoodsrnum(Integer goodsrnum) {
+        this.goodsrnum = goodsrnum;
+    }
+
     public Integer getGoodstolnum() {
         return goodstolnum;
     }
 
     public void setGoodstolnum(Integer goodstolnum) {
         this.goodstolnum = goodstolnum;
+    }
+
+    @Override
+    public String toString() {
+        return "GoodsModel{" +
+                "goodsno='" + goodsno + '\'' +
+                ", goodsname='" + goodsname + '\'' +
+                ", goodsvnum=" + goodsvnum +
+                ", goodsprice=" + goodsprice +
+                ", goodsrnum=" + goodsrnum +
+                ", goodstolnum=" + goodstolnum +
+                '}';
     }
 }

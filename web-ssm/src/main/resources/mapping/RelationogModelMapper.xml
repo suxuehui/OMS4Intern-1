@@ -6,18 +6,24 @@
     <result column="oId" property="oid" jdbcType="VARCHAR" />
     <result column="goodsNo" property="goodsno" jdbcType="VARCHAR" />
     <result column="goodNum" property="goodnum" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, oId, goodsNo, goodNum
   </sql>
-
+  <!--计算锁定库存-->
+  <select id="selectGoodsRnum" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select
+    sum(goodNum)
+    from relationog
+    where goodsNo=#{goodsNo,jdbcType=VARCHAR} AND status=1
+  </select>
   <select id="selectAllByOid" resultMap="BaseResultMap"  >
     select
     <include refid="Base_Column_List" />
     from relationog
     where oId = #{oId,jdbcType=VARCHAR}
   </select>
-
   <select id="selectByOid" resultMap="BaseResultMap"  >
     select
     <include refid="Base_Column_List" />
@@ -25,7 +31,7 @@
     where oId = #{2,jdbcType=VARCHAR} limit #{0},#{1}
   </select>
   <select id="selectCount" resultType="java.lang.Integer"  >
-    select count(*)
+    select count(1)
     from relationog
     where oId = #{2,jdbcType=VARCHAR}
   </select>
@@ -60,6 +66,9 @@
       <if test="goodnum != null" >
         goodNum,
       </if>
+      <if test="status != null" >
+        status,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -74,8 +83,12 @@
       <if test="goodnum != null" >
         #{goodnum,jdbcType=INTEGER},
       </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.arvato.oms.model.RelationogModel" >
     update relationog
     <set >
@@ -88,14 +101,16 @@
       <if test="goodnum != null" >
         goodNum = #{goodnum,jdbcType=INTEGER},
       </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.arvato.oms.model.RelationogModel" >
+  <!--更新锁定库存-->
+  <update id="updateGoodsRnum" parameterType="com.arvato.oms.model.RelationogModel" >
     update relationog
-    set oId = #{oid,jdbcType=VARCHAR},
-      goodsNo = #{goodsno,jdbcType=VARCHAR},
-      goodNum = #{goodnum,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
+    set status = # {1,jdbcType=TINYINT}
+    where id = #{0,jdbcType=INTEGER}
   </update>
 </mapper>

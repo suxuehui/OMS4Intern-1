@@ -14,6 +14,8 @@ public interface RelationogModelMapper {
 
     int insertSelective(RelationogModel record);
 
+    int selectGoodsRnum(String oId);
+
     List<RelationogModel> selectAllByOid(String oId);
 
     RelationogModel selectByPrimaryKey(Integer id);
@@ -22,7 +24,5 @@ public interface RelationogModelMapper {
 
     int updateByPrimaryKeySelective(RelationogModel record);
 
-    int updateByPrimaryKey(RelationogModel record);
-
-
+    int updateGoodsRnum(int id,int status);
 }

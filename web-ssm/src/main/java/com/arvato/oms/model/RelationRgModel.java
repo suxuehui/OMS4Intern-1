@@ -1,15 +1,13 @@
 package com.arvato.oms.model;
 
-public class RelationRgModel {
+public class RelationrgModel {
     private Integer id;
 
-    private String oid;
+    private String returnedid;
 
     private String goodsno;
 
     private Integer goodnum;
-
-    private Byte status;
 
     public Integer getId() {
         return id;
@@ -19,12 +17,12 @@ public class RelationRgModel {
         this.id = id;
     }
 
-    public String getOid() {
-        return oid;
+    public String getReturnedid() {
+        return returnedid;
     }
 
-    public void setOid(String oid) {
-        this.oid = oid == null ? null : oid.trim();
+    public void setReturnedid(String returnedid) {
+        this.returnedid = returnedid == null ? null : returnedid.trim();
     }
 
     public String getGoodsno() {
@@ -41,13 +39,5 @@ public class RelationRgModel {
 
     public void setGoodnum(Integer goodnum) {
         this.goodnum = goodnum;
-    }
-
-    public Byte getStatus() {
-        return status;
-    }
-
-    public void setStatus(Byte status) {
-        this.status = status;
     }
 }

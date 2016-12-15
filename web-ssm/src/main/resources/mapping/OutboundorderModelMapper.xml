@@ -23,11 +23,12 @@
     receiverName, expressCompany, expressId, receiverAddress, createdTime, modifyTime, 
     modifyMan
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <!--根据订单号查询-->
+  <select id="selectByOid" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from outboundorder
-    where cid = #{cid,jdbcType=INTEGER}
+    where oId = #{oId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from outboundorder
@@ -144,7 +145,8 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.arvato.oms.model.OutboundorderModel" >
+  <!--根据订单号更新-->
+  <update id="updateByOidSelective" parameterType="com.arvato.oms.model.OutboundorderModel" >
     update outboundorder
     <set >
       <if test="oid != null" >
@@ -190,7 +192,7 @@
         modifyMan = #{modifyman,jdbcType=VARCHAR},
       </if>
     </set>
-    where cid = #{cid,jdbcType=INTEGER}
+    where oId = #{oId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.arvato.oms.model.OutboundorderModel" >
     update outboundorder
