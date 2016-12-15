@@ -115,11 +115,11 @@
                                     </tr>
                                     <tr>
                                         <td>商品数量:</td>
-                                        <td>&nbsp;${gd.goodNum}</td>
+                                        <td>&nbsp;${gd.goodsnum}</td>
                                     </tr>
                                     <tr>
                                         <td>出库数量:</td>
-                                        <td>&nbsp;${gd.goodNum}</td>
+                                        <td>&nbsp;${gd.goodsnum}</td>
                                     </tr>
                                 </table>
                                </td>
