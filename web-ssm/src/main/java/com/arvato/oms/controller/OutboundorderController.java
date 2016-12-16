@@ -4,7 +4,7 @@ import com.arvato.oms.model.GoodsModel;
 import com.arvato.oms.model.GoodsPojo;
 import com.arvato.oms.model.OutboundorderModel;
 import com.arvato.oms.model.RelationogModel;
-import com.arvato.oms.service.impl.GoodsServiceImpl;
+import com.arvato.oms.service.impl.GoodsModelServiceImpl;
 import com.arvato.oms.service.impl.OutboundorderServiceImpl;
 import com.arvato.oms.service.impl.RelationOGServiceImpl;
 import org.springframework.stereotype.Controller;
@@ -29,7 +29,7 @@ public class OutboundorderController {
     @Resource
     private RelationOGServiceImpl rogserviceimpl;
     @Resource
-    private GoodsServiceImpl godserviceimpl;
+    private GoodsModelServiceImpl godserviceimpl;
 
     //进入页面
     @RequestMapping(value="listindex")

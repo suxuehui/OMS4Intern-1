@@ -179,6 +179,14 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         return j;
     }
 
+    public int createOutboundOrders(List<String> returnedIds) {
+        return 0;
+    }
+
+    public int checkInBound(List<String> list) {
+        return 0;
+    }
+
     protected long generateRandomNumber(int n)
     {
         if (n < 1)

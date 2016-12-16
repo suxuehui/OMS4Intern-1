@@ -3,7 +3,6 @@ package com.arvato.oms.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
-import com.arvato.oms.model.ErrorModel;
 import com.arvato.oms.model.*;
 import com.arvato.oms.service.OrderService;
 import com.arvato.oms.utils.HTTPClientDemo;
@@ -112,7 +111,7 @@ public class OrderController
         JSONObject jsonObject=JSON.parseObject(jsonStr);
         ArrayList<GoodsPojo> goodsList=JSON.parseObject(jsonObject.getString("goods"),new TypeReference<ArrayList<GoodsPojo>>(){});
         ReturnedModel returnedModel=new ReturnedModel();
-        RelationrgModel[] relationRgModels=new RelationrgModel[goodsList.size()];
+        RelationRgModel[] relationRgModels=new RelationRgModel[goodsList.size()];
         returnedModel.setOid(jsonObject.getString("oid"));
         OrderModel orderModel=orderService.selectByOid(jsonObject.getString("oid"));
         if(orderModel==null)
@@ -134,7 +133,7 @@ public class OrderController
         for(int i=0;i<goodsList.size();i++)
         {
             returnedMoney+=goodsList.get(i).getGoodNum()*(goodsList.get(i).getGoodsprice()).doubleValue();
-            relationRgModels[i]=new RelationrgModel();
+            relationRgModels[i]=new RelationRgModel();
             relationRgModels[i].setReturnedid("RT"+jsonObject.getString("oid"));
             relationRgModels[i].setGoodsno(goodsList.get(i).getGoodsno());
             relationRgModels[i].setGoodnum(goodsList.get(i).getGoodNum());
@@ -148,7 +147,7 @@ public class OrderController
         {
             return 0;
         }
-        for(RelationrgModel re:relationRgModels)
+        for(RelationRgModel re:relationRgModels)
         {
             int j=orderService.insertSelective(re);
             if(j==0)

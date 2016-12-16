@@ -11,6 +11,8 @@
   <sql id="Base_Column_List" >
     id, oId, goodsNo, goodNum
   </sql>
+
+
   <!--计算锁定库存-->
   <select id="selectGoodsRnum" parameterType="java.lang.String" resultType="java.lang.Integer">
     select
@@ -24,33 +26,39 @@
     from relationog
     where oId = #{oId,jdbcType=VARCHAR}
   </select>
+
   <select id="selectByOid" resultMap="BaseResultMap"  >
     select
     <include refid="Base_Column_List" />
     from relationog
     where oId = #{2,jdbcType=VARCHAR} limit #{0},#{1}
   </select>
-  <select id="selectCount" resultType="java.lang.Integer"  >
+
+  <select id="selectCount" parameterType="java.lang.String" resultType="java.lang.Integer"  >
     select count(1)
     from relationog
-    where oId = #{2,jdbcType=VARCHAR}
+    where oId = #{oId,jdbcType=VARCHAR}
   </select>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from relationog
     where id = #{id,jdbcType=INTEGER}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from relationog
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
   <insert id="insert" parameterType="com.arvato.oms.model.RelationogModel" >
     insert into relationog (id, oId, goodsNo, 
       goodNum)
     values (#{id,jdbcType=INTEGER}, #{oid,jdbcType=VARCHAR}, #{goodsno,jdbcType=VARCHAR}, 
       #{goodnum,jdbcType=INTEGER})
   </insert>
+
   <insert id="insertSelective" parameterType="com.arvato.oms.model.RelationogModel" >
     insert into relationog
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -107,6 +115,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+
   <!--更新锁定库存-->
   <update id="updateGoodsRnum" parameterType="com.arvato.oms.model.RelationogModel" >
     update relationog

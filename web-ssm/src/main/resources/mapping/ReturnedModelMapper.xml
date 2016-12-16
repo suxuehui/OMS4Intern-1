@@ -17,6 +17,91 @@
     id, returnedId, returnedOrChange, returnedStatus, oId, channelOid, returnedMoney, 
     createTime, modifyTime, modifyMan
   </sql>
+
+
+
+
+  <update id="updateStatusToDisable">
+    update returnedorder
+    set returnedStatus = #{returnedstatus}
+    where id in
+    <foreach item="id" collection="ids" open="(" separator="," close=")">
+      #{id}
+    </foreach>
+  </update>
+
+  <select id="countReturnedOrders" resultType="int">
+    SELECT COUNT(1) FROM returnedorder
+  </select>
+
+  <select id="selectAllReturnedByPage" resultMap="BaseResultMap">
+    SELECT * FROM returnedorder
+    limit #{startPage},#{num}
+  </select>
+
+  <select id="selectReturnedById" resultMap="BaseResultMap">
+    SELECT * FROM returnedorder
+    WHERE returnedId LIKE '%${returnedId}%'
+    limit #{startPage},#{num}
+  </select>
+
+
+  <select id="countReturnedbyId" resultType="int">
+    SELECT count(1) FROM returnedorder
+    WHERE returnedId LIKE '%${returnedId}%'
+  </select>
+
+  <select id="selectReturnedByOId" resultMap="BaseResultMap">
+    SELECT * FROM returnedorder
+    WHERE oId LIKE '%${oId}%'
+    limit #{startPage},#{num}
+  </select>
+
+
+  <select id="countReturnedbyOId" resultType="int">
+    SELECT count(1) FROM returnedorder
+    WHERE oId LIKE '%${oId}%'
+  </select>
+
+  <select id="selectReturnedByStatus" resultMap="BaseResultMap">
+    SELECT * FROM returnedorder
+    WHERE returnedStatus LIKE '%${returnedStatus}%'
+    limit #{startPage},#{num}
+  </select>
+
+
+  <select id="countReturnedbyStatus" resultType="int">
+    SELECT count(1) FROM returnedorder
+    WHERE returnedStatus LIKE '%${returnedStatus}%'
+  </select>
+
+  <select id="selectReturnedByChannelOid" resultMap="BaseResultMap">
+    SELECT * FROM returnedorder
+    WHERE channelOid LIKE '%${channelOid}%'
+    limit #{startPage},#{num}
+  </select>
+
+
+  <select id="countReturnedbyChannelOid" resultType="int">
+    SELECT count(1) FROM returnedorder
+    WHERE channelOid LIKE '%${channelOid}%'
+  </select>
+
+  <select id="selectOneReturnedById" resultMap="BaseResultMap">
+    SELECT * FROM returnedorder
+    WHERE returnedId = '${returnedId}'
+  </select>
+
+
+  <update id="updateReturnedStatus">
+    update returnedorder
+    set returnedStatus = #{returnedstatus}
+    where returnedId = ${returnedId}
+  </update>
+
+
+
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

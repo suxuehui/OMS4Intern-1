@@ -24,9 +24,10 @@ function outGetnowPage(pagenow){
             var datapage = data.pagelist;
             var datalist = data.list;
              $("#outboundertab tbody tr").eq(0).nextAll().remove();
+            document.getElementById("outbtn").disabled=true;
             for(var obj in datalist){
                 var  list=datalist[obj];
-                var html='<tr><input type="checkbox" name="ck"><td></td><td>';
+                var html='<tr><td><input type="checkbox" id="'+list.oid+'" onclick="tooutcheck(this.id)"  name="outck"></td><td>';
                     html+='<button id="'+list.oid+'" style="border-style:none;outline:none;"  ondblclick="outdblclick(this.id)" onclick="outsgclick(this.id)">'+list.oid+'</button></td><td>'
                         +list.channeloid+'</td><td>'
                     +list.orderstatus+'</td><td>'+list.warehouseobid+'</td><td>'
@@ -45,6 +46,37 @@ function outGetnowPage(pagenow){
         }
     });
 }
+
+
+
+/*点击checkbox */
+function tooutcheck(oid){ //id为checkbox的id 属性值
+    var count = 0;
+    var checkArry = document.getElementsByName("outck");//ck为checkbox的name属性
+    for (var i = 0; i < checkArry.length; i++) {
+        if(checkArry[i].checked == true){
+            ++count;
+            if( count >1){
+                alert("只能选中一条订单查看！")
+                checkArry[i].checked=false;
+                return;
+            }
+            //选中的操作 inbtn为button 的id
+            document.getElementById("outbtn").disabled=false;
+            document.getElementById("outbtn").name=oid;
+
+        }
+    }
+}
+//点击查看出库订单进入详情页
+function tooutOrderdetail(oid){
+    tooutcheck(oid);
+    window.open("/oms/outboundorder/details?oid="+oid);
+}
+
+
+
+
 /*出库单 单击双击事件跳转*/
 var outisdb;
 function outsgclick(oid) {

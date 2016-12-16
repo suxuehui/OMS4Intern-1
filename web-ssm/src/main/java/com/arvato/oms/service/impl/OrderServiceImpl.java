@@ -39,7 +39,7 @@ public class OrderServiceImpl implements OrderService
     @Resource
     ReturnedModelMapper returnedModelMapper;
     @Resource
-    RelationrgModelMapper relationrgModelMapper;
+    RelationRgModelMapper relationrgModelMapper;
     //分页查询所有订单信息
     public JSONObject selectAll(int pageNo, int pageSize)
     {
@@ -177,7 +177,7 @@ public class OrderServiceImpl implements OrderService
         {
             for(RelationogModel re:relationogModelList)
             {
-                GoodsModel goodsModel=goodsModelMapper.selectByPrimaryKey(re.getGoodsno());
+                GoodsModel goodsModel=goodsModelMapper.selectByGoodsNo(re.getGoodsno());
                 if(goodsModel==null)
                 {
                     exceptionModel=createException(orderModel);
@@ -196,7 +196,7 @@ public class OrderServiceImpl implements OrderService
             for(RelationogModel re:relationogModelList)
             {
                 System.out.println(re.getGoodsno());
-                GoodsModel goodsModel=goodsModelMapper.selectByPrimaryKey(re.getGoodsno());
+                GoodsModel goodsModel=goodsModelMapper.selectByGoodsNo(re.getGoodsno());
                 int goodsRnum=relationogModelMapper.selectGoodsRnum(oId);
                 int goodsVnum=goodsModel.getGoodstolnum()-goodsRnum;
                 System.out.println(goodsModel.toString());
@@ -481,7 +481,7 @@ public class OrderServiceImpl implements OrderService
         return j;
     }
 
-    public int insertSelective(RelationrgModel record)
+    public int insertSelective(RelationRgModel record)
     {
         return relationrgModelMapper.insertSelective(record);
     }

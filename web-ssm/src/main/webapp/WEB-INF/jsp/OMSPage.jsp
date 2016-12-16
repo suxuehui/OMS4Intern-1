@@ -15,14 +15,12 @@
     <title>OMS订单管理系统</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/css.css">
     <script src="${pageContext.request.contextPath}/js/jquery-3.1.1.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/OMSPage.js"></script>
-    <script src="${pageContext.request.contextPath}/js/windowload.js"></script>
-    <script src="${pageContext.request.contextPath}/js/OrderPage.js"></script>
     <script src="${pageContext.request.contextPath}/js/innavpagelist.js"></script>
-    <script src="${pageContext.request.contextPath}/js/inpagelistson.js"></script>
     <script src="${pageContext.request.contextPath}/js/outnavpagelist.js"></script>
     <script src="${pageContext.request.contextPath}/js/outpagelistson.js"></script>
+    <script src="${pageContext.request.contextPath}/js/inpagelistson.js"></script>
+
 </head>
 
 <body>
@@ -260,6 +258,10 @@
                                         <li><input type="button" value="取消"  class="btn beta"></li>
                                         <li><input type="button" value="退货"  class="btn beta"></li>
                                         <li><input type="button" value="换货"  class="btn beta"></li>
+
+                                        <%--查看按钮  dfdgfg--%>
+                                        <li><input type="button" value="查看订单"  class="btn" disabled="disabled"></li>
+
                                     </ul>
                                     <input type="button" value="查询" class="submitBtn fr">
                                     <input type="text" class="textArea fr">
@@ -384,6 +386,8 @@
                                     <ul>
                                         <li><input type="button" value="处理异常"  class="btn"></li>
                                         <li><input type="button" value="取消"  class="btn"></li>
+                                        <%--查看按钮  dfdgfg--%>
+                                        <li><input type="button" value="查看订单"  class="btn beta" disabled="disabled"></li>
                                     </ul>
                                     <input type="button" value="查询" class="submitBtn fr">
                                     <input type="text" class="textArea fr">
@@ -469,7 +473,11 @@
                         <div class="orderTag">
                             <div class="orderTit">出库单列表</div>
                             <div class="orderSearch">
-                                <form>
+                                <ul>
+
+                                    <li><input type="button" value="查看订单" id="outbtn" name="outorderbtn" onclick="tooutOrderdetail(this.name)" class="btn" disabled="disabled"></li>
+
+                                </ul>
                                     <input type="button" id="outsearch" onclick="outGetnowPage(1)"  value="查询" class="submitBtn fr">
                                     <input type="text" class="textArea fr" name="outtxtvalue" id="outtxt">
                                     <select class="selectArea fr" name="outselect" id="outselectid">
@@ -477,7 +485,6 @@
                                                 <option value="2">渠道订单号</option>
                                                 <option value="3">出库单号</option>
                                     </select>
-                                </form>
                             </div>
                         </div>
                         <div class="orderMainCont revise">
@@ -503,7 +510,6 @@
                                         </tr>
                                         </tbody>
                                     </table>
-
                             </div>
                             <%--分页显示加载的信息，该引用只能放在页面下面--%>
                             <script src="${pageContext.request.contextPath}/js/outboundpagelist.js"></script>
@@ -512,7 +518,6 @@
                     </div>
                     <div class="orderDetails">
                         <div class="tableDetails">
-                            <form>
                                 <table  id="outboundertabson"  cellspacing="0" cellpadding="0">
                                     <tr class="tableTit">
                                        <%-- <th class="w50">批量</th>--%>
@@ -524,11 +529,9 @@
                                         <th>出库数量</th>
                                     </tr>
                                 </table>
-                            </form>
                         </div>
                         <%--子页面的分页--%>
                         <div id="outsonpl" ></div>
-
                     </div>
                 </div>
                 <!--入库单列表-->
@@ -537,7 +540,12 @@
                         <div class="orderTag">
                             <div class="orderTit">入库单列表</div>
                             <div class="orderSearch">
-                                <form>
+                                <ul>
+
+                                    <li><input type="button" value="查看订单" id="inbtn" name="inorderbtn" onclick="toinOrderdetail(this.name)" class="btn" disabled="disabled"></li>
+
+                                </ul>
+
                                     <input type="button" id="insearch" onclick="inGetnowPage(1)" value="查询" class="submitBtn fr">
                                     <input type="text" name="intxtvalue" id="intxt" class="textArea fr">
                                         <select class="selectArea fr" name="inselect" id="inselectid">
@@ -546,12 +554,10 @@
                                             <option value="3">入库单号</option>
                                             <option value="4">退货单号</option>
                                         </select>
-                                </form>
                             </div>
                         </div>
                         <div class="orderMainCont revise">
                             <div class="table revise">
-                                <form>
                                     <table id="inboundertab" cellspacing="0" cellpadding="0" class="w1950">
                                         <tr class="tableTit" height="20">
                                             <%--<th class="w50">序号</th>--%>
@@ -568,9 +574,8 @@
                                             <th class="w100">修改人</th>
                                         </tr>
                                     </table>
-                                </form>
                             </div>
-                            <div class="page" id="indivpage"></div>
+                            <div   id="indivpage"></div>
                             <%--显示加载的信息，该引用只能放在页面下面--%>
                             <script src="${pageContext.request.contextPath}/js/inboundpagelist.js"></script>
                         </div>
@@ -578,7 +583,6 @@
                     <%--子页面 商品页--%>
                     <div class="orderDetails">
                         <div class="tableDetails">
-                            <form>
                                 <table id="inboundertabson" cellspacing="0" cellpadding="0">
                                     <tr class="tableTit">
                                         <%--<th class="w50">批量</th>--%>
@@ -587,11 +591,9 @@
                                         <th>商品数量</th>
                                         <th>入库数量</th>
                                     </tr>
-
                                 </table>
-                            </form>
                         </div>
-                        <div class="page" id="insonpl"> </div>
+                        <div   id="insonpl"> </div>
                     </div>
                 </div>
                 <!--退货单列表-->
@@ -606,6 +608,8 @@
                                         <li><input type="button" value="换货发货"  class="btn"></li>
                                         <li><input type="button" value="审核"  class="btn"></li>
                                         <li><input type="button" value="取消退货"  class="btn"></li>
+                                        <%--查看按钮  dfdgfg--%>
+                                        <li><input type="button" value="查看订单"  class="btn beta" disabled="disabled"></li>
                                     </ul>
                                     <input type="button" value="查询" class="submitBtn fr">
                                     <input type="text" class="textArea fr">
@@ -710,6 +714,8 @@
                                 <form>
                                     <ul>
                                         <li><input type="button" value="退款"  class="btn"></li>
+                                        <%--查看按钮  dfdgfg--%>
+                                        <li><input type="button" value="查看订单"  class="btn beta" disabled="disabled"></li>
                                     </ul>
                                     <input type="button" value="查询" class="submitBtn fr">
                                     <input type="text" class="textArea fr">
@@ -953,11 +959,11 @@
                 <p class="popupTopTit">导入订单</p>
             </div>
             <div class="popupCont">
-                <form id="importForm" action="importOrder" method="post" enctype="multipart/form-data">
+                <form>
                     <ul>
                         <li>
-                            <input type="file" style="font-size:20px" name="file">
-                            <input type="submit" value="导入" style="font-size:20px" class="leadingBtn" >
+                            <input type="file" style="font-size:20px">
+                            <input type="button" value="导入" style="font-size:20px" class="leadingBtn">
                         </li>
                     </ul>
                 </form>

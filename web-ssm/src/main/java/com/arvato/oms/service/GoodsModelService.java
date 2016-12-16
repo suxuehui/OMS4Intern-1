@@ -1,6 +1,7 @@
 package com.arvato.oms.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.arvato.oms.model.GoodsModel;
 
 import java.util.List;
 
@@ -20,4 +21,9 @@ public interface GoodsModelService
     public int deleteGoodsByNos(List<String> goodNos);
 
     public JSONObject selectGoodsByValueAndPage(String select,String value,int nowPage,int pageSize);
+
+    public JSONObject selectByOid(int pageNo, int pageSize, String oId);
+
+    public GoodsModel selectByGoodsNo (String goodsno);
+
 }

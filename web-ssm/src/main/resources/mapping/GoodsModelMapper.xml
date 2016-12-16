@@ -23,6 +23,16 @@
   <sql id="GoodsPojo_Column_List" >
     goods.goodsNo, goodsName, goodsPrice,goodsTolnum, goodNum
   </sql>
+
+  <select id="selectByGoodsNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM goods
+    WHERE goodsNo = #{goodsNo, jdbcType=VARCHAR}
+  </select>
+
+
+
   <!--按订单号分页查询商品信息-->
   <select id="selectByOid" resultMap="GoodsPojo"  >
     select
@@ -30,6 +40,7 @@
     from goods,relationog
     where oId = #{2,jdbcType=VARCHAR} AND goods.goodsNo = relationog.goodsNo limit #{0},#{1}
   </select>
+
   <!--按订单号查询全部商品-->
   <select id="selectAllByOid" resultMap="GoodsPojo"  >
     select
@@ -38,16 +49,18 @@
     where oId = #{oId,jdbcType=VARCHAR} AND goods.goodsNo = relationog.goodsNo
   </select>
 
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from goods
-    where goodsNo = #{goodsno,jdbcType=VARCHAR}
+<!--根据goodsNo查数据-->
+  <select id="selectOneGoodsByNo" resultMap="BaseResultMap">
+    SELECT * FROM goods
+    WHERE goodsNo = #{goodsNo}
   </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from goods
     where goodsNo = #{goodsno,jdbcType=VARCHAR}
   </delete>
+
   <insert id="insert" parameterType="com.arvato.oms.model.GoodsModel" >
     insert into goods (goodsNo, goodsName, goodsVnum, 
       goodsPrice, goodsRnum, goodsTolnum
@@ -129,4 +142,74 @@
       goodsTolnum = #{goodstolnum,jdbcType=INTEGER}
     where goodsNo = #{goodsno,jdbcType=VARCHAR}
   </update>
+
+  <select id="selectAllGoodsByPage" resultMap="BaseResultMap">
+    SELECT * FROM goods
+    limit #{startPage},#{num}
+  </select>
+
+  <select id="countGoods" resultType="int">
+    SELECT COUNT(1) FROM goods
+  </select>
+
+
+
+  <insert id="insertGoods">
+    insert into goods (goodsNo, goodsName, goodsVnum,
+    goodsPrice,  goodsTolnum
+    )
+    values (#{goodsNo}, #{goodsName}, #{goodsTolnum},
+    #{goodsPrice},  #{goodsTolnum}
+    )
+  </insert>
+
+  <delete id="deleteGoodsByNo" parameterType="java.lang.String">
+    delete from goods
+    where goodsNo = #{goodsNo}
+  </delete>
+
+  <delete id="deleteGoodsByNos" parameterType="java.lang.String">
+    delete from goods
+    where goodsNo in
+    <foreach item="goodsNoItem" collection="goodsNos" open="(" separator="," close=")">
+      #{goodsNoItem}
+    </foreach>
+  </delete>
+
+  <select id="selectGoodsByNoAndPage" resultMap="BaseResultMap">
+    SELECT * FROM goods
+    WHERE goodsNo LIKE '%${goodsNo}%'
+    limit #{startPage},#{num}
+  </select>
+
+  <select id="countGoodsByNoAndPage" resultType="Integer">
+    SELECT IFNULL(COUNT(1),0) FROM goods
+    WHERE goodsNo LIKE '%${goodsNo}%'
+  </select>
+
+  <select id="selectGoodsByNameAndPage" resultMap="BaseResultMap">
+    SELECT * FROM goods
+    WHERE goodsName LIKE '%${goodsName}%'
+    limit #{startPage},#{num}
+  </select>
+
+  <select id="countGoodsByNameAndPage" resultType="Integer">
+    SELECT IFNULL(COUNT(1),0) FROM goods
+    WHERE goodsName LIKE '%${goodsName}%'
+  </select>
+
+  <select id="selectGoodsByNosAndPage" resultMap="BaseResultMap">
+    SELECT * FROM goods
+    WHERE goodsNo in
+    <foreach item="goodsNoItem" collection="goodsNos" open="(" separator="," close=")">
+      #{goodsNoItem}
+    </foreach>
+  </select>
+
+  <select id="countGoodsByNo" resultType="int">
+    SELECT COUNT(1) FROM goods
+    where goodsNo = #{goodsNo}
+  </select>
+
+
 </mapper>

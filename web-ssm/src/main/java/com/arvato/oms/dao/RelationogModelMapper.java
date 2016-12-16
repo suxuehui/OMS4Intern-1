@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
 public interface RelationogModelMapper {
+
     int selectCount(String oId);
 
     int deleteByPrimaryKey(Integer id);
@@ -25,4 +26,5 @@ public interface RelationogModelMapper {
     int updateByPrimaryKeySelective(RelationogModel record);
 
     int updateGoodsRnum(int id,int status);
+
 }
