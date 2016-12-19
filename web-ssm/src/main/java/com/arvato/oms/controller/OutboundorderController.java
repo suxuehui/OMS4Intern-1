@@ -4,7 +4,7 @@ import com.arvato.oms.model.GoodsModel;
 import com.arvato.oms.model.GoodsPojo;
 import com.arvato.oms.model.OutboundorderModel;
 import com.arvato.oms.model.RelationogModel;
-import com.arvato.oms.service.impl.GoodsModelServiceImpl;
+import com.arvato.oms.service.GoodsModelService;
 import com.arvato.oms.service.impl.OutboundorderServiceImpl;
 import com.arvato.oms.service.impl.RelationOGServiceImpl;
 import org.springframework.stereotype.Controller;
@@ -28,8 +28,8 @@ public class OutboundorderController {
     private OutboundorderServiceImpl oboserciveimpl;
     @Resource
     private RelationOGServiceImpl rogserviceimpl;
-    @Resource
-    private GoodsModelServiceImpl godserviceimpl;
+     @Resource
+    private GoodsModelService godserviceimpl;
 
     //进入页面
     @RequestMapping(value="listindex")
@@ -74,7 +74,8 @@ public class OutboundorderController {
             String sno= roglist.get(i).getGoodsno();
             //获取商品数量  xiugai---->---------->
             int snum= roglist.get(i).getGoodnum() ;
-            GoodsModel gm=godserviceimpl.selectByGoodsNo(sno);
+            GoodsModel gm=  this.godserviceimpl.selectByGoodsNo(sno);
+
             gp.setGoodNum(snum);
             gp.setGoodsname(gm.getGoodsname());
             gp.setGoodsno(gm.getGoodsno());

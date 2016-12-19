@@ -1,6 +1,6 @@
 package com.arvato.oms.controller;
 
-import com.arvato.oms.service.RefoundOrderService;
+import com.arvato.oms.service.impl.RefoundOrderServiceImpl;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +20,7 @@ public class RefoundOrderController {
     private Logger log = Logger.getLogger(ExceptionController.class);
 
     @Resource
-    private RefoundOrderService refoundOrderService;
+    private RefoundOrderServiceImpl refoundOrderService;
     //进入页面
     @RequestMapping(value="indexRefoundOrderList")
     public String indexRefoundOrderList(HttpServletResponse response){

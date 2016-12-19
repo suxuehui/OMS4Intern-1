@@ -106,6 +106,10 @@ public class InboundorderModel {
         return modifytime;
     }
 
+    public void setCreatedtime(String createdtime) {
+        this.createdtime = createdtime;
+    }
+
     public void setModifytime(Date modifytime) {
         this.modifytime = dss.formmat(modifytime);
     }

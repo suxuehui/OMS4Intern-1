@@ -62,7 +62,6 @@ public class GoodsModel {
     public void setGoodstolnum(Integer goodstolnum) {
         this.goodstolnum = goodstolnum;
     }
-
     @Override
     public String toString() {
         return "GoodsModel{" +

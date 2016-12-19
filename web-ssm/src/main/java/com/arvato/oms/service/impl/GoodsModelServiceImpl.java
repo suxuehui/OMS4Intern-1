@@ -2,7 +2,9 @@ package com.arvato.oms.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.arvato.oms.dao.GoodsModelMapper;
+import com.arvato.oms.dao.RelationogModelMapper;
 import com.arvato.oms.model.GoodsModel;
+import com.arvato.oms.model.GoodsPojo;
 import com.arvato.oms.service.GoodsModelService;
 import com.arvato.oms.utils.Page;
 import org.springframework.stereotype.Service;
@@ -20,10 +22,24 @@ import java.util.List;
 @Transactional(rollbackFor = Exception.class)
 public class GoodsModelServiceImpl implements GoodsModelService
 {
-
+    @Resource
+    RelationogModelMapper relationogModelMapper;
     @Resource
     GoodsModelMapper goodsModelMapper;
 
+    //订单页面的
+    public JSONObject selectByOid(int pageNo,int pageSize,String oId)
+    {
+        int num= relationogModelMapper.selectCount(oId);
+        int pageTotal=num/pageSize+1;
+        int count=(pageNo-1)*pageSize;
+        List<GoodsPojo> goodsPojos=goodsModelMapper.selectByOid(count,pageSize,oId);
+        JSONObject jObj=new JSONObject();
+        jObj.put("pageTotal",pageTotal);
+        jObj.put("goodsPojos",goodsPojos);
+        jObj.put("pageNo",pageNo);
+        return jObj;
+    }
     public JSONObject getAllGoods(int pageNow, int num)
     {
         /**
@@ -135,4 +151,13 @@ public class GoodsModelServiceImpl implements GoodsModelService
 
         return json;
     }
+
+    //通过goodsno获取一件商品的全部信息
+    public GoodsModel selectByGoodsNo(String goodsno) {
+        GoodsModel gm=goodsModelMapper.selectByGoodsNo(goodsno);
+        return gm;
+    }
+
+
+
 }

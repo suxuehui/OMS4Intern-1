@@ -2,7 +2,7 @@ package com.arvato.oms.dao;
 
 import com.arvato.oms.model.UsersModel;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
  * Created by MAVI003 on 2016/12/6.
  */
 
-@Repository
+@Service
 public interface UserModelMapper
 {
     List<UsersModel> selectUserByNameAndPWD(@Param("uName") String uName, @Param("uPassword") String uPassword);

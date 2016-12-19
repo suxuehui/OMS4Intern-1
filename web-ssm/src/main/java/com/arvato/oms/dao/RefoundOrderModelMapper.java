@@ -2,11 +2,11 @@ package com.arvato.oms.dao;
 
 import com.arvato.oms.model.RefoundOrderModel;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Repository
+@Service
 public interface RefoundOrderModelMapper
 {
 
@@ -18,6 +18,7 @@ public interface RefoundOrderModelMapper
      * 2016/12/14
      * zhou???????
       */
+
      long Count();
     long CountdDrawbackStatus(String txtvalue);
     long CountReturnedId(String txtvalue);

@@ -26,6 +26,11 @@ public interface ReturnedModelService
 
 
 
+    public int createOutboundOrders(List<String> returnedIds);
+
+    int checkInBound(List<String> list);
+    //批量换货发货，生成出库单
+
 
 
 

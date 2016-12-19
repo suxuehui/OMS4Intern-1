@@ -2,7 +2,7 @@ package com.arvato.oms.service.impl;
 
 
 import com.arvato.oms.dao.GoodsModelMapper;
-import com.arvato.oms.dao.InboundorderDao;
+import com.arvato.oms.dao.InboundorderModelMapper;
 import com.arvato.oms.dao.RelationogModelMapper;
 import com.arvato.oms.model.GoodsModel;
 import com.arvato.oms.model.InboundorderModel;
@@ -28,10 +28,11 @@ import java.util.Map;
 @Service
 public class InboundorderServiceImpl implements InboundorderService {
     @Resource
-    private InboundorderDao ibodao;
+    private InboundorderModelMapper ibodao;
 
     @Resource
     private GoodsModelMapper gddao;
+
     @Resource
     private RelationogModelMapper rogdao;
     //分页查询
@@ -191,6 +192,10 @@ public class InboundorderServiceImpl implements InboundorderService {
         InboundorderModel  list=this.ibodao.selectByOid(oid);
         return list;
     }
-
+    //更新入库单列表
+    public int updateByInboundId(String inboundid, String inboundstate) {
+        int s=ibodao.updateByInboundId(inboundid,inboundstate);
+        return s;
+    }
 }
 

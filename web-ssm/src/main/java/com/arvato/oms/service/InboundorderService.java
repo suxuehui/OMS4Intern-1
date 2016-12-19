@@ -13,4 +13,7 @@ public interface InboundorderService {
      String searchAllByparam(HttpServletRequest request) throws UnsupportedEncodingException;
 
      InboundorderModel  selectByOid(String oid);
+
+     //更新入库单列表
+     int updateByInboundId(String inboundid, String inboundstate);
 }

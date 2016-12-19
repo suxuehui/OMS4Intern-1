@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.arvato.oms.model.*;
-import com.arvato.oms.service.OrderService;
+import com.arvato.oms.service.impl.OrderServiceImpl;
 import com.arvato.oms.utils.HTTPClientDemo;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -36,7 +36,7 @@ import java.util.List;
 public class OrderController
 {
     @Resource
-    OrderService orderService;
+    OrderServiceImpl orderService;
 
     @RequestMapping("OMSPage")
     public String order()

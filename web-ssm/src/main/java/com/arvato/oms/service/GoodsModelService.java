@@ -24,6 +24,6 @@ public interface GoodsModelService
 
     public JSONObject selectByOid(int pageNo, int pageSize, String oId);
 
-    public GoodsModel selectByGoodsNo (String goodsno);
+    public GoodsModel selectByGoodsNo(String goodsno);
 
 }

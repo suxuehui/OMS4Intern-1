@@ -10,12 +10,14 @@ import java.util.List;
 
 @Service
 public interface GoodsModelMapper {
+
     int deleteByPrimaryKey(String goodsno);
 
     int insert(GoodsModel record);
 
     int insertSelective(GoodsModel record);
 
+    //通过商品编码获取商品信息
     GoodsModel selectByGoodsNo(String record);
 
     List<GoodsPojo> selectByOid(Integer pageNo,Integer pageSize,String oId);

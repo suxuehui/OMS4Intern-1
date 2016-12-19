@@ -165,7 +165,7 @@
 
     <!--获取总数-->
     <select id="Count" resultType="java.lang.Long">
-        select  count(*) from inboundorder
+        select  count(1) from inboundorder
     </select>
 
     <!--列出所有的信息-->
@@ -178,7 +178,7 @@
 
     <!--获取总数-->
     <select id="Countoid" resultType="java.lang.Long">
-        select  count(*) from inboundorder where oId like '%${oid}%'
+        select  count(1) from inboundorder where oId like '%${oid}%'
     </select>
 
     <!--通过oid选出所有信息-->
@@ -201,12 +201,9 @@
 
   </select>
 
-
-
-
     <!--获取总数-->
     <select id="Countchid" resultType="java.lang.Long">
-        select  count(*) from inboundorder where channelOid like '%${channeloid}%'
+        select  count(1) from inboundorder where channelOid like '%${channeloid}%'
     </select>
 
     <!--通过channeloid选出所有信息-->
@@ -220,7 +217,7 @@
 
     <!--获取总数-->
     <select id="Countobid" resultType="java.lang.Long">
-        select  count(*) from inboundorder where inboundId like '%${inboundid}%'
+        select  count(1) from inboundorder where inboundId like '%${inboundid}%'
     </select>
     <!--通过 inboundId选出所有信息-->
     <select id="selectAllByoutboundId" resultMap="BaseResultMap">
@@ -233,7 +230,7 @@
 
     <!--获取总数-->
     <select id="Countrid" resultType="java.lang.Long">
-        select  count(*) from inboundorder where returnedId like '%${returnedid}%'
+        select  count(1) from inboundorder where returnedId like '%${returnedid}%'
     </select>
     <!--通过 returnedId选出所有信息-->
     <select id="selectAllByreturnedId" resultMap="BaseResultMap">
@@ -245,6 +242,16 @@
 
     </select>
 
-
+  <!--从wms那获取数据更新入库单列表-->
+  <update id="updateByInboundId"  parameterType="java.lang.String" >
+    update inboundorder
+    <set >
+      <if test="inboundstate != null" >
+        inboundState = #{inboundstate,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where
+    inboundId = #{inboundid,jdbcType=VARCHAR}
+  </update>
 
 </mapper>

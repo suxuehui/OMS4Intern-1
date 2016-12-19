@@ -31,8 +31,6 @@
     WHERE goodsNo = #{goodsNo, jdbcType=VARCHAR}
   </select>
 
-
-
   <!--按订单号分页查询商品信息-->
   <select id="selectByOid" resultMap="GoodsPojo"  >
     select

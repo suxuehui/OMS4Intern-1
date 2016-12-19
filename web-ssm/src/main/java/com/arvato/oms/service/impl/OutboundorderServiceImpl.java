@@ -5,22 +5,26 @@ import com.arvato.oms.dao.OrderModelMapper;
 import com.arvato.oms.dao.OutboundorderModelMapper;
 import com.arvato.oms.dao.RelationogModelMapper;
 import com.arvato.oms.model.GoodsModel;
+import com.arvato.oms.model.OrderModel;
 import com.arvato.oms.model.OutboundorderModel;
 import com.arvato.oms.model.RelationogModel;
 import com.arvato.oms.service.OutboundorderService;
 import com.arvato.oms.utils.Page;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by ZHAN545 on 2016/12/12.
  */
+@Service
 public class OutboundorderServiceImpl implements OutboundorderService
 {
     @Resource
@@ -33,7 +37,7 @@ public class OutboundorderServiceImpl implements OutboundorderService
     @Resource
     private RelationogModelMapper rogdao;
 
-   /* public JSONObject outboundOrder(String oId) {
+    public JSONObject outboundOrder(String oId) {
         OutboundorderModel outboundorderModel=new OutboundorderModel();
         OrderModel orderModel=orderModelMapper.selectByOid(oId);
         outboundorderModel.setOid(orderModel.getOid());
@@ -46,11 +50,9 @@ public class OutboundorderServiceImpl implements OutboundorderService
         int i=outboundorderModelMapper.insert(outboundorderModel);
 
         return null;
-    }*/
+    }
 
-    /**
-     * Created by GONG on 2016/12/12.
-     */
+
     //分页查询
     public String searchAllByparam(HttpServletRequest request) throws UnsupportedEncodingException {
         String pageNow = request.getParameter("currentpage");//获取当前页数pagenow

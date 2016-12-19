@@ -8,6 +8,8 @@ import java.math.BigDecimal;
 public class GoodsPojo {
     private String goodsno;
 
+
+
     private String goodsname;
 
     private Integer goodsvnum;
@@ -77,7 +79,9 @@ public class GoodsPojo {
     public void setGoodNum(Integer goodNum) {
         this.goodNum = goodNum;
     }
-
+    public void setGoodNum(int goodNum) {
+        this.goodNum = goodNum;
+    }
     @Override
     public String toString() {
         return "GoodsPojo{" +

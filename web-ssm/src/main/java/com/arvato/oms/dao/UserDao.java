@@ -2,7 +2,7 @@ package com.arvato.oms.dao;
 
 import com.arvato.oms.model.UserTest;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Zhangxq on 2016/7/15.
  */
 
-@Repository
+@Service
 public interface UserDao {
 
     UserTest selectUserById(@Param("userId") Long userId);

@@ -4,7 +4,7 @@ import com.arvato.oms.model.GoodsModel;
 import com.arvato.oms.model.GoodsPojo;
 import com.arvato.oms.model.InboundorderModel;
 import com.arvato.oms.model.RelationogModel;
-import com.arvato.oms.service.impl.GoodsServiceImpl;
+import com.arvato.oms.service.GoodsModelService;
 import com.arvato.oms.service.impl.InboundorderServiceImpl;
 import com.arvato.oms.service.impl.RelationOGServiceImpl;
 import org.springframework.stereotype.Controller;
@@ -30,7 +30,8 @@ public class InboundorderController {
     @Resource
     private RelationOGServiceImpl rogserviceimpl;
     @Resource
-    private GoodsServiceImpl godserviceimpl;
+    private GoodsModelService godserviceimpl;
+
     //进入页面
     @RequestMapping(value="listindex")
     public String listseach(){
@@ -38,12 +39,12 @@ public class InboundorderController {
     }
 
     //通过分页查询所有列表 listseach'
-    @RequestMapping(value="listseach")
+     @RequestMapping(value="listseach")
     @ResponseBody
      public String listseach(HttpServletRequest request  )
             throws UnsupportedEncodingException {
 
-        String str = inboserciveimpl.searchAllByparam(request );
+         String str = inboserciveimpl.searchAllByparam(request );
         return  str;
     }
 
@@ -61,7 +62,7 @@ public class InboundorderController {
     public String  details(HttpServletRequest request,Model model){
         String oid=request.getParameter("oid");
         //查询入库单列表
-        InboundorderModel  iodlist=inboserciveimpl.selectByOid(oid);
+        InboundorderModel iodlist=inboserciveimpl.selectByOid(oid);
         //获取商品编码  查询关系表
         List<RelationogModel> roglist=rogserviceimpl.selectALLByOid(oid);
         //获取商品实体 查询商品表
@@ -72,6 +73,7 @@ public class InboundorderController {
             String sno= roglist.get(i).getGoodsno();
             //获取商品数量  xiugai---->---------->
             int snum= roglist.get(i).getGoodnum() ;
+           // GoodsModel gm=null;
             GoodsModel gm=godserviceimpl.selectByGoodsNo(sno);
             gp.setGoodNum(snum);
             gp.setGoodsname(gm.getGoodsname());

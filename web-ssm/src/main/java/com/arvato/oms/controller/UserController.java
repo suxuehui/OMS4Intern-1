@@ -20,9 +20,7 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController
 {
-
     private Logger log = Logger.getLogger(UserController.class);
-
 
     @Resource
     private UserModelService userModelService;
