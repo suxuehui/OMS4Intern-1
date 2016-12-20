@@ -31,12 +31,13 @@
     <result column="zipCode" property="zipcode" jdbcType="VARCHAR" />
     <result column="modifyTime" property="modifytime" jdbcType="TIMESTAMP" />
     <result column="modifyMan" property="modifyman" jdbcType="VARCHAR" />
+    <result column="buyerAlipayNo" property="buyeralipayno" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, oId, channelOid, orderStatus, orderForm, buyerId, orderTime, baseStatus, payStatus, 
     payStyle, payTime, goodsTolprice, discountPrice, orderTolprice, goodsWarehouse, logisticsCompany, 
     logisticsId, sendTime, remark, receiverName, receiverMobel, receiverTelnum, receiverProvince, 
-    receiverCity, receiverArea, detailAddress, zipCode, modifyTime, modifyMan
+    receiverCity, receiverArea, detailAddress, zipCode, modifyTime, modifyMan,buyerAlipayNo
   </sql>
   <select id="selectAll" resultMap="BaseResultMap" parameterType="java.lang.Integer">
     select
@@ -164,7 +165,7 @@
       remark, receiverName, receiverMobel, 
       receiverTelnum, receiverProvince, receiverCity, 
       receiverArea, detailAddress, zipCode, 
-      modifyTime, modifyMan)
+      modifyTime, modifyMan,buyerAlipayNo)
     values (#{id,jdbcType=INTEGER}, #{oid,jdbcType=VARCHAR}, #{channeloid,jdbcType=VARCHAR}, 
       #{orderstatus,jdbcType=VARCHAR}, #{orderform,jdbcType=VARCHAR}, #{buyerid,jdbcType=VARCHAR}, 
       #{ordertime,jdbcType=TIMESTAMP}, #{basestatus,jdbcType=VARCHAR}, #{paystatus,jdbcType=VARCHAR}, 
@@ -174,7 +175,7 @@
       #{remark,jdbcType=VARCHAR}, #{receivername,jdbcType=VARCHAR}, #{receivermobel,jdbcType=VARCHAR}, 
       #{receivertelnum,jdbcType=VARCHAR}, #{receiverprovince,jdbcType=VARCHAR}, #{receivercity,jdbcType=VARCHAR}, 
       #{receiverarea,jdbcType=VARCHAR}, #{detailaddress,jdbcType=VARCHAR}, #{zipcode,jdbcType=VARCHAR}, 
-      #{modifytime,jdbcType=TIMESTAMP}, #{modifyman,jdbcType=VARCHAR})
+      #{modifytime,jdbcType=TIMESTAMP}, #{modifyman,jdbcType=VARCHAR},#{buyeralipayno,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.arvato.oms.model.OrderModel" >
     insert into oms_schema.order
@@ -266,6 +267,10 @@
       <if test="modifyman != null" >
         modifyMan,
       </if>
+      <if test=" buyeralipayno != null" >
+        buyerAlipayNo,
+      </if>
+
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -354,6 +359,9 @@
       </if>
       <if test="modifyman != null" >
         #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="buyeralipayno != null" >
+        #{buyerAlipayNo,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -445,6 +453,10 @@
       <if test="modifyman != null" >
         modifyMan = #{modifyman,jdbcType=VARCHAR},
       </if>
+      <if test="buyeralipayno != null" >
+        buyerAlipayNo = #{buyeralipayno,jdbcType=VARCHAR},
+      </if>
+
     </set>
     where oId = #{oid,jdbcType=VARCHAR}
   </update>
@@ -477,7 +489,8 @@
       detailAddress = #{detailaddress,jdbcType=VARCHAR},
       zipCode = #{zipcode,jdbcType=VARCHAR},
       modifyTime = #{modifytime,jdbcType=TIMESTAMP},
-      modifyMan = #{modifyman,jdbcType=VARCHAR}
+      modifyMan = #{modifyman,jdbcType=VARCHAR},
+      buyerAlipayNo = #{buyeralipayno,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

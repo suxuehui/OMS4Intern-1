@@ -1,7 +1,9 @@
 package com.arvato.oms.model;
 
+import com.arvato.oms.utils.DatetoString;
+
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
+
 import java.util.Date;
 
 public class OrderModel {
@@ -63,6 +65,19 @@ public class OrderModel {
 
     private String modifyman;
 
+    private String  buyeralipayno;
+
+    //日期格式转换
+    DatetoString ft=new DatetoString();
+
+    public String getBuyeralipayno() {
+        return buyeralipayno;
+    }
+
+    public void setBuyeralipayno(String buyeralipayno) {
+        this.buyeralipayno = buyeralipayno;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -116,7 +131,7 @@ public class OrderModel {
     }
 
     public void setOrdertime(Date ordertime) {
-        this.ordertime = formmat(ordertime);
+        this.ordertime = ft.formmat(ordertime);
     }
 
     public String getBasestatus() {
@@ -148,7 +163,7 @@ public class OrderModel {
     }
 
     public void setPaytime(Date paytime) {
-        this.paytime = formmat(paytime);
+        this.paytime = ft.formmat(paytime);
     }
 
     public BigDecimal getGoodstolprice() {
@@ -204,7 +219,7 @@ public class OrderModel {
     }
 
     public void setSendtime(Date sendtime) {
-        this.sendtime = formmat(sendtime);
+        this.sendtime = ft.formmat(sendtime);
     }
 
 
@@ -280,12 +295,13 @@ public class OrderModel {
         this.zipcode = zipcode == null ? null : zipcode.trim();
     }
 
+
     public String getModifytime() {
         return modifytime;
     }
 
     public void setModifytime(Date modifytime) {
-        this.modifytime = formmat(modifytime);
+        this.modifytime = ft.formmat(modifytime);
     }
 
     public String getModifyman() {
@@ -296,16 +312,7 @@ public class OrderModel {
         this.modifyman = modifyman == null ? null : modifyman.trim();
     }
 
-    public String formmat(Date date)
-    {
-        if(date==null)
-        {
-            return null;
-        }
-        SimpleDateFormat sim=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        String str=sim.format(date);
-        return str;
-    }
+
 
     @Override
     public String toString() {
@@ -316,18 +323,18 @@ public class OrderModel {
                 ", orderstatus='" + orderstatus + '\'' +
                 ", orderform='" + orderform + '\'' +
                 ", buyerid='" + buyerid + '\'' +
-                ", ordertime=" + ordertime +
+                ", ordertime='" + ordertime + '\'' +
                 ", basestatus='" + basestatus + '\'' +
                 ", paystatus='" + paystatus + '\'' +
                 ", paystyle='" + paystyle + '\'' +
-                ", paytime=" + paytime +
+                ", paytime='" + paytime + '\'' +
                 ", goodstolprice=" + goodstolprice +
                 ", discountprice=" + discountprice +
                 ", ordertolprice=" + ordertolprice +
                 ", goodswarehouse='" + goodswarehouse + '\'' +
                 ", logisticscompany='" + logisticscompany + '\'' +
                 ", logisticsid='" + logisticsid + '\'' +
-                ", sendtime=" + sendtime +
+                ", sendtime='" + sendtime + '\'' +
                 ", remark='" + remark + '\'' +
                 ", receivername='" + receivername + '\'' +
                 ", receivermobel='" + receivermobel + '\'' +
@@ -337,8 +344,9 @@ public class OrderModel {
                 ", receiverarea='" + receiverarea + '\'' +
                 ", detailaddress='" + detailaddress + '\'' +
                 ", zipcode='" + zipcode + '\'' +
-                ", modifytime=" + modifytime +
+                ", modifytime='" + modifytime + '\'' +
                 ", modifyman='" + modifyman + '\'' +
+                ", buyeralipayno='" + buyeralipayno + '\'' +
                 '}';
     }
 }

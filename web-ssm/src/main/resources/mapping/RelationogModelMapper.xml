@@ -7,11 +7,12 @@
     <result column="goodsNo" property="goodsno" jdbcType="VARCHAR" />
     <result column="goodNum" property="goodnum" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="divideorderfee" property="divideorderfee" jdbcType="DECIMAL" />
+    <result column="totalfee" property="totalfee" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, oId, goodsNo, goodNum
+    id, oId, goodsNo, goodNum,divideorderfee,totalfee
   </sql>
-
 
   <!--计算锁定库存-->
   <select id="selectGoodsRnum" parameterType="java.lang.String" resultType="java.lang.Integer">
@@ -77,6 +78,12 @@
       <if test="status != null" >
         status,
       </if>
+      <if test="divideorderfee != null" >
+        divideorderfee,
+      </if>
+      <if test=" totalfee  != null" >
+        totalfee
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -93,6 +100,12 @@
       </if>
       <if test="status != null" >
         #{status,jdbcType=TINYINT},
+      </if>
+      <if test="divideorderfee != null" >
+        #{divideorderfee,jdbcType=TINYINT},
+      </if>
+      <if test=" totalfee  != null" >
+        #{totalfee,jdbcType=TINYINT}
       </if>
     </trim>
   </insert>
@@ -111,6 +124,12 @@
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="divideorderfee != null" >
+        divideorderfee = #{divideorderfee,jdbcType=TINYINT},
+      </if>
+      <if test=" totalfee  != null" >
+        totalfee = #{totalfee,jdbcType=TINYINT}
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}

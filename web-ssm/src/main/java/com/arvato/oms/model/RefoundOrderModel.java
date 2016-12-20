@@ -1,5 +1,7 @@
 package com.arvato.oms.model;
 
+import com.arvato.oms.utils.DatetoString;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -14,11 +16,13 @@ public class RefoundOrderModel {
 
     private String returnedid;
 
-    private Date createtime;
+    private String createtime;
 
-    private Date modifytime;
+    private String modifytime;
 
     private String modifyman;
+    //日期格式转换
+    DatetoString ft=new DatetoString();
 
     public Integer getId() {
         return id;
@@ -60,20 +64,20 @@ public class RefoundOrderModel {
         this.returnedid = returnedid == null ? null : returnedid.trim();
     }
 
-    public Date getCreatetime() {
+    public String getCreatetime() {
         return createtime;
     }
 
     public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
+        this.createtime = ft.formmat(createtime);
     }
 
-    public Date getModifytime() {
+    public String getModifytime() {
         return modifytime;
     }
 
     public void setModifytime(Date modifytime) {
-        this.modifytime = modifytime;
+        this.modifytime = ft.formmat(modifytime);
     }
 
     public String getModifyman() {

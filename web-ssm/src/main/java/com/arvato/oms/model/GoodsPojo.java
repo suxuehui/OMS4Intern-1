@@ -8,8 +8,6 @@ import java.math.BigDecimal;
 public class GoodsPojo {
     private String goodsno;
 
-
-
     private String goodsname;
 
     private Integer goodsvnum;

@@ -125,7 +125,6 @@ public class UserController
         list.add(11);
         list.add(12);
         userModelService.deleteUserByIds(list);
-
         return "showUser2";
     }
 }

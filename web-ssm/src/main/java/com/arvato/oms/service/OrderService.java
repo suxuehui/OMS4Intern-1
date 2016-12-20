@@ -2,7 +2,7 @@ package com.arvato.oms.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.arvato.oms.model.OrderModel;
-import com.arvato.oms.model.RelationRgModel;
+import com.arvato.oms.model.RelationrgModel;
 import com.arvato.oms.model.ReturnedModel;
 
 /**
@@ -20,5 +20,5 @@ public interface OrderService {
     public int outboundOrder(String oId);
     public int insertSelective(ReturnedModel record);
     public int importOrder(String str);
-    public int insertSelective(RelationRgModel record);
+    public int insertSelective(RelationrgModel record);
 }

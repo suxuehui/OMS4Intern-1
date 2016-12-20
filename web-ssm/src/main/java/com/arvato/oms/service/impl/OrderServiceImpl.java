@@ -39,7 +39,7 @@ public class OrderServiceImpl implements OrderService
     @Resource
     ReturnedModelMapper returnedModelMapper;
     @Resource
-    RelationRgModelMapper relationrgModelMapper;
+    RelationrgModelMapper relationrgModelMapper;
     //分页查询所有订单信息
     public JSONObject selectAll(int pageNo, int pageSize)
     {
@@ -481,7 +481,7 @@ public class OrderServiceImpl implements OrderService
         return j;
     }
 
-    public int insertSelective(RelationRgModel record)
+    public int insertSelective(RelationrgModel record)
     {
         return relationrgModelMapper.insertSelective(record);
     }

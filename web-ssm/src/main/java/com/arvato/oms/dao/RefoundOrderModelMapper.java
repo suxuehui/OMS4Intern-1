@@ -14,11 +14,6 @@ public interface RefoundOrderModelMapper
 
     int insertSelective(RefoundOrderModel refoundOrderModel);
 
-     /*
-     * 2016/12/14
-     * zhou???????
-      */
-
      long Count();
     long CountdDrawbackStatus(String txtvalue);
     long CountReturnedId(String txtvalue);

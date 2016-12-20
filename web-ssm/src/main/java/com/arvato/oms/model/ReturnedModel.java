@@ -1,7 +1,8 @@
 package com.arvato.oms.model;
 
+import com.arvato.oms.utils.DatetoString;
+
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ReturnedModel {
@@ -24,6 +25,18 @@ public class ReturnedModel {
     private String modifytime;
 
     private String modifyman;
+
+    private String buyeralipayno;
+//日期转换
+    DatetoString ft=new DatetoString();
+
+    public String getBuyeralipayno() {
+        return buyeralipayno;
+    }
+
+    public void setBuyeralipayno(String buyeralipayno) {
+        this.buyeralipayno = buyeralipayno;
+    }
 
     public Integer getId() {
         return id;
@@ -86,7 +99,7 @@ public class ReturnedModel {
     }
 
     public void setCreatetime(Date createtime) {
-        this.createtime = formmat(createtime);
+        this.createtime = ft.formmat(createtime);
     }
 
     public String getModifytime() {
@@ -94,7 +107,7 @@ public class ReturnedModel {
     }
 
     public void setModifytime(Date modifytime) {
-        this.modifytime = formmat(modifytime);
+        this.modifytime = ft.formmat(modifytime);
     }
 
     public String getModifyman() {
@@ -105,10 +118,5 @@ public class ReturnedModel {
         this.modifyman = modifyman == null ? null : modifyman.trim();
     }
 
-    public String formmat(Date date)
-    {
-        SimpleDateFormat sim=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        String str=sim.format(date);
-        return str;
-    }
+
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.arvato.oms.dao.RelationrgModelMapper" >
-  <resultMap id="BaseResultMap" type="com.arvato.oms.model.RelationRgModel" >
+  <resultMap id="BaseResultMap" type="com.arvato.oms.model.RelationrgModel" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="returnedId" property="returnedid" jdbcType="VARCHAR" />
     <result column="goodsNo" property="goodsno" jdbcType="VARCHAR" />
@@ -20,13 +20,13 @@
     delete from relationrg
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.arvato.oms.model.RelationRgModel" >
+  <insert id="insert" parameterType="com.arvato.oms.model.RelationrgModel" >
     insert into relationrg (id, returnedId, goodsNo, 
       goodNum)
     values (#{id,jdbcType=INTEGER}, #{returnedid,jdbcType=VARCHAR}, #{goodsno,jdbcType=VARCHAR}, 
       #{goodnum,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.arvato.oms.model.RelationRgModel" >
+  <insert id="insertSelective" parameterType="com.arvato.oms.model.RelationrgModel" >
     insert into relationrg
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -57,7 +57,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.arvato.oms.model.RelationRgModel" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.arvato.oms.model.RelationrgModel" >
     update relationrg
     <set >
       <if test="returnedid != null" >
@@ -72,7 +72,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.arvato.oms.model.RelationRgModel" >
+  <update id="updateByPrimaryKey" parameterType="com.arvato.oms.model.RelationrgModel" >
     update relationrg
     set returnedId = #{returnedid,jdbcType=VARCHAR},
       goodsNo = #{goodsno,jdbcType=VARCHAR},

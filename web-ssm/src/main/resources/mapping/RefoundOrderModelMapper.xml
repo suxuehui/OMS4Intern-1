@@ -10,6 +10,9 @@
     <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
     <result column="modifyTime" property="modifytime" jdbcType="TIMESTAMP" />
     <result column="modifyMan" property="modifyman" jdbcType="VARCHAR" />
+
+
+
   </resultMap>
   <sql id="Base_Column_List" >
     id, drawbackId, drawbackMoney, drawbackStatus, returnedId, createTime, modifyTime, 
