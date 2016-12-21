@@ -190,7 +190,7 @@
                                 <li><input type="button" value="删除" onclick="waredelete()" class="btn"></li>
                             </ul>
                                 <input type="button" value="查询" onclick="wareGetnowPage(1)"  class="submitBtn fr">
-                                <input type="text" class="textArea fr" id="whtxt">
+                                <input type="text" value=" " class="textArea fr" id="whtxt">
                                 <select id="whselectid" class="selectArea fr">
                                     <option value="1">仓库编号</option>
                                     <option value="2">名称</option>
