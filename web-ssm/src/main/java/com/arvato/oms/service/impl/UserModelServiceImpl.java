@@ -119,12 +119,12 @@ public class UserModelServiceImpl implements UserModelService
          * @Return: List<UsersModel>
          */
         Integer countUser = userModelMapper.countSelectUser(name);
-        Page page = new Page(pageNow,num);
+        Page page = new Page(countUser,pageNow,num);
         List<UsersModel> usersModels = userModelMapper.selectUserByNameAndPage(name,page.getStartPos(),num);
         log.info("StartPos:"+page.getStartPos());
         JSONObject json = new JSONObject();
         json.put("userList",usersModels);
-        json.put("totalPage",page.getTotalPageCount(countUser));
+        json.put("totalPage",page.getTotalPageCount());
         return json;
     }
 
@@ -139,13 +139,13 @@ public class UserModelServiceImpl implements UserModelService
          * @Return: List<UsersModel>
          */
         Integer countUser = userModelMapper.countUser();
-        Page page = new Page(pageNow,num);
+        Page page = new Page(countUser,pageNow,num);
 
         List<UsersModel> usersModels = userModelMapper.selectAllUser(page.getStartPos(),num);
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("userList",usersModels);
-        jsonObject.put("totalPage",page.getTotalPageCount(countUser));
+        jsonObject.put("totalPage",page.getTotalPageCount());
         return jsonObject;
     }
 
