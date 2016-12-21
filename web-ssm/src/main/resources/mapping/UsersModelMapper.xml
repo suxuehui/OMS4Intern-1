@@ -44,7 +44,7 @@
   </select>
 
   <select id="countUser" resultType="int">
-    SELECT COUNT(*) FROM user
+    SELECT COUNT(1) FROM user
   </select>
 
   <delete id="deleteUserById">
@@ -53,4 +53,15 @@
       #{uIdItem}
     </foreach>
   </delete>
+
+  <select id="selectOneUserByName" resultMap="BaseResultMap">
+    SELECT * FROM user
+    where uName = #{uname}
+  </select>
+
+  <select id="countSelectUser" resultType="int">
+    SELECT COUNT(1) FROM user
+    WHERE uName LIKE '%${uName}%'
+  </select>
+
 </mapper>
