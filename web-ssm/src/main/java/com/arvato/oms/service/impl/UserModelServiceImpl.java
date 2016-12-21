@@ -1,9 +1,12 @@
 package com.arvato.oms.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
+import com.arvato.oms.controller.UserController;
 import com.arvato.oms.dao.UserModelMapper;
 import com.arvato.oms.model.UsersModel;
 import com.arvato.oms.service.UserModelService;
 import com.arvato.oms.utils.Page;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +23,8 @@ public class UserModelServiceImpl implements UserModelService
 
     @Resource
     UserModelMapper userModelMapper;
+
+    private Logger log = Logger.getLogger(UserModelServiceImpl.class);
 
     public int login(String uName, String uPassword)
     {
@@ -74,6 +79,7 @@ public class UserModelServiceImpl implements UserModelService
          * @Return: int 0为不存在，1为存在， 2为数据库有多条同名用户（异常情况）
          */
         List<UsersModel> usersModels = userModelMapper.selectUserByName(uName);
+        log.info("查询用户个数："+usersModels.size());
         if (usersModels.isEmpty())
         {
             return 0;
@@ -101,7 +107,7 @@ public class UserModelServiceImpl implements UserModelService
         return i;
     }
 
-    public List<UsersModel> getUsersByUname(String name, int num, int pageNow)
+    public JSONObject getUsersByUname(String name, int num, int pageNow)
     {
         /**
          * @Author: 马潇霄
@@ -112,13 +118,17 @@ public class UserModelServiceImpl implements UserModelService
          * @param pageNow 现在的页码
          * @Return: List<UsersModel>
          */
-        Integer countUser = userModelMapper.countUser();
-        Page page = new Page(countUser, pageNow);
-        List<UsersModel> usersModels = userModelMapper.selectUserByNameAndPage(name, num, page.getStartPos());
-        return usersModels;
+        Integer countUser = userModelMapper.countSelectUser(name);
+        Page page = new Page(pageNow,num);
+        List<UsersModel> usersModels = userModelMapper.selectUserByNameAndPage(name,page.getStartPos(),num);
+        log.info("StartPos:"+page.getStartPos());
+        JSONObject json = new JSONObject();
+        json.put("userList",usersModels);
+        json.put("totalPage",page.getTotalPageCount(countUser));
+        return json;
     }
 
-    public List<UsersModel> getAllUser(int num, int pageNow)
+    public JSONObject getAllUser(int num, int pageNow)
     {
         /**
          * @Author: 马潇霄
@@ -129,11 +139,14 @@ public class UserModelServiceImpl implements UserModelService
          * @Return: List<UsersModel>
          */
         Integer countUser = userModelMapper.countUser();
-        Page page = new Page(countUser, pageNow);
+        Page page = new Page(pageNow,num);
 
-        List<UsersModel> usersModels = userModelMapper.selectAllUser(page.getStartPos(), num);
+        List<UsersModel> usersModels = userModelMapper.selectAllUser(page.getStartPos(),num);
 
-        return usersModels;
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("userList",usersModels);
+        jsonObject.put("totalPage",page.getTotalPageCount(countUser));
+        return jsonObject;
     }
 
     public List<UsersModel> getAllUserFirstPage(int num)
@@ -147,7 +160,7 @@ public class UserModelServiceImpl implements UserModelService
         return null;
     }
 
-    public void deleteUserByIds(List<Integer> uIds)
+    public int deleteUserByIds(List<Integer> uIds)
     {
         /**
          * @Author: 马潇霄
@@ -155,7 +168,28 @@ public class UserModelServiceImpl implements UserModelService
          * @Date: 16:11 2016/12/7
          * @param uIds 用户Id
          */
-        userModelMapper.deleteUserById(uIds);
+
+        return  userModelMapper.deleteUserById(uIds);
+    }
+
+    public boolean isAdmin(String uname)
+    {
+        /**
+         * @Author: 马潇霄
+         * @Description: 判断用户是否是管理员 ，
+         * @Date: 10:55 2016/12/16
+         * @param uname
+         * @Return: boolean :true 为管理员， false为非管理员
+         */
+        UsersModel usersModel = userModelMapper.selectOneUserByName(uname);
+        String urole = usersModel.getUrole();//1表示管理员，2表示普通用户
+        if (urole.equals("1"))
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
     }
 
 
