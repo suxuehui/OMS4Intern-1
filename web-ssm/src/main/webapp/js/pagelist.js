@@ -14,8 +14,7 @@ function  GetNavPage(totalpages,currentPage,divpage){
             //处理上一页的连接
             output += "<a class='pageLink' href='javascript:void(0)' onclick='GetnowPage("+lastpage+")'>上一页</a> ";
         }
-        else {
-        }
+
         output += " ";
         var currint = 5;
         var page = 1;
@@ -39,8 +38,7 @@ function  GetNavPage(totalpages,currentPage,divpage){
             //处理下一页的链接
             output += "<a class='pageLink' href='javascript:void(0)' onclick='GetnowPage(" + nextpage + ")'>下一页</a> ";
         }
-        else {
-        }
+
         output += " ";
         if (currentPage != totalpages) {
             output += "<a class='pageLink' href='javascript:void(0)' onclick='GetnowPage(" + totalpages + ")'>末页</a> ";

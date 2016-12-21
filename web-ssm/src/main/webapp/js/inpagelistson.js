@@ -2,15 +2,9 @@
  * Created by GONG036 on 2016/12/11.
  */
 
-//分页中测试返回的oid
-/*function ps(oid,w){
- alert(oid+"qq"+w);
- oid="OOYYYYMMDD"+oid;
- alert(oid+"bbbb"+w);
- }*/
 function inpagelistson(totalpages,currentPage,insonpl,oid){
     var output = "<h5>第" + currentPage + "页 / 共" + totalpages + "页</h5>";
-    oid=oid.substring(10);//截取字符串
+
     if (totalpages > 1) {
         if (currentPage != 1) {
             //处理首页连接

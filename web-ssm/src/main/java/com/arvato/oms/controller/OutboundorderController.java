@@ -31,12 +31,6 @@ public class OutboundorderController {
      @Resource
     private GoodsModelService godserviceimpl;
 
-    //进入页面
-    @RequestMapping(value="listindex")
-    public String listseach(){
-        return "OutboundOrder";
-    }
-
 
     //通过分页查询所有列表 listseach'
     @RequestMapping(value="listseach")
@@ -51,11 +45,11 @@ public class OutboundorderController {
     @ResponseBody
     public String  listobolson(HttpServletRequest request )
     {
+
         String str=oboserciveimpl.listSonPage(request);
 
         return str;
     }
-
     //详情页面展示
     @RequestMapping(value="details")
     public String  details(HttpServletRequest request,Model model){

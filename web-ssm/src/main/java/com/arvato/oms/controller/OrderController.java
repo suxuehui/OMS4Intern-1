@@ -3,8 +3,9 @@ package com.arvato.oms.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.arvato.oms.model.ErrorModel;
 import com.arvato.oms.model.*;
-import com.arvato.oms.service.impl.OrderServiceImpl;
+import com.arvato.oms.service.OrderService;
 import com.arvato.oms.utils.HTTPClientDemo;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -36,31 +37,12 @@ import java.util.List;
 public class OrderController
 {
     @Resource
-    OrderServiceImpl orderService;
+    OrderService orderService;
 
     @RequestMapping("OMSPage")
     public String order()
     {
         return "OMSPage";
-    }
-    @RequestMapping("rorder")
-    public String rorder()
-    {
-        return "rorder";
-    }
-    @RequestMapping("modify")
-    public String modify(String oId,Model model)
-    {
-        OrderModel orderModel=orderService.selectByOid(oId);
-        model.addAttribute("orderModel",orderModel);
-        return "modify";
-    }
-    //分页查询数据库所有订单信息
-    @RequestMapping("queryOrders")
-    public @ResponseBody JSONObject queryOrders(int pageNo,int pageSize)
-    {
-        JSONObject jsonObject=orderService.selectAll(pageNo,pageSize);
-        return jsonObject;
     }
     //根据订单号查看商品信息
     @RequestMapping("queryGoods")
@@ -69,20 +51,39 @@ public class OrderController
         JSONObject jsonObject=orderService.selectByOid(pageNo,pageSize,oId);
         return jsonObject;
     }
+    //进入详情页
+    @RequestMapping("orderdetail")
+    public String orderdetail(String oId,Model model)
+    {
+        OrderModel orderModel=orderService.selectByOid(oId);
+        List<GoodsPojo> goodsPojoList=orderService.selectGoodsByOid(oId);
+        model.addAttribute("orderModel",orderModel);
+        model.addAttribute("goodsPojoList",goodsPojoList);
+        return "orderDetails";
+    }
+    //取消编辑
+    @RequestMapping("cancelEdit")
+    public String cancelEdit(HttpServletRequest request,Model model)
+    {
+        String oId=request.getParameter("oId");
+        System.out.println("oId-------------"+oId);
+        OrderModel orderModel=orderService.selectByOid(oId);
+        List<GoodsPojo> goodsPojoList=orderService.selectGoodsByOid(oId);
+        model.addAttribute("orderModel",orderModel);
+        model.addAttribute("goodsPojoList",goodsPojoList);
+        return "orderDetails";
+    }
     //修改订单信息
     @RequestMapping("modifyInfo")
-    public @ResponseBody int modifyInfo(HttpServletRequest request, HttpSession session)
+    public String modifyInfo(HttpServletRequest request, HttpSession session,Model model)
     {
-        String oid=request.getParameter("oid");
+        String oid=request.getParameter("oId");
+        System.out.println(oid);
         OrderModel orderModel=orderService.selectByOid(oid);
         if(orderModel==null)
         {
-            return 0;
+            return null;
         }
-        orderModel.setGoodswarehouse(request.getParameter("goodsWarehouse"));
-        orderModel.setLogisticscompany(request.getParameter("logisticsCompany"));
-        orderModel.setLogisticsid(request.getParameter("logisticsId"));
-        orderModel.setSendtime(new Date(request.getParameter("sendTime")));
         orderModel.setReceivername(request.getParameter("receiverName"));
         orderModel.setReceivermobel(request.getParameter("receiverMobel"));
         orderModel.setReceivertelnum(request.getParameter("receiverTelnum"));
@@ -94,74 +95,43 @@ public class OrderController
         orderModel.setModifytime(new Date());
         orderModel.setModifyman((String)session.getAttribute("uname"));
         int i=orderService.updateByOidSelective(orderModel);
-        return i;
+        List<GoodsPojo> goodsPojoList=orderService.selectGoodsByOid(oid);
+        model.addAttribute("orderModel",orderModel);
+        model.addAttribute("goodsPojoList",goodsPojoList);
+        return "orderDetails";
     }
     //条件查询，分页，模糊查询
     @RequestMapping("queryByCondition")
     public @ResponseBody JSONObject queryByOid(int queryMode,int pageNo,int pageSize,String data,Model model)
     {
+        System.out.println("pageNo:"+pageNo+"-pageSize:"+pageSize);
         JSONObject orderModelList=orderService.selects(queryMode,pageNo,pageSize,"%"+data+"%");
         return orderModelList;
     }
+
+    //检查订单是否可以退换货
+    @RequestMapping("checkreturn")
+    public @ResponseBody int checkreturn(String oid)
+    {
+        return orderService.checkreturn(oid);
+    }
+
     //退换货
     @RequestMapping("returnGoods")
     public @ResponseBody int returnGoods(String jsonStr)
     {
         System.out.println(jsonStr);
-        JSONObject jsonObject=JSON.parseObject(jsonStr);
-        ArrayList<GoodsPojo> goodsList=JSON.parseObject(jsonObject.getString("goods"),new TypeReference<ArrayList<GoodsPojo>>(){});
-        ReturnedModel returnedModel=new ReturnedModel();
-        RelationrgModel[] relationrgModels =new RelationrgModel[goodsList.size()];
-        returnedModel.setOid(jsonObject.getString("oid"));
-        OrderModel orderModel=orderService.selectByOid(jsonObject.getString("oid"));
-        if(orderModel==null)
-        {
-            return 0;//订单不存在
-        }
-        if(!orderModel.getOrderstatus().equals("已完成"))
-        {
-            return 0;//订单未完成
-        }
-        if(goodsList.size()==0)
-        {
-            return 0;//没有选择商品
-        }
-        returnedModel.setChanneloid(jsonObject.getString("channeloid"));
-        returnedModel.setReturnedid("RT"+jsonObject.getString("oid"));
-        returnedModel.setReturnedorchange(jsonObject.getString("returnedOrChange"));
-        double returnedMoney=0.00;
-        for(int i=0;i<goodsList.size();i++)
-        {
-            returnedMoney+=goodsList.get(i).getGoodNum()*(goodsList.get(i).getGoodsprice()).doubleValue();
-            relationrgModels[i]=new RelationrgModel();
-            relationrgModels[i].setReturnedid("RT"+jsonObject.getString("oid"));
-            relationrgModels[i].setGoodsno(goodsList.get(i).getGoodsno());
-            relationrgModels[i].setGoodnum(goodsList.get(i).getGoodNum());
-        }
-        returnedModel.setReturnedmoney(new BigDecimal(returnedMoney));
-        returnedModel.setReturnedstatus("待审核");
-        Date date=new Date();
-        returnedModel.setCreatetime(date);
-        int i=orderService.insertSelective(returnedModel);
-        if(i==0)
-        {
-            return 0;
-        }
-        for(RelationrgModel re: relationrgModels)
-        {
-            int j=orderService.insertSelective(re);
-            if(j==0)
-            {
-                return 0;
-            }
-        }
-        return 1;
+        return orderService.returnGoods(jsonStr);
     }
 
     //预检
-    @RequestMapping("previewOrder ")
-    public @ResponseBody JSONObject previewOrder(String[] oIds)
+    @RequestMapping("previewOrder")
+    public @ResponseBody JSONObject previewOrder(String[] oIds,HttpSession session)
     {
+        for(String str:oIds)
+        {
+            System.out.println(str);
+        }
         int success=0;
         int exception=0;
         if(oIds==null)
@@ -171,8 +141,8 @@ public class OrderController
         List<ErrorModel> errorModelList=new ArrayList<ErrorModel>();
         for(int i=0;i<oIds.length;i++)
         {
-            int j=orderService.previewOrder(oIds[i],null);
-            if(j==0)
+            int j=orderService.previewOrder(oIds[i],null,(String)session.getAttribute("uname"));
+            if(j==1)
             {
                 success++;
             }
@@ -309,7 +279,7 @@ public class OrderController
         for(int i=0;i<oIds.length;i++)
         {
             int j=orderService.cancleOrder(oIds[i]);
-            if(i==1)
+            if(j==1)
             {
                 success++;
             }
@@ -326,11 +296,6 @@ public class OrderController
                 {
                     errorModel.setoId(oIds[i]);
                     errorModel.setCause("订单不存在");
-                }
-                if(i==3)
-                {
-                    errorModel.setoId(oIds[i]);
-                    errorModel.setCause("订单状态不符");
                 }
             }
         }
@@ -409,13 +374,15 @@ public class OrderController
     @RequestMapping("interface")
     public @ResponseBody String inter(@RequestBody String str)
     {
-        return str;
+        return "ccc"+str;
     }
+
     @RequestMapping("test")
     public @ResponseBody String test(String str)
     {
-        HTTPClientDemo http=new HTTPClientDemo("http://localhost:8080/oms/order/interface");
+        HTTPClientDemo http=new HTTPClientDemo("http://localhost:8080/oms/order/interfac");
         String s=http.postMethod(str);
+        System.out.println(s);
         return s;
     }
 }

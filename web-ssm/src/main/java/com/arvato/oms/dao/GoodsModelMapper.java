@@ -19,6 +19,8 @@ public interface GoodsModelMapper {
 
     //通过商品编码获取商品信息
     GoodsModel selectByGoodsNo(String record);
+	
+	GoodsModel selectByPrimaryKey(String goodsno);
 
     List<GoodsPojo> selectByOid(Integer pageNo,Integer pageSize,String oId);
 

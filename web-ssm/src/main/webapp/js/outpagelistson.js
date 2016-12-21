@@ -5,7 +5,7 @@
 /*出库单子页面的分页js*/
 function outpagelistson(totalpages,currentPage,outsonpl,oid){
     var output = "<h5>第" + currentPage + "页 / 共" + totalpages + "页</h5>";
-    oid=oid.substring(10);//截取字符串
+  //  oid=oid.substring(2);//截取字符串
     if (totalpages > 1) {
         if (currentPage != 1) {
             //处理首页连接
@@ -18,7 +18,7 @@ function outpagelistson(totalpages,currentPage,outsonpl,oid){
         }
         output += " ";
         var currint = 5;
-        var page = 1;
+        var page;
         for (var i = 0; i <= 10; i++) {
             //一共最多显示10个页码，前面5个，后面5个
             page = currentPage + i - currint;

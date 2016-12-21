@@ -47,8 +47,6 @@ function outGetnowPage(pagenow){
     });
 }
 
-
-
 /*点击checkbox */
 function tooutcheck(oid){ //id为checkbox的id 属性值
     var count = 0;
@@ -74,9 +72,6 @@ function tooutOrderdetail(oid){
     window.open("/oms/outboundorder/details?oid="+oid);
 }
 
-
-
-
 /*出库单 单击双击事件跳转*/
 var outisdb;
 function outsgclick(oid) {
@@ -84,7 +79,7 @@ function outsgclick(oid) {
     window.setTimeout(cc, 250);
     function cc() {
         if (outisdb != false)return;
-        outpostOid(oid);
+        outpostOid(oid);//单击跳转子页面
     }
 }
 //双击跳转详细页面
@@ -96,13 +91,10 @@ function outdblclick(oid) {
     //单击跳转子页面
 function  outpostOid(oid)
 {
-       //OOYYYYMMDD12345
-       oid=oid.substring(10);//1234
        outpageson(oid,1);
 }
 
 function outpageson(oid,pagenow){
-    oid="OOYYYYMMDD"+oid;
     $.ajax({
         type : 'get',
         url :'/oms/outboundorder/listobolson',

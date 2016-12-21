@@ -15,21 +15,21 @@
     <result column="goodsPrice" property="goodsprice" jdbcType="DECIMAL" />
     <result column="goodsTolnum" property="goodstolnum" jdbcType="INTEGER" />
     <result column="goodNum" property="goodNum" jdbcType="INTEGER" />
+    <result column="divideorderfee" property="divideorderfee" jdbcType="DECIMAL" />
+    <result column="totalfee" property="totalfee" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Base_Column_List" >
-    goodsNo, goodsName, goodsVnum, goodsPrice,goodsTolnum
+    goodsNo, goodsName, goodsVnum, goodsPrice, goodsTolnum
   </sql>
   <sql id="GoodsPojo_Column_List" >
-    goods.goodsNo, goodsName, goodsPrice,goodsTolnum, goodNum
+    goods.goodsNo, goodsName, goodsPrice,goodsTolnum, goodNum,divideorderfee,totalfee
   </sql>
-
   <select id="selectByGoodsNo" resultMap="BaseResultMap" parameterType="java.lang.String">
     SELECT
     <include refid="Base_Column_List" />
     FROM goods
     WHERE goodsNo = #{goodsNo, jdbcType=VARCHAR}
   </select>
-
   <!--按订单号分页查询商品信息-->
   <select id="selectByOid" resultMap="GoodsPojo"  >
     select
@@ -37,7 +37,6 @@
     from goods,relationog
     where oId = #{2,jdbcType=VARCHAR} AND goods.goodsNo = relationog.goodsNo limit #{0},#{1}
   </select>
-
   <!--按订单号查询全部商品-->
   <select id="selectAllByOid" resultMap="GoodsPojo"  >
     select
@@ -46,23 +45,27 @@
     where oId = #{oId,jdbcType=VARCHAR} AND goods.goodsNo = relationog.goodsNo
   </select>
 
-<!--根据goodsNo查数据-->
+  <!--根据goodsNo查数据-->
   <select id="selectOneGoodsByNo" resultMap="BaseResultMap">
     SELECT * FROM goods
     WHERE goodsNo = #{goodsNo}
   </select>
-
-
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from goods
+    where goodsNo = #{goodsno,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from goods
     where goodsNo = #{goodsno,jdbcType=VARCHAR}
   </delete>
-
   <insert id="insert" parameterType="com.arvato.oms.model.GoodsModel" >
-    insert into goods (goodsNo, goodsName, goodsVnum,
-      goodsPrice,goodsTolnum
+    insert into goods (goodsNo, goodsName, goodsVnum, 
+      goodsPrice,  goodsTolnum
       )
-    values (#{goodsno,jdbcType=VARCHAR}, #{goodsname,jdbcType=VARCHAR}, #{goodsvnum,jdbcType=INTEGER},
+    values (#{goodsno,jdbcType=VARCHAR}, #{goodsname,jdbcType=VARCHAR}, #{goodsvnum,jdbcType=INTEGER}, 
       #{goodsprice,jdbcType=DECIMAL}, #{goodstolnum,jdbcType=INTEGER}
       )
   </insert>
@@ -129,7 +132,7 @@
       goodsTolnum = #{goodstolnum,jdbcType=INTEGER}
     where goodsNo = #{goodsno,jdbcType=VARCHAR}
   </update>
-
+  
   <select id="selectAllGoodsByPage" resultMap="BaseResultMap">
     SELECT * FROM goods
     limit #{startPage},#{num}
@@ -197,6 +200,4 @@
     SELECT COUNT(1) FROM goods
     where goodsNo = #{goodsNo}
   </select>
-
-
 </mapper>

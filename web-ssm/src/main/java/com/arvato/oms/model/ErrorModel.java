@@ -8,7 +8,6 @@ import java.util.List;
 public class ErrorModel {
     private String oId;
     private String cause;
-    private List<String> aa;
 
     public String getoId() {
         return oId;
@@ -26,13 +25,6 @@ public class ErrorModel {
         this.cause = cause;
     }
 
-    public List<String> getAa() {
-        return aa;
-    }
-
-    public void setAa(List<String> aa) {
-        this.aa = aa;
-    }
 
     @Override
     public String toString() {
