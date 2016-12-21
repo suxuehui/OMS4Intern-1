@@ -1,0 +1,5 @@
+web-ssm/.idea/
+web-ssm/target/classes/common.properties
+web-ssm/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+web-ssm/target/
+web-ssm/web-ssm.iml
