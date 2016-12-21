@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.arvato.oms.dao.WarehouseModelMapper" >
+  <resultMap id="BaseResultMap" type="com.arvato.oms.model.WarehouseModel" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="warehouseNum" property="warehousenum" jdbcType="VARCHAR" />
+    <result column="warehouseName" property="warehousename" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, warehouseNum, warehouseName
+  </sql>
+
+
+  <!--获取总数-->
+  <select id="Count" resultType="java.lang.Long">
+    select  count(1) from warehouse
+  </select>
+
+  <!--列出所有的信息-->
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from warehouse
+    limit #{startPos},#{pageSize}
+  </select>
+
+  <!--获取总数-->
+  <select id="Countwhnum" resultType="java.lang.Long">
+    select  count(1) from warehouse where warehouseNum like '%${warehousenum}%'
+  </select>
+
+  <!--通过warehousenum选出所有信息-->
+  <select id="selectAllByWhnum" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from warehouse
+    where
+    warehouseNum like '%${warehousenum}%'
+    limit #{startPos},#{pageSize}
+  </select>
+
+  <!--获取总数-->
+  <select id="Countwhname" resultType="java.lang.Long">
+    select  count(1) from warehouse where warehouseName like '%${warehousename}%'
+  </select>
+
+  <!--通过warehousename选出所有信息-->
+  <select id="selectAllByWhname"   resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from warehouse
+    where
+    warehouseName like '%${warehousename}%'
+    limit #{startPos},#{pageSize}
+  </select>
+
+
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from warehouse
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from warehouse
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.arvato.oms.model.WarehouseModel" >
+    insert into warehouse (id, warehouseNum, warehouseName
+      )
+    values (#{id,jdbcType=INTEGER}, #{warehousenum,jdbcType=VARCHAR}, #{warehousename,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.arvato.oms.model.WarehouseModel" >
+    insert into warehouse
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="warehousenum != null" >
+        warehouseNum,
+      </if>
+      <if test="warehousename != null" >
+        warehouseName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="warehousenum != null" >
+        #{warehousenum,jdbcType=VARCHAR},
+      </if>
+      <if test="warehousename != null" >
+        #{warehousename,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.arvato.oms.model.WarehouseModel" >
+    update warehouse
+    <set >
+      <if test="warehousenum != null" >
+        warehouseNum = #{warehousenum,jdbcType=VARCHAR},
+      </if>
+      <if test="warehousename != null" >
+        warehouseName = #{warehousename,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.arvato.oms.model.WarehouseModel" >
+    update warehouse
+    set warehouseNum = #{warehousenum,jdbcType=VARCHAR},
+      warehouseName = #{warehousename,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
