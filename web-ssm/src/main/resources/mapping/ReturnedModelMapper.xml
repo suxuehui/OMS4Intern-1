@@ -101,7 +101,13 @@
     where returnedId = ${returnedId}
   </update>
 
-
+  <!--根据订单号查询退换货单是否存在-->
+  <select id="selectByOid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from returnedorder
+    where oId = #{oId,jdbcType=INTEGER}
+  </select>
 
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -124,6 +130,7 @@
       #{returnedmoney,jdbcType=DECIMAL}, #{createtime,jdbcType=TIMESTAMP}, #{modifytime,jdbcType=TIMESTAMP}, 
       #{modifyman,jdbcType=VARCHAR},#{buyeralipayno,jdbcType=VARCHAR})
   </insert>
+  <!--插入记录-->
   <insert id="insertSelective" parameterType="com.arvato.oms.model.ReturnedModel" >
     insert into returnedorder
     <trim prefix="(" suffix=")" suffixOverrides="," >

@@ -59,7 +59,7 @@
     values (#{id,jdbcType=INTEGER}, #{oid,jdbcType=VARCHAR}, #{goodsno,jdbcType=VARCHAR}, 
       #{goodnum,jdbcType=INTEGER})
   </insert>
-
+<!--插入数据-->
   <insert id="insertSelective" parameterType="com.arvato.oms.model.RelationogModel" >
     insert into relationog
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -102,10 +102,10 @@
         #{status,jdbcType=TINYINT},
       </if>
       <if test="divideorderfee != null" >
-        #{divideorderfee,jdbcType=TINYINT},
+        #{divideorderfee,jdbcType=DECIMAL},
       </if>
       <if test=" totalfee  != null" >
-        #{totalfee,jdbcType=TINYINT}
+        #{totalfee,jdbcType=DECIMAL}
       </if>
     </trim>
   </insert>
@@ -135,10 +135,4 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <!--更新锁定库存-->
-  <update id="updateGoodsRnum" parameterType="com.arvato.oms.model.RelationogModel" >
-    update relationog
-    set status = # {1,jdbcType=TINYINT}
-    where id = #{0,jdbcType=INTEGER}
-  </update>
 </mapper>

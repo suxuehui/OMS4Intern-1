@@ -15,7 +15,7 @@ public interface OrderModelMapper {
         int insert(OrderModel record);
 
         int insertSelective(OrderModel record);
-
+        //根据订单号查询订单
         OrderModel selectByOid(String oId);
         //按订单号模糊查询，分页
         int CountByOid(String oId);

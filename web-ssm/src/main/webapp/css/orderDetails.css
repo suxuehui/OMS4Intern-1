@@ -1,0 +1,69 @@
+@charset "utf-8";
+/* CSS Document */
+.ml15{margin-left:15px}
+.ml20{margin-left:20px}
+.mr20{margin-right:20px}
+.ml30{margin-left:30px}
+.mr30{margin-right:30px}
+.mt5{margin-top:5px}
+.mb5{margin-bottom:5px}
+.w214{width:214px}
+.fl{float:left}
+body{background:#FFF;margin:0;padding:0;font-family:"幼圆",sans-serif;height:100%}
+p{margin:0;padding:0}
+ul{list-style:none;margin:0;padding:0}
+.wrap{width:1360px;min-height:636px;height:100%;margin:0 auto}
+.header{min-height:50px;height:8%;width:1360px;background:#0CF;border-bottom:2px solid #efefef}
+.headerTit{font-size:30px;font-weight:bold;height:50px;line-height:50px}
+.details{width:1360px;min-height:586px;height:92%;background:#e9eef0}
+.detailsBox{width:1360px;min-height:552px;height:94%;overflow-y:auto}
+.detailsMenu{width:1360px;min-height:34px;height:6%;line-height:30px;font-size:20px;font-weight:bold;background:#0CF}
+.detailsCent{width:1330px}
+.contTit{width:424px;height:30px;background:#0CF;font-size:20px;line-height:30px}
+table{margin:0;padding:0;word-break:break-all;word-wrap:break-all;width:100%}
+.content{border-left:1px solid #999;border-right:1px solid #999;border-bottom:1px solid #999;width:422px;background:#FFF;}
+.content .table tr{display:block;margin-left:20px;margin-top:20px;margin-bottom:20px}
+.content .table tr td:first-child{width:150px}
+.detailsCent{width:424px;float:left}
+.detailsCont{width:424px;margin-top:10px}
+.content.extra{height:343px;overflow-y:auto;overflow-x:auto;}
+.seller{width:300px;height:100px}
+.borderBottom{border-bottom:2px solid #CCC}
+.contentBtn
+{   width:100px;height:30px;margin:10px 15px 10px 15px;
+    border-style:none;cursor:pointer;    
+    -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    box-shadow:inset 0px 1px 0px 0px #ffffff;
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #d1d1d1) );
+    background:-moz-linear-gradient( top, #ffffff 5%, #d1d1d1 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#d1d1d1');
+    background-color:#ffffff;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    border:1px solid #dcdcdc;
+    display:inline-block;
+    font-family:"幼圆";
+    font-size:16px;
+    font-weight:bold;
+    text-shadow:1px 1px 0px #ffffff;
+}
+.contentBtn:active
+{
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #d1d1d1), color-stop(1, #ffffff) );
+    background:-moz-linear-gradient( top, #d1d1d1 5%, #ffffff 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#d1d1d1', endColorstr='#ffffff');
+    background-color:#d1d1d1;
+}
+.product{border-bottom:2px solid #CCC;width:100%;overflow:auto}
+.loading{display:none;position:fixed;top:0;left:0; width:100%;height:100%; z-index:99999}
+.loading .mask{position:fixed;top:0;left:0;width:100%;height:100%;background-color:#000;opacity:.8}
+.loading .loading-icon{position:absolute;top:50%;left:50%;margin-left:-40px;margin-top:-40px}
+.editArea{height:25px;width:220px}
+.editArea.revise{width:96px}
+.editArea.edit{border:none;width:224px;height:29px}
+.editArea.edit.revise{width:100px}
+.content .table tr.place td{width:30px}
+.product tr{height:30px;line-height:30px}
+.product tr td:last-child{width:300px;float:right;}

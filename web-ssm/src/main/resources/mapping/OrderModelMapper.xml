@@ -48,6 +48,7 @@
     select count(1)
     from oms_schema.order
   </select>
+<!--根据订单号查询订单-->
   <select id="selectByOid" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
     <include refid="Base_Column_List" />
@@ -361,7 +362,7 @@
         #{modifyman,jdbcType=VARCHAR},
       </if>
       <if test="buyeralipayno != null" >
-        #{buyerAlipayNo,jdbcType=VARCHAR},
+        #{buyeralipayno,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>

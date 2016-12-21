@@ -18,16 +18,38 @@ public class GoodsPojo {
 
     private int goodNum;
 
+    private BigDecimal divideorderfee;
+
+    private BigDecimal totalfee;
+
     public GoodsPojo() {
     }
 
-    public GoodsPojo(String goodsno, String goodsname, Integer goodsvnum, BigDecimal goodsprice, Integer goodstolnum, Integer goodNum) {
+    public GoodsPojo(String goodsno, String goodsname, Integer goodsvnum, BigDecimal goodsprice, Integer goodstolnum, int goodNum, BigDecimal divideorderfee, BigDecimal totalfee) {
         this.goodsno = goodsno;
         this.goodsname = goodsname;
         this.goodsvnum = goodsvnum;
         this.goodsprice = goodsprice;
         this.goodstolnum = goodstolnum;
         this.goodNum = goodNum;
+        this.divideorderfee = divideorderfee;
+        this.totalfee = totalfee;
+    }
+
+    public BigDecimal getDivideorderfee() {
+        return divideorderfee;
+    }
+
+    public void setDivideorderfee(BigDecimal divideorderfee) {
+        this.divideorderfee = divideorderfee;
+    }
+
+    public BigDecimal getTotalfee() {
+        return totalfee;
+    }
+
+    public void setTotalfee(BigDecimal totalfee) {
+        this.totalfee = totalfee;
     }
 
     public String getGoodsno() {
@@ -77,9 +99,7 @@ public class GoodsPojo {
     public void setGoodNum(Integer goodNum) {
         this.goodNum = goodNum;
     }
-    public void setGoodNum(int goodNum) {
-        this.goodNum = goodNum;
-    }
+
     @Override
     public String toString() {
         return "GoodsPojo{" +
@@ -89,6 +109,8 @@ public class GoodsPojo {
                 ", goodsprice=" + goodsprice +
                 ", goodstolnum=" + goodstolnum +
                 ", goodNum=" + goodNum +
+                ", divideorderfee=" + divideorderfee +
+                ", totalfee=" + totalfee +
                 '}';
     }
 }

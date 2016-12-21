@@ -16,6 +16,8 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/css.css">
     <script src="${pageContext.request.contextPath}/js/jquery-3.1.1.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/OMSPage.js"></script>
+    <script src="${pageContext.request.contextPath}/js/OrderPage.js"></script>
+    <script src="${pageContext.request.contextPath}/js/orderpagelist.js"></script>
     <script src="${pageContext.request.contextPath}/js/innavpagelist.js"></script>
     <script src="${pageContext.request.contextPath}/js/outnavpagelist.js"></script>
     <script src="${pageContext.request.contextPath}/js/outpagelistson.js"></script>
@@ -244,23 +246,26 @@
                             <div class="orderSearch beta">
                                 <form>
                                     <ul>
-                                        <li><input type="button" value="预检"  class="btn beta"></li>
-                                        <li><input type="button" value="路由"  class="btn beta"></li>
-                                        <li><input type="button" value="出库"  class="btn beta"></li>
-                                        <li><input type="button" value="取消"  class="btn beta"></li>
-                                        <li><input type="button" value="退货"  class="btn beta"></li>
-                                        <li><input type="button" value="换货"  class="btn beta"></li>
-
-                                        <%--查看按钮  dfdgfg--%>
-                                        <li><input type="button" value="查看订单"  class="btn" disabled="disabled"></li>
-
+                                        <li><input type="button" value="预检"  class="btn beta" name="orderBtn" id="previewOrderBtn"></li>
+                                        <li><input type="button" value="路由"  class="btn beta" name="orderBtn" id="routeOrderBtn"></li>
+                                        <li><input type="button" value="出库"  class="btn beta" name="orderBtn" id="outboundOrderBtn"></li>
+                                        <li><input type="button" value="取消"  class="btn beta" name="orderBtn" id="cancleOrderBtn"></li>
+                                        <li><input type="button" value="退货"  class="btn beta" name="orderBtn" id="returnedOrderBtn"></li>
+                                        <li><input type="button" value="换货"  class="btn beta" name="orderBtn" id="exchangeGoodsBtn"></li>
+                                        <li><input type="button" value="查看订单" class="btn" name="orderBtn" id="queryOBtn"></li>
                                     </ul>
-                                    <input type="button" value="查询" class="submitBtn fr">
-                                    <input type="text" class="textArea fr">
-                                    <select class="selectArea fr">
-                                        <option></option>
-                                        <option></option>
-                                        <option></option>
+                                    <input type="button" value="查询" class="submitBtn fr" id="queryOrderBtn">
+                                    <input type="text" class="textArea fr" id="queryOrderCon">
+                                    <select class="selectArea fr" id="queryMode">
+                                        <option value="1">订单号</option>
+                                        <option value="2">渠道订单号</option>
+                                        <option value="3">订单状态</option>
+                                        <option value="4">支付方式</option>
+                                        <option value="5">物流公司</option>
+                                        <option value="6">省</option>
+                                        <option value="7">市</option>
+                                        <option value="8">区</option>
+                                        <option value="9">收货人手机号</option>
                                     </select>
                                 </form>
                             </div>
@@ -301,44 +306,20 @@
                                             <th class="w100">修改时间</th>
                                             <th class="w100">修改人</th>
                                         </tr>
-                                        <tbody class="tablelsw">
-                                        <tr>
-                                            <td style="text-align:center">1</td>
-                                            <td align="center"><input type="checkbox"></td>
-                                            <td><a>8012984120571209241</a></td>
-                                            <td></td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                        </tr>
+                                        <tbody class="tablelsw" id="order">
                                         </tbody>
+
                                     </table>
                                 </form>
                             </div>
-                            <div class="page"><a>尾页</a><a>下一页</a><a>上一页</a><a>首页</a></div>
+                            <div class="page">
+                                <a id="lastorder">尾页</a>
+                                <a id="nextorder">下一页</a>
+                                <a id="orderPageNo" style="display: none"></a>
+                                <a id="preorder">上一页</a>
+                                <a id="orderPageTotal" style="display: none"></a>
+                                <a id="firstorder">首页</a>
+                            </div>
                         </div>
                     </div>
                     <div class="orderDetails">
@@ -353,19 +334,18 @@
                                         <th>商品个数</th>
                                         <th>商品总价</th>
                                     </tr>
-                                    <tr>
-                                        <td align="center"><input type="checkbox"></td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                    </tr>
+                                    <tr style="display: none"><td id="goodsOid"></td></tr>
+                                    <tbody class="tablelsw" id="ogList">
+                                    </tbody>
 
                                 </table>
                             </form>
                         </div>
-                        <div class="page"><a>尾页</a><a>下一页</a><a>上一页</a><a>首页</a></div>
+                        <div class="page">
+                            <a id="ogPageNo" style="display: none"></a>
+                            <a id="ogPageTotal" style="display: none"></a>
+                            <a id="ogLastpage">尾页</a><a id="ogNextpage">下一页</a>
+                            <a id="ogPrepage">上一页</a><a id="ogFirstpage">首页</a></div>
                     </div>
                 </div>
                 <!--异常订单列表-->
@@ -951,11 +931,11 @@
                 <p class="popupTopTit">导入订单</p>
             </div>
             <div class="popupCont">
-                <form>
+                <form id="importForm" action="importOrder" method="post" enctype="multipart/form-data">
                     <ul>
                         <li>
-                            <input type="file" style="font-size:20px">
-                            <input type="button" value="导入" style="font-size:20px" class="leadingBtn">
+                            <input type="file" style="font-size:20px" name="file">
+                            <input type="button" value="导入" style="font-size:20px" class="leadingBtn" id="importBtn">
                         </li>
                     </ul>
                 </form>

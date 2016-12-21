@@ -19,8 +19,10 @@ public interface ReturnedModelMapper {
     int updateByPrimaryKeySelective(ReturnedModel record);
 
     int updateByPrimaryKey(ReturnedModel record);
+	
+	ReturnedModel selectByOid(String oId);
 
-   int updateStatusToDisable(@Param("ids")List<Integer> ids,@Param("returnedstatus")String returnedstatus);
+    int updateStatusToDisable(@Param("ids")List<Integer> ids,@Param("returnedstatus")String returnedstatus);
 
     int countReturnedOrders();
 
