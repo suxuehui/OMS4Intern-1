@@ -1,6 +1,5 @@
 package com.arvato.oms.service;
 
-import com.arvato.oms.model.UserTest;
 import com.arvato.oms.model.UsersModel;
 
 import java.util.List;

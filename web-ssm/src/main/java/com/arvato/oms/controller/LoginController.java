@@ -1,7 +1,6 @@
 package com.arvato.oms.controller;
 
 import com.arvato.oms.service.UserModelService;
-import com.arvato.oms.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,8 +17,6 @@ public class LoginController
 {
 
     private Logger log = Logger.getLogger(LoginController.class);
-   @Resource
-   private UserService userService;
 
     @Resource
     private UserModelService userModelService;
