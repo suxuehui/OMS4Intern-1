@@ -22,6 +22,7 @@
     <script src="${pageContext.request.contextPath}/js/outnavpagelist.js"></script>
     <script src="${pageContext.request.contextPath}/js/outpagelistson.js"></script>
     <script src="${pageContext.request.contextPath}/js/inpagelistson.js"></script>
+    <script src="${pageContext.request.contextPath}/js/warehouselist.js"></script>
 
 </head>
 

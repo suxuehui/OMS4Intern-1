@@ -41,7 +41,7 @@ function wareGetnowPage(pagenow){
 
 
 // 页面分页 totalpages  总页数   currentPage  当前页数  waredivpage  div的id属性
-function  wareGetNavPage(totalpages,currentPage,whdivpage){
+function  WareGetNavPage(totalpages,currentPage,whdivpage){
     var output = "<h1>第" + currentPage + "页 / 共" + totalpages + "页</h1>";
     if (totalpages > 1) {
         if (currentPage != 1) {
@@ -84,6 +84,6 @@ function  wareGetNavPage(totalpages,currentPage,whdivpage){
         }
         output += " ";
     }
-    var div = document.getElementById("divpage");
+    var div = document.getElementById("whdivpage");
     div.innerHTML = output;
 }

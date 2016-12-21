@@ -84,7 +84,6 @@ function toinOrderdetail(oid){
 
 function indblclick(oid) {
     inisdb = true;
-    alert("测试双击"+oid+"--"+inisdb)
     window.open("/oms/inboundorder/details?oid="+oid);
 }
 
@@ -93,14 +92,10 @@ function indblclick(oid) {
 //单击跳转子页面
 function  inpostOid(oid)
 {
-    alert("入库单 单击跳转子页面 3 " +oid+"--"+inisdb);
-    //OOYYYYMMDD12345
-     oid=oid.substring(10);//1234
     inpageson(oid,1);
 }
 
 function inpageson(oid,pagenow){
-    oid="OOYYYYMMDD"+oid;
     $.ajax({
         type : 'get',
         url :'/oms/inboundorder/listinodson',
@@ -137,7 +132,7 @@ function inpageson(oid,pagenow){
             }
             inpagelistson(totalpages, pagenow,insonpl,oid);
         },
-        error:function (data) {
+        error:function () {
             alert("error");
         }
     });

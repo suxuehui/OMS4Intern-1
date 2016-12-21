@@ -59,7 +59,7 @@ public class OutboundorderServiceImpl implements OutboundorderService
         String id=request.getParameter("txtvalue").trim(); //用户输入的值id
         int selectvalue= Integer.parseInt(request.getParameter("toseachid"))  ;//下拉框的value
         int pagesize=2;
-        Page pagelist  = null;
+        Page pagelist;
         List<OutboundorderModel> list;
         int totalCount ;//获取对象总数量
 
