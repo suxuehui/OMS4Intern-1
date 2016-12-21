@@ -11,7 +11,8 @@
     <meta charset="utf-8">
     <title>登录</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/login.css">
-    <script src="../js/jquery-3.1.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/jquery-3.1.1.min.js"></script>
+
     <script>
         $(function () {
 
