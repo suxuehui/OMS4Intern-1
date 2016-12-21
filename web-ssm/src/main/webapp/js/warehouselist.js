@@ -10,6 +10,7 @@ function wareGetnowPage(pagenow){
     var search_value=document.getElementById("whtxt").value;//查询值
     var s1=pagenow;
     //ajax调用后台方法获取数据并展示
+    alert("测试仓库"+optxt);
     $.ajax({
         type : 'get',
         url :'/oms/warehouse/listsearch',
@@ -23,10 +24,14 @@ function wareGetnowPage(pagenow){
         success:function(data) {
             var datapage = data.pagelist;
             var datalist = data.list;
+
+            alert("测试仓库"+datalist);
+
             $("#warehousetab tbody tr").eq(0).nextAll().remove();
             for(var obj in datalist){
+
                 var  list=datalist[obj];
-                var html='<tr><td> </td><td><input type="checkbox" id="'
+                var html='<tr><td></td><td><input type="checkbox" id="'
                     +list.warehousenum+'" onclick="towhcheck(this.id)"  name="whck"></td><td>'
                     +list.warehousenum+' </td><td>'+list.warehousename+'</td></tr>'
                 $("#warehousetab tbody ").append(html);

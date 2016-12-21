@@ -190,10 +190,10 @@
                                 <li><input type="button" value="删除" onclick="waredelete()" class="btn"></li>
                             </ul>
                                 <input type="button" value="查询" onclick="wareGetnowPage(1)"  class="submitBtn fr">
-                                <input type="text" value=" " class="textArea fr" id="whtxt">
+                                <input type="text"  id="whtxt" value=" " class="textArea fr" >
                                 <select id="whselectid" class="selectArea fr">
-                                    <option value="1">仓库编号</option>
-                                    <option value="2">名称</option>
+                                    <option value="1" selected>仓库编号</option>
+                                    <option value="2" >名称</option>
                                 </select>
                         </div>
                     </div>
@@ -201,20 +201,18 @@
                 <div class="orderDetails">
                     <div class="tableDetails">
                         <form>
-                            <table cellspacing="0" cellpadding="0">
+                            <table id="warehousetab" cellspacing="0" cellpadding="0">
                                 <tr class="tableTit">
                                     <th class="w50">序号</th>
                                     <th class="w50">批量</th>
                                     <th>仓库编号</th>
                                     <th>名称</th>
                                 </tr>
-                                <tbody>
 
-
-                                </tbody>
                             </table>
                         </form>
                     </div>
+                    <%--分页列出仓库列表--%>
                     <div id="whdivpage"> </div>
                 </div>
             </div><!--orderMain结束-->
@@ -449,7 +447,6 @@
                                 <ul>
 
                                     <li><input type="button" value="查看订单" id="outbtn" name="outorderbtn" onclick="tooutOrderdetail(this.name)" class="btn" disabled="disabled"></li>
-
                                 </ul>
                                     <input type="button" id="outsearch" onclick="outGetnowPage(1)"  value="查询" class="submitBtn fr">
                                     <input type="text" class="textArea fr" name="outtxtvalue" id="outtxt">

@@ -13,6 +13,16 @@ public class GoodsModel {
 
     private Integer goodstolnum;
 
+    private String goodsstate;
+
+    public String getGoodsstate() {
+        return goodsstate;
+    }
+
+    public void setGoodsstate(String goodsstate) {
+        this.goodsstate = goodsstate;
+    }
+
     public String getGoodsno() {
         return goodsno;
     }
@@ -53,6 +63,7 @@ public class GoodsModel {
     public void setGoodstolnum(Integer goodstolnum) {
         this.goodstolnum = goodstolnum;
     }
+
     @Override
     public String toString() {
         return "GoodsModel{" +
@@ -61,6 +72,7 @@ public class GoodsModel {
                 ", goodsvnum=" + goodsvnum +
                 ", goodsprice=" + goodsprice +
                 ", goodstolnum=" + goodstolnum +
+                ", goodsstate='" + goodsstate + '\'' +
                 '}';
     }
 }

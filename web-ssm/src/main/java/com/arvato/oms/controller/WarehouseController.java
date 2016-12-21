@@ -22,7 +22,7 @@ private WarehouseServiceImpl warehouseServiceimpl;
     @RequestMapping("listsearch")
     @ResponseBody
     public String listAllwarehouse(HttpServletRequest request) throws UnsupportedEncodingException {
-        String str=warehouseServiceimpl.listAllByparam(request) ;
+        String str=warehouseServiceimpl.listAllByparam(request);
         return str;
     }
 

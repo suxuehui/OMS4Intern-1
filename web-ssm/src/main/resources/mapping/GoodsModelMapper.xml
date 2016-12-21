@@ -7,6 +7,7 @@
     <result column="goodsVnum" property="goodsvnum" jdbcType="INTEGER" />
     <result column="goodsPrice" property="goodsprice" jdbcType="DECIMAL" />
     <result column="goodsTolnum" property="goodstolnum" jdbcType="INTEGER" />
+    <result column="goodsState" property="goodsstate" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="GoodsPojo" type="com.arvato.oms.model.GoodsPojo" >
     <id column="goodsNo" property="goodsno" jdbcType="VARCHAR" />
@@ -19,7 +20,7 @@
     <result column="totalfee" property="totalfee" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Base_Column_List" >
-    goodsNo, goodsName, goodsVnum, goodsPrice, goodsTolnum
+    goodsNo, goodsName, goodsVnum, goodsPrice, goodsTolnum,goodsState
   </sql>
   <sql id="GoodsPojo_Column_List" >
     goods.goodsNo, goodsName, goodsPrice,goodsTolnum, goodNum,divideorderfee,totalfee
@@ -87,6 +88,10 @@
       <if test="goodstolnum != null" >
         goodsTolnum,
       </if>
+      <if test="goodsstate != null" >
+        goodsState,
+      </if>
+
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="goodsno != null" >
@@ -103,6 +108,9 @@
       </if>
       <if test="goodstolnum != null" >
         #{goodstolnum,jdbcType=INTEGER},
+      </if>
+      <if test="goodsstate != null" >
+        #{goodsstate,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -121,6 +129,9 @@
       <if test="goodstolnum != null" >
         goodsTolnum = #{goodstolnum,jdbcType=INTEGER},
       </if>
+      <if test="goodsstate != null" >
+        goodsState=#{goodsstate,jdbcType=INTEGER},
+      </if>
     </set>
     where goodsNo = #{goodsno,jdbcType=VARCHAR}
   </update>
@@ -129,7 +140,8 @@
     set goodsName = #{goodsname,jdbcType=VARCHAR},
       goodsVnum = #{goodsvnum,jdbcType=INTEGER},
       goodsPrice = #{goodsprice,jdbcType=DECIMAL},
-      goodsTolnum = #{goodstolnum,jdbcType=INTEGER}
+      goodsTolnum = #{goodstolnum,jdbcType=INTEGER},
+      goodsState=#{goodsstate,jdbcType=INTEGER}
     where goodsNo = #{goodsno,jdbcType=VARCHAR}
   </update>
   
@@ -146,10 +158,10 @@
 
   <insert id="insertGoods">
     insert into goods (goodsNo, goodsName, goodsVnum,
-    goodsPrice,  goodsTolnum
+    goodsPrice,  goodsTolnum,goodsState
     )
-    values (#{goodsNo}, #{goodsName}, #{goodsTolnum},
-    #{goodsPrice},  #{goodsTolnum}
+    values (#{goodsno}, #{goodsname}, #{goodstolnum},
+    #{goodsprice}, #{goodstolnum},#{goodsstate}
     )
   </insert>
 

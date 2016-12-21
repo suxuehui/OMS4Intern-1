@@ -85,7 +85,7 @@ function outsgclick(oid) {
 //双击跳转详细页面
 function outdblclick(oid) {
          outisdb = true;
-        alert(outisdb + "测试双击 1 " +oid+"--"+outisdb)
+
         window.open("/oms/outboundorder/details?oid="+oid);
     }
     //单击跳转子页面
