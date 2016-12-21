@@ -91,7 +91,10 @@
       <if test="goodsstate != null" >
         goodsState,
       </if>
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="goodsno != null" >
@@ -110,7 +113,11 @@
         #{goodstolnum,jdbcType=INTEGER},
       </if>
       <if test="goodsstate != null" >
+<<<<<<< Updated upstream
+        #{goodsstate,jdbcType=INTEGER},
+=======
         #{goodsstate,jdbcType=VARCHAR},
+>>>>>>> Stashed changes
       </if>
     </trim>
   </insert>
@@ -130,7 +137,11 @@
         goodsTolnum = #{goodstolnum,jdbcType=INTEGER},
       </if>
       <if test="goodsstate != null" >
+<<<<<<< Updated upstream
+        goodsState=#{goodsstate,jdbcType=INTEGER},
+=======
         goodsState = #{goodsstate,jdbcType=VARCHAR},
+>>>>>>> Stashed changes
       </if>
     </set>
     where goodsNo = #{goodsno,jdbcType=VARCHAR}
@@ -141,7 +152,11 @@
       goodsVnum = #{goodsvnum,jdbcType=INTEGER},
       goodsPrice = #{goodsprice,jdbcType=DECIMAL},
       goodsTolnum = #{goodstolnum,jdbcType=INTEGER},
+<<<<<<< Updated upstream
+      goodsState=#{goodsstate,jdbcType=INTEGER}
+=======
       goodsState = #{goodsstate,jdbcType=VARCHAR}
+>>>>>>> Stashed changes
     where goodsNo = #{goodsno,jdbcType=VARCHAR}
   </update>
   
@@ -160,8 +175,13 @@
     insert into goods (goodsNo, goodsName, goodsVnum,
     goodsPrice,  goodsTolnum,goodsState
     )
+<<<<<<< Updated upstream
     values (#{goodsno}, #{goodsname}, #{goodstolnum},
     #{goodsprice}, #{goodstolnum},#{goodsstate}
+=======
+    values (#{goodsNo}, #{goodsName}, #{goodsTolnum},
+    #{goodsPrice},  #{goodsTolnum},#{goodsState}
+>>>>>>> Stashed changes
     )
   </insert>
 

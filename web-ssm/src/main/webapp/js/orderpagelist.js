@@ -17,6 +17,11 @@ function queryOrder(pageNo,pageSize) {
         contentType: "application/json; charset=utf-8",
         dataType:"json",
         success:function (data) {
+            if(data=="")
+            {
+                alert("数据有误");
+                return;
+            }
             var pageTotal=data.pageTotal;
             $("#orderPageNo").text(data.pageNo);
             $("#orderPageTotal").text(data.pageTotal);
@@ -128,6 +133,11 @@ function queryGoodsByOid(pageNo,pageSize,oid) {
         contentType:"application/json;charset=utf-8",
         dataType:"json",
         success:function (data) {
+            if(data=="")
+            {
+                alert("数据有误");
+                return;
+            }
             var pageTotal=data.pageTotal;
             $("#ogPageNo").text(data.pageNo);
             $("#ogPageTotal").text(data.pageTotal);

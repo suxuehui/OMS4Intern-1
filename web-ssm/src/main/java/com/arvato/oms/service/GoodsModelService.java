@@ -14,7 +14,7 @@ public interface GoodsModelService
 
     public JSONObject selectOneGoodsByNo(String goodsNo);
 
-    public int addGoods(String goodsNo,String goodsName,int goodsTolnum,double goodsPriceD);
+    public int addGoods(String goodsNo,String goodsName,int goodsTolnum,double goodsPriceD,String goodsState);
 
     public int deleteGoodsByNo(String goodsNo);
 

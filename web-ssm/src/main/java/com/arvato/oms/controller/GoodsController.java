@@ -41,9 +41,9 @@ public class GoodsController
 
     @RequestMapping("addGoods")
     @ResponseBody
-    public int addGoods(String goodsNo, String goodsName, int goodsTolnum, double goodsPriceD)
+    public int addGoods(String goodsNo, String goodsName, int goodsTolnum, double goodsPriceD,String goodsState)
     {
-        int i = goodsModelService.addGoods(goodsNo, goodsName, goodsTolnum, goodsPriceD);
+        int i = goodsModelService.addGoods(goodsNo, goodsName, goodsTolnum, goodsPriceD,goodsState);
         return i;
     }
 

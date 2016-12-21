@@ -14,7 +14,16 @@ $(function () {
             contentType: false,
             processData: false,
             success:function (data) {
-                alert(data);
+                if(data==0)
+                {
+                    alert("请选择文件");
+                    return;
+                }
+                if(data==2)
+                {
+                    alert("请选择excel文件");
+                    return;
+                }
                 $(".loading").hide();
                 queryOrder(1,10);
             }

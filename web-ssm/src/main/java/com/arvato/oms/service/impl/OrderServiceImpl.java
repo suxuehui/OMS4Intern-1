@@ -49,10 +49,6 @@ public class OrderServiceImpl implements OrderService
         int count=page.getStartPos();
         int pageTotal=page.getTotalPageCount();
         List<GoodsPojo> goodsPojos=goodsModelMapper.selectByOid(count,pageSize,oId);
-        for(GoodsPojo d:goodsPojos)
-        {
-            System.out.println(d.toString());
-        }
         jObj.put("pageTotal",pageTotal);
         jObj.put("goodsPojos",goodsPojos);
         jObj.put("pageNo",pageNo);
@@ -191,7 +187,7 @@ public class OrderServiceImpl implements OrderService
             for(RelationogModel re:relationogModelList)
             {
                 GoodsModel goodsModel=goodsModelMapper.selectByPrimaryKey(re.getGoodsno());
-                if(goodsModel==null)
+                if(goodsModel==null||goodsModel.getGoodsstate().equals("已下架"))
                 {
                     exceptionModel=createException(orderModel);
                     exceptionModel.setExceptiontype("商品异常");
@@ -323,8 +319,8 @@ public class OrderServiceImpl implements OrderService
             String code="100";
             try
             {
-//                JSONObject jsonObject=JSON.parseObject(str);
-//                code=jsonObject.getString("code");
+                JSONObject jsonObject=JSON.parseObject(str);
+                code=jsonObject.getString("code");
                 if(code.equals("100"))
                 {
                     OutboundorderModel outboundorderModel=outboundorderModelMapper.selectByOid(oId);
@@ -396,12 +392,20 @@ public class OrderServiceImpl implements OrderService
         outboundorderModel.setReceivername(orderModel.getReceivername());
         outboundorderModel.setReceiveraddress(orderModel.getReceiverprovince()+orderModel.getReceivercity()+orderModel.getReceiverarea()+orderModel.getDetailaddress());
         outboundorderModel.setCreatedtime(new Date());
-        outboundorderModelMapper.insert(outboundorderModel);
         int code=sendOutboundOrder(orderModel,outboundorderModel);
         if(code!=1)
         {
+            outboundorderModel.setOrderstatus("出库异常");
+            outboundorderModel.setOutboundstate("出库异常");
+            outboundorderModelMapper.insert(outboundorderModel);
             return code;
         }
+        orderModel.setOrderstatus("已出库");
+        orderModel.setModifytime(new Date());
+        orderModelMapper.updateByOidSelective(orderModel);
+        outboundorderModel.setOrderstatus("已出库");
+        outboundorderModel.setOutboundstate("处理中");
+        outboundorderModelMapper.updateByOidSelective(outboundorderModel);
         List<RelationogModel> relationogModelList=relationogModelMapper.selectAllByOid(oId);
         for(RelationogModel re:relationogModelList)
         {
@@ -439,19 +443,14 @@ public class OrderServiceImpl implements OrderService
         jsonObject.put("outboundordergoods",outBoundGoodsList);
         jsonObject.put("deliveryOrder",deliveryOrder);
         System.out.println(jsonObject.toString());
-//        HTTPClientDemo httpClientDemo=new HTTPClientDemo("url");
-//        String response=httpClientDemo.postMethod(jsonObject.toString());
+        HTTPClientDemo httpClientDemo=new HTTPClientDemo("url");
+        String response=httpClientDemo.postMethod(jsonObject.toString());
         String code="100";
         int cause=0;
         try {
-            //code = JSON.parseObject(response).getString("code");
+            code = JSON.parseObject(response).getString("code");
             if(code.equals("100"))
             {
-                orderModel.setOrderstatus("已出库");
-                orderModelMapper.updateByOidSelective(orderModel);
-                outboundorderModel.setOrderstatus("已出库");
-                outboundorderModel.setOutboundstate("处理中");
-                outboundorderModelMapper.updateByOidSelective(outboundorderModel);
                 return 1;
             }
         }
@@ -527,16 +526,6 @@ public class OrderServiceImpl implements OrderService
         int j=orderModelMapper.insertSelective(orderModel);
         for(Order order:orderList)
         {
-            goodsModel.setGoodsno(order.getNum_iid());
-            goodsModel.setGoodsname(order.getTitle());
-            goodsModel.setGoodsprice(new BigDecimal(order.getPrice()));
-            goodsModel.setGoodstolnum((int)(Math.random()*1000+100));
-            GoodsModel goodsModel1=goodsModelMapper.selectByPrimaryKey(order.getNum_iid());
-            if(goodsModel1==null)
-            {
-                goodsModelMapper.insertSelective(goodsModel);
-            }
-            goodsModelMapper.updateByPrimaryKeySelective(goodsModel);
             relationogModel.setOid(oId);
             relationogModel.setGoodsno(order.getNum_iid());
             relationogModel.setGoodnum(order.getNum());
@@ -549,7 +538,6 @@ public class OrderServiceImpl implements OrderService
             }
             else
             {
-                BigDecimal discountfee=new BigDecimal(order.getDiscount_fee());
                 divideorderfee=new BigDecimal((totalfee.doubleValue())/(order.getNum()));
             }
             relationogModel.setDivideorderfee(divideorderfee);
@@ -562,28 +550,36 @@ public class OrderServiceImpl implements OrderService
     //退换货
     public int returnGoods(String jsonStr)
     {
-        JSONObject jsonObject=JSON.parseObject(jsonStr);
-        ArrayList<GoodsPojo> goodsList=JSON.parseObject(jsonObject.getString("goods"),new TypeReference<ArrayList<GoodsPojo>>(){});
+        JSONObject jsonObject=new JSONObject();
+        ArrayList<GoodsPojo> goodsList=new ArrayList<GoodsPojo>();
+        try {
+            jsonObject=JSON.parseObject(jsonStr);
+            goodsList=JSON.parseObject(jsonObject.getString("goods"),new TypeReference<ArrayList<GoodsPojo>>(){});
+        }
+        catch (Exception e)
+        {
+            return 2;//json类型有误
+        }
         OrderModel orderModel=orderModelMapper.selectByOid(jsonObject.getString("oid"));
         RelationrgModel[] relationRgModels=new RelationrgModel[goodsList.size()];
         ReturnedModel returnedModel=returnedModelMapper.selectByOid(orderModel.getOid());
         if(returnedModel!=null&&!returnedModel.getReturnedstatus().equals("0"))
         {
-            return 0;//订单退货中
+            return 3;//订单退货中
         }
         returnedModel=new ReturnedModel();
         returnedModel.setOid(jsonObject.getString("oid"));
         if(orderModel==null)
         {
-            return 0;//订单不存在
+            return 4;//订单不存在
         }
         if(!orderModel.getOrderstatus().equals("已完成"))
         {
-            return 0;//订单未完成
+            return 5;//订单未完成
         }
         if(goodsList.size()==0)
         {
-            return 0;//没有选择商品
+            return 6;//没有选择商品
         }
         returnedModel.setChanneloid(orderModel.getChanneloid());
         returnedModel.setReturnedid("RT"+jsonObject.getString("oid"));
@@ -602,18 +598,10 @@ public class OrderServiceImpl implements OrderService
         returnedModel.setReturnedstatus("待审核");
         Date date=new Date();
         returnedModel.setCreatetime(date);
-        int i=returnedModelMapper.insertSelective(returnedModel);
-        if(i==0)
-        {
-            return 0;
-        }
+        returnedModelMapper.insertSelective(returnedModel);
         for(RelationrgModel re:relationRgModels)
         {
-            int j=relationrgModelMapper.insertSelective(re);
-            if(j==0)
-            {
-                return 0;
-            }
+            relationrgModelMapper.insertSelective(re);
         }
         return 1;
     }
