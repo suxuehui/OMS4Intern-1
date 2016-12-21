@@ -1,5 +1,7 @@
 package com.arvato.oms.model;
 
+import java.math.BigDecimal;
+
 public class RelationogModel {
     private Integer id;
 
@@ -10,6 +12,26 @@ public class RelationogModel {
     private Integer goodnum;
 
     private byte status;
+
+    private BigDecimal divideorderfee;
+
+    private BigDecimal totalfee;
+
+    public BigDecimal getTotalfee() {
+        return totalfee;
+    }
+
+    public void setTotalfee(BigDecimal totalfee) {
+        this.totalfee = totalfee;
+    }
+
+    public BigDecimal getDivideorderfee() {
+        return divideorderfee;
+    }
+
+    public void setDivideorderfee(BigDecimal divideorderfee) {
+        this.divideorderfee = divideorderfee;
+    }
 
     public byte getStatus() {
         return status;

@@ -6,7 +6,7 @@ import com.arvato.oms.model.OutboundorderModel;
 import com.arvato.oms.model.RelationogModel;
 import com.arvato.oms.service.GoodsModelService;
 import com.arvato.oms.service.impl.OutboundorderServiceImpl;
-import com.arvato.oms.service.impl.RelationOGServiceImpl;
+import com.arvato.oms.service.impl.RelationogServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +27,7 @@ public class OutboundorderController {
     @Resource
     private OutboundorderServiceImpl oboserciveimpl;
     @Resource
-    private RelationOGServiceImpl rogserviceimpl;
+    private RelationogServiceImpl rogserviceimpl;
      @Resource
     private GoodsModelService godserviceimpl;
 
@@ -43,7 +43,6 @@ public class OutboundorderController {
     @ResponseBody
      public String listseach(HttpServletRequest request ) throws UnsupportedEncodingException{
         String str = oboserciveimpl.searchAllByparam(request);
-        System.out.print("str = "+str);
             return  str;
     }
 
@@ -53,7 +52,7 @@ public class OutboundorderController {
     public String  listobolson(HttpServletRequest request )
     {
         String str=oboserciveimpl.listSonPage(request);
-        System.out.println("子页面----"+str);
+
         return str;
     }
 
@@ -75,13 +74,12 @@ public class OutboundorderController {
             //获取商品数量  xiugai---->---------->
             int snum= roglist.get(i).getGoodnum() ;
             GoodsModel gm=  this.godserviceimpl.selectByGoodsNo(sno);
-
             gp.setGoodNum(snum);
             gp.setGoodsname(gm.getGoodsname());
             gp.setGoodsno(gm.getGoodsno());
             gp.setGoodsprice(gm.getGoodsprice());
             godslist.add(gp);
-            System.out.println("ddd"+godslist);
+
         }
         model.addAttribute("gods",godslist);
         model.addAttribute("obol",obolist);

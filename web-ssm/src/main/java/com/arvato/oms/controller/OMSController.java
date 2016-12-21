@@ -26,7 +26,6 @@ public class OMSController {
         return "OMSPage";
     }
 
-
     //接受wms传来的数据，更新入库单
     @RequestMapping(value = "updateInboundOrder")
     @ResponseBody
@@ -45,7 +44,6 @@ public class OMSController {
                     String inboundId = inbound.getJSONObject(i).getString("inboundId");
                     String inboundState = inbound.getJSONObject(i).getString("inboundState");
                     s = inboundorderserviceimpl.updateByInboundId(inboundId, inboundState);
-
                     if (s == 0) {
                         return "{\"status_codes\":000,\"msg\":\"参数的数据格式有误\",\"body\":\"入库单更新失败\"}";
                     }

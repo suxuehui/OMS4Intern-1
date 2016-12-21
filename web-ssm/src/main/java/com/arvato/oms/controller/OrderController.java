@@ -111,7 +111,7 @@ public class OrderController
         JSONObject jsonObject=JSON.parseObject(jsonStr);
         ArrayList<GoodsPojo> goodsList=JSON.parseObject(jsonObject.getString("goods"),new TypeReference<ArrayList<GoodsPojo>>(){});
         ReturnedModel returnedModel=new ReturnedModel();
-        RelationRgModel[] relationRgModels=new RelationRgModel[goodsList.size()];
+        RelationrgModel[] relationrgModels =new RelationrgModel[goodsList.size()];
         returnedModel.setOid(jsonObject.getString("oid"));
         OrderModel orderModel=orderService.selectByOid(jsonObject.getString("oid"));
         if(orderModel==null)
@@ -133,10 +133,10 @@ public class OrderController
         for(int i=0;i<goodsList.size();i++)
         {
             returnedMoney+=goodsList.get(i).getGoodNum()*(goodsList.get(i).getGoodsprice()).doubleValue();
-            relationRgModels[i]=new RelationRgModel();
-            relationRgModels[i].setReturnedid("RT"+jsonObject.getString("oid"));
-            relationRgModels[i].setGoodsno(goodsList.get(i).getGoodsno());
-            relationRgModels[i].setGoodnum(goodsList.get(i).getGoodNum());
+            relationrgModels[i]=new RelationrgModel();
+            relationrgModels[i].setReturnedid("RT"+jsonObject.getString("oid"));
+            relationrgModels[i].setGoodsno(goodsList.get(i).getGoodsno());
+            relationrgModels[i].setGoodnum(goodsList.get(i).getGoodNum());
         }
         returnedModel.setReturnedmoney(new BigDecimal(returnedMoney));
         returnedModel.setReturnedstatus("待审核");
@@ -147,7 +147,7 @@ public class OrderController
         {
             return 0;
         }
-        for(RelationRgModel re:relationRgModels)
+        for(RelationrgModel re: relationrgModels)
         {
             int j=orderService.insertSelective(re);
             if(j==0)

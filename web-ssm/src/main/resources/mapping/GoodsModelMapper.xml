@@ -6,7 +6,6 @@
     <result column="goodsName" property="goodsname" jdbcType="VARCHAR" />
     <result column="goodsVnum" property="goodsvnum" jdbcType="INTEGER" />
     <result column="goodsPrice" property="goodsprice" jdbcType="DECIMAL" />
-    <result column="goodsRnum" property="goodsrnum" jdbcType="INTEGER" />
     <result column="goodsTolnum" property="goodstolnum" jdbcType="INTEGER" />
   </resultMap>
   <resultMap id="GoodsPojo" type="com.arvato.oms.model.GoodsPojo" >
@@ -18,7 +17,7 @@
     <result column="goodNum" property="goodNum" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    goodsNo, goodsName, goodsVnum, goodsPrice, goodsRnum, goodsTolnum
+    goodsNo, goodsName, goodsVnum, goodsPrice,goodsTolnum
   </sql>
   <sql id="GoodsPojo_Column_List" >
     goods.goodsNo, goodsName, goodsPrice,goodsTolnum, goodNum
@@ -60,11 +59,11 @@
   </delete>
 
   <insert id="insert" parameterType="com.arvato.oms.model.GoodsModel" >
-    insert into goods (goodsNo, goodsName, goodsVnum, 
-      goodsPrice, goodsRnum, goodsTolnum
+    insert into goods (goodsNo, goodsName, goodsVnum,
+      goodsPrice,goodsTolnum
       )
-    values (#{goodsno,jdbcType=VARCHAR}, #{goodsname,jdbcType=VARCHAR}, #{goodsvnum,jdbcType=INTEGER}, 
-      #{goodsprice,jdbcType=DECIMAL}, #{goodsrnum,jdbcType=INTEGER}, #{goodstolnum,jdbcType=INTEGER}
+    values (#{goodsno,jdbcType=VARCHAR}, #{goodsname,jdbcType=VARCHAR}, #{goodsvnum,jdbcType=INTEGER},
+      #{goodsprice,jdbcType=DECIMAL}, #{goodstolnum,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.arvato.oms.model.GoodsModel" >
@@ -81,9 +80,6 @@
       </if>
       <if test="goodsprice != null" >
         goodsPrice,
-      </if>
-      <if test="goodsrnum != null" >
-        goodsRnum,
       </if>
       <if test="goodstolnum != null" >
         goodsTolnum,
@@ -102,9 +98,6 @@
       <if test="goodsprice != null" >
         #{goodsprice,jdbcType=DECIMAL},
       </if>
-      <if test="goodsrnum != null" >
-        #{goodsrnum,jdbcType=INTEGER},
-      </if>
       <if test="goodstolnum != null" >
         #{goodstolnum,jdbcType=INTEGER},
       </if>
@@ -122,9 +115,6 @@
       <if test="goodsprice != null" >
         goodsPrice = #{goodsprice,jdbcType=DECIMAL},
       </if>
-      <if test="goodsrnum != null" >
-        goodsRnum = #{goodsrnum,jdbcType=INTEGER},
-      </if>
       <if test="goodstolnum != null" >
         goodsTolnum = #{goodstolnum,jdbcType=INTEGER},
       </if>
@@ -136,7 +126,6 @@
     set goodsName = #{goodsname,jdbcType=VARCHAR},
       goodsVnum = #{goodsvnum,jdbcType=INTEGER},
       goodsPrice = #{goodsprice,jdbcType=DECIMAL},
-      goodsRnum = #{goodsrnum,jdbcType=INTEGER},
       goodsTolnum = #{goodstolnum,jdbcType=INTEGER}
     where goodsNo = #{goodsno,jdbcType=VARCHAR}
   </update>

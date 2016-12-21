@@ -6,7 +6,7 @@ import com.arvato.oms.model.InboundorderModel;
 import com.arvato.oms.model.RelationogModel;
 import com.arvato.oms.service.GoodsModelService;
 import com.arvato.oms.service.impl.InboundorderServiceImpl;
-import com.arvato.oms.service.impl.RelationOGServiceImpl;
+import com.arvato.oms.service.impl.RelationogServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +28,7 @@ public class InboundorderController {
     @Resource
     private InboundorderServiceImpl inboserciveimpl;
     @Resource
-    private RelationOGServiceImpl rogserviceimpl;
+    private RelationogServiceImpl rogserviceimpl;
     @Resource
     private GoodsModelService godserviceimpl;
 
@@ -54,7 +54,7 @@ public class InboundorderController {
     public String  listobolson(HttpServletRequest request )
     {
         String str=inboserciveimpl.listSonPage(request);
-        System.out.println("子页面----"+str);
+
         return str;
     }
     //详情页面展示
@@ -73,7 +73,6 @@ public class InboundorderController {
             String sno= roglist.get(i).getGoodsno();
             //获取商品数量  xiugai---->---------->
             int snum= roglist.get(i).getGoodnum() ;
-           // GoodsModel gm=null;
             GoodsModel gm=godserviceimpl.selectByGoodsNo(sno);
             gp.setGoodNum(snum);
             gp.setGoodsname(gm.getGoodsname());

@@ -182,19 +182,16 @@
                         <div class="orderTit">仓库列表</div>
                         <div class="storeSearch">
                             <ul>
-                                <li><input type="button" value="新增" class="btn"></li>
-                                <li><input type="button" value="编辑" class="btn"></li>
-                                <li><input type="button" value="删除" class="btn"></li>
+                                <li><input type="button" value="新增" onclick="wareadd()"    class="btn"></li>
+                                <li><input type="button" value="编辑" onclick="wareupdate()" class="btn"></li>
+                                <li><input type="button" value="删除" onclick="waredelete()" class="btn"></li>
                             </ul>
-                            <form>
-                                <input type="button" value="查询" class="submitBtn fr">
-                                <input type="text" class="textArea fr">
-                                <select class="selectArea fr">
-                                    <option></option>
-                                    <option></option>
-                                    <option></option>
+                                <input type="button" value="查询" onclick="wareGetnowPage(1)"  class="submitBtn fr">
+                                <input type="text" class="textArea fr" id="whtxt">
+                                <select id="whselectid" class="selectArea fr">
+                                    <option value="1">仓库编号</option>
+                                    <option value="2">名称</option>
                                 </select>
-                            </form>
                         </div>
                     </div>
                 </div>
@@ -208,19 +205,14 @@
                                     <th>仓库编号</th>
                                     <th>名称</th>
                                 </tr>
-                                <tbody id=" ">
-                                <tr>
-                                    <td>1</td>
-                                    <td><input type="checkbox"></td>
-                                    <td><a></a></td>
-                                    <td>&nbsp;</td>
-                                </tr>
+                                <tbody>
+
 
                                 </tbody>
                             </table>
                         </form>
                     </div>
-                    <div class="page"><a>尾页</a><a>下一页</a><a>上一页</a><a>首页</a></div>
+                    <div id="whdivpage"> </div>
                 </div>
             </div><!--orderMain结束-->
         </div><!--order结束-->
@@ -972,10 +964,10 @@
         <!--导入弹框结束-->
     </div>
     <!--弹窗模块-->
-    <div class="loading">
+    <%--<div class="loading" style="display: none">
         <div class="mask"></div>
         <div class="loading-icon"><img src="${pageContext.request.contextPath}/images/loader.gif"></div>
-    </div>
+    </div>--%>
 </div><!--wrap结束-->
 </body>
 </html>

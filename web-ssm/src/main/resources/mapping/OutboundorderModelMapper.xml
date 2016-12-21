@@ -226,6 +226,7 @@
     limit #{startPos},#{pageSize}
   </select>
 
+
   <!--获取总数-->
   <select id="Countoid" resultType="java.lang.Long">
     select  count(1) from outboundorder where oId like '%${oid}%'

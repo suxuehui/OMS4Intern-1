@@ -12,10 +12,12 @@
     <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
     <result column="modifyTime" property="modifytime" jdbcType="TIMESTAMP" />
     <result column="modifyMan" property="modifyman" jdbcType="VARCHAR" />
+    <result column="buyerAlipayNo" property="buyeralipayno" jdbcType="VARCHAR" />
+
   </resultMap>
   <sql id="Base_Column_List" >
     id, returnedId, returnedOrChange, returnedStatus, oId, channelOid, returnedMoney, 
-    createTime, modifyTime, modifyMan
+    createTime, modifyTime, modifyMan,buyerAlipayNo
   </sql>
 
 
@@ -116,11 +118,11 @@
     insert into returnedorder (id, returnedId, returnedOrChange, 
       returnedStatus, oId, channelOid, 
       returnedMoney, createTime, modifyTime, 
-      modifyMan)
+      modifyMan，buyerAlipayNo)
     values (#{id,jdbcType=INTEGER}, #{returnedid,jdbcType=VARCHAR}, #{returnedorchange,jdbcType=VARCHAR}, 
       #{returnedstatus,jdbcType=VARCHAR}, #{oid,jdbcType=VARCHAR}, #{channeloid,jdbcType=VARCHAR}, 
       #{returnedmoney,jdbcType=DECIMAL}, #{createtime,jdbcType=TIMESTAMP}, #{modifytime,jdbcType=TIMESTAMP}, 
-      #{modifyman,jdbcType=VARCHAR})
+      #{modifyman,jdbcType=VARCHAR},#{buyeralipayno,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.arvato.oms.model.ReturnedModel" >
     insert into returnedorder
@@ -155,6 +157,10 @@
       <if test="modifyman != null" >
         modifyMan,
       </if>
+      <if test="buyeralipayno != null" >
+        buyerAlipayNo,
+      </if>
+
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -186,6 +192,9 @@
       </if>
       <if test="modifyman != null" >
         #{modifyman,jdbcType=VARCHAR},
+      </if>
+      <if test="buyeralipayno != null" >
+         #{buyeralipayno,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -219,6 +228,9 @@
       <if test="modifyman != null" >
         modifyMan = #{modifyman,jdbcType=VARCHAR},
       </if>
+      <if test="buyeralipayno != null" >
+        buyerAlipayNo= #{buyeralipayno,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -232,7 +244,8 @@
       returnedMoney = #{returnedmoney,jdbcType=DECIMAL},
       createTime = #{createtime,jdbcType=TIMESTAMP},
       modifyTime = #{modifytime,jdbcType=TIMESTAMP},
-      modifyMan = #{modifyman,jdbcType=VARCHAR}
+      modifyMan = #{modifyman,jdbcType=VARCHAR},
+      buyerAlipayNo= #{buyeralipayno,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
