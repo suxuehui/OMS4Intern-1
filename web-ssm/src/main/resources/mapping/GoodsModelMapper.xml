@@ -110,7 +110,7 @@
         #{goodstolnum,jdbcType=INTEGER},
       </if>
       <if test="goodsstate != null" >
-        #{goodsstate,jdbcType=VARCHAR},
+        #{goodsstate,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -130,7 +130,7 @@
         goodsTolnum = #{goodstolnum,jdbcType=INTEGER},
       </if>
       <if test="goodsstate != null" >
-        goodsState = #{goodsstate,jdbcType=VARCHAR},
+        goodsState=#{goodsstate,jdbcType=INTEGER},
       </if>
     </set>
     where goodsNo = #{goodsno,jdbcType=VARCHAR}
@@ -141,7 +141,7 @@
       goodsVnum = #{goodsvnum,jdbcType=INTEGER},
       goodsPrice = #{goodsprice,jdbcType=DECIMAL},
       goodsTolnum = #{goodstolnum,jdbcType=INTEGER},
-      goodsState = #{goodsstate,jdbcType=VARCHAR}
+      goodsState=#{goodsstate,jdbcType=INTEGER}
     where goodsNo = #{goodsno,jdbcType=VARCHAR}
   </update>
   

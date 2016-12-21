@@ -75,7 +75,7 @@ public class GoodsModelServiceImpl implements GoodsModelService
         return json;
     }
 
-    public int addGoods(String goodsNo, String goodsName, int goodsTolnum, double goodsPriceD,String goodsState)
+    public int addGoods(String goodsNo, String goodsName, int goodsTolnum, double goodsPriceD)
     {
         /**
          * @Author: 马潇霄
@@ -88,7 +88,7 @@ public class GoodsModelServiceImpl implements GoodsModelService
          * @Return:  int 1为插入成功，0为插入失败
          */
         BigDecimal goodsPrice = new BigDecimal(goodsPriceD);
-        int i = goodsModelMapper.insertGoods(goodsNo, goodsName, goodsTolnum, goodsPrice,goodsState);
+        int i = goodsModelMapper.insertGoods(goodsNo, goodsName, goodsTolnum, goodsPrice);
         return i;
     }
 

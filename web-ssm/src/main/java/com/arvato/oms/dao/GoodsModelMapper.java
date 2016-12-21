@@ -40,7 +40,7 @@ public interface GoodsModelMapper {
     GoodsModel selectOneGoodsByNo(@Param("goodsNo")String goodsNo);
     //根据商品编码精确查询商品信息
 
-    int insertGoods(@Param("goodsNo")String goodsNo,@Param("goodsName")String goodsName,@Param("goodsTolnum")int goodsTolnum,@Param("goodsPrice")BigDecimal goodsPrice,@Param("goodsState")String goodsState);
+    int insertGoods(@Param("goodsNo")String goodsNo,@Param("goodsName")String goodsName,@Param("goodsTolnum")int goodsTolnum,@Param("goodsPrice")BigDecimal goodsPrice);
     //根据商品编码插入商品信息
 
     int deleteGoodsByNo(@Param("goodsNo")String goodsNo);
