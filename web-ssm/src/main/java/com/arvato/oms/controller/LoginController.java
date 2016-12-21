@@ -1,10 +1,14 @@
 package com.arvato.oms.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.arvato.oms.service.UserModelService;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -17,12 +21,15 @@ public class LoginController
 {
 
     private Logger log = Logger.getLogger(LoginController.class);
+//    @Resource
+//    private UserService userService;
 
     @Resource
     private UserModelService userModelService;
 
     @RequestMapping("/checkUser")
-    public String checkUser(HttpServletRequest request, Model model, HttpSession session, String uname,String password)
+    @ResponseBody
+    public JSONObject checkUser(HttpServletRequest request, Model model, String uname, String password)
     {
         /**
          * @Author: 马潇霄
@@ -37,15 +44,39 @@ public class LoginController
          * @param password
          * @Return:
          */
-        log.info("查询用户名");
-        int i = userModelService.login(uname, password);
-        if(i==1||i==2){
-            session.setAttribute("uname",uname);
-        }
-        model.addAttribute("i", i);
-        model.addAttribute("session",session.getId());
 
-        return "showUser2";
+        int i = userModelService.login(uname, password);
+        log.info("查询用户名密码是否匹配，判断" + uname + "身份是" + i + "密码是" + password);
+        HttpSession session = request.getSession();
+        String id = session.getId();
+        session.setAttribute("uname", uname);
+        session.setAttribute("urole", userModelService.isAdmin(uname) ? 1 : 2);
+        JSONObject json = new JSONObject();
+        json.put("check", i);
+
+        return json;
+    }
+
+    @RequestMapping("/checkUName")
+    @ResponseBody
+    public int checkUName(String uName)
+    {
+        int i = userModelService.checkUname(uName);
+        return i;
+    }
+
+    @RequestMapping("/login")
+    public String login()
+    {
+        return "login";
+    }
+
+    @RequestMapping("/index")
+    public ModelAndView index(int urole)
+    {
+        ModelAndView mov = new ModelAndView("index");
+        mov.addObject("urole",urole);
+        return mov;
     }
 
 }
