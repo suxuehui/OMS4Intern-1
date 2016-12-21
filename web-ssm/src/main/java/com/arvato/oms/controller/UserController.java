@@ -1,15 +1,18 @@
 package com.arvato.oms.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.arvato.oms.model.UsersModel;
 import com.arvato.oms.service.UserModelService;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -20,13 +23,16 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController
 {
+
     private Logger log = Logger.getLogger(UserController.class);
+
 
     @Resource
     private UserModelService userModelService;
 
     @RequestMapping("/addUser")
-    public String addUser(HttpServletRequest request, Model model)
+    @ResponseBody
+    public int addUser(HttpServletRequest request, Model model,String userName,String password)
     {
         /**
          * @Author: 马潇霄
@@ -37,24 +43,21 @@ public class UserController
          * @Return:
          */
         log.info("添加用户");
-        int checkCount = userModelService.checkUname("as");//用户名是否存在状态码，0为不存在，1为存在，
+        int checkCount = userModelService.checkUname(userName);//用户名是否存在状态码，0为不存在，1为存在，
         // 2为多条同名用户（异常情况）
         int i = 0;//初始值为0，添加成功为1
         if (checkCount == 0)
         {
-            i = userModelService.addUser("as", "sad");
-
-            model.addAttribute("i", i);
+            return userModelService.addUser(userName, password);
         } else
         {
-            model.addAttribute("i", 0);
+            return 0;
         }
-
-        return "showUser2";
     }
 
     @RequestMapping("/updateUser")
-    public String updateUser(HttpServletRequest request, Model model)
+    @ResponseBody
+    public int updateUser(HttpServletRequest request, Model model,int uid,String userName,String password)
     {
         /**
          * @Author: 马潇霄
@@ -65,13 +68,21 @@ public class UserController
          * @Return:
          */
         log.info("修改用户");
-        int i = userModelService.updateUser(1, "mxx", "mxx1");
-        model.addAttribute("i", i);
-        return "showUser2";
+        int checkCount = userModelService.checkUname(userName);
+        int i = 0;//初始值为0，添加成功为1
+        if (checkCount == 0)
+        {
+            return userModelService.updateUser(uid, userName, password);
+        } else
+        {
+            return 0;
+        }
+
     }
 
     @RequestMapping("/selectUserByName")
-    public String selectUserByName(HttpServletRequest request, Model model)
+    @ResponseBody
+    public JSONObject selectUserByName(HttpServletRequest request, Model model,String username,int nowPage, int pageSize)
     {
         /**
          * @Author: 马潇霄
@@ -83,15 +94,12 @@ public class UserController
          */
         log.info("根据用户名分页查询用户");
 
-        List<UsersModel> as = userModelService.getUsersByUname("马潇霄", 0, 3);
-        System.out.print(as.size());
-
-        model.addAttribute("as", as);
-        return "showUser2";
+        return userModelService.getUsersByUname(username,pageSize,nowPage);
     }
 
     @RequestMapping("/getAllUsers")
-    public String getAllUsers(HttpServletRequest request, Model model)
+    @ResponseBody
+    public JSONObject getAllUsers(HttpServletRequest request, Model model, int nowPage, int pageSize)
     {
         /**
          * @Author: 马潇霄
@@ -101,17 +109,12 @@ public class UserController
          * @param model
          */
         log.info("分页显示用户");
-
-        List<UsersModel> as = userModelService.getAllUser(3, 1);
-        System.out.print(as.size());
-
-        model.addAttribute("as", as);
-        return "showUser2";
+        return userModelService.getAllUser(pageSize,nowPage);
     }
 
     @RequestMapping("/deleteUserByIds")
-    //
-    public String deleteUserByIds(HttpServletRequest request, Model model)
+    @ResponseBody
+    public int  deleteUserByIds(HttpServletRequest request, Model model,String userIdList)
     {
         /**
          * @Author: 马潇霄
@@ -121,10 +124,15 @@ public class UserController
          * @param model
          */
         log.info("删除用户");
+        String[] arr = userIdList.split("/");
+
         List<Integer> list = new ArrayList<Integer>();
-        list.add(11);
-        list.add(12);
-        userModelService.deleteUserByIds(list);
-        return "showUser2";
+        List<String> listString = Arrays.asList(arr);
+        for (int i = 0; i < listString.size(); i++)
+        {
+            list.add(Integer.valueOf(listString.get(i)));
+        }
+
+        return userModelService.deleteUserByIds(list);
     }
 }
