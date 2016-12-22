@@ -1,12 +1,7 @@
 package com.arvato.oms.controller;
 
-import com.arvato.oms.model.ExceptionModel;
-import com.arvato.oms.model.GoodsModel;
-import com.arvato.oms.model.GoodsPojo;
-import com.arvato.oms.model.RelationogModel;
-import com.arvato.oms.service.ExceptionService;
-import com.arvato.oms.service.GoodsModelService;
-import com.arvato.oms.service.RelationogService;
+import com.arvato.oms.model.*;
+import com.arvato.oms.service.*;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,10 +30,10 @@ public class ExceptionController {
     private RelationogService relationogServiceImpl;
     @Resource
     private GoodsModelService goodsServiceImpl;
-    //@Resource
-    //private OrderService orderServiceImpl；
-    // @Resource
-    //private OutboundorderService outboundorderServiceImpl；
+    @Resource
+    private OrderService orderServiceImpl;
+    @Resource
+    private OutboundorderService outboundorderServiceImpl;
 
     //进入页面
     @RequestMapping(value="indexExceptionList")
@@ -60,14 +55,11 @@ public class ExceptionController {
     @RequestMapping(value = "cancelException")
     public String cancelException(HttpServletRequest request){
         String oid = request.getParameter("oid");
-        //System.out.println("oid:"+oid);
         String[] sq=oid.split(",");
         for (int i = 0; i < sq.length; i++) {
-            //System.out.println(sq[i]+"/////////////////");
             exceptionServiceImpl.deleteByOid(sq[i]);
         }
         return "exception";
-       //return "index";
     }
 
     //异常订单的处理
@@ -80,22 +72,18 @@ public class ExceptionController {
             //根据订单号查询该条订单的异常类型
             String exceptionTypeList=exceptionServiceImpl.selectTypeByOid(exOid[i]);
             set.add(exceptionTypeList);
-            //System.out.println("mmmm:"+exceptionTypeList);
         }
         if(set.size()==1){//判断异常类型是否相同
-            //System.out.println("全部相同");
             Iterator iterator=set.iterator();
             while(iterator.hasNext()){
-                //System.out.println("ssss:"+iterator.next());
                 String exceptionType = iterator.next().toString();
-                //System.out.println("oooo:"+exceptionType1);
                 //由预检发送过来，处理方式为：取消订单
                 if (exceptionType.equals("商品异常")){
                     for(int j=0;j<exOid.length;j++){
                         //先删除异常页面的异常订单
                         exceptionServiceImpl.deleteByOid(exOid[j]);
                         //再删除订单页面的订单信息
-                        //orderServiceImpl.cancleOrder(exOid[j]);
+                        orderServiceImpl.cancleOrder(exOid[j]);
                     }
                 }
                 //由预检发送过来，处理方式为：取消订单
@@ -105,7 +93,7 @@ public class ExceptionController {
                         //先删除异常页面的异常订单
                         exceptionServiceImpl.deleteByOid(exOid[j]);
                         //再删除订单页面的订单信息
-                        //orderServiceImpl.cancleOrder(exOid[j]);
+                        orderServiceImpl.cancleOrder(exOid[j]);
                     }
                 }
                 //由预检发送过来，处理方式为：跟客户确认后，进行下一步备注异常的检验
@@ -123,7 +111,7 @@ public class ExceptionController {
                 {
                     for(int j=0;j<exOid.length;j++){
                         //进行路由
-                        //orderServiceImpl.routeOrder(exOid[j]);
+                        orderServiceImpl.routeOrder(exOid[j]);
                     }
                 }
                 //向wms发送出库单是异常，处理方式为：再次将出库单信息发送给WMS
@@ -131,9 +119,9 @@ public class ExceptionController {
                 {
                     for(int j=0;j<exOid.length;j++) {
                         //根据订单号查询出该条订单记录
-                        //OrderModel orderModel=orderServiceImpl.selectByOid(exOid[j]);
+                        OrderModel orderModel=orderServiceImpl.selectByOid(exOid[j]);
                         //根据订单号查询出该条出库单记录
-                        //OutboundorderModel outboundorderModel =outboundorderServiceImpl.selectByOid(exOid[j]);
+                        OutboundorderModel outboundorderModel =outboundorderServiceImpl.selectByOid(exOid[j]);
                         //再次将出库单信息发送给WMS
                         //orderServiceImpl.sendOutboundOrder(orderModel,outboundorderModel);
                     }

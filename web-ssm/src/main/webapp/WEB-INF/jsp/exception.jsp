@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.1.1.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/pageList.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/pagelist.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/deleteExceptionOrder.js"></script>
 <html>
 <head>

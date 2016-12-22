@@ -8,7 +8,7 @@
 <% request.setCharacterEncoding("UTF-8");%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"  pageEncoding="UTF-8" isELIgnored="false"%>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.1.1.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/pageList.js" ></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/pagelist.js" ></script>
 
 <html>
 <head>
