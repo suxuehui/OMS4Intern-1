@@ -393,7 +393,7 @@ public class OrderServiceImpl implements OrderService
         OutboundorderModel outboundorderModel=new OutboundorderModel();
         outboundorderModel.setOid(orderModel.getOid());
         outboundorderModel.setChanneloid(orderModel.getChanneloid());
-        outboundorderModel.setOutboundid("SO"+orderModel.getOid());
+        outboundorderModel.setOutboundid("SO"+orderModel.getOid()+(int)(Math.random()*90000+10000));
         outboundorderModel.setSynchrostate(false);
         outboundorderModel.setReceivername(orderModel.getReceivername());
         outboundorderModel.setReceiveraddress(orderModel.getReceiverprovince()+orderModel.getReceivercity()+orderModel.getReceiverarea()+orderModel.getDetailaddress());
@@ -582,7 +582,7 @@ public class OrderServiceImpl implements OrderService
             return 0;//没有选择商品
         }
         returnedModel.setChanneloid(orderModel.getChanneloid());
-        returnedModel.setReturnedid("RT"+jsonObject.getString("oid"));
+        returnedModel.setReturnedid("RT"+jsonObject.getString("oid")+(int)(Math.random()*90000+10000));
         returnedModel.setReturnedorchange(jsonObject.getString("returnedOrChange"));
         returnedModel.setBuyeralipayno(orderModel.getBuyeralipayno());
         double returnedMoney=0.00;
