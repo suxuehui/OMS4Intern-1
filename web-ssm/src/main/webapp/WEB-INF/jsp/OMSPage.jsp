@@ -929,10 +929,10 @@
                 <p class="popupTopTit">导入订单</p>
             </div>
             <div class="popupCont">
-                <form id="importForm" action="importOrder" method="post" enctype="multipart/form-data">
+                <form id="importForm" action="../order/importOrder" method="post" enctype="multipart/form-data">
                     <ul>
                         <li>
-                            <input type="file" style="font-size:20px" name="file">
+                            <input type="file" style="font-size:20px" name="file" id="orderfile">
                             <input type="button" value="导入" style="font-size:20px" class="leadingBtn" id="importBtn">
                         </li>
                     </ul>

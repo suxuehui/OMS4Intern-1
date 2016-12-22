@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.persistence.Convert;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.*;
@@ -39,15 +40,14 @@ public class OrderController
     @Resource
     OrderService orderService;
 
-    @RequestMapping("OMSPage")
-    public String order()
-    {
-        return "OMSPage";
-    }
     //根据订单号查看商品信息
     @RequestMapping("queryGoods")
     public @ResponseBody JSONObject queryGoods(int pageNo,int pageSize,String oId)
     {
+        if(pageNo<=0||pageSize<=0||oId==null)
+        {
+            return null;
+        }
         JSONObject jsonObject=orderService.selectByOid(pageNo,pageSize,oId);
         return jsonObject;
     }
@@ -55,7 +55,15 @@ public class OrderController
     @RequestMapping("orderdetail")
     public String orderdetail(String oId,Model model)
     {
+        if(oId==null)
+        {
+            return "error";
+        }
         OrderModel orderModel=orderService.selectByOid(oId);
+        if(orderModel==null)
+        {
+            return "error";
+        }
         List<GoodsPojo> goodsPojoList=orderService.selectGoodsByOid(oId);
         model.addAttribute("orderModel",orderModel);
         model.addAttribute("goodsPojoList",goodsPojoList);
@@ -66,8 +74,15 @@ public class OrderController
     public String cancelEdit(HttpServletRequest request,Model model)
     {
         String oId=request.getParameter("oId");
-        System.out.println("oId-------------"+oId);
+        if(oId==null)
+        {
+            return "error";
+        }
         OrderModel orderModel=orderService.selectByOid(oId);
+        if(orderModel==null)
+        {
+            return "error";
+        }
         List<GoodsPojo> goodsPojoList=orderService.selectGoodsByOid(oId);
         model.addAttribute("orderModel",orderModel);
         model.addAttribute("goodsPojoList",goodsPojoList);
@@ -78,11 +93,14 @@ public class OrderController
     public String modifyInfo(HttpServletRequest request, HttpSession session,Model model)
     {
         String oid=request.getParameter("oId");
-        System.out.println(oid);
+        if(oid==null)
+        {
+            return "error";
+        }
         OrderModel orderModel=orderService.selectByOid(oid);
         if(orderModel==null)
         {
-            return null;
+            return "error";
         }
         orderModel.setReceivername(request.getParameter("receiverName"));
         orderModel.setReceivermobel(request.getParameter("receiverMobel"));
@@ -94,7 +112,7 @@ public class OrderController
         orderModel.setZipcode(request.getParameter("zipCode"));
         orderModel.setModifytime(new Date());
         orderModel.setModifyman((String)session.getAttribute("uname"));
-        int i=orderService.updateByOidSelective(orderModel);
+        orderService.updateByOidSelective(orderModel);
         List<GoodsPojo> goodsPojoList=orderService.selectGoodsByOid(oid);
         model.addAttribute("orderModel",orderModel);
         model.addAttribute("goodsPojoList",goodsPojoList);
@@ -104,7 +122,10 @@ public class OrderController
     @RequestMapping("queryByCondition")
     public @ResponseBody JSONObject queryByOid(int queryMode,int pageNo,int pageSize,String data,Model model)
     {
-        System.out.println("pageNo:"+pageNo+"-pageSize:"+pageSize);
+        if(queryMode<1||queryMode>7||pageNo<=0||pageSize<=0)
+        {
+            return null;
+        }
         JSONObject orderModelList=orderService.selects(queryMode,pageNo,pageSize,"%"+data+"%");
         return orderModelList;
     }
@@ -113,6 +134,10 @@ public class OrderController
     @RequestMapping("checkreturn")
     public @ResponseBody int checkreturn(String oid)
     {
+        if(oid==null)
+        {
+            return 3;//数据有误
+        }
         return orderService.checkreturn(oid);
     }
 
@@ -120,7 +145,6 @@ public class OrderController
     @RequestMapping("returnGoods")
     public @ResponseBody int returnGoods(String jsonStr)
     {
-        System.out.println(jsonStr);
         return orderService.returnGoods(jsonStr);
     }
 
@@ -128,10 +152,6 @@ public class OrderController
     @RequestMapping("previewOrder")
     public @ResponseBody JSONObject previewOrder(String[] oIds,HttpSession session)
     {
-        for(String str:oIds)
-        {
-            System.out.println(str);
-        }
         int success=0;
         int exception=0;
         if(oIds==null)
@@ -149,34 +169,11 @@ public class OrderController
             else
             {
                 exception++;
-                ErrorModel errorModel=new ErrorModel();
-                if(j==3)
-                {
-                    errorModel.setoId(oIds[i]);
-                    errorModel.setCause("订单号不存在");
-                }
-                if(j==2)
-                {
-                    errorModel.setoId(oIds[i]);
-                    errorModel.setCause("订单状态不符");
-                }
-                if(j==4)
-                {
-                    errorModel.setoId(oIds[i]);
-                    errorModel.setCause("异常类型有错");
-                }
-                if(j==0)
-                {
-                    errorModel.setoId(oIds[i]);
-                    errorModel.setCause("数据库更新异常");
-                }
-                errorModelList.add(errorModel);
             }
         }
         JSONObject jsonObject=new JSONObject();
         jsonObject.put("success",success);
         jsonObject.put("exception",exception);
-        jsonObject.put("errorList",errorModelList);
         return jsonObject;
     }
 
@@ -309,10 +306,13 @@ public class OrderController
     @RequestMapping("importOrder")
     public @ResponseBody int importOrder(@RequestParam(value = "file", required = false) MultipartFile file,HttpServletRequest request)
     {
+        if(file.isEmpty())
+        {
+            return 0;//文件为空
+        }
         // 得到服务器物理路径名/upload/
         String path = request.getSession().getServletContext()
                 .getRealPath(File.separator+"upload"+File.separator);
-        System.out.println("文件路径" + path);
         SimpleDateFormat stFormat=new SimpleDateFormat("yyyymmddhhMMSS");
         String newfileName=stFormat.format(new Date());
         SimpleDateFormat  stFormat1=new SimpleDateFormat("yyyy");
@@ -325,10 +325,8 @@ public class OrderController
             file2.mkdirs();
         //得到上传的文件名
         String fileName = file.getOriginalFilename();
-        System.out.println("fileName:" + fileName);
         //得到文件后缀名
         newfileName+=fileName.substring(fileName.lastIndexOf("."), fileName.length());
-        System.out.println("newfileName:" + newfileName);
         File targetFile = new File(path, newfileName);
         try {
             //拷贝文件到目录路径
@@ -336,8 +334,7 @@ public class OrderController
         } catch (Exception e) {
             e.printStackTrace();
         }
-        analysisExcel(path+File.separator+newfileName);
-        return 1;
+        return analysisExcel(path+File.separator+newfileName);
     }
 
     public int analysisExcel(String filePath)
@@ -345,7 +342,16 @@ public class OrderController
         XSSFWorkbook hssfWorkbook=null;
         try {
             InputStream is = new FileInputStream(filePath);
-            hssfWorkbook = new XSSFWorkbook(is);
+            try {
+                hssfWorkbook = new XSSFWorkbook(is);
+            }catch(Exception e)
+            {
+                e.printStackTrace();
+                return 2;
+            }
+            finally {
+                is.close();
+            }
             for (int numSheet = 0; numSheet < hssfWorkbook.getNumberOfSheets(); numSheet++) {
                 XSSFSheet hssfSheet = hssfWorkbook.getSheetAt(numSheet);
                 if (hssfSheet == null) {
@@ -356,7 +362,6 @@ public class OrderController
                     XSSFRow hssfRow = hssfSheet.getRow(rowNum);
                     if (hssfRow != null) {
                         XSSFCell tradeStr = hssfRow.getCell(0);
-                        System.out.println(tradeStr.toString());
                         orderService.importOrder(tradeStr.toString());
                     }
                 }
@@ -368,21 +373,6 @@ public class OrderController
         {
             e.printStackTrace();
         }
-        return 0;
-    }
-    //测试接口
-    @RequestMapping("interface")
-    public @ResponseBody String inter(@RequestBody String str)
-    {
-        return "ccc"+str;
-    }
-
-    @RequestMapping("test")
-    public @ResponseBody String test(String str)
-    {
-        HTTPClientDemo http=new HTTPClientDemo("http://localhost:8080/oms/order/interfac");
-        String s=http.postMethod(str);
-        System.out.println(s);
-        return s;
+        return 1;
     }
 }

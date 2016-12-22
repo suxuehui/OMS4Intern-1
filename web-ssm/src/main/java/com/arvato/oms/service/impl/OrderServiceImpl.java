@@ -204,7 +204,8 @@ public class OrderServiceImpl implements OrderService
                     orderModel.setModifytime(new Date());
                     orderModel.setModifyman(name);
                     orderModelMapper.updateByOidSelective(orderModel);
-                    return exceptionModelMapper.insertSelective(exceptionModel);
+                    exceptionModelMapper.insertSelective(exceptionModel);
+                    return 5;
                 }
             }
         }
@@ -217,7 +218,7 @@ public class OrderServiceImpl implements OrderService
                 int goodsRnum=0;
                 if(relationogModelMapper.selectGoodsRnum(oId)==null)
                 {
-                    goodsRnum=0;
+                    goodsRnum=5;
                 }
                 else
                 {
@@ -234,7 +235,8 @@ public class OrderServiceImpl implements OrderService
                     exceptionModel.setOrderfrom("预检");
                     orderModel.setOrderstatus("订单异常");
                     orderModelMapper.updateByOidSelective(orderModel);
-                    return exceptionModelMapper.insertSelective(exceptionModel);
+                    exceptionModelMapper.insertSelective(exceptionModel);
+                    return 5;
                 }
             }
         }
@@ -249,7 +251,8 @@ public class OrderServiceImpl implements OrderService
                 exceptionModel.setOrderfrom("预检");
                 orderModel.setOrderstatus("订单异常");
                 orderModelMapper.updateByOidSelective(orderModel);
-                return exceptionModelMapper.insertSelective(exceptionModel);
+                exceptionModelMapper.insertSelective(exceptionModel);
+                return 5;
             }
         }
         if(exceptionType==null||exceptionType.equals("备注异常"))
@@ -263,22 +266,19 @@ public class OrderServiceImpl implements OrderService
                 exceptionModel.setOrderfrom("预检");
                 orderModel.setOrderstatus("订单异常");
                 orderModelMapper.updateByOidSelective(orderModel);
-                return exceptionModelMapper.insertSelective(exceptionModel);
+                exceptionModelMapper.insertSelective(exceptionModel);
+                return 5;
             }
         }
         //book库存
         for(RelationogModel re:relationogModelList)
         {
             re.setStatus((byte)1);
-            int j=relationogModelMapper.updateByPrimaryKeySelective(re);
-            if(j==0)
-            {
-                return 0;
-            }
+            relationogModelMapper.updateByPrimaryKeySelective(re);
         }
         orderModel.setOrderstatus("待路由");
-        int i=orderModelMapper.updateByOidSelective(orderModel);
-        return i;
+        orderModelMapper.updateByOidSelective(orderModel);
+        return 1;
     }
 
     public ExceptionModel createException(OrderModel orderModel)
@@ -320,16 +320,16 @@ public class OrderServiceImpl implements OrderService
         }
         if(orderModel.getOrderstatus().equals("已出库"))
         {
-            HTTPClientDemo httpClientDemo=new HTTPClientDemo("url");
-            String str=httpClientDemo.postMethod(oId);
+            OutboundorderModel outboundorderModel=outboundorderModelMapper.selectByOid(oId);
+            HTTPClientDemo httpClientDemo=new HTTPClientDemo("http://10.129.98.10:8080/outboundOrder/cancelOrder");
+            String str=httpClientDemo.postMethod(outboundorderModel.getOutboundid());
             String code="100";
             try
             {
-//                JSONObject jsonObject=JSON.parseObject(str);
-//                code=jsonObject.getString("code");
+                JSONObject jsonObject=JSON.parseObject(str);
+                code=jsonObject.getString("code");
                 if(code.equals("100"))
                 {
-                    OutboundorderModel outboundorderModel=outboundorderModelMapper.selectByOid(oId);
                     outboundorderModel.setOrderstatus("已取消");
                     outboundorderModel.setOutboundstate("已取消");
                     outboundorderModelMapper.updateByOidSelective(outboundorderModel);
@@ -437,37 +437,42 @@ public class OrderServiceImpl implements OrderService
         JSONObject deliveryOrder=new JSONObject();
         deliveryOrder.put("receiver",outboundorderModel.getReceivername());
         deliveryOrder.put("receivertel",orderModel.getReceivermobel());
-        deliveryOrder.put("receiverAddress",outboundorderModel.getReceiveraddress());
+        deliveryOrder.put("receiveraddress",outboundorderModel.getReceiveraddress());
         jsonObject.put("outboundordergoods",outBoundGoodsList);
         jsonObject.put("deliveryOrder",deliveryOrder);
         System.out.println(jsonObject.toString());
-//        HTTPClientDemo httpClientDemo=new HTTPClientDemo("url");
-//        String response=httpClientDemo.postMethod(jsonObject.toString());
-        String code="100";
+        HTTPClientDemo httpClientDemo=new HTTPClientDemo("http://114.215.252.146:8080/wms/outboundOrder/receiveOrder");
+        String response=httpClientDemo.postMethod(jsonObject.toString());
+        String code="";
         int cause=0;
         try {
-            //code = JSON.parseObject(response).getString("code");
-            if(code.equals("100"))
-            {
-                orderModel.setOrderstatus("已出库");
-                orderModelMapper.updateByOidSelective(orderModel);
-                outboundorderModel.setOrderstatus("已出库");
-                outboundorderModel.setOutboundstate("处理中");
-                outboundorderModelMapper.updateByOidSelective(outboundorderModel);
-                return 1;
-            }
+            code = JSON.parseObject(response).getString("code");
+            System.out.println("---------------------------------------------");
+            System.out.println("code:"+code);
         }
         catch(Exception e)
         {
             cause=4;//"接口连接异常";
+            code="接口连接异常";
+        }
+        if(code.equals("100"))
+        {
+            orderModel.setOrderstatus("已出库");
+            orderModelMapper.updateByOidSelective(orderModel);
+            outboundorderModel.setOrderstatus("已出库");
+            outboundorderModel.setOutboundstate("处理中");
+            outboundorderModelMapper.updateByOidSelective(outboundorderModel);
+            return 1;
         }
         if(code.equals("101"))
         {
             cause=5;//"数据格式错误";
+            code="数据格式错误";
         }
         if(code.equals("102"))
         {
             cause=6;//"重复的出库单";
+            code="重复的出库单";
         }
         ExceptionModel exceptionModel=createException(orderModel);
         exceptionModel.setExceptiontype("出库异常");
@@ -529,21 +534,11 @@ public class OrderServiceImpl implements OrderService
         int j=orderModelMapper.insertSelective(orderModel);
         for(Order order:orderList)
         {
-            goodsModel.setGoodsno(order.getNum_iid());
-            goodsModel.setGoodsname(order.getTitle());
-            goodsModel.setGoodsprice(new BigDecimal(order.getPrice()));
-            goodsModel.setGoodstolnum((int)(Math.random()*1000+100));
-            GoodsModel goodsModel1=goodsModelMapper.selectByPrimaryKey(order.getNum_iid());
-            if(goodsModel1==null)
-            {
-                goodsModelMapper.insertSelective(goodsModel);
-            }
-            goodsModelMapper.updateByPrimaryKeySelective(goodsModel);
             relationogModel.setOid(oId);
             relationogModel.setGoodsno(order.getNum_iid());
             relationogModel.setGoodnum(order.getNum());
             relationogModel.setStatus((byte)0);
-            BigDecimal divideorderfee=null;
+            BigDecimal divideorderfee;
             BigDecimal totalfee=new BigDecimal(order.getTotal_fee());
             if(order.getDivide_order_fee()!=null)
             {
@@ -551,7 +546,6 @@ public class OrderServiceImpl implements OrderService
             }
             else
             {
-                BigDecimal discountfee=new BigDecimal(order.getDiscount_fee());
                 divideorderfee=new BigDecimal((totalfee.doubleValue())/(order.getNum()));
             }
             relationogModel.setDivideorderfee(divideorderfee);

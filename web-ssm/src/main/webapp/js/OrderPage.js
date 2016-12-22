@@ -5,8 +5,14 @@
 $(function () {
     $("#importBtn").click(function () {
         var formData=new FormData($("#importForm")[0]);
+        var fileSize=document.getElementById("orderfile").files[0].size;
+        if(fileSize>32000000)
+        {
+            alert("文件过大");
+            return;
+        }
         $.ajax({
-            url:"importOrder",
+            url:"../order/importOrder",
             type:"post",
             data:formData,
             async: false,
@@ -14,7 +20,14 @@ $(function () {
             contentType: false,
             processData: false,
             success:function (data) {
-                alert(data);
+                if(data==0)
+                {
+                    alert("请选择文件");
+                }
+                if(data==2)
+                {
+                    alert("文件格式不对，请选择Excel文件");
+                }
                 $(".loading").hide();
                 queryOrder(1,10);
             }
@@ -75,12 +88,19 @@ function ordercheck(oid) {
         if(oidArray.length>1||oidArray.length==0)
         {
             $("#returnedOrderBtn,#exchangeGoodsBtn").attr('disabled',true);
+            $("[name='goodscheck']:checkbox").prop("checked",false);
+            for(var i=0;i<goodsArray.length;i++)
+            {
+                $("#n"+goodsArray[i]).attr("readonly","readonly");
+                $("#n"+goodsArray[i]).addClass("edit");
+            }
+            goodsArray=[];
             return;
         }
         var id='S'+oidArray[0];
         var orderstatus=$("#"+id).text();
         $.ajax({
-            url:"checkreturn",
+            url:"../order/checkreturn",
             type:"get",
             data:{oid:oidArray[0]},
             success:function (data) {
@@ -134,14 +154,14 @@ function btnStatus(status,btnId) {
 $(function () {
     $("#queryOBtn").click(function () {
         var oid=oidArray[0];
-        window.open("orderdetail?oId="+oid);
+        window.open("../order/orderdetail?oId="+oid);
     })
 })
 //预检
 $(function () {
     $("#previewOrderBtn").click(function () {
         $.ajax({
-            url:"previewOrder",
+            url:"../order/previewOrder",
             type:"post",
             data:{oIds:oidArray},
             traditional: true,
@@ -149,7 +169,12 @@ $(function () {
             success:function (data) {
                 var success=data.success;
                 var exception=data.exception;
-                alert("success:"+success+"'\n'exception:"+exception);
+                var content="success:"+success+"'\n'exception:"+exception;
+                if(exception!=0)
+                {
+                    content+="'\n'请去异常订单页查看";
+                }
+                alert(content);
                 var pageNo=$("#orderPageNo").text();
                 queryOrder(pageNo,10);
             }
@@ -160,7 +185,7 @@ $(function () {
 $(function () {
     $("#routeOrderBtn").click(function () {
         $.ajax({
-            url:"routeOrder",
+            url:"../order/routeOrder",
             type:"post",
             data:{oIds:oidArray},
             traditional: true,
@@ -179,7 +204,7 @@ $(function () {
 $(function () {
     $("#outboundOrderBtn").click(function () {
         $.ajax({
-            url:"outboundOrder",
+            url:"../order/outboundOrder",
             type:"post",
             data:{oIds:oidArray},
             traditional: true,
@@ -198,7 +223,7 @@ $(function () {
 $(function () {
     $("#cancleOrderBtn").click(function () {
         $.ajax({
-            url:"cancleOrder",
+            url:"../order/cancleOrder",
             type:"post",
             data:{oIds:oidArray},
             traditional: true,
@@ -213,16 +238,10 @@ $(function () {
         })
     })
 })
-//退换货
+//商品勾选框
 var goodsArray=new Array();
 function goodCheck(goodsno) {
     if(document.getElementById(goodsno).checked){
-        var oid=$("#goodsOid").text();
-        if(oid!=oidArray[0])
-        {
-            alert("商品与勾选订单不符");
-            return;
-        }
         goodsArray.push(goodsno);
         $("#n"+goodsno).removeAttr("readonly");
         $("#n"+goodsno).removeClass("edit");
@@ -239,6 +258,7 @@ function goodCheck(goodsno) {
         }
     }
 }
+//退换货
 function returnOrExchange(oid,returnedOrChange) {
     if(goodsArray.length==0)
     {
@@ -259,21 +279,38 @@ function returnOrExchange(oid,returnedOrChange) {
     }
     var jsonStr={"oid":oid,"goods":goodsList,"returnedOrChange":returnedOrChange};
     $.ajax({
-        url:"returnGoods",
+        url:"../order/returnGoods",
         type:"post",
         data:{jsonStr:JSON.stringify(jsonStr)},
         success:function(data){
-            alert(data);
+            if(data==1)
+            {
+                alert("订单退换货成功，可以去退换货页面查看");
+            }
+            else
+            {
+                alert("退换货异常");
+            }
         }
     });
 }
 $(function () {
     $("#returnedOrderBtn").click(function () {
+        if(oid!=oidArray[0])
+        {
+            alert("商品与勾选订单不符");
+            return;
+        }
         returnOrExchange(oidArray[0],"return");
     })
 })
 $(function () {
     $("#exchangeGoodsBtn").click(function () {
+        if(oid!=oidArray[0])
+        {
+            alert("商品与勾选订单不符");
+            return;
+        }
         returnOrExchange(oidArray[0],"change");
     })
 })

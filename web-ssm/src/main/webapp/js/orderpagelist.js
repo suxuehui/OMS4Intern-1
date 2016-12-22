@@ -116,9 +116,10 @@ function orderdbclick(oid) {
     clearTimeout(time);
     window.open("../order/orderdetail?oId="+oid);
 }
+//查看商品信息
 function queryGoodsByOid(pageNo,pageSize,oid) {
     $.ajax({
-        url:"queryGoods",
+        url:"../order/queryGoods",
         type:"get",
         data:{
             pageNo:pageNo,

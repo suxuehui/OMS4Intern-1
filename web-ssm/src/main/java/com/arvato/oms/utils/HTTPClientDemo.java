@@ -47,12 +47,14 @@ public class HTTPClientDemo {
                     } finally {
                         response.close();
                     }
-                } finally {
+                }
+                finally {
                     httpclient.close();
                 }
         }catch (IOException e){
             e.printStackTrace();
         }
+
         return null;
     }
 }

@@ -28,7 +28,7 @@
     select 
     <include refid="Base_Column_List" />
     from outboundorder
-    where oId = #{oId,jdbcType=VARCHAR}
+    where oId = #{oid,jdbcType=VARCHAR}
   </select>
 
   <!--向出库表中添加快递公司，快递单号,仓库出库单号的信息,以及修改出库单状态，订单状态-->
@@ -218,7 +218,7 @@
         modifyMan = #{modifyman,jdbcType=VARCHAR},
       </if>
     </set>
-    where oId = #{oId,jdbcType=VARCHAR}
+    where oId = #{oid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.arvato.oms.model.OutboundorderModel" >
     update outboundorder
