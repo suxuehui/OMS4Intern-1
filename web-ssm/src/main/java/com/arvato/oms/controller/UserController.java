@@ -132,7 +132,11 @@ public class UserController
         {
             list.add(Integer.valueOf(listString.get(i)));
         }
+        if(list.contains(6)){
+            return -1;
+        }else {
+            return userModelService.deleteUserByIds(list);
+        }
 
-        return userModelService.deleteUserByIds(list);
     }
 }

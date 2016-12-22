@@ -22,20 +22,22 @@ $.extend({
 
 function usercheckclick(userid) {
 
+
     var count = 0;
     var checkArry = document.getElementsByName("usercheck");
     for (var i = 0; i < checkArry.length; i++) {
+
         if (checkArry[i].checked == true) {
             ++count;
-            if (count > 1) {
-                document.getElementById("updateUserBut").disabled = true;
-
-                return;
-            }
-            document.getElementById("updateUserBut").disabled = false;
-
         }
     }
+    if (count == 1) {
+        document.getElementById("updateUserBut").disabled = false;
+    } else {
+        document.getElementById("updateUserBut").disabled = true;
+    }
+
+
 }
 
 $(document).ready(function () {
@@ -97,6 +99,7 @@ $(document).ready(function () {
                 if (userIdArray.length == 0) {
                     alert("请选择要删除的用户");
                 } else {
+
                     var userIds = userIdArray.join("/");
                     $.ajax({
                         type: 'get',
@@ -110,8 +113,10 @@ $(document).ready(function () {
                             if (data > 0) {
                                 inGetUserNowPage(1);
                                 alert("删除成功");
-                            } else {
+                            } else if(data=0){
                                 alert("删除失败");
+                            }else if(data=-1){
+                                alert("不可以删除自己");
                             }
                         },
                         error: function (data) {
@@ -248,7 +253,7 @@ $(document).ready(function () {
                 var zzbds = /^([\u4E00-\u9FA5]|\w)*$/;
                 if (!zzbds.test(select)) {
                     alert("请不要输入特殊符号");
-                }else {
+                } else {
                     selectByUserName(1, select);
                     $('#preUserPage').hide();
                     $('#nextUserPage').hide();
@@ -277,7 +282,7 @@ $(document).ready(function () {
                     $('#usertbody').html("");
                     for (var i in userList) {
                         var id = i * 1 + 1 * 1;
-                        $('#usertbody').append("<tr><td>" + id + "</td><td><input type='checkbox' id='" + userList[i].uid + "user" + "' name='usercheck' onclick='usercheckclick(this.id)'></td><td><a>" + userList[i].uname + "</a></td> <td>&nbsp;" + userList[i].upassword + "</td> <td>&nbsp;" + userList[i].urole + "</td> </tr>");
+                        $('#usertbody').append("<tr><td>" + id + "</td><td><input type='checkbox' id='" + userList[i].uid + "user" + "' name='usercheck' onchange='usercheckclick(this.id)'></td><td><a>" + userList[i].uname + "</a></td> <td>&nbsp;" + userList[i].upassword + "</td> <td>&nbsp;" + userList[i].urole + "</td> </tr>");
                         $('#totalUserPage').html(totalPage);
                     }
 
