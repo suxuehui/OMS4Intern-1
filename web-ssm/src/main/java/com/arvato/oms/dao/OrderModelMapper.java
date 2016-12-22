@@ -7,8 +7,11 @@ import java.util.List;
 
 @Service
 public interface OrderModelMapper {
+    //更新订单列表的订单状态
+    void updateOrder(String orderStatus,String oid);
 
         int selectCount();
+    OrderModel selectByoId(String oId);
 
         int deleteByPrimaryKey(Integer id);
 
@@ -56,10 +59,14 @@ public interface OrderModelMapper {
 
         //根据渠道订单号查询订单是否已存在
         OrderModel selectByChannelOid(String channelOid);
+		
+		OrderModel selectByPrimaryKey(Integer id);
 
         List<OrderModel> selectAll(Integer pageNo,Integer pageSize);
 
         int updateByOidSelective(OrderModel record);
+		
+		 int updateByPrimaryKeySelective(OrderModel record);
 
         int updateByPrimaryKey(OrderModel record);
 }

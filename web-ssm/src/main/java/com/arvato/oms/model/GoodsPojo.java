@@ -14,9 +14,13 @@ public class GoodsPojo {
 
     private BigDecimal goodsprice;
 
+    private Integer goodsrnum;
+
     private Integer goodstolnum;
 
     private int goodNum;
+	
+	private Integer goodsnum;
 
     private BigDecimal divideorderfee;
 
@@ -68,6 +72,13 @@ public class GoodsPojo {
         this.goodsname = goodsname == null ? null : goodsname.trim();
     }
 
+    public Integer getGoodsnum() {
+        return goodsnum;
+    }
+
+    public void setGoodsnum(Integer goodsnum) {
+        this.goodsnum = goodsnum;
+    }
     public Integer getGoodsvnum() {
         return goodsvnum;
     }
@@ -82,6 +93,14 @@ public class GoodsPojo {
 
     public void setGoodsprice(BigDecimal goodsprice) {
         this.goodsprice = goodsprice;
+    }
+
+    public Integer getGoodsrnum() {
+        return goodsrnum;
+    }
+
+    public void setGoodsrnum(Integer goodsrnum) {
+        this.goodsrnum = goodsrnum;
     }
 
     public Integer getGoodstolnum() {

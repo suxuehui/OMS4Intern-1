@@ -10,15 +10,20 @@ import java.util.List;
 
 @Service
 public interface GoodsModelMapper {
+    //根据商品编号查询商品信息
+    public GoodsModel selectByGoodsNo(String goodsno);
+
+    //添加一条商品信息
+    void addGoods(String goodsNo,String goodsName,String goodsVnum,String goodsPrice,String goodsTolnum,String goodState);
+
+    //将商品状态改为"已下架"
+    void updateGoodsState(String goodsState2,String goodsNo2);
 
     int deleteByPrimaryKey(String goodsno);
 
     int insert(GoodsModel record);
 
     int insertSelective(GoodsModel record);
-
-    //通过商品编码获取商品信息
-    GoodsModel selectByGoodsNo(String record);
 	
 	GoodsModel selectByPrimaryKey(String goodsno);
 

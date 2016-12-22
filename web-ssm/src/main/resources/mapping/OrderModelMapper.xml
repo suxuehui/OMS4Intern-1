@@ -48,7 +48,21 @@
     select count(1)
     from oms_schema.order
   </select>
-<!--根据订单号查询订单-->
+  <!--更新订单列表的订单状态-->
+  <update id="updateOrder" >
+    update `order`
+    set orderStatus = #{0,jdbcType=VARCHAR}
+    where oid = #{1,jdbcType=VARCHAR}
+  </update>
+
+  <!--通过oid选出所有信息-->
+  <select id="selectByoId" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from order
+    where oId = #{oid,jdbcType=VARCHAR}
+  </select>
+  <!--根据订单号查询订单-->
   <select id="selectByOid" resultMap="BaseResultMap" parameterType="java.lang.String">
     select
     <include refid="Base_Column_List" />
@@ -166,7 +180,8 @@
       remark, receiverName, receiverMobel, 
       receiverTelnum, receiverProvince, receiverCity, 
       receiverArea, detailAddress, zipCode, 
-      modifyTime, modifyMan,buyerAlipayNo)
+      modifyTime, modifyMan, buyerAlipayNo
+      )
     values (#{id,jdbcType=INTEGER}, #{oid,jdbcType=VARCHAR}, #{channeloid,jdbcType=VARCHAR}, 
       #{orderstatus,jdbcType=VARCHAR}, #{orderform,jdbcType=VARCHAR}, #{buyerid,jdbcType=VARCHAR}, 
       #{ordertime,jdbcType=TIMESTAMP}, #{basestatus,jdbcType=VARCHAR}, #{paystatus,jdbcType=VARCHAR}, 
@@ -176,7 +191,8 @@
       #{remark,jdbcType=VARCHAR}, #{receivername,jdbcType=VARCHAR}, #{receivermobel,jdbcType=VARCHAR}, 
       #{receivertelnum,jdbcType=VARCHAR}, #{receiverprovince,jdbcType=VARCHAR}, #{receivercity,jdbcType=VARCHAR}, 
       #{receiverarea,jdbcType=VARCHAR}, #{detailaddress,jdbcType=VARCHAR}, #{zipcode,jdbcType=VARCHAR}, 
-      #{modifytime,jdbcType=TIMESTAMP}, #{modifyman,jdbcType=VARCHAR},#{buyeralipayno,jdbcType=VARCHAR})
+      #{modifytime,jdbcType=TIMESTAMP}, #{modifyman,jdbcType=VARCHAR}, #{buyeralipayno,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.arvato.oms.model.OrderModel" >
     insert into oms_schema.order

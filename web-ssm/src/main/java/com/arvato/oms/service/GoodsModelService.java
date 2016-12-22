@@ -10,6 +10,15 @@ import java.util.List;
  */
 public interface GoodsModelService
 {
+    //根据商品编号查询商品信息
+    public GoodsModel selectByGoodsNo(String goodsno);
+
+    //添加一条商品信息
+    void addGoods(String goodsNo,String goodsName,String goodsVnum,String goodsPrice,String goodsTolnum,String goodsState);
+
+    //将商品状态改为"已下架"
+    void updateGoodsState(String goodsState2,String goodsNo2);
+
     public JSONObject getAllGoods(int pageNow, int num);
 
     public JSONObject selectOneGoodsByNo(String goodsNo);
@@ -23,7 +32,5 @@ public interface GoodsModelService
     public JSONObject selectGoodsByValueAndPage(String select,String value,int nowPage,int pageSize);
 
     public JSONObject selectByOid(int pageNo, int pageSize, String oId);
-
-    public GoodsModel selectByGoodsNo(String goodsno);
 
 }

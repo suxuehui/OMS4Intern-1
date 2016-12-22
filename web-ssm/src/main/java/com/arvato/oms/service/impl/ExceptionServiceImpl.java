@@ -1,8 +1,13 @@
 package com.arvato.oms.service.impl;
 
 
+
 import com.arvato.oms.dao.ExceptionModelMapper;
+import com.arvato.oms.dao.GoodsModelMapper;
+import com.arvato.oms.dao.RelationogModelMapper;
 import com.arvato.oms.model.ExceptionModel;
+import com.arvato.oms.model.GoodsModel;
+import com.arvato.oms.model.RelationogModel;
 import com.arvato.oms.service.ExceptionService;
 import com.arvato.oms.utils.Page;
 import net.sf.json.JSONArray;
@@ -11,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,19 +26,23 @@ import java.util.List;
 @Service
 public class ExceptionServiceImpl implements ExceptionService {
 
+
     @Resource
     private ExceptionModelMapper exceptionModelMapper;
-
+    @Resource
+    private GoodsModelMapper goodsModelMapper;
+    @Resource
+    private RelationogModelMapper relationogModelMapper;
     //分页查询
     public String showExceptionOrder(HttpServletRequest request )
     {
         //获取当前页数
         String pageNow = request.getParameter("currentpage");
-        System.out.println("pageNow："+pageNow);
+        //System.out.println("pageNow："+pageNow);
         String txtvalue=request.getParameter("txtvalue"); //用户输入的值txtvalue
-        System.out.println("txtvalue："+txtvalue);
+        //System.out.println("txtvalue："+txtvalue);
         int selectValue= Integer.parseInt(request.getParameter("toseachid"))  ;//下拉框的value
-        System.out.println("selectValue："+selectValue);
+        //System.out.println("selectValue："+selectValue);
         int pagesize=2;
         Page pagelist = null;
         List<ExceptionModel> list;
@@ -110,13 +120,59 @@ public class ExceptionServiceImpl implements ExceptionService {
         String jsonstr = "{\"pagelist\":"+json1.toString();//将json对象转换为字符串
         JSONArray array = JSONArray.fromObject(list);
         jsonstr +=",\"list\":"+array.toString()+"}";
-         System.out.print("jsonstr: "+jsonstr);
+        System.out.print("异常页面的jsonstr: "+jsonstr);
         return jsonstr ;
     }
 
     //根据订单号删除所选异常订单
-    public List<ExceptionModel> deleteByOid(String oId) {
+    public List<ExceptionModel> deleteByOid(String oId)
+    {
         return exceptionModelMapper.deleteByOid(oId);
+    }
+
+    //根据订单号查询该条异常订单记录
+    public ExceptionModel selectByOid(String oId)
+    {
+        ExceptionModel  list=this.exceptionModelMapper.selectByExceptionOid(oId);
+        return list;
+    }
+
+    //根据订单号查询该条订单的异常类型
+    public String selectTypeByOid(String oId) {
+        return exceptionModelMapper.selectTypeByOid(oId);
+    }
+
+    //子页面显示
+    public String listExceptionSon(HttpServletRequest request)
+    {
+        String oid = request.getParameter("oid3");//获取订单oid
+        List<ExceptionModel> list;
+        int totalCount ; //获取对象总数量
+        //查询出库单列表
+        ExceptionModel exceptionList = exceptionModelMapper.selectByExceptionOid(oid);
+        //获取商品编码  查询关系表
+        List<RelationogModel> roglist = relationogModelMapper.selectMessageByOid(oid);
+        //获取商品实体 查询商品表
+        List<Object> goodsList=new ArrayList<Object>();
+
+        for(int i=0;i<roglist.size();i++){
+            //获取商品编号
+            String sno= roglist.get(i).getGoodsno();
+            //查询所有商品列
+            GoodsModel gm= goodsModelMapper.selectByGoodsNo(sno);
+            System.out.println("gm:"+gm);
+            goodsList.add(gm);
+        }
+
+        //对象转JSON
+        JSONArray a1= JSONArray.fromObject(exceptionList);
+        String jsonstr="{\"exceptionList\":"+a1.toString(); //异常订单列表
+        JSONArray a2 = JSONArray.fromObject(goodsList); //商品列表
+        jsonstr +=",\"goods\":"+a2.toString();
+        JSONArray a3 = JSONArray.fromObject(roglist);  //商品与订单关系列表
+        jsonstr +=",\"rglist\":"+a3.toString()+"}";
+        System.out.println("exceptionList："+jsonstr);
+        return jsonstr;
     }
 
 }

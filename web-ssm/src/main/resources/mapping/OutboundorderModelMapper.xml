@@ -30,6 +30,32 @@
     from outboundorder
     where oId = #{oId,jdbcType=VARCHAR}
   </select>
+
+  <!--向出库表中添加快递公司，快递单号,仓库出库单号的信息,以及修改出库单状态，订单状态-->
+  <update id="updateOutboundorder">
+    update outboundorder
+    set orderStatus = #{0,jdbcType=VARCHAR},
+    outboundState = #{1,jdbcType=VARCHAR},
+    warehouseObId = #{2,jdbcType=VARCHAR},
+    expressCompany = #{3,jdbcType=VARCHAR},
+    expressId = #{4,jdbcType=VARCHAR}
+    where outboundId = #{5,jdbcType=INTEGER}
+  </update>
+
+  <!--从出库表获取订单号-->
+  <select id="selectOidByOutboundId" resultType="java.lang.String">
+    select
+    oid
+    from outboundorder
+    where outboundid = #{5,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from outboundorder
+    where cid = #{cid,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from outboundorder
     where cid = #{cid,jdbcType=INTEGER}

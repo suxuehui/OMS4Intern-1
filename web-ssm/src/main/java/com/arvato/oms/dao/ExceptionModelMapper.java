@@ -8,16 +8,6 @@ import java.util.List;
 
 @Service
 public interface ExceptionModelMapper {
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(ExceptionModel record);
-
-    int insertSelective(ExceptionModel record);
-
-    int updateByOidSelective(ExceptionModel record);
-
-    int updateByPrimaryKey(ExceptionModel record);
-
 
     //获取总数量
     long Count();
@@ -35,7 +25,30 @@ public interface ExceptionModelMapper {
     List<ExceptionModel> deleteByOid(String  oId);
 
     //精确匹配 通过oid选出所有信息
-    ExceptionModel  selectByOid(String oid);
+    ExceptionModel  selectByExceptionOid(String oid);
 
+    //根据订单号查询该条订单的异常类型
+    String selectTypeByOid(String oId);
 
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(ExceptionModel record);
+
+    int insertSelective(ExceptionModel record);
+
+    ExceptionModel selectByPrimaryKey(Integer id);
+
+    int updateByPrimaryKeySelective(ExceptionModel record);
+
+    int updateByPrimaryKey(ExceptionModel record);
+	
+    int updateByOidSelective(ExceptionModel record);
+
+ 
+
+ 
+
+    
+
+ 
 }

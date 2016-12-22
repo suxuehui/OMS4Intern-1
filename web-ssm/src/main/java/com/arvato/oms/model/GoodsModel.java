@@ -15,14 +15,7 @@ public class GoodsModel {
 
     private String goodsstate;
 
-    public String getGoodsstate() {
-        return goodsstate;
-    }
-
-    public void setGoodsstate(String goodsstate) {
-        this.goodsstate = goodsstate;
-    }
-
+   
     public String getGoodsno() {
         return goodsno;
     }
@@ -63,7 +56,14 @@ public class GoodsModel {
     public void setGoodstolnum(Integer goodstolnum) {
         this.goodstolnum = goodstolnum;
     }
-
+	 public String getGoodsstate() {
+        return goodsstate;
+	}
+	
+	 public void setGoodsstate(String goodsstate) {
+        this.goodsstate = goodsstate == null ? null : goodsstate.trim();
+    }
+	
     @Override
     public String toString() {
         return "GoodsModel{" +
@@ -74,5 +74,6 @@ public class GoodsModel {
                 ", goodstolnum=" + goodstolnum +
                 ", goodsstate='" + goodsstate + '\'' +
                 '}';
-    }
+     }
+
 }

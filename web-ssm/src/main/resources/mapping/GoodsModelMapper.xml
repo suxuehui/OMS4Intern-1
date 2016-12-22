@@ -25,12 +25,32 @@
   <sql id="GoodsPojo_Column_List" >
     goods.goodsNo, goodsName, goodsPrice,goodsTolnum, goodNum,divideorderfee,totalfee
   </sql>
-  <select id="selectByGoodsNo" resultMap="BaseResultMap" parameterType="java.lang.String">
-    SELECT
+
+  <!--通过商品编号查询商品信息-->
+  <select id="selectByGoodsNo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
     <include refid="Base_Column_List" />
-    FROM goods
-    WHERE goodsNo = #{goodsNo, jdbcType=VARCHAR}
+    from goods
+    where goodsNo = #{goodsno,jdbcType=VARCHAR}
   </select>
+
+  <!--添加一条商品信息-->
+  <insert id="addGoods" parameterType="java.lang.String" >
+    insert into goods (goodsNo, goodsName, goodsVnum,
+    goodsPrice, goodsTolnum, goodsState
+    )
+    values (#{0,jdbcType=VARCHAR}, #{1,jdbcType=VARCHAR}, #{2,jdbcType=INTEGER},
+    #{3,jdbcType=DECIMAL}, #{4,jdbcType=INTEGER}, #{5,jdbcType=VARCHAR}
+    )
+  </insert>
+
+  <!--将商品状态改为"已下架"-->
+  <update id="updateGoodsState" >
+    update goods
+    set goodsState = #{0,jdbcType=VARCHAR}
+    where goodsNo = #{1,jdbcType=VARCHAR}
+  </update>
+
   <!--按订单号分页查询商品信息-->
   <select id="selectByOid" resultMap="GoodsPojo"  >
     select
@@ -63,11 +83,11 @@
     where goodsNo = #{goodsno,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.arvato.oms.model.GoodsModel" >
-    insert into goods (goodsNo, goodsName, goodsVnum, 
-      goodsPrice,  goodsTolnum
+    insert into goods (goodsNo, goodsName, goodsVnum,
+      goodsPrice, goodsTolnum, goodsState
       )
-    values (#{goodsno,jdbcType=VARCHAR}, #{goodsname,jdbcType=VARCHAR}, #{goodsvnum,jdbcType=INTEGER}, 
-      #{goodsprice,jdbcType=DECIMAL}, #{goodstolnum,jdbcType=INTEGER}
+    values (#{goodsno,jdbcType=VARCHAR}, #{goodsname,jdbcType=VARCHAR}, #{goodsvnum,jdbcType=INTEGER},
+      #{goodsprice,jdbcType=DECIMAL}, #{goodstolnum,jdbcType=INTEGER}, #{goodsstate,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.arvato.oms.model.GoodsModel" >
@@ -110,7 +130,7 @@
         #{goodstolnum,jdbcType=INTEGER},
       </if>
       <if test="goodsstate != null" >
-        #{goodsstate,jdbcType=INTEGER},
+        #{goodsstate,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -130,7 +150,7 @@
         goodsTolnum = #{goodstolnum,jdbcType=INTEGER},
       </if>
       <if test="goodsstate != null" >
-        goodsState=#{goodsstate,jdbcType=INTEGER},
+        goodsState = #{goodsstate,jdbcType=VARCHAR},
       </if>
     </set>
     where goodsNo = #{goodsno,jdbcType=VARCHAR}
@@ -141,7 +161,7 @@
       goodsVnum = #{goodsvnum,jdbcType=INTEGER},
       goodsPrice = #{goodsprice,jdbcType=DECIMAL},
       goodsTolnum = #{goodstolnum,jdbcType=INTEGER},
-      goodsState=#{goodsstate,jdbcType=INTEGER}
+      goodsState = #{goodsstate,jdbcType=VARCHAR}
     where goodsNo = #{goodsno,jdbcType=VARCHAR}
   </update>
   

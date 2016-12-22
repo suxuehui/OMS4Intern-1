@@ -30,7 +30,7 @@ import java.util.List;
 public class ReturnedModelServiceImpl implements ReturnedModelService
 {
     @Resource
-    ReturnedModelMapper returnedModelMapper;
+    private ReturnedModelMapper returnedModelMapper;
 
     @Resource
     RelationrgModelMapper relationrgModelMapper;
@@ -196,4 +196,8 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         return (long) (Math.random() * 9 * Math.pow(10, n - 1)) + (long) Math.pow(10, n - 1);
     }
 
+    //根据退款单号查询该条退货单记录
+    public ReturnedModel selectByReturnedId(String returnedId) {
+        return returnedModelMapper.selectByReturnedId(returnedId);
+    }
 }

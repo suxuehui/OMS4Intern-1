@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
 public interface RelationogModelMapper {
+    //通过returnedId选出商品与退款关系表的数据
+	List<RelationogModel> selectMessageByOid(String oid);
+	
     int selectCount(String oId);
 
     int deleteByPrimaryKey(Integer id);
@@ -25,4 +28,6 @@ public interface RelationogModelMapper {
     int updateByPrimaryKeySelective(RelationogModel record);
 
     int updateGoodsRnum(int id,int status);
+	
+	int updateByPrimaryKey(RelationogModel record);
 }

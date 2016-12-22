@@ -348,5 +348,6 @@ public class OrderModel {
                 ", modifyman='" + modifyman + '\'' +
                 ", buyeralipayno='" + buyeralipayno + '\'' +
                 '}';
+
     }
 }

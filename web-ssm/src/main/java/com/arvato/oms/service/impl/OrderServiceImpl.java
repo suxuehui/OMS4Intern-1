@@ -26,6 +26,8 @@ import java.util.List;
 @Service
 public class OrderServiceImpl implements OrderService
 {
+
+
     @Resource
     OrderModelMapper orderModelMapper;
     @Resource
@@ -627,4 +629,15 @@ public class OrderServiceImpl implements OrderService
         }
         return 1;//不能退换货操作
     }
+
+    //更新订单列表的订单状态
+    public void updateOrder(String orderStatus, String oid) {
+        orderModelMapper.updateOrder(orderStatus,oid);
+    }
+
+    //根据订单号查询该条退货单记录
+    public OrderModel selectByoId(String oId) {
+        return orderModelMapper.selectByoId(oId);
+    }
+
 }

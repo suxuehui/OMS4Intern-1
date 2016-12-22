@@ -30,7 +30,7 @@ public class OutboundorderServiceImpl implements OutboundorderService
     @Resource
     OrderModelMapper orderModelMapper;
     @Resource
-    OutboundorderModelMapper outboundorderModelMapper;
+    private OutboundorderModelMapper outboundorderModelMapper;
 
     @Resource
     private GoodsModelMapper gddao;
@@ -183,6 +183,14 @@ public class OutboundorderServiceImpl implements OutboundorderService
         return list;
     }
 
+//向出库表中添加快递公司，快递单号,仓库出库单号的信息,以及修改出库单状态，订单状态
+    public void updateOutboundorder(String orderStatus,String outboundState,String warehouseObid,String expressCompany,String expressId,String outboundId ) {
+        outboundorderModelMapper.updateOutboundorder(orderStatus,outboundState,warehouseObid,expressCompany,expressId,outboundId);
+    }
 
+    //从出库表获取订单号
+    public String selectOidByOutboundId(String outboundId) {
+        return outboundorderModelMapper.selectOidByOutboundId(outboundId);
+    }
 
 }

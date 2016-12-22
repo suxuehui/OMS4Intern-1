@@ -1,7 +1,9 @@
 package com.arvato.oms.service.impl;
 
+import com.arvato.oms.dao.GoodsModelMapper;
 import com.arvato.oms.dao.RefoundOrderModelMapper;
-import com.arvato.oms.model.RefoundOrderModel;
+import com.arvato.oms.dao.RelationrgModelMapper;
+import com.arvato.oms.model.*;
 import com.arvato.oms.service.RefoundOrderService;
 import com.arvato.oms.utils.Page;
 import net.sf.json.JSONArray;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,17 +23,21 @@ public class RefoundOrderServiceImpl implements RefoundOrderService{
 
     @Resource
     private RefoundOrderModelMapper refoundOrderModelMapper;
+    @Resource
+    private GoodsModelMapper goodsModelMapper;
+    @Resource
+    private RelationrgModelMapper relationrgModelMapper;
 
     //分页查询
     public String showRefoundOrderList(HttpServletRequest request)
     {
         //获取当前页数
         String pageNow = request.getParameter("currentpage");
-        System.out.println("pageNow："+pageNow);
+        //System.out.println("pageNow："+pageNow);
         String txtvalue=request.getParameter("txtvalue"); //用户输入的值txtvalue
-        System.out.println("txtvalue："+txtvalue);
+        //System.out.println("txtvalue："+txtvalue);
         int selectValue= Integer.parseInt(request.getParameter("toseachid"))  ;//下拉框的value
-        System.out.println("selectValue："+selectValue);
+        //System.out.println("selectValue："+selectValue);
         int pagesize=2;
         Page pagelist = null;
         List<RefoundOrderModel> list;
@@ -111,4 +118,48 @@ public class RefoundOrderServiceImpl implements RefoundOrderService{
         System.out.print("jsonstr: "+jsonstr);
         return jsonstr ;
     }
+
+
+    //根据退款号查询该条退款单记录
+    public RefoundOrderModel selectByReturnedId(String returnedId)
+    {
+        RefoundOrderModel  list=this.refoundOrderModelMapper.selectByReturnedId(returnedId);
+        return list;
+    }
+
+
+    //子页面显示
+    public String listRefoundOrderSon(HttpServletRequest request)
+    {
+        String returnedId = request.getParameter("returnedId");//获取退款单returnedid
+        List<ExceptionModel> list;
+        int totalCount ; //获取对象总数量
+        //查询退款单列表
+        System.out.println("returnedId:"+returnedId);
+        RefoundOrderModel refoundOrderModelList = refoundOrderModelMapper.selectByReturnedId(returnedId);
+        System.out.println("refoundOrderModelList:"+refoundOrderModelList);
+        //获取商品编码 查询关系表
+        List<RelationrgModel> roglist = relationrgModelMapper.selectByReturnedId(returnedId);
+        //获取商品实体 查询商品表
+        List<Object> goodsList=new ArrayList<Object>();
+
+        for(int i=0;i<roglist.size();i++){
+              //获取商品编号
+              String sno= roglist.get(i).getGoodsno();
+              //查询所有商品列
+              GoodsModel gm= goodsModelMapper.selectByGoodsNo(sno);
+              goodsList.add(gm);
+        }
+
+        //对象转JSON
+        JSONArray a1= JSONArray.fromObject(refoundOrderModelList);
+        String jsonstr="{\"refoundOrderModelList\":"+a1.toString(); //异常订单列表
+        JSONArray a2 = JSONArray.fromObject(goodsList); //商品列表
+        jsonstr +=",\"goods\":"+a2.toString();
+        JSONArray a3 = JSONArray.fromObject(roglist);  //商品与退款单关系列表
+        jsonstr +=",\"rglist\":"+a3.toString()+"}";
+        System.out.println("refoundOrderModelList："+jsonstr);
+        return jsonstr;
+    }
+
 }

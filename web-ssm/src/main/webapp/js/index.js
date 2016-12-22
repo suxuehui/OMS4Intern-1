@@ -10,7 +10,6 @@ $(document).ready(function(){
 
 //用户弹框
 $(document).ready(function(){
-
 	$(".customSearch ul li").click(function(){
 		 var index=$(this).index();
 		 $(".popupAll .customShow > div").eq(index).show().siblings().hide();

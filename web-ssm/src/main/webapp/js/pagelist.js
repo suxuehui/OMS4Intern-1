@@ -3,7 +3,8 @@
  */
 //totalpages  总页数   currentPage  当前页数  divpage  div的id属性
 function  GetNavPage(totalpages,currentPage,divpage){
-    var output = "<h1>第" + currentPage + "页 / 共" + totalpages + "页</h1>";
+    //var output = "第" + currentPage + "页 / 共" + totalpages + "页";
+    var output="";
     if (totalpages > 1) {
         if (currentPage != 1) {
             //处理首页连接
@@ -14,7 +15,8 @@ function  GetNavPage(totalpages,currentPage,divpage){
             //处理上一页的连接
             output += "<a class='pageLink' href='javascript:void(0)' onclick='GetnowPage("+lastpage+")'>上一页</a> ";
         }
-
+        else {
+        }
         output += " ";
         var currint = 5;
         var page = 1;
@@ -38,7 +40,8 @@ function  GetNavPage(totalpages,currentPage,divpage){
             //处理下一页的链接
             output += "<a class='pageLink' href='javascript:void(0)' onclick='GetnowPage(" + nextpage + ")'>下一页</a> ";
         }
-
+        else {
+        }
         output += " ";
         if (currentPage != totalpages) {
             output += "<a class='pageLink' href='javascript:void(0)' onclick='GetnowPage(" + totalpages + ")'>末页</a> ";

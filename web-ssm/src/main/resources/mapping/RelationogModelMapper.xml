@@ -13,7 +13,13 @@
   <sql id="Base_Column_List" >
     id, oId, goodsNo, goodNum,divideorderfee,totalfee
   </sql>
-
+<!-- 根据oid选出所有信息-->
+  <select id="selectMessageByOid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from relationog
+    where  oId = #{oid,jdbcType=VARCHAR}
+  </select>
   <!--计算锁定库存-->
   <select id="selectGoodsRnum" parameterType="java.lang.String" resultType="java.lang.Integer">
     select
@@ -55,11 +61,10 @@
 
   <insert id="insert" parameterType="com.arvato.oms.model.RelationogModel" >
     insert into relationog (id, oId, goodsNo, 
-      goodNum)
+      goodNum, status)
     values (#{id,jdbcType=INTEGER}, #{oid,jdbcType=VARCHAR}, #{goodsno,jdbcType=VARCHAR}, 
-      #{goodnum,jdbcType=INTEGER})
+      #{goodnum,jdbcType=INTEGER}, #{status,jdbcType=TINYINT})
   </insert>
-<!--插入数据-->
   <insert id="insertSelective" parameterType="com.arvato.oms.model.RelationogModel" >
     insert into relationog
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -134,5 +139,12 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-
+  <update id="updateByPrimaryKey" parameterType="com.arvato.oms.model.RelationogModel" >
+    update relationog
+    set oId = #{oid,jdbcType=VARCHAR},
+      goodsNo = #{goodsno,jdbcType=VARCHAR},
+      goodNum = #{goodnum,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+   </update>
 </mapper>

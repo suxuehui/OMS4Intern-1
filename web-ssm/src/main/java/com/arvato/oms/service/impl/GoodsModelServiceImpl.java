@@ -25,7 +25,7 @@ public class GoodsModelServiceImpl implements GoodsModelService
     @Resource
     RelationogModelMapper relationogModelMapper;
     @Resource
-    GoodsModelMapper goodsModelMapper;
+    private GoodsModelMapper goodsModelMapper;
 
     //订单页面的
     public JSONObject selectByOid(int pageNo,int pageSize,String oId)
@@ -158,6 +158,14 @@ public class GoodsModelServiceImpl implements GoodsModelService
         return gm;
     }
 
+    //添加一条商品信息
+    public void addGoods(String goodsNo, String goodsName, String goodsVnum, String goodsPrice, String goodsTolnum, String goodsState) {
+        goodsModelMapper.addGoods(goodsNo,goodsName,goodsVnum,goodsPrice,goodsTolnum,goodsState);
+    }
 
-
+    //将商品状态改为"已下架"
+    public void updateGoodsState(String goodsState2,String goodsNo2) {
+        goodsModelMapper.updateGoodsState(goodsState2,goodsNo2);
+    }
 }
+

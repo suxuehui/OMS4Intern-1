@@ -6,7 +6,7 @@ function GetnowPage(pagenow){
     var myselect=document.getElementById("selectid");
     var index=myselect.selectedIndex;
     var optxt=myselect.options[index].value;//查询条件
-    var search_value=document.getElementById("txt").value;//查询值
+    var search_value=document.getElementById("exception_text").value;//查询值
     var s1=pagenow;
     //ajax调用后台方法获取数据并展示
     $.ajax({
@@ -18,26 +18,24 @@ function GetnowPage(pagenow){
             txtvalue: search_value
         },
         contentType: "application/json; charset=utf-8",
-        //dataType:"json",
+        dataType:"json",
         success : function(data) {
-            //alert(data);
-            var data = JSON.parse(data);
+            //var data = JSON.parse(data);
             var dataPage = data.pagelist;
             var dataList = eval(data.list);
-
             $("table tbody tr").eq(0).nextAll().remove();
             for(var obj in dataList){
                 var  list=dataList[obj];
-                var html='<tr><td><input type="checkbox" value="'+list.oid+'" name="ck" onclick="getOid()" ></td><td>';
-                html+= '<button id="'+list.channeloid+'" style="border-style:none;outline:none;" ' +
-                    'ondblclick="dblclick(this.id)" onclick="sgclick(this.id)">'+list.oid+'</button>'+
+                var html='<tr><td>'+list.modifyman+'</td><td><input type="checkbox" value="'+list.oid+'" name="ck" onclick="getOid()" ></td><td>';
+                html+= '<button id="'+list.oid+'" style="border-style:none;outline:none;" ' +
+                    'ondblclick="dbClick(this.id)" onclick="singleClick(this.id)">'+list.oid+'</button>'+
                     '</td><td>';
                 html+='</td><td>'+list.channeloid+'</td><td>'
                     +list.orderstatus+'</td><td>'+list.orderfrom+'</td><td>'
                     +list.exceptiontype+'</td><td>'+list.expceptioncause+'</td><td>'
                     +list.exceptionstatus+'</td><td>' +list.createtime+'</td><td>'
                     +list.modifytime+'</td><td>' +list.modifyman+'</td></tr>'
-                $("#table1 tbody ").append(html);
+                $("#exception_table1 tbody ").append(html);
             }
             GetNavPage(dataPage.totalPageCount,dataPage.pageNow,divpage);
         },
@@ -45,10 +43,79 @@ function GetnowPage(pagenow){
             alert("+++++error++");
         }
     });
-
-
 }
 
 
+/*单、双击事件跳转*/
+var exceptionDb;
+function singleClick(oid) {
+    exceptionDb = false;
+    window.setTimeout(cc, 250)
+    function cc() {
+        if (exceptionDb != false)return;
+        alert("测试单击" +oid+"--"+exceptionDb)
+        postOid(oid);
+    }
+}
 
+function dbClick(oid) {
+    exceptionDb = true;
+    alert("测试双击"+oid+"--"+exceptionDb)
+    window.open("details?oid3="+oid);
+}
+
+
+//单击跳转子页面
+function  postOid(oid)
+{
+    //OOYYYYMMDD12345
+    oid=oid.substring(10);//12345
+    pageson(oid,1);
+}
+
+function pageson(oid,pagenow){
+    oid="OOYYYYMMDD"+oid;
+    $.ajax({
+        type : 'get',
+        url :'listExceptionSon',
+        data : {
+            oid3:oid,
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType:"json",
+        success:function (data) {
+            var rglist=data.rglist;
+            var gdlist=data.goods;
+            var listtotalcount =rglist.length;//数据的总数
+            var pagesize=2;//每页展示行数
+            var totalpages;
+            var count=listtotalcount%pagesize;//判断奇偶数
+            totalpages=parseInt(listtotalcount/pagesize);//共多少页数
+            if(count!=0){
+                totalpages+=1;
+            }
+            $("#exception_table2 tbody tr").eq(0).nextAll().remove();
+            for(var i in rglist)
+            {
+                //显示第几页数据
+                if( pagesize*(pagenow-1)<=i && i< pagesize*pagenow) //？？？？？？？
+                {
+                    var obj=rglist[i] ;//获取关系表的一个对象
+                    var god=gdlist[i];//获取商品表的一个对象
+                    var totalPrice=god.goodsprice*obj.goodnum;//商品总价
+                    var num=obj.goodnum;//需要显示在页面的部分
+                    var html='<tr><td><input type="checkbox" value="" name="ck" onclick="getOid()" ></td><td>' + god.goodsno+'</td><td>'
+                        + god.goodsname+'</td><td>'+god.goodsprice +'</td><td>'
+                        + obj.goodnum+'</td><td>'
+                        + totalPrice +'</td></tr>'
+                    $("#exception_table2 tbody  ").append(html);
+                }
+            }
+            pagelistson(totalpages, pagenow,sonpl,oid);
+        },
+        error:function (data) {
+            alert("error");
+        }
+    });
+}
 

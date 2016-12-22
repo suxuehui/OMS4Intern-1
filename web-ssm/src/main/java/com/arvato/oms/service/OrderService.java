@@ -19,9 +19,13 @@ public interface OrderService {
     public int updateByOidSelective(OrderModel record);
     public int previewOrder(String oId,String exceptionType,String name);
     public int cancleOrder(String oId);
-    public int routeOrder(String oId);
+    public int routeOrder(String oId);  
     public int outboundOrder(String oId);
     public int importOrder(String str);
     public int returnGoods(String jsonStr);
     public int checkreturn(String oid);
+	//更新订单列表的订单状态
+	void updateOrder(String orderStatus,String oid );
+    //根据订单号查询该条退货单记录
+    OrderModel selectByoId(String oId);
 }

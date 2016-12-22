@@ -1,6 +1,7 @@
 package com.arvato.oms.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.arvato.oms.model.ReturnedModel;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ public interface ReturnedModelService
     int checkInBound(List<String> list);
     //批量换货发货，生成出库单
 
-
-
+   //根据退款单号查询该条退货单记录
+    ReturnedModel selectByReturnedId(String returnedId);
 
 }

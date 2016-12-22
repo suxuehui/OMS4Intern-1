@@ -1,5 +1,6 @@
 package com.arvato.oms.dao;
 
+import com.arvato.oms.model.RefoundOrderModel;
 import com.arvato.oms.model.ReturnedModel;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,10 @@ import java.util.List;
 
 @Service
 public interface ReturnedModelMapper {
+
+    //根据退款单号查询该条退货单记录
+    ReturnedModel selectByReturnedId(String returnedId);
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(ReturnedModel record);
