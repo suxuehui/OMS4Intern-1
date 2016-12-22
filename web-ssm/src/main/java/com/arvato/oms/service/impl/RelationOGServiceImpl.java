@@ -14,12 +14,13 @@ import java.util.List;
 @Service
 public class RelationogServiceImpl implements RelationogService {
     @Resource
-    private RelationogModelMapper rogdao;
+    private RelationogModelMapper relationogModelMapper;
 
     //通过oid选出商品与订单关系表的数据
     public List<RelationogModel> selectALLByOid(String oid) {
-        List<RelationogModel> list=rogdao.selectAllByOid(oid);
+        List<RelationogModel> list=relationogModelMapper.selectMessageByOid(oid);
         return list;
     }
 
 }
+

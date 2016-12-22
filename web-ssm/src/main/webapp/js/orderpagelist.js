@@ -6,7 +6,7 @@ var queryData="";
 window.onload= queryOrder(1,10);
 function queryOrder(pageNo,pageSize) {
     $.ajax({
-        url:"queryByCondition",
+        url:"../order/queryByCondition",
         type:"get",
         data:{
             queryMode:queryMode,

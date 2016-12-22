@@ -185,35 +185,33 @@
                         <div class="orderTit">仓库列表</div>
                         <div class="storeSearch">
                             <ul>
-                                <li><input type="button" value="新增" onclick="wareadd()"    class="btn"></li>
-                                <li><input type="button" value="编辑" onclick="wareupdate()" class="btn"></li>
-                                <li><input type="button" value="删除" onclick="waredelete()" class="btn"></li>
+                                <li><input type="button" value="新增" id="wareadd"   class="btn"></li>
+                                <li><input type="button" value="编辑"  id="wareupdate" class="btn"></li>
+                                <li><input type="button" value="删除" id="waredelete" class="btn"></li>
                             </ul>
-                                <input type="button" value="查询" onclick="wareGetnowPage(1)"  class="submitBtn fr">
-                                <input type="text"  id="whtxt" value=" " class="textArea fr" >
-                                <select id="whselectid" class="selectArea fr">
-                                    <option value="1" selected>仓库编号</option>
-                                    <option value="2" >名称</option>
-                                </select>
+                            <input type="button" value="查询" onclick="wareGetnowPage(1)"  class="submitBtn fr">
+                            <input type="text"  id="whtxt" value="" class="textArea fr" >
+                            <select id="whselectid" class="selectArea fr">
+                                <option value="1" selected="selected">仓库编号</option>
+                                <option value="2" >名称</option>
+                            </select>
                         </div>
                     </div>
                 </div>
                 <div class="orderDetails">
                     <div class="tableDetails">
-                        <form>
-                            <table id="warehousetab" cellspacing="0" cellpadding="0">
-                                <tr class="tableTit">
-                                    <th class="w50">序号</th>
-                                    <th class="w50">批量</th>
-                                    <th>仓库编号</th>
-                                    <th>名称</th>
-                                </tr>
-
-                            </table>
-                        </form>
+                        <table id="warehousetab" cellspacing="0" cellpadding="0">
+                            <tr class="tableTit">
+                                <th class="w50">序号</th>
+                                <th class="w50">批量</th>
+                                <th>仓库编号</th>
+                                <th>名称</th>
+                            </tr>
+                        </table>
                     </div>
-                    <%--分页列出仓库列表--%>
-                    <div id="whdivpage"> </div>
+                    <%--分页列出仓库列表只能放在后面--%>
+                    <script src="${pageContext.request.contextPath}/js/warehouselist.js"></script>
+                    <div id="whdivpage"></div>
                 </div>
             </div><!--orderMain结束-->
         </div><!--order结束-->

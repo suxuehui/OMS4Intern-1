@@ -8,6 +8,9 @@ import java.util.List;
 
 @Service
 public interface RelationrgModelMapper {
+    //通过returnedId选出商品与退款单关系表的数据
+    List<RelationrgModel> selectByReturnedId(String returnedId);
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(RelationrgModel record);

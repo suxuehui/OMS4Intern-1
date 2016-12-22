@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface WarehouseModelMapper {
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(WarehouseModel record);
@@ -13,8 +14,6 @@ public interface WarehouseModelMapper {
     int insertSelective(WarehouseModel record);
 
     WarehouseModel selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(WarehouseModel record);
 
     int updateByPrimaryKey(WarehouseModel record);
 
@@ -30,7 +29,13 @@ public interface WarehouseModelMapper {
     //通过仓库名字获取列表
     List<WarehouseModel> selectAllByWhname(@Param(value="warehousename")String warehousename,@Param(value="startPos") Integer startPos,@Param(value="pageSize") Integer pageSize );
 
+    //通过warehousenum获取该仓库详细数据
+    WarehouseModel selectBywarehousenum(String warehousenum);
 
+    //添加仓库
+    int addWarehouse(String warehousenum,String warehousename);
 
+    //编辑仓库
+    int updateWarehouse(String warehousenum,String warehousename);
 
 }

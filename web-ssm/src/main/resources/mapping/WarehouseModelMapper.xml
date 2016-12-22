@@ -54,10 +54,40 @@
     limit #{startPos},#{pageSize}
   </select>
 
+  <!--通过selectBywarehousenum精确选出信息-->
+  <select id="selectBywarehousenum" parameterType="java.lang.String"   resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from warehouse
+    where
+    warehouseNum = #{warehousenum,jdbcType=VARCHAR}
+  </select>
 
+
+  <!--添加仓库-->
+  <insert id="addWarehouse" parameterType="java.lang.String" >
+    insert into warehouse (warehouseNum, warehouseName
+    )
+    values (#{warehousenum,jdbcType=VARCHAR}, #{warehousename,jdbcType=VARCHAR}
+    )
+  </insert>
+
+  <!--编辑仓库-->
+  <update id="updateWarehouse" parameterType="java.lang.String"  >
+    update warehouse
+    <set >
+      <if test="warehousenum != null" >
+        warehouseNum = #{warehousenum,jdbcType=VARCHAR},
+      </if>
+      <if test="warehousename != null" >
+        warehouseName = #{warehousename,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from warehouse
     where id = #{id,jdbcType=INTEGER}
@@ -68,9 +98,9 @@
   </delete>
   <insert id="insert" parameterType="com.arvato.oms.model.WarehouseModel" >
     insert into warehouse (id, warehouseNum, warehouseName
-      )
+    )
     values (#{id,jdbcType=INTEGER}, #{warehousenum,jdbcType=VARCHAR}, #{warehousename,jdbcType=VARCHAR}
-      )
+    )
   </insert>
   <insert id="insertSelective" parameterType="com.arvato.oms.model.WarehouseModel" >
     insert into warehouse
@@ -97,22 +127,14 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.arvato.oms.model.WarehouseModel" >
-    update warehouse
-    <set >
-      <if test="warehousenum != null" >
-        warehouseNum = #{warehousenum,jdbcType=VARCHAR},
-      </if>
-      <if test="warehousename != null" >
-        warehouseName = #{warehousename,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+
   <update id="updateByPrimaryKey" parameterType="com.arvato.oms.model.WarehouseModel" >
     update warehouse
     set warehouseNum = #{warehousenum,jdbcType=VARCHAR},
-      warehouseName = #{warehousename,jdbcType=VARCHAR}
+    warehouseName = #{warehousename,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
+
 </mapper>

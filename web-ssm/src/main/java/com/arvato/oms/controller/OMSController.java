@@ -16,15 +16,18 @@ import java.util.Map;
  * Created by GONG036 on 2016/12/14.
  */
 @Controller
-@RequestMapping("OMS")
+@RequestMapping("omsSystem")
 public class OMSController {
     @Resource
     private InboundorderServiceImpl inboundorderserviceimpl;
+
     //进入主页面
     @RequestMapping(value = "home")
     public String listseach() {
         return "OMSPage";
     }
+
+
 
     //接受wms传来的数据，更新入库单
     @RequestMapping(value = "updateInboundOrder")

@@ -10,7 +10,6 @@ function wareGetnowPage(pagenow){
     var search_value=document.getElementById("whtxt").value;//查询值
     var s1=pagenow;
     //ajax调用后台方法获取数据并展示
-    alert("测试仓库"+optxt);
     $.ajax({
         type : 'get',
         url :'/oms/warehouse/listsearch',
@@ -23,20 +22,16 @@ function wareGetnowPage(pagenow){
         dataType:"json",
         success:function(data) {
             var datapage = data.pagelist;
-            var datalist = data.list;
-
-            alert("测试仓库"+datalist);
-
+            var datalist = data.warelist;
             $("#warehousetab tbody tr").eq(0).nextAll().remove();
             for(var obj in datalist){
-
                 var  list=datalist[obj];
                 var html='<tr><td></td><td><input type="checkbox" id="'
                     +list.warehousenum+'" onclick="towhcheck(this.id)"  name="whck"></td><td>'
                     +list.warehousenum+' </td><td>'+list.warehousename+'</td></tr>'
                 $("#warehousetab tbody ").append(html);
             }
-            WareGetNavPage(datapage.totalPageCount,datapage.pageNow,whdivpage);
+            WareGetNavPage(datapage.totalPageCount,datapage.pageNow );
         },
         error:function(){
             alert("+++++error++");
@@ -46,8 +41,8 @@ function wareGetnowPage(pagenow){
 
 
 // 页面分页 totalpages  总页数   currentPage  当前页数  waredivpage  div的id属性
-function  WareGetNavPage(totalpages,currentPage,whdivpage){
-    var output = "<h1>第" + currentPage + "页 / 共" + totalpages + "页</h1>";
+function  WareGetNavPage(totalpages,currentPage){
+    var output = "<h5>第" + currentPage + "页 / 共" + totalpages + "页</h5>";
     if (totalpages > 1) {
         if (currentPage != 1) {
             //处理首页连接
@@ -58,7 +53,6 @@ function  WareGetNavPage(totalpages,currentPage,whdivpage){
             //处理上一页的连接
             output += "<a class='pageLink' href='javascript:void(0)' onclick='wareGetnowPage("+lastpage+")'>上一页</a> ";
         }
-
         output += " ";
         var currint = 5;
         var page;
@@ -82,7 +76,6 @@ function  WareGetNavPage(totalpages,currentPage,whdivpage){
             //处理下一页的链接
             output += "<a class='pageLink' href='javascript:void(0)' onclick='wareGetnowPage(" + nextpage + ")'>下一页</a> ";
         }
-
         output += " ";
         if (currentPage != totalpages) {
             output += "<a class='pageLink' href='javascript:void(0)' onclick='wareGetnowPage(" + totalpages + ")'>末页</a> ";
@@ -92,3 +85,33 @@ function  WareGetNavPage(totalpages,currentPage,whdivpage){
     var div = document.getElementById("whdivpage");
     div.innerHTML = output;
 }
+/*
+ //添加仓库
+ function  addware(){
+ $.ajax({
+ type:'get',
+ url:'/oms/warehouse/addwarehouse',
+ data:{
+ warehousenum:$('#warenum').val(),
+ warehousename:$('#warename').val(),
+ },
+ contentType: "application/json; charset=utf-8",
+ dataType:'json',
+ success:function(data){
+ switch(data) {
+ case "1" :
+ alert("成功添加");break;
+ case "2" :
+ alert("信息填写有误");break;
+ default:
+ alert("添加失败");break;
+
+ }
+ //lodingdiv
+
+ },
+ error:function(){
+ alert("error");
+ }
+ })
+ }*/

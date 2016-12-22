@@ -9,9 +9,11 @@ import java.io.UnsupportedEncodingException;
 
 public interface WarehouseService {
 
-    //列出所有资料
+    //列出所有仓库信息
     String listAllByparam(HttpServletRequest request) throws UnsupportedEncodingException;
 
-
+    //添加仓库
+    int addWarehouse(String warehousenum,String warehousename);
 
 }
+
