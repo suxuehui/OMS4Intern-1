@@ -11,7 +11,7 @@ function inGetnowPage(pagenow){
     //ajax调用后台方法获取数据并展示
     $.ajax({
         type : 'get',
-        url :'/oms/inboundorder/listseach',
+        url :'../inboundorder/listseach',
         data : {
             currentpage: s1,
             toseachid: optxt,
@@ -66,7 +66,7 @@ function toincheck(oid){ //id为checkbox的id 属性值
 //点击查看入库订单进入详情页
 function toinOrderdetail(oid){
     toincheck(oid);
-    window.open("/oms/inboundorder/details?oid="+oid);
+    window.open("../inboundorder/details?oid="+oid);
 }
 
 
@@ -84,7 +84,7 @@ function toinOrderdetail(oid){
 
 function indblclick(oid) {
     inisdb = true;
-    window.open("/oms/inboundorder/details?oid="+oid);
+    window.open("../inboundorder/details?oid="+oid);
 }
 
 

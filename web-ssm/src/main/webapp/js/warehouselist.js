@@ -12,7 +12,7 @@ function wareGetnowPage(pagenow){
     //ajax调用后台方法获取数据并展示
     $.ajax({
         type : 'get',
-        url :'/oms/warehouse/listsearch',
+        url :'../warehouse/listsearch',
         data : {
             currentpage: s1,
             toseachid: optxt,
@@ -38,7 +38,6 @@ function wareGetnowPage(pagenow){
         }
     });
 }
-
 
 // 页面分页 totalpages  总页数   currentPage  当前页数  waredivpage  div的id属性
 function  WareGetNavPage(totalpages,currentPage){
@@ -85,33 +84,36 @@ function  WareGetNavPage(totalpages,currentPage){
     var div = document.getElementById("whdivpage");
     div.innerHTML = output;
 }
-/*
+
  //添加仓库
  function  addware(){
- $.ajax({
- type:'get',
- url:'/oms/warehouse/addwarehouse',
- data:{
- warehousenum:$('#warenum').val(),
- warehousename:$('#warename').val(),
- },
- contentType: "application/json; charset=utf-8",
- dataType:'json',
- success:function(data){
- switch(data) {
- case "1" :
- alert("成功添加");break;
- case "2" :
- alert("信息填写有误");break;
- default:
- alert("添加失败");break;
+     var warenum=document.getElementById("warenum").value;
+     var warename=document.getElementById("warename").value;
+     alert("测试仓库"+warenum+"====="+warename);
+   $.ajax({
+     type:'get',
+     url:'../warehouse/addwarehouse',
+     data:{
+           warehousenum:warenum,
+           warehousename:warename,
+      },
+     contentType: "application/json; charset=utf-8",
+     dataType:'json',
 
- }
- //lodingdiv
+     success:function(data){
+         alert("测试仓库2" +data);
+         switch(data) {
+             case "1" :
+                    alert("成功添加");break;
+             case "2" :
+                    alert("信息填写有误");break;
+             default:
+                    alert("添加失败");break;
 
- },
- error:function(){
- alert("error");
+        }
+      },
+      error:function(){
+            alert("error");
+      }
+  })
  }
- })
- }*/

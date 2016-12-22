@@ -6,7 +6,7 @@
 * totalpages  总页数   currentPage  当前页数  outdivpage  div的id属性
 * */
 
-function  outGetNavPage(totalpages,currentPage,outdivpage){
+function  outGetNavPage(totalpages,currentPage){
     var output = "<h5>第" + currentPage + "页 / 共" + totalpages + "页</h5>";
     if (totalpages > 1) {
         if (currentPage != 1) {

@@ -65,9 +65,8 @@
 
 
   <!--添加仓库-->
-  <insert id="addWarehouse" parameterType="java.lang.String" >
-    insert into warehouse (warehouseNum, warehouseName
-    )
+  <insert id="addWarehouse"   >
+    insert into warehouse (warehouseNum, warehouseName)
     values (#{warehousenum,jdbcType=VARCHAR}, #{warehousename,jdbcType=VARCHAR}
     )
   </insert>

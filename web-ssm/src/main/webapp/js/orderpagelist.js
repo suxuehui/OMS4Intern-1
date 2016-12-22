@@ -42,7 +42,7 @@ function queryOrder(pageNo,pageSize) {
                     +orderModels[i].zipcode+'</td><td>'+orderModels[i].modifytime+'</td><td>'
                     +orderModels[i].modifyman+'</td></tr>'
             }
-            oidArray=new Array();
+            var oidArray=new Array();
             for(var i=0;i<document.getElementsByName("orderBtn").length;i++)
             {
                 document.getElementsByName("orderBtn")[i].disabled=true;
@@ -114,7 +114,7 @@ function ordersgclick(oid) {
 function orderdbclick(oid) {
     // 取消上次延时未执行的方法
     clearTimeout(time);
-    window.open("orderdetail?oId="+oid);
+    window.open("../order/orderdetail?oId="+oid);
 }
 function queryGoodsByOid(pageNo,pageSize,oid) {
     $.ajax({

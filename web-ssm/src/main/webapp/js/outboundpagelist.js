@@ -12,7 +12,7 @@ function outGetnowPage(pagenow){
     //ajax调用后台方法获取数据并展示
     $.ajax({
         type : 'get',
-        url :'/oms/outboundorder/listseach',
+        url :'../outboundorder/listseach',
         data : {
             currentpage: s1,
             toseachid: optxt,
@@ -39,7 +39,7 @@ function outGetnowPage(pagenow){
                     +list.modifyman +'</td></tr>'
                 $("#outboundertab tbody ").append(html);
             }
-            outGetNavPage(datapage.totalPageCount,datapage.pageNow,outdivpage);
+            outGetNavPage(datapage.totalPageCount,datapage.pageNow);
         },
         error:function(data){
             alert("+++++error++");
@@ -62,14 +62,13 @@ function tooutcheck(oid){ //id为checkbox的id 属性值
             //选中的操作 inbtn为button 的id
             document.getElementById("outbtn").disabled=false;
             document.getElementById("outbtn").name=oid;
-
         }
     }
 }
 //点击查看出库订单进入详情页
 function tooutOrderdetail(oid){
     tooutcheck(oid);
-    window.open("/oms/outboundorder/details?oid="+oid);
+    window.open("../outboundorder/details?oid="+oid);
 }
 
 /*出库单 单击双击事件跳转*/
@@ -86,7 +85,7 @@ function outsgclick(oid) {
 function outdblclick(oid) {
          outisdb = true;
 
-        window.open("/oms/outboundorder/details?oid="+oid);
+        window.open("../outboundorder/details?oid="+oid);
     }
     //单击跳转子页面
 function  outpostOid(oid)
@@ -97,7 +96,7 @@ function  outpostOid(oid)
 function outpageson(oid,pagenow){
     $.ajax({
         type : 'get',
-        url :'/oms/outboundorder/listobolson',
+        url :'../outboundorder/listobolson',
         data : {
             oid:oid,
         },

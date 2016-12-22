@@ -22,7 +22,7 @@
     <script src="${pageContext.request.contextPath}/js/outnavpagelist.js"></script>
     <script src="${pageContext.request.contextPath}/js/outpagelistson.js"></script>
     <script src="${pageContext.request.contextPath}/js/inpagelistson.js"></script>
-    <script src="${pageContext.request.contextPath}/js/warehouselist.js"></script>
+
 
 </head>
 
@@ -185,9 +185,9 @@
                         <div class="orderTit">仓库列表</div>
                         <div class="storeSearch">
                             <ul>
-                                <li><input type="button" value="新增" id="wareadd"   class="btn"></li>
+                                <li><input type="button" value="新增"  id="wareadd"     class="btn"></li>
                                 <li><input type="button" value="编辑"  id="wareupdate" class="btn"></li>
-                                <li><input type="button" value="删除" id="waredelete" class="btn"></li>
+                                <li><input type="button" value="删除"  id="waredelete" class="btn"></li>
                             </ul>
                             <input type="button" value="查询" onclick="wareGetnowPage(1)"  class="submitBtn fr">
                             <input type="text"  id="whtxt" value="" class="textArea fr" >
@@ -216,6 +216,10 @@
             </div><!--orderMain结束-->
         </div><!--order结束-->
         <!--仓库模块-->
+
+
+
+
         <!--订单模块-->
         <div class="order hide">
             <div class="orderList fl">
@@ -879,21 +883,19 @@
                     <p class="popupTopTit">新增仓库</p>
                 </div>
                 <div class="popupCont store">
-                    <form>
                         <ul>
                             <li>
                                 <label class="listName mt20">仓库编号：</label>
-                                <input type="text" class="inputList">
+                                <input type="text" class="inputList" id="warenum">
                             </li>
                             <li>
                                 <label class="listName mt20">仓库名：</label>
-                                <input type="text" class="inputList">
+                                <input type="text" class="inputList" id="warename">
                             </li>
                             <li>
-                                <input type="button" value="保存" class="save mt50">
+                                <input type="button" value="保存" onclick="addware()" class="save mt50">
                             </li>
                         </ul>
-                    </form>
                 </div>
             </div>
             <div>
@@ -902,7 +904,7 @@
                     <p class="popupTopTit">编辑仓库</p>
                 </div>
                 <div class="popupCont store">
-                    <form>
+
                         <ul>
                             <li>
                                 <label class="listName mt20">仓库编号：</label>
@@ -913,10 +915,10 @@
                                 <input type="text"class="inputList">
                             </li>
                             <li>
-                                <input type="button" value="保存" class="save mt50">
+                                <input type="button" value="保存" onclick="updateware()" class="save mt50">
                             </li>
                         </ul>
-                    </form>
+
                 </div>
             </div>
         </div>

@@ -28,7 +28,6 @@ public class OMSController {
     }
 
 
-
     //接受wms传来的数据，更新入库单
     @RequestMapping(value = "updateInboundOrder")
     @ResponseBody

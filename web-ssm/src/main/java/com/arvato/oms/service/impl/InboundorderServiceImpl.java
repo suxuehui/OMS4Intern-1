@@ -18,9 +18,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by GONG036 on 2016/12/8.
@@ -42,9 +40,9 @@ public class InboundorderServiceImpl implements InboundorderService {
         String id=request.getParameter("txtvalue"); //用户输入的值id
         int selectvalue= Integer.parseInt(request.getParameter("toseachid"))  ;//下拉框的value
         int pagesize=2;
-        Page pagelist  = null;
+        Page pagelist  ;
         List<InboundorderModel> list;
-        Map<String,Object> map=new HashMap<String,Object>();
+
         //获取对象总数量
         int totalCount ;
         // 页面显示所有信息

@@ -33,7 +33,7 @@ public interface WarehouseModelMapper {
     WarehouseModel selectBywarehousenum(String warehousenum);
 
     //添加仓库
-    int addWarehouse(String warehousenum,String warehousename);
+    int addWarehouse(@Param(value="warehousenum")String warehousenum,@Param(value="warehousename")String warehousename);
 
     //编辑仓库
     int updateWarehouse(String warehousenum,String warehousename);
