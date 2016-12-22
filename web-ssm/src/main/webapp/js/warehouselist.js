@@ -95,7 +95,7 @@ function  WareGetNavPage(totalpages,currentPage){
      url:'../warehouse/addwarehouse',
      data:{
            warehousenum:warenum,
-           warehousename:warename,
+           warehousename:encodeURIComponent(warename),
       },
      contentType: "application/json; charset=utf-8",
      dataType:'json',
@@ -103,12 +103,14 @@ function  WareGetNavPage(totalpages,currentPage){
      success:function(data){
          alert("测试仓库2" +data);
          switch(data) {
-             case "1" :
-                    alert("成功添加");break;
-             case "2" :
+             case 1 :
+                    alert("成功添加");
+                    wareGetnowPage(1);
+                    break;
+             case 2 :
                     alert("信息填写有误");break;
-             default:
-                    alert("添加失败");break;
+             case 3 :
+                    alert("添加失败,数据已存在");break;
 
         }
       },

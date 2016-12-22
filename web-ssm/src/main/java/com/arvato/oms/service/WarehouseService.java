@@ -13,7 +13,7 @@ public interface WarehouseService {
     String listAllByparam(HttpServletRequest request) throws UnsupportedEncodingException;
 
     //添加仓库
-    int addWarehouse(String warehousenum,String warehousename);
+    int addWarehouse(String warehousenum,String warehousename) throws UnsupportedEncodingException;
 
 }
 

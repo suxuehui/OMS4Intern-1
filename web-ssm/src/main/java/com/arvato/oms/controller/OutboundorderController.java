@@ -45,9 +45,7 @@ public class OutboundorderController {
     @ResponseBody
     public String  listobolson(HttpServletRequest request )
     {
-
         String str=oboserciveimpl.listSonPage(request);
-
         return str;
     }
     //详情页面展示

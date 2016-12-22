@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -30,7 +31,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         String option=request.getParameter("txtvalue"); //用户输入的值id
         int selectvalue= Integer.parseInt(request.getParameter("toseachid"))  ;//下拉框的value
         //每页展示的行数pagesize
-        int pagesize=2;
+        int pagesize=4;
         Page pagelist;
         List<WarehouseModel> warelist;
         //获取对象总数量
@@ -100,17 +101,19 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     //添加仓库
-    public int addWarehouse(String warehousenum, String warehousename) {
+    public int addWarehouse(String warehousenum, String warehousename) throws UnsupportedEncodingException {
         //对用户填写的数据校验 warehousenum：4位数字 warehousename：不含特殊字符2到16位
-        // 验证信息格式
+        warehousename= URLDecoder.decode(warehousename, "UTF-8");
         boolean num = Pattern.matches("[0-9]{4}", warehousenum);
         boolean name = Pattern.matches("[\\u4e00-\\u9fff\\w]{2,16}", warehousename);
         boolean bl=num && name;
         int add;
-        WarehouseModel warehouse = warehouseModelModel.selectBywarehousenum(warehousenum);
-        if (warehouse == null) {//判断仓库是否存在
+      try{
+          WarehouseModel warehouse = warehouseModelModel.selectBywarehousenum(warehousenum);
+          if (warehouse == null) {//判断仓库是否存在
             if (bl) { //向数据库添加仓库
                 add= this.warehouseModelModel.addWarehouse(warehousenum,warehousename);
+
             }
             else{
                 add=2;//用户输入信息格式有误
@@ -119,7 +122,12 @@ public class WarehouseServiceImpl implements WarehouseService {
         else {
             add=3;//仓库已存在
         }
-        return add;
+          return add;
+      } catch (Exception e){
+          add=2;
+          return add;
+      }
+
     }
 
 
