@@ -1,7 +1,9 @@
 package com.arvato.oms.utils;
 
-import com.alibaba.fastjson.JSONObject;
 import org.apache.http.HttpEntity;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.fluent.Content;
+import org.apache.http.client.fluent.Request;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -54,7 +56,29 @@ public class HTTPClientDemo {
         }catch (IOException e){
             e.printStackTrace();
         }
-
         return null;
+    }
+    public String getMethod(String key,String value)
+    {
+        String urlStr=this.url+"?"+key+"="+value;
+        System.out.println(urlStr);
+        String response="";
+        try
+        {
+            Content content=Request.Get(urlStr).execute().returnContent();
+            response=content.asString();
+        }
+        catch (ClientProtocolException e) {
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return response;
     }
 }

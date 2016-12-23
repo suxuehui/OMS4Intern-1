@@ -326,8 +326,8 @@ public class OrderServiceImpl implements OrderService
         {
             OutboundorderModel outboundorderModel=outboundorderModelMapper.selectByOid(oId);
             HTTPClientDemo httpClientDemo=new HTTPClientDemo("http://114.215.252.146:8080/wms/outboundOrder/cancelOrder");
-            String str=httpClientDemo.postMethod(outboundorderModel.getOutboundid());
-            String code="100";
+            String str=httpClientDemo.getMethod("outboundorderid",outboundorderModel.getOutboundid());
+            String code="";
             try
             {
                 JSONObject jsonObject=JSON.parseObject(str);
@@ -435,7 +435,6 @@ public class OrderServiceImpl implements OrderService
         deliveryOrder.put("receiveraddress",outboundorderModel.getReceiveraddress());
         jsonObject.put("outboundordergoods",outBoundGoodsList);
         jsonObject.put("deliveryOrder",deliveryOrder);
-        System.out.println(jsonObject.toString());
         HTTPClientDemo httpClientDemo=new HTTPClientDemo("http://114.215.252.146:8080/wms/outboundOrder/receiveOrder");
         String response=httpClientDemo.postMethod(jsonObject.toString());
         String code="";

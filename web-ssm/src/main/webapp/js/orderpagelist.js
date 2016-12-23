@@ -42,7 +42,7 @@ function queryOrder(pageNo,pageSize) {
                     +orderModels[i].zipcode+'</td><td>'+orderModels[i].modifytime+'</td><td>'
                     +orderModels[i].modifyman+'</td></tr>'
             }
-            var oidArray=new Array();
+            oidArray=[];
             for(var i=0;i<document.getElementsByName("orderBtn").length;i++)
             {
                 document.getElementsByName("orderBtn")[i].disabled=true;

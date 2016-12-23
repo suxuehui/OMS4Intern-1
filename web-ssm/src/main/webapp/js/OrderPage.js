@@ -66,7 +66,6 @@ function ordercheck(oid) {
         {
             document.getElementsByName("orderBtn")[i].disabled=true;
         }
-        oidArray=[];
         goodsArray=[];
         return;
     }
@@ -242,7 +241,7 @@ $(function () {
 //商品勾选框
 var goodsArray=new Array();
 function goodCheck(goodsno) {
-    if(document.getElementById(goodsno).checked){
+    if(oidArray.length==1&&document.getElementById(goodsno).checked){
         goodsArray.push(goodsno);
         $("#n"+goodsno).removeAttr("readonly");
         $("#n"+goodsno).removeClass("edit");
