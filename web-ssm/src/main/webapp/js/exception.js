@@ -3,7 +3,7 @@ window.onload= GetnowPage(1);//加载页面时就执行函数进入后台
 //使用ajax提交数据到后台
 
 function GetnowPage(pagenow){
-    var myselect=document.getElementById("selectid");
+    var myselect=document.getElementById("exceptionSelectid");
     var index=myselect.selectedIndex;
     var optxt=myselect.options[index].value;//查询条件
     var search_value=document.getElementById("exception_text").value;//查询值
@@ -11,7 +11,7 @@ function GetnowPage(pagenow){
     //ajax调用后台方法获取数据并展示
     $.ajax({
         type : 'get',
-        url :'showExceptionList',
+        url :'../exceptionOrder/showExceptionList',
         data : {
             currentpage: s1,
             toseachid: optxt,
@@ -23,21 +23,23 @@ function GetnowPage(pagenow){
             //var data = JSON.parse(data);
             var dataPage = data.pagelist;
             var dataList = eval(data.list);
-            $("table tbody tr").eq(0).nextAll().remove();
+            $("#exetable tbody tr").eq(0).nextAll().remove();
+            var i=0;
             for(var obj in dataList){
+                i++;
                 var  list=dataList[obj];
-                var html='<tr><td>'+list.modifyman+'</td><td><input type="checkbox" value="'+list.oid+'" name="ck" onclick="getOid()" ></td><td>';
+                var html='<tr><td>'+i+'</td><td><input type="checkbox" value="'+list.oid+'" name="exceptionck" onclick="getOid()" ></td><td>';
                 html+= '<button id="'+list.oid+'" style="border-style:none;outline:none;" ' +
-                    'ondblclick="dbClick(this.id)" onclick="singleClick(this.id)">'+list.oid+'</button>'+
-                    '</td><td>';
-                html+='</td><td>'+list.channeloid+'</td><td>'
+                    'ondblclick="exceptiondbClick(this.id)" onclick="exceptionsingleClick(this.id)">'+list.oid+'</button>'+
+                    '</td>';
+                html+='<td>'+list.channeloid+'</td><td>'
                     +list.orderstatus+'</td><td>'+list.orderfrom+'</td><td>'
                     +list.exceptiontype+'</td><td>'+list.expceptioncause+'</td><td>'
                     +list.exceptionstatus+'</td><td>' +list.createtime+'</td><td>'
                     +list.modifytime+'</td><td>' +list.modifyman+'</td></tr>'
-                $("#exception_table1 tbody ").append(html);
+                $("#exetable tbody ").append(html);
             }
-            GetNavPage(dataPage.totalPageCount,dataPage.pageNow,divpage);
+            exGetNavPage(dataPage.totalPageCount,dataPage.pageNow);
         },
         error:function(data){
             alert("+++++error++");
@@ -48,36 +50,36 @@ function GetnowPage(pagenow){
 
 /*单、双击事件跳转*/
 var exceptionDb;
-function singleClick(oid) {
+function exceptionsingleClick(oid) {
     exceptionDb = false;
     window.setTimeout(cc, 250)
     function cc() {
         if (exceptionDb != false)return;
         alert("测试单击" +oid+"--"+exceptionDb)
-        postOid(oid);
+        exceptionPostOid(oid);
     }
 }
 
-function dbClick(oid) {
+function exceptiondbClick(oid) {
     exceptionDb = true;
     alert("测试双击"+oid+"--"+exceptionDb)
-    window.open("details?oid3="+oid);
+    window.open("../exceptionOrder/details?oid3="+oid);
 }
 
 
 //单击跳转子页面
-function  postOid(oid)
+function  exceptionPostOid(oid)
 {
     //OOYYYYMMDD12345
     oid=oid.substring(10);//12345
-    pageson(oid,1);
+    exceptionpageson(oid,1);
 }
 
-function pageson(oid,pagenow){
+function exceptionpageson(oid,pagenow){
     oid="OOYYYYMMDD"+oid;
     $.ajax({
         type : 'get',
-        url :'listExceptionSon',
+        url :'../exceptionOrder/listExceptionSon',
         data : {
             oid3:oid,
         },

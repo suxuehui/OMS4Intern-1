@@ -34,9 +34,9 @@ public class RefoundOrderServiceImpl implements RefoundOrderService{
         //获取当前页数
         String pageNow = request.getParameter("currentpage");
         //System.out.println("pageNow："+pageNow);
-        String txtvalue=request.getParameter("txtvalue"); //用户输入的值txtvalue
+        String txtvalue=request.getParameter("refoundOrderTxtvalue"); //用户输入的值txtvalue
         //System.out.println("txtvalue："+txtvalue);
-        int selectValue= Integer.parseInt(request.getParameter("toseachid"))  ;//下拉框的value
+        int selectValue= Integer.parseInt(request.getParameter("refoundOrderToseachid"))  ;//下拉框的value
         //System.out.println("selectValue："+selectValue);
         int pagesize=2;
         Page pagelist = null;
@@ -115,7 +115,7 @@ public class RefoundOrderServiceImpl implements RefoundOrderService{
         String jsonstr = "{\"pagelist\":"+json1.toString();//将json对象转换为字符串
         JSONArray array = JSONArray.fromObject(list);
         jsonstr +=",\"list\":"+array.toString()+"}";
-        System.out.print("jsonstr: "+jsonstr);
+        System.out.print("￥￥￥￥￥￥￥￥￥￥￥￥￥￥￥￥￥￥￥￥退款页面的jsonstr: "+jsonstr);
         return jsonstr ;
     }
 

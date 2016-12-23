@@ -22,7 +22,12 @@
     <script src="${pageContext.request.contextPath}/js/outnavpagelist.js"></script>
     <script src="${pageContext.request.contextPath}/js/outpagelistson.js"></script>
     <script src="${pageContext.request.contextPath}/js/inpagelistson.js"></script>
-
+    <script src="${pageContext.request.contextPath}/js/warehouselist.js"></script>
+    <script src="${pageContext.request.contextPath}/js/exceptionpagelist.js"></script>
+    <script src="${pageContext.request.contextPath}/js/exceptionpagelistson.js"></script>
+    <script src="${pageContext.request.contextPath}/js/deleteExceptionOrder.js"></script>
+    <script src="${pageContext.request.contextPath}/js/refoundpagelist.js"></script>
+    <script src="${pageContext.request.contextPath}/js/refoundpagelistson.js"></script>
 
 </head>
 
@@ -185,9 +190,9 @@
                         <div class="orderTit">仓库列表</div>
                         <div class="storeSearch">
                             <ul>
-                                <li><input type="button" value="新增"  id="wareadd"     class="btn"></li>
+                                <li><input type="button" value="新增" id="wareadd"   class="btn"></li>
                                 <li><input type="button" value="编辑"  id="wareupdate" class="btn"></li>
-                                <li><input type="button" value="删除"  id="waredelete" class="btn"></li>
+                                <li><input type="button" value="删除" id="waredelete" class="btn"></li>
                             </ul>
                             <input type="button" value="查询" onclick="wareGetnowPage(1)"  class="submitBtn fr">
                             <input type="text"  id="whtxt" value="" class="textArea fr" >
@@ -216,10 +221,6 @@
             </div><!--orderMain结束-->
         </div><!--order结束-->
         <!--仓库模块-->
-
-
-
-
         <!--订单模块-->
         <div class="order hide">
             <div class="orderList fl">
@@ -355,27 +356,24 @@
                         <div class="orderTag">
                             <div class="orderTit">异常订单列表</div>
                             <div class="orderSearch">
-                                <form>
                                     <ul>
-                                        <li><input type="button" value="处理异常"  class="btn"></li>
-                                        <li><input type="button" value="取消"  class="btn"></li>
+                                        <li><input type="button" value="处理异常"  class="btn" onclick="handleException()"></li>
+                                        <li><input type="button" value="取消"  class="btn" id="proDel" onclick="exception_del()"></li>
                                         <%--查看按钮  dfdgfg--%>
-                                        <li><input type="button" value="查看订单"  class="btn beta" disabled="disabled"></li>
+                                        <li><input type="button" value="查看订单"  class="btn beta" disabled="disabled" id="exception_inbtn" onclick="exception_details()"></li>
                                     </ul>
-                                    <input type="button" value="查询" class="submitBtn fr">
-                                    <input type="text" class="textArea fr">
-                                    <select class="selectArea fr">
-                                        <option></option>
-                                        <option></option>
-                                        <option></option>
+                                    <input type="button" value="查询" class="submitBtn fr" id="search" onclick="GetnowPage(1)">
+                                    <input type="text" class="textArea fr" name="txtvalue" id="exception_text">
+                                    <select class="selectArea fr" name="exceptionToseachid" id="exceptionSelectid">
+                                        <option value="1" selected>订单号</option>
+                                        <option value="2">渠道订单号</option>
+                                        <option value="3">异常状态</option>
                                     </select>
-                                </form>
                             </div>
                         </div>
                         <div class="orderMainCont revise">
-                            <div class="table revise">
-                                <form>
-                                    <table cellspacing="0" cellpadding="0" class="w1550">
+                            <div class="table revise" id="#exetable">
+                                    <table cellspacing="0" cellpadding="0" class="w1550" id="exetable">
                                         <tr class="tableTit" height="20">
                                             <th class="w50">序号</th>
                                             <th class="w50">批量</th>
@@ -390,33 +388,19 @@
                                             <th class="w100">修改时间</th>
                                             <th class="w100">修改人</th>
                                         </tr>
-                                        <tbody  >
-                                        <tr>
-                                            <td style="text-align:center">1</td>
-                                            <td align="center"><input type="checkbox"></td>
-                                            <td><a>8012984120571209241</a></td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                        </tr>
 
-                                        </tbody>
                                     </table>
-                                </form>
+
                             </div>
-                            <div class="page"><a>尾页</a><a>下一页</a><a>上一页</a><a>首页</a></div>
+                            <div id="exceptiondivpage"></div>
+                            <%--显示加载的信息，该引用只能放在页面下面--%>
+                            <script type="text/javascript" src="${pageContext.request.contextPath}/js/exception.js" charset="utf-8"></script>
                         </div>
                     </div>
                     <div class="orderDetails">
                         <div class="tableDetails">
                             <form>
-                                <table cellspacing="0" cellpadding="0">
+                                <table cellspacing="0" cellpadding="0" id="exception_table2">
                                     <tr class="tableTit">
                                         <th class="w50">批量</th>
                                         <th class="w350">商品编码</th>
@@ -425,19 +409,10 @@
                                         <th>商品个数</th>
                                         <th>商品总价</th>
                                     </tr>
-                                    <tr>
-                                        <td align="center"><input type="checkbox"></td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                    </tr>
-
                                 </table>
                             </form>
                         </div>
-                        <div class="page"><a>尾页</a><a>下一页</a><a>上一页</a><a>首页</a></div>
+                        <div id="exceptionsonpl"></div>
                     </div>
                 </div>
                 <!--出库单列表-->
@@ -883,19 +858,21 @@
                     <p class="popupTopTit">新增仓库</p>
                 </div>
                 <div class="popupCont store">
+                    <form>
                         <ul>
                             <li>
                                 <label class="listName mt20">仓库编号：</label>
-                                <input type="text" class="inputList" id="warenum">
+                                <input type="text" class="inputList">
                             </li>
                             <li>
                                 <label class="listName mt20">仓库名：</label>
-                                <input type="text" class="inputList" id="warename">
+                                <input type="text" class="inputList">
                             </li>
                             <li>
-                                <input type="button" value="保存" onclick="addware()" class="save mt50">
+                                <input type="button" value="保存" class="save mt50">
                             </li>
                         </ul>
+                    </form>
                 </div>
             </div>
             <div>
@@ -904,7 +881,7 @@
                     <p class="popupTopTit">编辑仓库</p>
                 </div>
                 <div class="popupCont store">
-
+                    <form>
                         <ul>
                             <li>
                                 <label class="listName mt20">仓库编号：</label>
@@ -915,10 +892,10 @@
                                 <input type="text"class="inputList">
                             </li>
                             <li>
-                                <input type="button" value="保存" onclick="updateware()" class="save mt50">
+                                <input type="button" value="保存" class="save mt50">
                             </li>
                         </ul>
-
+                    </form>
                 </div>
             </div>
         </div>
@@ -929,10 +906,10 @@
                 <p class="popupTopTit">导入订单</p>
             </div>
             <div class="popupCont">
-                <form id="importForm" action="../order/importOrder" method="post" enctype="multipart/form-data">
+                <form id="importForm" action="importOrder" method="post" enctype="multipart/form-data">
                     <ul>
                         <li>
-                            <input type="file" style="font-size:20px" name="file" id="orderfile">
+                            <input type="file" style="font-size:20px" name="file">
                             <input type="button" value="导入" style="font-size:20px" class="leadingBtn" id="importBtn">
                         </li>
                     </ul>

@@ -38,8 +38,7 @@ public class ExceptionController {
     //进入页面
     @RequestMapping(value="indexExceptionList")
     public String indexExceptionList(){
-        return "exception";
-        //return "index";
+        return "OMSPage";
     }
 
     //分页显示出所有异常订单
@@ -55,11 +54,12 @@ public class ExceptionController {
     @RequestMapping(value = "cancelException")
     public String cancelException(HttpServletRequest request){
         String oid = request.getParameter("oid");
+        System.out.println("zzzzzz:"+oid);
         String[] sq=oid.split(",");
         for (int i = 0; i < sq.length; i++) {
             exceptionServiceImpl.deleteByOid(sq[i]);
         }
-        return "exception";
+        return "OMSPage";
     }
 
     //异常订单的处理

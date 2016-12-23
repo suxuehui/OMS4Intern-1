@@ -21,7 +21,7 @@ import java.util.List;
  */
 
 @Controller
-@RequestMapping("/RefoundOrder/")
+@RequestMapping("/refoundOrder/")
 public class RefoundOrderController {
     private Logger log = Logger.getLogger(ExceptionController.class);
 

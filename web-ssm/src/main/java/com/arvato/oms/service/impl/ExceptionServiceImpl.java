@@ -13,7 +13,6 @@ import com.arvato.oms.utils.Page;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -38,15 +37,11 @@ public class ExceptionServiceImpl implements ExceptionService {
     {
         //获取当前页数
         String pageNow = request.getParameter("currentpage");
-        //System.out.println("pageNow："+pageNow);
         String txtvalue=request.getParameter("txtvalue"); //用户输入的值txtvalue
-        //System.out.println("txtvalue："+txtvalue);
         int selectValue= Integer.parseInt(request.getParameter("toseachid"))  ;//下拉框的value
-        //System.out.println("selectValue："+selectValue);
         int pagesize=2;
         Page pagelist = null;
         List<ExceptionModel> list;
-//        Map<String,Object> map=new HashMap<String,Object>();
         //获取对象总数量
         int totalCount ;
         // 页面显示所有信息
@@ -100,6 +95,7 @@ public class ExceptionServiceImpl implements ExceptionService {
             {
                 if (pageNow != null) {
                     totalCount= (int) exceptionModelMapper.Counttype(txtvalue);
+                    System.out.println("totalCount00000000000000000000000000000000000000000000000000:"+totalCount);
                     pagelist =new Page(totalCount, Integer.parseInt(pageNow),pagesize);
                     list=this.exceptionModelMapper.selectAllByexceptionType(txtvalue , pagelist.getStartPos(),pagelist.getPageSize());
                 }

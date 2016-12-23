@@ -2,16 +2,16 @@ window.onload= GetnowPage(1);//加载页面时就执行函数进入后台
 
 //使用ajax提交数据到后台
 
-function GetnowPage(pagenow){
-    var myselect=document.getElementById("selectid");
+function refoundGetnowPage(pagenow){
+    var myselect=document.getElementById("refoundOrderSelectid");
     var index=myselect.selectedIndex;
     var optxt=myselect.options[index].value;//查询条件
-    var search_value=document.getElementById("txt").value;//查询值
+    var search_value=document.getElementById("refoundOrderTxt").value;//查询值
     var s1=pagenow;
     //ajax调用后台方法获取数据并展示
     $.ajax({
         type : 'get',
-        url :'showRefoundOrderList',
+        url :'../refoundOrder/showRefoundOrderList',
         data : {
             currentpage: s1,
             toseachid: optxt,
@@ -25,19 +25,19 @@ function GetnowPage(pagenow){
             var dataPage = data.pagelist;
             var dataList = eval(data.list);
 
-            $("table tbody tr").eq(0).nextAll().remove();
+            $("#refoundOrdertable1 tbody tr").eq(0).nextAll().remove();
             for(var obj in dataList){
                 var  list=dataList[obj];
                 var html='<tr><td><input type="checkbox" value="'+list.returnedid+'" name="refoundOrder_ck" onclick="refoundOrder_getReturnedId()" ></td><td>';
                 html+= '<button id="'+list.returnedid+'" style="border-style:none;outline:none;" ' +
-                    'ondblclick="dbClick(this.id)" onclick="singleClick(this.id)">'+list.drawbackid+'</button>'+
+                    'ondblclick="refounddbClick(this.id)" onclick="refoundsingleClick(this.id)">'+list.drawbackid+'</button>'+
                     '</td><td>';
                 html+='</td><td>'+list.drawbackmoney+'</td><td>'
                     +list.drawbackstatus+'</td><td>'+list.returnedid+'</td><td>' +list.createtime+'</td><td>'
                     +list.modifytime+'</td><td>' +list.modifyman+'</td></tr>'
-                $("#table1 tbody ").append(html);
+                $("#refoundOrdertable1 tbody ").append(html);
             }
-            GetNavPage(dataPage.totalPageCount,dataPage.pageNow,divpage);
+            refoundGetnowPage(dataPage.totalPageCount,dataPage.pageNow);
         },
         error:function(data){
             alert("+++++error++");
@@ -49,37 +49,37 @@ function GetnowPage(pagenow){
 
 /*单、双击事件跳转*/
 var exceptionDb;
-function singleClick(returnedId) {
+function refoundsingleClick(returnedId) {
     exceptionDb = false;
     window.setTimeout(cc, 250)
     function cc() {
         if (exceptionDb != false)return;
-        //alert("测试单击" +returnedId+"--"+exceptionDb)
-        postReturnedId(returnedId);
+        alert("测试单击" +returnedId+"--"+exceptionDb)
+        refoundpostReturnedId(returnedId);
     }
 }
 
-function dbClick(returnedId) {
+function refounddbClick(returnedId) {
     exceptionDb = true;
-    //alert("测试双击"+returnedId+"--"+exceptionDb)
+    alert("测试双击"+returnedId+"--"+exceptionDb)
     window.open("details?returnedId="+returnedId);
 }
 
 
 //单击跳转子页面
-function  postReturnedId(returnedId)
+function  refoundpostReturnedId(returnedId)
 {
     //RTOOYYYYMMDD12341
     returnedId=returnedId.substring(12);//12341
     alert(returnedId);
-    pageson(returnedId,1);
+    refoundPageson(returnedId,1);
 }
 
-function pageson(returnedId,pagenow){
+function refoundPageson(returnedId,pagenow){
     returnedId="RTOOYYYYMMDD"+returnedId;
     $.ajax({
         type : 'get',
-        url :'listRefoundOrderSon',
+        url :'../refoundOrder/listRefoundOrderSon',
         data : {
             returnedId:returnedId,
         },
@@ -96,7 +96,7 @@ function pageson(returnedId,pagenow){
             if(count!=0){
                 totalpages+=1;
             }
-            $("#table2 tbody tr").eq(0).nextAll().remove();
+            $("#refoundOrdertable2 tbody tr").eq(0).nextAll().remove();
             for(var i in rglist)
             {
                 //显示第几页数据
@@ -110,10 +110,10 @@ function pageson(returnedId,pagenow){
                         + god.goodsname+'</td><td>'+god.goodsprice +'</td><td>'
                         + obj.goodnum+'</td><td>'
                         + totalPrice +'</td></tr>'
-                    $("#table2 tbody  ").append(html);
+                    $("#refoundOrdertable2 tbody  ").append(html);
                 }
             }
-            pagelistson(totalpages, pagenow,sonpl,returnedId);
+            refoundPagelistson(totalpages, pagenow,returnedId);
         },
         error:function (data) {
             alert("error");
@@ -143,7 +143,7 @@ function refoundOrder_details(){
         //alert("s="+Array[1]);
         if(Array[1]==[]){//选中第一条数据时，其后会有一个逗号，需将其判断出来
             returnedId3 = Array[0];
-            window.open("/RefoundOrder/details?returnedId="+returnedId3);
+            window.open("../refoundOrder/details?returnedId="+returnedId3);
         }else{
             alert("一次只能查看一条订单的信息");
             //document.getElementById("exception_inbtn").disabled=false;
@@ -154,7 +154,7 @@ function refoundOrder_details(){
         for(var i=0;i<Array.length;i++){
             //alert(Array[i]);;
             returnedId2 = Array[i];
-            window.open("/RefoundOrder/details?returnedId="+returnedId2);
+            window.open("../refoundOrder/details?returnedId="+returnedId2);
         }
     }
 }
@@ -167,7 +167,7 @@ function drawback(){
         if(Array[1]==[]){//选中第一条数据时，其后会有一个逗号，需将其判断出来
             returnedId3 = Array[0];
             //alert("returnedId3:"+returnedId3);
-            window.open("/RefoundOrder/drawback?returnedId3="+returnedId3);
+            window.open("../refoundOrder/drawback?returnedId3="+returnedId3);
         }else{
             alert("一次只能操作一条退款单");
             //document.getElementById("exception_inbtn").disabled=false;
@@ -178,7 +178,7 @@ function drawback(){
         for(var i=0;i<Array.length;i++){
             //alert(Array[i]);;
             returnedId3 = Array[i];
-            window.open("/RefoundOrder/drawback?returnedId3="+returnedId3);
+            window.open("../refoundOrder/drawback?returnedId3="+returnedId3);
         }
     }
 }

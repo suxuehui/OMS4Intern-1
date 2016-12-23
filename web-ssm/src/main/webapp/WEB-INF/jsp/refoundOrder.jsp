@@ -8,7 +8,7 @@
 <% request.setCharacterEncoding("UTF-8");%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"  pageEncoding="UTF-8" isELIgnored="false"%>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.1.1.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/pagelist.js" ></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/exceptionpagelist.js" ></script>
 
 <html>
 <head>
@@ -32,19 +32,19 @@
         <li><input type="button" value="退款"  class="btn" onclick="drawback()"></li>
         <li><input type="button" value="查看" id="refoundOrder_inbtn" onclick="refoundOrder_details()" class="btn"></li>
     </ul>
-    <select name="toseachid" id="selectid">
+    <select name="refoundOrderToseachid" id="refoundOrderSelectid">
         <option value="1" selected>退款单号</option>
         <option value="2">退款状态</option>
         <option value="3">退货单号</option>
     </select>
-    <input type="text" name="txtvalue" id="txt">
-    <input type="button" id="search" onclick="GetnowPage(1)" value="查询" />
+    <input type="text" name="refoundOrderTxtvalue" id="refoundOrderTxt">
+    <input type="button" id="refoundOrderSearch" onclick="GetnowPage(1)" value="查询" />
 
 </div>
 <ul id="ullist"></ul>
 
 <div style=" overflow-y:auto; overflow-x:auto; width:1200px; height:400px;">
-    <table id="table1" >
+    <table id="refoundOrdertable1" >
         <tr>
             <td></td>
             <td>退款单号</td>
@@ -61,12 +61,12 @@
 <div id="divpage"></div>
 <%--显示加载的信息，该引用只能放在页面下面--%>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/refoundOrder.js" charset="utf-8"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/pagelistson.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/exceptionpagelistson.js"></script>
 
 <h1>商品页数据</h1>
 
 <div style=" overflow-y:auto; overflow-x:auto; width:1200px; height:400px;">
-    <table id="table2" >
+    <table id="refoundOrdertable2" >
         <tr>
             <td>商品编码</td>
             <td>商品名称</td>
