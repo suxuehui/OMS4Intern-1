@@ -18,9 +18,9 @@ public interface OrderService {
     public JSONObject selects(int queryMode,int pageNo,int pageSize,String oid);
     public int updateByOidSelective(OrderModel record);
     public int previewOrder(String oId,String exceptionType,String name);
-    public int cancleOrder(String oId);
-    public int routeOrder(String oId);  
-    public int outboundOrder(String oId);
+    public int cancleOrder(String oId,String uname);
+    public int routeOrder(String oId,String uname);
+    public int outboundOrder(String oId,String uname);
     public int importOrder(String str);
     public int returnGoods(String jsonStr);
     public int checkreturn(String oid);

@@ -83,7 +83,7 @@ public class ExceptionController {
                         //先删除异常页面的异常订单
                         exceptionServiceImpl.deleteByOid(exOid[j]);
                         //再删除订单页面的订单信息
-                        orderServiceImpl.cancleOrder(exOid[j]);
+                        //orderServiceImpl.cancleOrder(exOid[j]);
                     }
                 }
                 //由预检发送过来，处理方式为：取消订单
@@ -93,7 +93,7 @@ public class ExceptionController {
                         //先删除异常页面的异常订单
                         exceptionServiceImpl.deleteByOid(exOid[j]);
                         //再删除订单页面的订单信息
-                        orderServiceImpl.cancleOrder(exOid[j]);
+                        //orderServiceImpl.cancleOrder(exOid[j]);
                     }
                 }
                 //由预检发送过来，处理方式为：跟客户确认后，进行下一步备注异常的检验
@@ -111,7 +111,7 @@ public class ExceptionController {
                 {
                     for(int j=0;j<exOid.length;j++){
                         //进行路由
-                        orderServiceImpl.routeOrder(exOid[j]);
+                        //orderServiceImpl.routeOrder(exOid[j]);
                     }
                 }
                 //向wms发送出库单是异常，处理方式为：再次将出库单信息发送给WMS

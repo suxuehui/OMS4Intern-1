@@ -152,13 +152,12 @@ public class OrderController
     @RequestMapping("previewOrder")
     public @ResponseBody JSONObject previewOrder(String[] oIds,HttpSession session)
     {
-        int success=0;
-        int exception=0;
         if(oIds==null)
         {
             return null;
         }
-        List<ErrorModel> errorModelList=new ArrayList<ErrorModel>();
+        int success=0;
+        int exception=0;
         for(int i=0;i<oIds.length;i++)
         {
             int j=orderService.previewOrder(oIds[i],null,(String)session.getAttribute("uname"));
@@ -179,14 +178,14 @@ public class OrderController
 
     //路由
     @RequestMapping("routeOrder")
-    public @ResponseBody JSONObject routeOrder(String[] oIds)
+    public @ResponseBody JSONObject routeOrder(String[] oIds,HttpSession session)
     {
         int success=0;
         int exception=0;
         JSONObject jsonObject=new JSONObject();
         List<ErrorModel> errorModelList=new ArrayList<ErrorModel>();
         for(String str:oIds){
-            int i=orderService.routeOrder(str);
+            int i=orderService.routeOrder(str,(String)session.getAttribute("uname"));
             if(i==1)
             {
                 success++;
@@ -194,34 +193,16 @@ public class OrderController
             else
             {
                 exception++;
-                ErrorModel errorModel=new ErrorModel();
-                if(i==2)
-                {
-                    errorModel.setoId(str);
-                    errorModel.setCause("订单状态不符");
-                }
-                if(i==3)
-                {
-                    errorModel.setoId(str);
-                    errorModel.setCause("订单不存在");
-                }
-                if(i==0)
-                {
-                    errorModel.setoId(str);
-                    errorModel.setCause("数据库操作异常");
-                }
-                errorModelList.add(errorModel);
             }
         }
         jsonObject.put("success",success);
         jsonObject.put("exception",exception);
-        jsonObject.put("errorList",errorModelList);
         return jsonObject;
     }
 
     //出库
     @RequestMapping("outboundOrder")
-    public @ResponseBody JSONObject outboundOrder(String[] oIds)
+    public @ResponseBody JSONObject outboundOrder(String[] oIds,HttpSession session)
     {
         int success=0;
         int exception=0;
@@ -229,7 +210,7 @@ public class OrderController
         List<ErrorModel> errorModelList=new ArrayList<ErrorModel>();
         for(String str:oIds)
         {
-            int i=orderService.outboundOrder(str);
+            int i=orderService.outboundOrder(str,(String)session.getAttribute("uname"));
             if(i==1)
             {
                 success++;
@@ -237,37 +218,15 @@ public class OrderController
             else
             {
                 exception++;
-                ErrorModel errorModel=new ErrorModel();
-                if(i==0)
-                {
-                    errorModel.setoId(str);
-                    errorModel.setCause("更新数据库异常");
-                }
-                if(i==3)
-                {
-                    errorModel.setoId(str);
-                    errorModel.setCause("出库异常");
-                }
-                if(i==2)
-                {
-                    errorModel.setoId(str);
-                    errorModel.setCause("订单不存在");
-                }
-                if(i==4)
-                {
-                    errorModel.setoId(str);
-                    errorModel.setCause("订单状态不符");
-                }
             }
         }
         jsonObject.put("success",success);
         jsonObject.put("exception",exception);
-        jsonObject.put("errorList",errorModelList);
         return jsonObject;
     }
     //取消订单
     @RequestMapping("cancleOrder")
-    public @ResponseBody JSONObject cancleOrder(String[] oIds)
+    public @ResponseBody JSONObject cancleOrder(String[] oIds,HttpSession session)
     {
         int success=0;
         int exception=0;
@@ -275,7 +234,7 @@ public class OrderController
         List<ErrorModel> errorModelList=new ArrayList<ErrorModel>();
         for(int i=0;i<oIds.length;i++)
         {
-            int j=orderService.cancleOrder(oIds[i]);
+            int j=orderService.cancleOrder(oIds[i],(String)session.getAttribute("uname"));
             if(j==1)
             {
                 success++;
@@ -283,22 +242,10 @@ public class OrderController
             else
             {
                 exception++;
-                ErrorModel errorModel=new ErrorModel();
-                if(i==0)
-                {
-                    errorModel.setoId(oIds[i]);
-                    errorModel.setCause("更新数据库异常");
-                }
-                if(i==2)
-                {
-                    errorModel.setoId(oIds[i]);
-                    errorModel.setCause("订单不存在");
-                }
             }
         }
         jsonObject.put("success",success);
         jsonObject.put("exception",exception);
-        jsonObject.put("errorList",errorModelList);
         return jsonObject;
     }
 

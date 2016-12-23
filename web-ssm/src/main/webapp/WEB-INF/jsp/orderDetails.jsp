@@ -107,7 +107,7 @@
               <form name="edit" method="get">
                 <div class="borderBottom">
                   <input type="button" value="编辑"  class="contentBtn" id="editOrder">
-                  <input type="button" value="取消编辑"  class="contentBtn cancle" onclick="cancel()">
+                  <input type="button" value="取消编辑"  class="contentBtn cancle" onclick="cancel()" id="cancleOrderBtn">
                   <input type="button" value="保存"  class="contentBtn" id="save">
                 </div>
                 <table cellspacing="0" cellpadding="0" border="0" class="table edit">
