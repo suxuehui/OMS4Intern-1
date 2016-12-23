@@ -2,7 +2,7 @@
  * Created by GONG036 on 2016/12/8.
  */
 //totalpages  总页数   currentPage  当前页数  divpage  div的id属性
-function  GetNavPage(totalpages,currentPage){
+function  refoundGetPage(totalpages,currentPage){
     //var output = "第" + currentPage + "页 / 共" + totalpages + "页";
     var output="";
     if (totalpages > 1) {

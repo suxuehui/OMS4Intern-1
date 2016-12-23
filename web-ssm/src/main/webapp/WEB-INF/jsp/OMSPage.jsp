@@ -490,7 +490,6 @@
                                 <ul>
 
                                     <li><input type="button" value="查看订单" id="inbtn" name="inorderbtn" onclick="toinOrderdetail(this.name)" class="btn" disabled="disabled"></li>
-
                                 </ul>
 
                                     <input type="button" id="insearch" onclick="inGetnowPage(1)" value="查询" class="submitBtn fr">
@@ -658,26 +657,23 @@
                         <div class="orderTag">
                             <div class="orderTit">退款单列表</div>
                             <div class="orderSearch">
-                                <form>
                                     <ul>
-                                        <li><input type="button" value="退款"  class="btn"></li>
+                                        <li><input type="button" value="退款"  class="btn" onclick="drawback()"></li>
                                         <%--查看按钮  dfdgfg--%>
-                                        <li><input type="button" value="查看订单"  class="btn beta" disabled="disabled"></li>
+                                        <li><input type="button" value="查看订单"  class="btn beta" disabled="disabled" id="refoundOrder_inbtn" onclick="refoundOrder_details()"></li>
                                     </ul>
-                                    <input type="button" value="查询" class="submitBtn fr">
-                                    <input type="text" class="textArea fr">
-                                    <select class="selectArea fr">
-                                        <option></option>
-                                        <option></option>
-                                        <option></option>
+                                    <input type="button" value="查询" class="submitBtn fr" id="refoundOrderSearch" onclick="refoundGetnowPage(1)">
+                                    <input type="text" class="textArea fr" name="refoundOrderTxt" id="refoundOrderTxt">
+                                    <select class="selectArea fr" name="refoundToseachid" id="refoundOrderSelectid">
+                                        <option value="1" selected>退款单号</option>
+                                        <option value="2">退款状态</option>
+                                        <option value="3">退货单号</option>
                                     </select>
-                                </form>
                             </div>
                         </div>
                         <div class="orderMainCont revise">
                             <div class="table revise">
-                                <form>
-                                    <table cellspacing="0" cellpadding="0" class="w1200">
+                                    <table cellspacing="0" cellpadding="0" class="w1200" id="refoundOrdertable1">
                                         <tr class="tableTit">
                                             <th class="w50">序号</th>
                                             <th class="w50">批量</th>
@@ -689,42 +685,16 @@
                                             <th class="w200">修改时间</th>
                                             <th class="w100">修改人</th>
                                         </tr>
-                                        <tbody id="tablelsw">
-                                        <tr>
-                                            <td style="text-align:center">1</td>
-                                            <td align="center"><input type="checkbox"></td>
-                                            <td><a>8012984120571209241</a></td>
-                                            <td></td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="text-align:center">2</td>
-                                            <td align="center"><input type="checkbox"></td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                        </tr>
-
-
-                                        </tbody>
                                     </table>
-                                </form>
                             </div>
-                            <div class="page"><a>尾页</a><a>下一页</a><a>上一页</a><a>首页</a></div>
+                            <div id="relatedOrderDivpage"></div>
+                            <%--显示加载的信息，该引用只能放在页面下面--%>
+                            <script type="text/javascript" src="${pageContext.request.contextPath}/js/refoundOrder.js" charset="utf-8"></script>
                         </div>
                     </div>
                     <div class="orderDetails">
                         <div class="tableDetails">
-                            <form>
-                                <table cellspacing="0" cellpadding="0">
+                                <table cellspacing="0" cellpadding="0" id="refoundOrdertable2">
                                     <tr class="tableTit">
                                         <th class="w50">批量</th>
                                         <th class="w350">商品编码</th>
@@ -733,35 +703,9 @@
                                         <th>商品个数</th>
                                         <th>商品总价</th>
                                     </tr>
-                                    <tr>
-                                        <td align="center"><input type="checkbox"></td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <td align="center"><input type="checkbox"></td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <td align="center"><input type="checkbox"></td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                    </tr>
-
                                 </table>
-                            </form>
                         </div>
-                        <div class="page"><a>尾页</a><a>下一页</a><a>上一页</a><a>首页</a></div>
+                        <div id="refoundOrderSonpl"></div>
                     </div>
                 </div>
             </div><!--orderMain结束-->

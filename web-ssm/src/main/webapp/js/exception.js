@@ -106,7 +106,7 @@ function exceptionpageson(oid,pagenow){
                     var god=gdlist[i];//获取商品表的一个对象
                     var totalPrice=god.goodsprice*obj.goodnum;//商品总价
                     var num=obj.goodnum;//需要显示在页面的部分
-                    var html='<tr><td><input type="checkbox" value="" name="ck" onclick="getOid()" ></td><td>' + god.goodsno+'</td><td>'
+                    var html='<tr><td><input type="checkbox" value="" name="" onclick="" ></td><td>' + god.goodsno+'</td><td>'
                         + god.goodsname+'</td><td>'+god.goodsprice +'</td><td>'
                         + obj.goodnum+'</td><td>'
                         + totalPrice +'</td></tr>'

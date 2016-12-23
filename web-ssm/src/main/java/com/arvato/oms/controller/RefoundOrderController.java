@@ -41,7 +41,7 @@ public class RefoundOrderController {
     public String indexRefoundOrderList(HttpServletResponse response){
         response.setContentType("text/html");
         response.setCharacterEncoding("utf-8");
-        return "refoundOrder";
+        return "OMSPage";
     }
 
     //分页显示出所有异常订单

@@ -38,74 +38,75 @@ public class OmsOpenInterfaceController {
     public String updateOutboundOrder(@RequestBody String updateOutboundOrder_message, HttpServletRequest request){
         //获得从client传来的json对象
         JSONObject object = JSONObject.fromObject(updateOutboundOrder_message);
-        if(object==null){
-            return "{\"msg\":\"101\"}";//未获得从client传来的json对象
+        System.out.println("objectwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"+object);
+        if(object==null){//未获得从client传来的json对象
+            return "{\"msg\":\"200\"}";
         }
-        else
-        {
-            System.out.println(object);
-            //获得出库更新信息数组对象
-            JSONObject outbounds=object.getJSONObject("outbound_update_message").getJSONObject("outbounds");
-            if(outbounds==null){
-                return "{\"msg\":\"102\"}";//未获得出库更新信息数组对象outbounds
-            }
-            else
-            {   //获得出库更新信息数组
-                JSONArray outbound =outbounds.getJSONArray("outbound");
-                if(outbound==null){
-                    return "{\"msg\":\"103\"}";//未获得出库更新信息outbound
-                }
-                else
-                {
-                    for (int i = 0; i < outbound.size(); i++) {
-                        //仓库出库单号
-                        String warehouseObid = outbound.getJSONObject(i).getString("warehouseObid");
-                        if(warehouseObid==null){
-                            return "{\"msg\":\"301\"}";//仓库出库单号不能为空
-                        }
-                        if (warehouseObid.length()!=17||!"WO".equals(warehouseObid.substring(0,2))){
-                        //WO+15位订单号
-                            return "{\"msg\":\"301\"}";//仓库出库单号格式错误
-                        }
-                        //出库单号
-                        String outboundId = outbound.getJSONObject(i).getString("outboundId");
-                        if(outboundId==null){
-                            return "{\"msg\":\"301\"}";//出库单号不能为空
-                        }
-                        if(outboundId.length()!=17||!"SO".equals(outboundId.substring(0,2))){
-                         //SO+15位订单号
-                            return "{\"msg\":\"301\"}";//出库单号格式错误
-                        }
-                        //出库单状态
-                        String outboundState = outbound.getJSONObject(i).getString("outboundState");
-                        if(outboundState==null){
-                            return "{\"msg\":\"305\"}";//出库单状态不能为空
-                        }
-                        if("已出库".equals(outboundState)){
-                            return "{\"msg\":\"306\"}";//出库单状态错误
-                        }
-                        //快递公司
-                        String expressCompany = outbound.getJSONObject(i).getString("expressCompany");
-                        if(expressCompany==null){
-                            return "{\"msg\":\"307\"}";//快递公司不能为空
-                        }
-                        //快递单号
-                        String expressId = outbound.getJSONObject(i).getString("expressId");
-                        if(expressId==null){
-                            return "{\"msg\":\"308\"}";//快递单号不能为空
-                        }
-                        String orderStatus="已发货";
-                        //向出库表中添加快递公司，快递单号,仓库出库单号的信息,以及修改出库单状态，订单状态
-                        outboundServiceImpl.updateOutboundorder(orderStatus,outboundState,warehouseObid,expressCompany,expressId,outboundId);
-                        //先从出库表获取订单号，然后更新订单列表的订单状态
-                        String oid = outboundServiceImpl.selectOidByOutboundId(outboundId);
-                        orderServiceImpl.updateOrder(orderStatus,oid);
-
-                    }
-                }
-            }
+        JSONObject outbound_message = object.getJSONObject("outbound_message");
+        if(outbound_message==null){//未获得outbound_message对象
+            return "{\"msg\":\"201\"}";
         }
-
+        //仓库出库单号
+        String warehouseObid=outbound_message.getString("warehouseObid");
+        if(warehouseObid==null){
+            return "{\"msg\":\"301\"}";//仓库出库单号不能为空
+        }
+        if (warehouseObid.length()!=17||!"WO".equals(warehouseObid.substring(0,2))){
+            //WO+15位订单号
+            return "{\"msg\":\"302\"}";//仓库出库单号格式错误
+        }
+        //出库单号
+        String outboundId =outbound_message.getString("outboundId");
+        if(outboundId==null){
+            return "{\"msg\":\"303\"}";//出库单号不能为空
+        }
+        if(outboundId.length()!=17||!"SO".equals(outboundId.substring(0,2))){
+            //SO+15位订单号
+            return "{\"msg\":\"304\"}";//出库单号格式错误
+        }
+        //出库单状态
+        String outboundState = outbound_message.getString("outboundState");
+        if(outboundState==null){
+            return "{\"msg\":\"305\"}";//出库单状态不能为空
+        }
+        if("已发货".equals(outboundState)){
+            //快递公司
+            String expressCompany =outbound_message.getString("expressCompany");
+            if(expressCompany==null){
+                return "{\"msg\":\"306\"}";//快递公司不能为空
+            }
+            //快递单号
+            String expressId = outbound_message.getString("expressId");
+            if(expressId==null){
+                return "{\"msg\":\"307\"}";//快递单号不能为空
+            }
+            String orderStatus="已发货";
+            //向出库表中添加快递公司，快递单号,仓库出库单号的信息,以及修改出库单状态，订单状态
+            outboundServiceImpl.updateOutboundorder(orderStatus,outboundState,warehouseObid,expressCompany,expressId,outboundId);
+            //先从出库表获取订单号，然后更新订单列表的订单状态
+            String oid = outboundServiceImpl.selectOidByOutboundId(outboundId);
+            orderServiceImpl.updateOrder(orderStatus,oid);
+        }else if("缺货".equals(outboundState)){
+            String orderStatus="缺货";
+            String expressCompany2="";
+            String expressId2="";
+            //向出库表中添加快递公司，快递单号,仓库出库单号的信息,以及修改出库单状态，订单状态
+            outboundServiceImpl.updateOutboundorder(orderStatus,outboundState,warehouseObid,expressCompany2,expressId2,outboundId);
+            //先从出库表获取订单号，然后更新订单列表的订单状态
+            String oid = outboundServiceImpl.selectOidByOutboundId(outboundId);
+            orderServiceImpl.updateOrder(orderStatus,oid);
+        }else if("已取消".equals(outboundState)){
+            String orderStatus="已取消";
+            String expressCompany3="";
+            String expressId3="";
+            //向出库表中添加快递公司，快递单号,仓库出库单号的信息,以及修改出库单状态，订单状态
+            outboundServiceImpl.updateOutboundorder(orderStatus,outboundState,warehouseObid,expressCompany3,expressId3,outboundId);
+            //先从出库表获取订单号，然后更新订单列表的订单状态
+            String oid = outboundServiceImpl.selectOidByOutboundId(outboundId);
+            orderServiceImpl.updateOrder(orderStatus,oid);
+        }else{
+            return "{\"msg\":\"308\"}";//出库单状态错误
+        }
         return "{\"msg\":\"100\"}";//成功
     }
 

@@ -1,4 +1,4 @@
-window.onload= GetnowPage(1);//加载页面时就执行函数进入后台
+window.onload= refoundGetnowPage(1);//加载页面时就执行函数进入后台
 
 //使用ajax提交数据到后台
 
@@ -14,7 +14,7 @@ function refoundGetnowPage(pagenow){
         url :'../refoundOrder/showRefoundOrderList',
         data : {
             currentpage: s1,
-            toseachid: optxt,
+            refoundToseachid: optxt,
             txtvalue: search_value
         },
         contentType: "application/json; charset=utf-8",
@@ -24,11 +24,12 @@ function refoundGetnowPage(pagenow){
             //var data = JSON.parse(data);
             var dataPage = data.pagelist;
             var dataList = eval(data.list);
-
             $("#refoundOrdertable1 tbody tr").eq(0).nextAll().remove();
+            var i=0;
             for(var obj in dataList){
+                i++;
                 var  list=dataList[obj];
-                var html='<tr><td><input type="checkbox" value="'+list.returnedid+'" name="refoundOrder_ck" onclick="refoundOrder_getReturnedId()" ></td><td>';
+                var html='<tr><td>'+i+'</td><td><input type="checkbox" value="'+list.returnedid+'" name="refoundOrder_ck" onclick="refoundOrder_getReturnedId()" ></td><td>';
                 html+= '<button id="'+list.returnedid+'" style="border-style:none;outline:none;" ' +
                     'ondblclick="refounddbClick(this.id)" onclick="refoundsingleClick(this.id)">'+list.drawbackid+'</button>'+
                     '</td><td>';
@@ -37,7 +38,7 @@ function refoundGetnowPage(pagenow){
                     +list.modifytime+'</td><td>' +list.modifyman+'</td></tr>'
                 $("#refoundOrdertable1 tbody ").append(html);
             }
-            refoundGetnowPage(dataPage.totalPageCount,dataPage.pageNow);
+            refoundGetPage(dataPage.totalPageCount,dataPage.pageNow);
         },
         error:function(data){
             alert("+++++error++");
@@ -106,7 +107,7 @@ function refoundPageson(returnedId,pagenow){
                     var god=gdlist[i];//获取商品表的一个对象
                     var totalPrice=god.goodsprice*obj.goodnum;//商品总价
                     var num=obj.goodnum;//需要显示在页面的部分
-                    var html='<tr><td>' + god.goodsno+'</td><td>'
+                    var html='<tr><td><input type="checkbox" value="" name="" onclick="" ></td><td>' + god.goodsno+'</td><td>'
                         + god.goodsname+'</td><td>'+god.goodsprice +'</td><td>'
                         + obj.goodnum+'</td><td>'
                         + totalPrice +'</td></tr>'
