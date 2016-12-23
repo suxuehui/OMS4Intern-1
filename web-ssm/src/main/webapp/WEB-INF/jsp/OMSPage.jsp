@@ -817,7 +817,7 @@
                         <ul>
                             <li>
                                 <label class="listName mt20">仓库编号：</label>
-<<<<<<< 7da2b4cd88ed2835cb4e6a5d647ff6c0bf0964ba
+
                                 <input type="text" class="inputList">
                             </li>
                             <li>
@@ -826,7 +826,7 @@
                             </li>
                             <li>
                                 <input type="button" value="保存" class="save mt50">
-=======
+
                                 <input type="text" class="inputList" id="warenum" onblur="idendifywhnum()" >
                             </li>
                             <li>
@@ -835,7 +835,7 @@
                             </li>
                             <li>
                                 <input type="button" value="保存" onclick="addwarehouse()" class="save mt50">
->>>>>>> 仓库的添加编辑
+
                             </li>
                         </ul>
 
@@ -860,7 +860,7 @@
                             <input type="button" id="saveupdatewh" name="" value="保存" onclick="updateware(this.name)" class="save mt50">
                         </li>
                     </ul>
- 
+
                 </div>
             </div>
         </div>
