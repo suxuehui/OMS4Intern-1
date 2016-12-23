@@ -3,6 +3,8 @@
  */
 
 window.onload= wareGetnowPage(1);
+//定义全局变量 checkbox勾选的Array
+var whidArray=new Array();
 function wareGetnowPage(pagenow){
     var  myselect=document.getElementById("whselectid");
     var index=myselect.selectedIndex;
@@ -24,14 +26,15 @@ function wareGetnowPage(pagenow){
             var datapage = data.pagelist;
             var datalist = data.warelist;
             $("#warehousetab tbody tr").eq(0).nextAll().remove();
-            for(var obj in datalist){
-                var  list=datalist[obj];
-                var html='<tr><td></td><td><input type="checkbox" id="'
-                    +list.warehousenum+'" onclick="towhcheck(this.id)"  name="whck"></td><td>'
+            for(var w in datalist){
+                var  list=datalist[w];
+                var html='<tr><td>'+(++w)+'</td><td><input type="checkbox" id="'
+                    +list.id+'" onclick="towhcheck(this.id)"  name="whck"></td><td>'
                     +list.warehousenum+' </td><td>'+list.warehousename+'</td></tr>'
                 $("#warehousetab tbody ").append(html);
             }
-            WareGetNavPage(datapage.totalPageCount,datapage.pageNow );
+            whidArray.length=0;//清空数组，防止操作下一页时，数组不为空导致删除失败
+            WareGetNavPage(datapage.totalPageCount,datapage.pageNow);
         },
         error:function(){
             alert("+++++error++");
@@ -85,11 +88,34 @@ function  WareGetNavPage(totalpages,currentPage){
     div.innerHTML = output;
 }
 
+//验证格式warehousenum
+function  idendifywhnum()
+{
+    var warenum=document.getElementById("warenum").value;
+
+    var regex1=/^[0-9]{4}$/;
+    if (!regex1.test(warenum))
+    {
+        alert("亲，你的仓库编码格式错误，仓库编码格式由4位数字组成");
+        return false;
+    }
+}
+//验证格式warehousename
+function  idendifywhname()
+{
+    var warename=document.getElementById("warename").value;
+    var regex1=/^[\\u4e00-\\u9fff\\w]{2,16}$/;
+    if (!regex1.test(warename))
+    {
+        alert("亲，你的仓库名称格式错误，仓库名称是2-16位字符组成");
+        return false;
+    }
+}
+
  //添加仓库
- function  addware(){
+ function  addwarehouse(){
      var warenum=document.getElementById("warenum").value;
      var warename=document.getElementById("warename").value;
-     alert("测试仓库"+warenum+"====="+warename);
    $.ajax({
      type:'get',
      url:'../warehouse/addwarehouse',
@@ -119,3 +145,109 @@ function  WareGetNavPage(totalpages,currentPage){
       }
   })
  }
+
+//checkbox的点击处理
+function towhcheck(warehouseid) {
+    if (document.getElementById(warehouseid).checked) {
+        whidArray.push(warehouseid);
+    }
+    else {
+        for (var i = 0; i < whidArray.length; i++) {
+            if (whidArray[i] == warehouseid) {
+                whidArray.splice(i, 1);
+            }
+        }
+    }
+}
+
+//设置编辑弹窗的输入框的值
+function warehouseupdate(obj) {
+    if(whidArray.length==1){
+        var selectupdateid=whidArray[0];//获取选中的仓库id
+        $.ajax({
+            type: 'get',
+            url: '../warehouse/listupdateware',
+            data: {
+                id: selectupdateid,
+            },
+            success: function (data) {
+                 document.getElementById("saveupdatewh").name=data.id;//将id保存为save按钮的name值
+                 document.getElementById("updatewhnum").value=data.warehousenum;
+                 document.getElementById("updatewhname").value=data.warehousename;
+
+            },
+            error: function () {
+                alert("warehouse error");
+            }
+        })
+        //显示弹窗
+        var index=$(obj).parent().index();
+        $(".popupAll .storeShow > div").eq(index).show().siblings().hide();
+    }
+}
+
+//保存编辑的信息updateware()
+function updateware(wareid){
+    //获取输入框的值
+    var warenum=document.getElementById("updatewhnum").value;
+    var warename=document.getElementById("updatewhname").value;
+    $.ajax({
+        type:'get',
+        url:'../warehouse/toupdatewh',
+        data:{
+            id:wareid,
+            warehousenum:warenum,
+            warehousename:encodeURIComponent(warename),
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType:'json',
+        success:function(data){
+            switch(data) {
+                case 1 :
+                    alert("成功编辑");
+                    wareGetnowPage(1);
+                    break;
+                case 2 :
+                    alert("信息填写有误");break;
+                case 3 :
+                    alert("编辑失败,数据已存在");break;
+            }
+        },
+        error:function(){
+            alert("error");
+        }
+    })
+
+}
+
+//批量删除仓库
+function deleteware() {
+    if(whidArray.length>0) {
+        alert("ceshi ddddddddd")
+        $.ajax({
+            type: 'get',
+            url: '../warehouse/deleteWarehouse',
+            traditional: true,
+            data: {
+                id: whidArray,
+            },
+
+            contentType: "application/json; charset=utf-8",
+            dataType: 'json',
+            success: function (data) {
+                switch (data) {
+                    case 1 :
+                        alert("成功删除");
+                        wareGetnowPage(1);
+                        break;
+                    default:
+                        alert("删除失败");
+                }
+            },
+            error: function () {
+                alert("delete warehouse error");
+            }
+        })
+
+    }
+}

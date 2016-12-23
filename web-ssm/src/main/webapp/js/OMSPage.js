@@ -36,12 +36,11 @@ $(document).ready(function(){
 });
 
 //仓库弹框
-$(document).ready(function(){
-	$(".storeSearch ul li").click(function(){
-		 var index=$(this).index();
-		 $(".popupAll .storeShow > div").eq(index).show().siblings().hide();
-    });
-});
+function addware(obj){
+	 var index=$(obj).parent().index();
+	 $(".popupAll .storeShow > div").eq(index).show().siblings().hide();
+};
+
 
 $(document).ready(function(){
 	$(".storeShow .popupTop .iconClose").click(function(){

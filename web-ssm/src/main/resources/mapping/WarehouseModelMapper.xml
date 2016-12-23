@@ -63,6 +63,11 @@
     warehouseNum = #{warehousenum,jdbcType=VARCHAR}
   </select>
 
+  <!--通过warehousenum获取对应的id-->
+  <select id="selectwarehouseId" parameterType="java.lang.String"   resultMap="BaseResultMap">
+    select  id from warehouse where
+    warehouseNum = #{warehousenum,jdbcType=VARCHAR}
+  </select>
 
   <!--添加仓库-->
   <insert id="addWarehouse"   >
@@ -72,7 +77,7 @@
   </insert>
 
   <!--编辑仓库-->
-  <update id="updateWarehouse" parameterType="java.lang.String"  >
+  <update id="updateWarehouse" >
     update warehouse
     <set >
       <if test="warehousenum != null" >
@@ -85,16 +90,27 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+
+  <!--根据id num 获取仓库信息-->
+  <select id="selectBywhIdandNum" resultMap="BaseResultMap">
+    select
+    warehouseNum
+    from warehouse
+    where id != #{id,jdbcType=INTEGER} and  warehouseNum = #{warehousenum,jdbcType=VARCHAR}
+  </select>
+<!--根据id获取一条仓库信息-->
+  <select id="listupdateWarehouse" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
     <include refid="Base_Column_List" />
     from warehouse
     where id = #{id,jdbcType=INTEGER}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from warehouse
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
   <insert id="insert" parameterType="com.arvato.oms.model.WarehouseModel" >
     insert into warehouse (id, warehouseNum, warehouseName
     )

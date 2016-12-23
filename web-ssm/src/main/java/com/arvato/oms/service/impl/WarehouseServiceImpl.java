@@ -107,27 +107,63 @@ public class WarehouseServiceImpl implements WarehouseService {
         boolean num = Pattern.matches("[0-9]{4}", warehousenum);
         boolean name = Pattern.matches("[\\u4e00-\\u9fff\\w]{2,16}", warehousename);
         boolean bl=num && name;
-        int add;
+        int add=3;//仓库已存在
       try{
           WarehouseModel warehouse = warehouseModelModel.selectBywarehousenum(warehousenum);
           if (warehouse == null) {//判断仓库是否存在
             if (bl) { //向数据库添加仓库
                 add= this.warehouseModelModel.addWarehouse(warehousenum,warehousename);
-
             }
             else{
                 add=2;//用户输入信息格式有误
             }
-        }
-        else {
-            add=3;//仓库已存在
-        }
-          return add;
+          }
+           return add;
       } catch (Exception e){
           add=2;
           return add;
       }
+    }
 
+    //根据id列出仓库信息
+    public WarehouseModel listupdateWarehouse(Integer id) throws UnsupportedEncodingException {
+        WarehouseModel wh=warehouseModelModel.listupdateWarehouse(id);
+        return wh;
+    }
+
+    //编辑仓库
+    public int updateWarehouse(WarehouseModel warehouse) throws UnsupportedEncodingException {
+        int wareid = warehouse.getId();
+        String warehousename = URLDecoder.decode(warehouse.getWarehousename(), "UTF-8");
+        String warehousenum = warehouse.getWarehousenum();
+        //对用户填写的数据校验 warehousenum：4位数字 warehousename：不含特殊字符2到16位
+        boolean num = Pattern.matches("[0-9]{4}", warehousenum);
+        boolean name = Pattern.matches("[\\u4e00-\\u9fff\\w]{2,16}", warehousename);
+        boolean updatebl = num && name;
+        int update=3;//仓库已存在
+        List<String> listnum = warehouseModelModel.selectBywhIdandNum(wareid, warehousenum);
+        if (listnum.size() == 0) {
+            if (updatebl) { //向数据库编辑仓库
+                update = this.warehouseModelModel.updateWarehouse(wareid, warehousenum, warehousename);
+            }
+            else {
+                update = 2;//用户输入信息格式有误
+            }
+        }
+        return update;
+    }
+
+
+    //删除仓库
+    public int deleteWarehouseById(List<Integer> id) {
+        int delete=0;
+        for(int i=0;i<id.size(); i++){
+             delete=warehouseModelModel.deleteByPrimaryKey (i);
+            if(delete==0){
+                break;
+            }
+        }
+        return delete;
     }
 
 

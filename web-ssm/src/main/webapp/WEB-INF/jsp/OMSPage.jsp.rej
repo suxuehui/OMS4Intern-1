@@ -1,0 +1,9 @@
+diff a/web-ssm/src/main/webapp/WEB-INF/jsp/OMSPage.jsp b/web-ssm/src/main/webapp/WEB-INF/jsp/OMSPage.jsp	(rejected hunks)
+@@ -842,7 +842,6 @@
+ +                    </form>
+                  </div>
+              </div>
+-             <div>
+              <div >
+                  <div class="popupTop">
+                      <span class="iconClose fr"></span>

@@ -183,22 +183,16 @@
                         </ul>
                     </li>
                 </ul>
-            </div>
+            </div><!--orderList结束-->
             <div class="orderMain fl">
                 <div class="orderManage">
                     <div class="orderTag">
                         <div class="orderTit">仓库列表</div>
                         <div class="storeSearch">
                             <ul>
-<<<<<<< 7da2b4cd88ed2835cb4e6a5d647ff6c0bf0964ba
                                 <li><input type="button" value="新增" id="wareadd"   class="btn"></li>
                                 <li><input type="button" value="编辑"  id="wareupdate" class="btn"></li>
                                 <li><input type="button" value="删除" id="waredelete" class="btn"></li>
-=======
-                                <li><input type="button" value="新增"  id="wareadd" class="btn" onclick="addware(this)" ></li>
-                                <li><input type="button" value="编辑"   id="wareupdate" onclick="warehouseupdate(this)" class="btn"></li>
-                                <li><input type="button" value="删除"  id="waredelete" onclick="deleteware()" class="btn"></li>
->>>>>>> 仓库的添加编辑
                             </ul>
                             <input type="button" value="查询" onclick="wareGetnowPage(1)"  class="submitBtn fr">
                             <input type="text"  id="whtxt" value="" class="textArea fr" >
@@ -224,15 +218,9 @@
                     <script src="${pageContext.request.contextPath}/js/warehouselist.js"></script>
                     <div id="whdivpage"></div>
                 </div>
-<<<<<<< 7da2b4cd88ed2835cb4e6a5d647ff6c0bf0964ba
             </div><!--orderMain结束-->
         </div><!--order结束-->
         <!--仓库模块-->
-=======
-            </div>
-        </div>
-
->>>>>>> 仓库的添加编辑
         <!--订单模块-->
         <div class="order hide">
             <div class="orderList fl">
@@ -814,10 +802,10 @@
                     <p class="popupTopTit">新增仓库</p>
                 </div>
                 <div class="popupCont store">
+                    <form>
                         <ul>
                             <li>
                                 <label class="listName mt20">仓库编号：</label>
-<<<<<<< 7da2b4cd88ed2835cb4e6a5d647ff6c0bf0964ba
                                 <input type="text" class="inputList">
                             </li>
                             <li>
@@ -826,45 +814,35 @@
                             </li>
                             <li>
                                 <input type="button" value="保存" class="save mt50">
-=======
-                                <input type="text" class="inputList" id="warenum" onblur="idendifywhnum()" >
-                            </li>
-                            <li>
-                                <label class="listName mt20">仓库名：</label>
-                                <input type="text" class="inputList" id="warename" onblur="idendifywhname()">
-                            </li>
-                            <li>
-                                <input type="button" value="保存" onclick="addwarehouse()" class="save mt50">
->>>>>>> 仓库的添加编辑
                             </li>
                         </ul>
-
+                    </form>
                 </div>
             </div>
-            <div >
+            <div>
                 <div class="popupTop">
                     <span class="iconClose fr"></span>
                     <p class="popupTopTit">编辑仓库</p>
                 </div>
                 <div class="popupCont store">
-                     <ul>
-                        <li>
-                            <label class="listName mt20">仓库编号：</label>
-                            <input type="text" class="inputList" id="updatewhnum">
-                        </li>
-                        <li>
-                            <label class="listName mt20">仓库名：</label>
-                            <input type="text"class="inputList" id="updatewhname">
-                        </li>
-                        <li>
-                            <input type="button" id="saveupdatewh" name="" value="保存" onclick="updateware(this.name)" class="save mt50">
-                        </li>
-                    </ul>
- 
+                    <form>
+                        <ul>
+                            <li>
+                                <label class="listName mt20">仓库编号：</label>
+                                <input type="text" class="inputList">
+                            </li>
+                            <li>
+                                <label class="listName mt20">仓库名：</label>
+                                <input type="text"class="inputList">
+                            </li>
+                            <li>
+                                <input type="button" value="保存" class="save mt50">
+                            </li>
+                        </ul>
+                    </form>
                 </div>
             </div>
         </div>
-
         <!--storeShow结束-->
         <div class="leadingInShow">
             <div class="popupTop">

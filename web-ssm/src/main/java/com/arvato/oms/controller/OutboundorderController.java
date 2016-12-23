@@ -5,8 +5,8 @@ import com.arvato.oms.model.GoodsPojo;
 import com.arvato.oms.model.OutboundorderModel;
 import com.arvato.oms.model.RelationogModel;
 import com.arvato.oms.service.GoodsModelService;
-import com.arvato.oms.service.impl.OutboundorderServiceImpl;
-import com.arvato.oms.service.impl.RelationogServiceImpl;
+import com.arvato.oms.service.OutboundorderService;
+import com.arvato.oms.service.RelationogService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,9 +25,9 @@ import java.util.List;
 @RequestMapping("outboundorder")
 public class OutboundorderController {
     @Resource
-    private OutboundorderServiceImpl oboserciveimpl;
+    private OutboundorderService oboserciveimpl;
     @Resource
-    private RelationogServiceImpl rogserviceimpl;
+    private RelationogService rogserviceimpl;
      @Resource
     private GoodsModelService godserviceimpl;
 

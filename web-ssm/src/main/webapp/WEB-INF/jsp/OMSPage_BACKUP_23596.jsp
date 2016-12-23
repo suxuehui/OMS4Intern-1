@@ -814,6 +814,7 @@
                     <p class="popupTopTit">新增仓库</p>
                 </div>
                 <div class="popupCont store">
+                    <form>
                         <ul>
                             <li>
                                 <label class="listName mt20">仓库编号：</label>
@@ -838,7 +839,7 @@
 >>>>>>> 仓库的添加编辑
                             </li>
                         </ul>
-
+                    </form>
                 </div>
             </div>
             <div >
@@ -847,7 +848,24 @@
                     <p class="popupTopTit">编辑仓库</p>
                 </div>
                 <div class="popupCont store">
-                     <ul>
+<<<<<<< 7da2b4cd88ed2835cb4e6a5d647ff6c0bf0964ba
+                    <form>
+                        <ul>
+                            <li>
+                                <label class="listName mt20">仓库编号：</label>
+                                <input type="text" class="inputList">
+                            </li>
+                            <li>
+                                <label class="listName mt20">仓库名：</label>
+                                <input type="text"class="inputList">
+                            </li>
+                            <li>
+                                <input type="button" value="保存" class="save mt50">
+                            </li>
+                        </ul>
+                    </form>
+=======
+                    <ul>
                         <li>
                             <label class="listName mt20">仓库编号：</label>
                             <input type="text" class="inputList" id="updatewhnum">
@@ -860,7 +878,7 @@
                             <input type="button" id="saveupdatewh" name="" value="保存" onclick="updateware(this.name)" class="save mt50">
                         </li>
                     </ul>
- 
+>>>>>>> 仓库的添加编辑
                 </div>
             </div>
         </div>
