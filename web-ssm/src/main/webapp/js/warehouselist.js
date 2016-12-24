@@ -127,15 +127,13 @@ function  idendifywhname()
      dataType:'json',
 
      success:function(data){
-         alert("测试仓库2" +data);
          switch(data) {
              case "1" :
                     alert("成功添加");break;
              case "2" :
                     alert("信息填写有误");break;
-             default:
+             case "3" :
                     alert("添加失败");break;
-
         }
       },
       error:function(){

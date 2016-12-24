@@ -107,16 +107,14 @@ public class WarehouseServiceImpl implements WarehouseService {
         boolean num = Pattern.matches("[0-9]{4}", warehousenum);
         boolean name = Pattern.matches("[\\u4e00-\\u9fff\\w]{2,16}", warehousename);
         boolean bl=num && name;
-
         int add=3;//仓库已存在
       try{
           WarehouseModel warehouse = warehouseModelModel.selectBywarehousenum(warehousenum);
           if (warehouse == null) {//判断仓库是否存在
-
             if (bl) { //向数据库添加仓库
                 add= this.warehouseModelModel.addWarehouse(warehousenum,warehousename);
             }
-            else{
+            else if(!bl){
                 add=2;//用户输入信息格式有误
             }
           }

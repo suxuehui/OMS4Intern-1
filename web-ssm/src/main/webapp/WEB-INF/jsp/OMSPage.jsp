@@ -22,7 +22,7 @@
     <script src="${pageContext.request.contextPath}/js/outnavpagelist.js"></script>
     <script src="${pageContext.request.contextPath}/js/outpagelistson.js"></script>
     <script src="${pageContext.request.contextPath}/js/inpagelistson.js"></script>
-    <script src="${pageContext.request.contextPath}/js/warehouselist.js"></script>
+
     <script src="${pageContext.request.contextPath}/js/exceptionpagelist.js"></script>
     <script src="${pageContext.request.contextPath}/js/exceptionpagelistson.js"></script>
     <script src="${pageContext.request.contextPath}/js/deleteExceptionOrder.js"></script>
@@ -190,15 +190,9 @@
                         <div class="orderTit">仓库列表</div>
                         <div class="storeSearch">
                             <ul>
-<<<<<<< 7da2b4cd88ed2835cb4e6a5d647ff6c0bf0964ba
-                                <li><input type="button" value="新增" id="wareadd"   class="btn"></li>
-                                <li><input type="button" value="编辑"  id="wareupdate" class="btn"></li>
-                                <li><input type="button" value="删除" id="waredelete" class="btn"></li>
-=======
                                 <li><input type="button" value="新增"  id="wareadd" class="btn" onclick="addware(this)" ></li>
                                 <li><input type="button" value="编辑"   id="wareupdate" onclick="warehouseupdate(this)" class="btn"></li>
                                 <li><input type="button" value="删除"  id="waredelete" onclick="deleteware()" class="btn"></li>
->>>>>>> 仓库的添加编辑
                             </ul>
                             <input type="button" value="查询" onclick="wareGetnowPage(1)"  class="submitBtn fr">
                             <input type="text"  id="whtxt" value="" class="textArea fr" >
@@ -224,15 +218,8 @@
                     <script src="${pageContext.request.contextPath}/js/warehouselist.js"></script>
                     <div id="whdivpage"></div>
                 </div>
-<<<<<<< 7da2b4cd88ed2835cb4e6a5d647ff6c0bf0964ba
-            </div><!--orderMain结束-->
-        </div><!--order结束-->
-        <!--仓库模块-->
-=======
             </div>
         </div>
-
->>>>>>> 仓库的添加编辑
         <!--订单模块-->
         <div class="order hide">
             <div class="orderList fl">
@@ -258,7 +245,7 @@
                                 <input type="button" value="导入" class="leadingIn fr mt10">
                             </div>
                             <div class="orderSearch beta">
-                                <form>
+
                                     <ul>
                                         <li><input type="button" value="预检"  class="btn beta" name="orderBtn" id="previewOrderBtn"></li>
                                         <li><input type="button" value="路由"  class="btn beta" name="orderBtn" id="routeOrderBtn"></li>
@@ -281,12 +268,12 @@
                                         <option value="8">区</option>
                                         <option value="9">收货人手机号</option>
                                     </select>
-                                </form>
+
                             </div>
                         </div>
                         <div class="orderMainCont revise">
                             <div class="table revise">
-                                <form>
+
                                     <table cellspacing="0" cellpadding="0" class="w3600">
                                         <tr class="tableTit" height="20">
                                             <th class="w50">序号</th>
@@ -322,9 +309,7 @@
                                         </tr>
                                         <tbody class="tablelsw" id="order">
                                         </tbody>
-
                                     </table>
-                                </form>
                             </div>
                             <div class="page">
                                 <a id="lastorder">尾页</a>
@@ -338,7 +323,7 @@
                     </div>
                     <div class="orderDetails">
                         <div class="tableDetails">
-                            <form>
+
                                 <table cellspacing="0" cellpadding="0">
                                     <tr class="tableTit">
                                         <th class="w50">批量</th>
@@ -353,7 +338,7 @@
                                     </tbody>
 
                                 </table>
-                            </form>
+
                         </div>
                         <div class="page">
                             <a id="ogPageNo" style="display: none"></a>
@@ -610,19 +595,7 @@
                                             <td>&nbsp;</td>
                                             <td>&nbsp;</td>
                                         </tr>
-                                        <tr>
-                                            <td style="text-align:center">2</td>
-                                            <td align="center"><input type="checkbox"></td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                          </tr>
+
                                         </tbody>
                                     </table>
                                 </form>
@@ -648,14 +621,6 @@
                                         <td>&nbsp;</td>
                                         <td>&nbsp;</td>
                                     </tr>
-                                    <tr>
-                                        <td align="center"><input type="checkbox"></td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                    </tr>
-
 
                                 </table>
                             </form>
@@ -781,7 +746,7 @@
                 <p class="popupTopTit">添加商品</p>
             </div>
             <div class="popupCont revise">
-                <form>
+
                     <ul>
                         <li>
                             <label class="listName">商品编号：</label>
@@ -803,7 +768,6 @@
                             <input type="button" value="保存" class="save">
                         </li>
                     </ul>
-                </form>
             </div>
         </div>
         <!--productShow结束-->
@@ -814,31 +778,19 @@
                     <p class="popupTopTit">新增仓库</p>
                 </div>
                 <div class="popupCont store">
-                        <ul>
-                            <li>
-                                <label class="listName mt20">仓库编号：</label>
-
-                                <input type="text" class="inputList">
-                            </li>
-                            <li>
-                                <label class="listName mt20">仓库名：</label>
-                                <input type="text" class="inputList">
-                            </li>
-                            <li>
-                                <input type="button" value="保存" class="save mt50">
-
-                                <input type="text" class="inputList" id="warenum" onblur="idendifywhnum()" >
-                            </li>
-                            <li>
-                                <label class="listName mt20">仓库名：</label>
-                                <input type="text" class="inputList" id="warename" onblur="idendifywhname()">
-                            </li>
-                            <li>
-                                <input type="button" value="保存" onclick="addwarehouse()" class="save mt50">
-
-                            </li>
-                        </ul>
-
+                    <ul>
+                        <li>
+                            <label class="listName mt20">仓库编号：</label>
+                            <input type="text" class="inputList" id="warenum" onblur="idendifywhnum()" >
+                        </li>
+                        <li>
+                            <label class="listName mt20">仓库名：</label>
+                            <input type="text" class="inputList" id="warename" onblur="idendifywhname()">
+                        </li>
+                        <li>
+                            <input type="button" value="保存" onclick="addwarehouse()" class="save mt50">
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div >
@@ -847,7 +799,7 @@
                     <p class="popupTopTit">编辑仓库</p>
                 </div>
                 <div class="popupCont store">
-                     <ul>
+                    <ul>
                         <li>
                             <label class="listName mt20">仓库编号：</label>
                             <input type="text" class="inputList" id="updatewhnum">
@@ -860,11 +812,9 @@
                             <input type="button" id="saveupdatewh" name="" value="保存" onclick="updateware(this.name)" class="save mt50">
                         </li>
                     </ul>
-
                 </div>
             </div>
         </div>
-
         <!--storeShow结束-->
         <div class="leadingInShow">
             <div class="popupTop">

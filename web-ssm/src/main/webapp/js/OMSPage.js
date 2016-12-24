@@ -44,7 +44,7 @@ function addware(obj){
 
 $(document).ready(function(){
 	$(".storeShow .popupTop .iconClose").click(function(){
-		 $(".popupAll .storeShow > div").hide();	
+		 $(".popupAll .storeShow > div").hide();
     });
 });
 
