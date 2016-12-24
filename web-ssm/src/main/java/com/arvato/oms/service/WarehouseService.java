@@ -17,6 +17,7 @@ public interface WarehouseService {
 
     //添加仓库
     int addWarehouse(String warehousenum,String warehousename);
+<<<<<<< HEAD
 
     //编辑仓库
     int updateWarehouse(WarehouseModel warehoue) throws UnsupportedEncodingException;
@@ -26,6 +27,8 @@ public interface WarehouseService {
 
     //删除仓库
     int deleteWarehouseById(List<Integer> id);
+=======
+>>>>>>> parent of 5f78dfa... 仓库列表的添加功能
 
 }
 
