@@ -227,7 +227,6 @@ function deleteware() {
             data: {
                 id: whidArray,
             },
-
             contentType: "application/json; charset=utf-8",
             dataType: 'json',
             success: function (data) {

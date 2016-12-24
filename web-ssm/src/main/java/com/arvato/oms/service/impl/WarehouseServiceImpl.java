@@ -155,16 +155,16 @@ public class WarehouseServiceImpl implements WarehouseService {
 
 
     //删除仓库
-    public int deleteWarehouseById(List<Integer> id) {
+    public int deleteWarehouseById(String[] id) {
         int delete=0;
-        for(int i=0;i<id.size(); i++){
-             delete=warehouseModelModel.deleteByPrimaryKey (i);
+        for(int i=0;i<id.length; i++){
+            int wareid=Integer.parseInt (id[i]);
+             delete=warehouseModelModel.deleteByPrimaryKey(wareid);
             if(delete==0){
                 break;
             }
         }
         return delete;
-
     }
 
 

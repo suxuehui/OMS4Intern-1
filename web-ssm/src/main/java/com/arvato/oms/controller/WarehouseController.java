@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 
 /**
  * Created by GONG036 on 2016/12/20.
@@ -54,9 +53,10 @@ private WarehouseService warehouseService ;
     }
 
 //删除仓库
-     @RequestMapping ("deletewarehouse")
+     @RequestMapping ("deleteWarehouse")
      @ResponseBody
-     public String deleteWarehouse (List<Integer> id) throws UnsupportedEncodingException {
+     public String deleteWarehouse (String[] id) throws UnsupportedEncodingException {
+         System.out.println ("11111111111111111111111111111111111111111"+id);
          int delete = warehouseService.deleteWarehouseById(id);
          String str = String.valueOf (delete);
          return str;

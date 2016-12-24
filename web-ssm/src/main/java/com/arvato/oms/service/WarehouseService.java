@@ -4,7 +4,6 @@ import com.arvato.oms.model.WarehouseModel;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 
 /**
  * Created by GONG036 on 2016/12/20.
@@ -25,7 +24,7 @@ public interface WarehouseService {
     WarehouseModel listupdateWarehouse (Integer id) throws UnsupportedEncodingException;
 
     //删除仓库
-    int deleteWarehouseById (List<Integer> id);
+    int deleteWarehouseById ( String[] id);
 
 }
 
