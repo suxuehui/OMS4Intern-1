@@ -5,6 +5,7 @@ import com.arvato.oms.dao.GoodsModelMapper;
 import com.arvato.oms.dao.RelationogModelMapper;
 import com.arvato.oms.model.GoodsModel;
 import com.arvato.oms.model.GoodsPojo;
+import com.arvato.oms.model.pojo.GoodsAndStatus;
 import com.arvato.oms.service.GoodsModelService;
 import com.arvato.oms.utils.Page;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+import org.apache.log4j.Logger;
 
 /**
  * Created by 马潇霄 on 2016/12/7.
@@ -24,8 +27,11 @@ public class GoodsModelServiceImpl implements GoodsModelService
 {
     @Resource
     RelationogModelMapper relationogModelMapper;
+	
     @Resource
     private GoodsModelMapper goodsModelMapper;
+
+    private Logger log = Logger.getLogger(GoodsModelServiceImpl.class);
 
     //订单页面的
     public JSONObject selectByOid(int pageNo,int pageSize,String oId)
@@ -51,12 +57,27 @@ public class GoodsModelServiceImpl implements GoodsModelService
          * @Return: List<GoodsModel>
          */
         Integer countUser = goodsModelMapper.countGoods();
-        Page page = new Page(countUser, pageNow);
+        Page page = new Page(countUser,pageNow,num);
         List<GoodsModel> goodsModels = goodsModelMapper.selectAllGoodsByPage(page.getStartPos(), num);
+        List<GoodsAndStatus> goodsAndStatus = new ArrayList<GoodsAndStatus>();
+        for (int i = 0; i < goodsModels.size(); i++)
+        {
+            GoodsModel goodsModel = goodsModels.get(i);
+            GoodsAndStatus goods = new GoodsAndStatus();
+            goods.setBooknum(relationogModelMapper.countBookGoods(goodsModel.getGoodsno()));
+            goods.setGoodsname(goodsModel.getGoodsname());
+            goods.setGoodsno(goodsModel.getGoodsno());
+            goods.setGoodsprice(goodsModel.getGoodsprice());
+            goods.setGoodstolnum(goodsModel.getGoodstolnum());
+            goods.setGoodsvnum(goodsModel.getGoodsvnum());
+            goodsAndStatus.add(goods);
+        }
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("goodsModels", goodsModels);
+        jsonObject.put("goodsAndStatus", goodsAndStatus);
         jsonObject.put("pageNow", pageNow);
-        jsonObject.put("pageTotal", page.getTotalPageCount(num));
+        jsonObject.put("pageTotal", page.getTotalPageCount());
+        log.info("StartPos:" + page.getStartPos());
+
         return jsonObject;
     }
 
@@ -71,7 +92,14 @@ public class GoodsModelServiceImpl implements GoodsModelService
          */
         JSONObject json = new JSONObject();
         GoodsModel goodsModel = goodsModelMapper.selectOneGoodsByNo(goodsNo);
-        json.put("goodsModel", goodsModel);
+        GoodsAndStatus goods = new GoodsAndStatus();
+        goods.setBooknum(relationogModelMapper.countBookGoods(goodsModel.getGoodsno()));
+        goods.setGoodsname(goodsModel.getGoodsname());
+        goods.setGoodsno(goodsModel.getGoodsno());
+        goods.setGoodsprice(goodsModel.getGoodsprice());
+        goods.setGoodstolnum(goodsModel.getGoodstolnum());
+        goods.setGoodsvnum(goodsModel.getGoodsvnum());
+        json.put("goods", goods);
         return json;
     }
 
@@ -118,7 +146,7 @@ public class GoodsModelServiceImpl implements GoodsModelService
         return i;
     }
 
-    public JSONObject selectGoodsByValueAndPage(String select,String value, int nowPage, int pageSize)
+    public JSONObject selectGoodsByValueAndPage(String select, String value, int nowPage, int pageSize)
     {
 
         /**
@@ -131,23 +159,55 @@ public class GoodsModelServiceImpl implements GoodsModelService
          * @param pageSize 每页显示的数量
          * @Return: JSONObject
          */
-        int goodsCount = goodsModelMapper.countGoods();
-
-        Page page = new Page(goodsCount,nowPage);
-        int startPage = page.getStartPos();
         JSONObject json = new JSONObject();
         if (select.equals("name"))
         {
+            int goodsCount = goodsModelMapper.countGoodsByNameAndPage(value);
+            Page page = new Page(goodsCount,nowPage, pageSize);
+            int startPage = page.getStartPos();
             List<GoodsModel> goodsModels = goodsModelMapper.selectGoodsByNameAndPage(value, startPage, pageSize);
-            json.put("goodsModels",goodsModels);
-            json.put("size",goodsModels.size());
+            List<GoodsAndStatus> goodsAndStatus = new ArrayList<GoodsAndStatus>();
+            for (int i = 0; i < goodsModels.size(); i++)
+            {
+                GoodsModel goodsModel = goodsModels.get(i);
+                GoodsAndStatus goods = new GoodsAndStatus();
+                goods.setBooknum(relationogModelMapper.countBookGoods(goodsModel.getGoodsno()));
+                goods.setGoodsname(goodsModel.getGoodsname());
+                goods.setGoodsno(goodsModel.getGoodsno());
+                goods.setGoodsprice(goodsModel.getGoodsprice());
+                goods.setGoodstolnum(goodsModel.getGoodstolnum());
+                goods.setGoodsvnum(goodsModel.getGoodsvnum());
+                goodsAndStatus.add(goods);
+            }
+            json.put("goodsAndStatus", goodsAndStatus);
+            json.put("size", goodsAndStatus.size());
+            json.put("totalPage", page.getTotalPageCount());
 
-        }else if(select.equals("id")) {
-            List<GoodsModel> goodsModels = goodsModelMapper.selectGoodsByNoAndPage(value,startPage,nowPage);
-            json.put("goodsModels",goodsModels);
-            json.put("size",goodsModels.size());
+        } else if (select.equals("id"))
+        {
+            int goodsCount = goodsModelMapper.countGoodsByNoAndPage(value);
+            Page page = new Page(goodsCount,nowPage, pageSize);
+            int startPage = page.getStartPos();
+            List<GoodsModel> goodsModels = goodsModelMapper.selectGoodsByNoAndPage(value, startPage, nowPage);
+            List<GoodsAndStatus> goodsAndStatus = new ArrayList<GoodsAndStatus>();
+            for (int i = 0; i < goodsModels.size(); i++)
+            {
+                GoodsModel goodsModel = goodsModels.get(i);
+                GoodsAndStatus goods = new GoodsAndStatus();
+                goods.setBooknum(relationogModelMapper.countBookGoods(goodsModel.getGoodsno()));
+                goods.setGoodsname(goodsModel.getGoodsname());
+                goods.setGoodsno(goodsModel.getGoodsno());
+                goods.setGoodsprice(goodsModel.getGoodsprice());
+                goods.setGoodstolnum(goodsModel.getGoodstolnum());
+                goods.setGoodsvnum(goodsModel.getGoodsvnum());
+                goodsAndStatus.add(goods);
+
+            }
+            json.put("goodsAndStatus", goodsAndStatus);
+            json.put("size", goodsAndStatus.size());
+            json.put("totalPage", page.getTotalPageCount());
         }
-        json.put("totalPage",page.getTotalPageCount(pageSize));
+
 
         return json;
     }
@@ -166,6 +226,17 @@ public class GoodsModelServiceImpl implements GoodsModelService
     //将商品状态改为"已下架"
     public void updateGoodsState(String goodsState2,String goodsNo2) {
         goodsModelMapper.updateGoodsState(goodsState2,goodsNo2);
+    }
+
+    public boolean goodsNoIsExist(String goodsNo)
+    {//暂不用
+        if (goodsModelMapper.countGoodsByNo(goodsNo) == 0)
+        {
+            return false;
+        } else
+        {
+            return true;
+        }
     }
 }
 
