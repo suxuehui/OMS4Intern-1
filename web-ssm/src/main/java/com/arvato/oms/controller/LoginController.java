@@ -74,7 +74,7 @@ public class LoginController
     @RequestMapping("/index")
     public ModelAndView index(int urole)
     {
-        ModelAndView mov = new ModelAndView("index");
+        ModelAndView mov = new ModelAndView("OMSPage");
         mov.addObject("urole",urole);
         return mov;
     }
