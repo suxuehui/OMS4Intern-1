@@ -183,15 +183,13 @@ $(document).ready(function () {
         });
 
 
+
         $("#updateUser").click(function () {
 
             var username = $('#updateUserName').val().trim();
             var password = $('#updateUserPassword').val().trim();
             var userIdArray = new Array();
             var i = 0;
-            $("input:checkbox[name='usercheck']:checked").each(function () {
-                userIdArray[i++] = parseInt($(this).attr("id"));
-            });
             if (username == '') {
                 alert("请输入用户名");
             } else {
@@ -208,7 +206,11 @@ $(document).ready(function () {
                             if (!zzbds.test(password)) {
                                 alert("请输入有效密码");
                             } else {
+                                $("input:checkbox[name='usercheck']:checked").each(function () {
+                                    userIdArray[i++] = parseInt($(this).attr("id"));
+                                });
                                 var userIds = userIdArray.join("/");
+
                                 $.ajax({
                                     type: 'get',
                                     url: '/oms/user/updateUser',
@@ -227,8 +229,14 @@ $(document).ready(function () {
                                             inGetUserNowPage(1);
                                         } else {
                                             alert("用户名已存在");
-                                            $('#updateUserName').val("");
-                                            $('#updateUserPassword').val("");
+                                            var unameid = "#"+userIds+"uname";
+                                            var upassid = "#"+userIds+"upass";
+
+                                            var uname = $(unameid).html();
+                                            var upass = $(upassid).html();
+                                            $('#updateUserName').val(uname);
+                                            upass = upass.replace("&nbsp;","");
+                                            $('#updateUserPassword').val(upass);
                                         }
                                     },
                                     error: function (data) {
@@ -282,7 +290,7 @@ $(document).ready(function () {
                     $('#usertbody').html("");
                     for (var i in userList) {
                         var id = i * 1 + 1 * 1;
-                        $('#usertbody').append("<tr><td>" + id + "</td><td><input type='checkbox' id='" + userList[i].uid + "user" + "' name='usercheck' onchange='usercheckclick(this.id)'></td><td><a>" + userList[i].uname + "</a></td> <td>&nbsp;" + userList[i].upassword + "</td> <td>&nbsp;" + userList[i].urole + "</td> </tr>");
+                        $('#usertbody').append("<tr><td>" + id + "</td><td><input type='checkbox' id='" + userList[i].uid + "user" + "' name='usercheck' onclick='usercheckclick(this.id)'></td><td id='" + userList[i].uid + "uname" + "'>" + userList[i].uname + "</td> <td id='" + userList[i].uid + "upass" + "'>&nbsp;" + userList[i].upassword + "</td> <td>&nbsp;" + userList[i].urole + "</td> </tr>");
                         $('#totalUserPage').html(totalPage);
                     }
 
@@ -315,7 +323,7 @@ $(document).ready(function () {
                     $('#usertbody').html("");
                     for (var i in userList) {
                         var id = i * 1 + 1 * 1;
-                        $('#usertbody').append("<tr><td>" + id + "</td><td><input type='checkbox' id='" + userList[i].uid + "user" + "' name='usercheck' onclick='usercheckclick(this.id)'></td><td><a>" + userList[i].uname + "</a></td> <td>&nbsp;" + userList[i].upassword + "</td> <td>&nbsp;" + userList[i].urole + "</td> </tr>");
+                        $('#usertbody').append("<tr><td>" + id + "</td><td><input type='checkbox' id='" + userList[i].uid + "user" + "' name='usercheck' onclick='usercheckclick(this.id)'></td><td id='" + userList[i].uid + "uname" + "'>" + userList[i].uname + "</td> <td id='" + userList[i].uid + "upass" + "'>&nbsp;" + userList[i].upassword + "</td> <td>&nbsp;" + userList[i].urole + "</td> </tr>");
                         $('#totalUserPage').html(totalPage);
                     }
                 },
@@ -325,6 +333,23 @@ $(document).ready(function () {
 
             });
         }
+
+        $("#updateUserBut").click(
+            function () {
+
+                var  userIds = parseInt($("input:checkbox[name='usercheck']:checked").attr("id")) ;
+
+                var unameid = "#"+userIds+"uname";
+                var upassid = "#"+userIds+"upass";
+
+                var uname = $(unameid).html();
+                var upass = $(upassid).html();
+                $('#updateUserName').val(uname);
+                upass = upass.replace("&nbsp;","");
+                $('#updateUserPassword').val(upass);
+
+            }
+        );
 
     } else {
 
@@ -448,13 +473,27 @@ $(document).ready(function () {
         function () {
             var select = $('#selectGoodssle').val();
             var value = $('#goodsvaluetxt').val();
-            if (select=="按名称查询"){
-                selectGoodsByValue(1,value,"name");
+            if (value.length == 0) {
+                alert("请输入查询内容");
+            } else {
+                var zzbds2 = /^([\u4E00-\u9FA5]|\w)*$/;
+                if (!zzbds2.test(value)) {
+                    alert("请不要输入特殊符号");
+                } else {
+
+                    if (select=="按名称查询"){
+                        selectGoodsByValue(1,value,"name");
 
 
-            }else if(select=="按商品编码查询"){
-                selectGoodsByValue(1,value,"id");
+                    }else if(select=="按商品编码查询"){
+                        selectGoodsByValue(1,value,"id");
+                    }
+                    $('#preGoodsPage').hide();
+                    $('#nextGoodsPage').hide();
+                    $('#endGoodsPage').hide();
+                }
             }
+
         }
     );
 });

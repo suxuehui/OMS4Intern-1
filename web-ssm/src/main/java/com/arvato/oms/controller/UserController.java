@@ -68,7 +68,7 @@ public class UserController
          * @Return:
          */
         log.info("修改用户");
-        int checkCount = userModelService.checkUname(userName);
+        int checkCount = userModelService.checkUnameEXself(userName,uid);
         int i = 0;//初始值为0，添加成功为1
         if (checkCount == 0)
         {

@@ -80,7 +80,7 @@
                             <div class="orderTit">用户列表</div>
                             <div class="customSearch">
                                 <ul>
-                                    <li><input type="button" value="新增用户" class="btn"></li>
+                                    <li><input type="button" value="新增用户" class="btn" ></li>
                                     <li><input type="button" value="修改用户" class="btn" id="updateUserBut"
                                                disabled="disabled"></li>
                                     <li><input type="button" value="删除用户" class="btn" id="deleteUser"></li>
@@ -709,55 +709,55 @@
         <!--订单模块-->
     </div><!--content结束-->
     <!--弹窗模块-->
-    <div class="popupAll">
-        <div class="customShow">
-            <div>
-                <div class="popupTop">
-                    <span class="iconClose fr"></span>
-                    <p class="popupTopTit">新增用户</p>
+        <div class="popupAll">
+            <div class="customShow">
+                <div>
+                    <div class="popupTop">
+                        <span class="iconClose fr"></span>
+                        <p class="popupTopTit">新增用户</p>
+                    </div>
+                    <div class="popupCont">
+                        <form>
+                            <ul>
+                                <li>
+                                    <label class="listName mt20">用户名：</label>
+                                    <input type="text" class="inputList" id="addUserName">
+                                </li>
+                                <li>
+                                    <label class="listName mt20">密码：</label>
+                                    <input type="text" class="inputList" id="addUserPassword">
+                                </li>
+                                <li>
+                                    <input type="button" value="保存" class="save mt50" id="addUser">
+                                </li>
+                            </ul>
+                        </form>
+                    </div>
                 </div>
-                <div class="popupCont">
-                    <form>
-                        <ul>
-                            <li>
-                                <label class="listName mt20">用户名：</label>
-                                <input type="text" class="inputList">
-                            </li>
-                            <li>
-                                <label class="listName mt20">密码：</label>
-                                <input type="text" class="inputList">
-                            </li>
-                            <li>
-                                <input type="button" value="保存" class="save mt50">
-                            </li>
-                        </ul>
-                    </form>
+                <div id="updateUserBound">
+                    <div class="popupTop">
+                        <span class="iconClose fr"></span>
+                        <p class="popupTopTit">修改用户</p>
+                    </div>
+                    <div class="popupCont">
+                        <form>
+                            <ul>
+                                <li>
+                                    <label class="listName mt20">新用户名：</label>
+                                    <input type="text" class="inputList" id="updateUserName">
+                                </li>
+                                <li>
+                                    <label class="listName mt20">新密码：</label>
+                                    <input type="text" class="inputList" id="updateUserPassword">
+                                </li>
+                                <li>
+                                    <input type="button" value="保存" class="save mt50" id="updateUser">
+                                </li>
+                            </ul>
+                        </form>
+                    </div>
                 </div>
             </div>
-            <div>
-                <div class="popupTop">
-                    <span class="iconClose fr"></span>
-                    <p class="popupTopTit">修改用户</p>
-                </div>
-                <div class="popupCont">
-                    <form>
-                        <ul>
-                            <li>
-                                <label class="listName mt20">新用户名：</label>
-                                <input type="text" class="inputList">
-                            </li>
-                            <li>
-                                <label class="listName mt20">新密码：</label>
-                                <input type="text" class="inputList">
-                            </li>
-                            <li>
-                                <input type="button" value="保存" class="save mt50">
-                            </li>
-                        </ul>
-                    </form>
-                </div>
-            </div>
-        </div>
         <!--customShow结束-->
         <div class="productShow revise">
             <div class="popupTop">

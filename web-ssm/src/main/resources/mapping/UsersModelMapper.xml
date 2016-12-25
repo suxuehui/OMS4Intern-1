@@ -64,4 +64,8 @@
     WHERE uName LIKE '%${uName}%'
   </select>
 
+  <select id="countUserByNameEXid" resultType="int">
+    SELECT COUNT(1) FROM user
+    WHERE uId != #{uId} AND uName = #{uName}
+  </select>
 </mapper>
