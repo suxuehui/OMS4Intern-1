@@ -328,6 +328,133 @@ $(document).ready(function () {
 
     } else {
 
-        alert("普通用户");
+
     }
+
+    window.onload = inGetGoodsNowPage($('#goodsPageNow').html());
+
+    $('#nextGoodsPage').click(
+        function () {
+
+            var goodspage = $('#goodsPageNow').html();
+            var totalPage = $('#totalGoodPage').html();
+            if (goodspage < totalPage) {
+                inGetGoodsNowPage(goodspage * 1 + 1 * 1);
+                $('#goodsPageNow').html(goodspage * 1 + 1 * 1);
+            } else {
+                alert("已到最后一页");
+            }
+
+
+        }
+    );
+    $('#preGoodsPage').click(
+        function () {
+
+            var goodspage = $('#goodsPageNow').html();
+            if (goodspage > 1) {
+                $('#userPageNow').html(goodspage * 1 - 1 * 1);
+                inGetGoodsNowPage(goodspage * 1 - 1 * 1);
+            } else {
+                alert("已到第一页");
+            }
+        }
+    );
+
+
+    $('#firstGoodsPage').click(
+        function () {
+            $('#goodsPageNow').html(1);
+            inGetGoodsNowPage(1);
+
+        }
+    );
+
+    $('#endGoodsPage').click(
+        function () {
+            inGetGoodsNowPage($('#totalGoodPage').html());
+            $('#goodsPageNow').html($('#totalGoodPage').html());
+        }
+    );
+
+    function inGetGoodsNowPage(pageNow) {
+        var page = pageNow;
+        var pageSize = 20;
+        $.ajax({
+            type: 'get',
+            url: '/oms/goods/getAllGoods',
+            data: {
+                page: page,
+                pageSize: pageSize
+            },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                //alert(data.userList[0].uid);
+                var goodsList = data.goodsAndStatus;
+                var totalPage = data.pageTotal;
+                $('#goodsbody').html("");
+                for (var i in goodsList) {
+                    var id = i * 1 + 1 * 1;
+                    $('#goodsbody').append("<tr><td>" + id + "</td><td><input type='checkbox'  name='goodscheck' ></td><td><a>" + goodsList[i].goodsno + "</a></td> <td>&nbsp;" + goodsList[i].goodsname + "</td> <td>&nbsp;" + goodsList[i].goodsvnum + "</td> <td>&nbsp;" + goodsList[i].booknum + "</td>  <td>&nbsp;" + goodsList[i].goodstolnum + "</td><td>&nbsp;" + goodsList[i].goodsprice+ "</td></tr>");
+                    $('#totalGoodPage').html(totalPage);
+
+                }
+            },
+            error: function (data) {
+                alert("获取商品列表失败");
+            }
+
+        });
+    }
+
+    function selectGoodsByValue(pageNow, value ,select) {
+        var page = pageNow;
+        var username = value;
+        var select =select;
+        var pageSize = 20;
+        $.ajax({
+            type: 'get',
+            url: '/oms/goods/selectGoods',
+            data: {
+                select: select,
+                value: value,
+                nowPage: page,
+                pageSize: pageSize
+            },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var goodsList = data.goodsAndStatus;
+                var totalPage = data.pageTotal;
+                $('#goodsbody').html("");
+                for (var i in goodsList) {
+                    var id = i * 1 + 1 * 1;
+                    $('#goodsbody').append("<tr><td>" + id + "</td><td><input type='checkbox'  name='goodscheck' ></td><td><a>" + goodsList[i].goodsno + "</a></td> <td>&nbsp;" + goodsList[i].goodsname + "</td> <td>&nbsp;" + goodsList[i].goodsvnum + "</td> <td>&nbsp;" + goodsList[i].booknum + "</td>  <td>&nbsp;" + goodsList[i].goodstolnum + "</td><td>&nbsp;" + goodsList[i].goodsprice+ "</td></tr>");
+                    $('#totalGoodPage').html(totalPage);
+
+                }
+            },
+            error: function (data) {
+                alert("查询商品失败");
+            }
+
+        });
+    }
+
+
+
+    $('#selectgoodsbut').click(
+        function () {
+            var select = $('#selectGoodssle').val();
+            var value = $('#goodsvaluetxt').val();
+            if (select=="按名称查询"){
+                selectGoodsByValue(1,value,"name");
+
+
+            }else if(select=="按商品编码查询"){
+                selectGoodsByValue(1,value,"id");
+            }
+        }
+    );
 });

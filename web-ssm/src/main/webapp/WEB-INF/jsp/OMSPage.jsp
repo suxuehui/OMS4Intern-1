@@ -17,7 +17,7 @@
     <script src="${pageContext.request.contextPath}/js/jquery-3.1.1.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/OMSPage.js"></script>
 
-    <script src="${pageContext.request.contextPath}/js/index.js"></script>
+
     <script src="${pageContext.request.contextPath}/js/userlistAndGoodslist.js"></script>
 
     <script src="${pageContext.request.contextPath}/js/OrderPage.js"></script>
@@ -43,7 +43,7 @@
             <ul>
                 <c:if test="${urole == 1}">
                     <li class="on">用户</li>
-                    <li>商品</li>
+                    <li >商品</li>
                     <li>仓库</li>
                     <li>订单</li>
                 </c:if>
@@ -150,16 +150,12 @@
                             <div class="orderTit">商品列表</div>
                             <div class="productSearch">
                                 <form>
-                                    <ul>
-                                        <li><input type="button" value="添加" class="btn"></li>
-                                        <li><input type="button" value="删除" class="btn"></li>
-                                    </ul>
-                                    <input type="button" value="查询" class="submitBtn fr">
-                                    <input type="text" class="textArea fr">
-                                    <select class="selectArea fr">
-                                        <option></option>
-                                        <option></option>
-                                        <option></option>
+                                    <input type="button" value="查询" class="submitBtn fr" id="selectgoodsbut">
+                                    <input type="text" class="textArea fr" id="goodsvaluetxt">
+                                    <select class="selectArea fr" id="selectGoodssle">
+                                        <option id="selectGoodsByNameop">按名称查询</option>
+                                        <option id="selectGoodsByIdop">按商品编码查询</option>
+
                                     </select>
                                 </form>
                             </div>
@@ -179,21 +175,16 @@
                                         <th>总库存</th>
                                         <th>价格</th>
                                     </tr>
-                                    <tr>
-                                        <td>&nbsp;</td>
-                                        <td><input type="checkbox"></td>
-                                        <td></td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                    </tr>
+                                    <tbody id="goodsbody">
+
+                                    </tbody>
 
                                 </table>
                             </form>
                         </div>
-                        <div class="page"><a>尾页</a><a>下一页</a><a>上一页</a><a>首页</a></div>
+                        <div class="page"><span id="goodsPageNow" hidden>1</span> <span id="totalGoodPage" hidden>0</span><a
+                                id="endGoodsPage">尾页</a><a id="nextGoodsPage">下一页</a><a id="preGoodsPage">上一页</a><a
+                                id="firstGoodsPage">首页</a></div>
                     </div>
                 </div>
             <!--orderMain结束-->

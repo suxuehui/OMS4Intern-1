@@ -14,17 +14,8 @@ public class GoodsAndStatus
 
     private Integer goodstolnum;
 
-    private int Booknum;
+    private int booknum;
 
-    public int getBooknum()
-    {
-        return Booknum;
-    }
-
-    public void setBooknum(int booknum)
-    {
-        Booknum = booknum;
-    }
 
     public String getGoodsno()
     {
@@ -33,7 +24,7 @@ public class GoodsAndStatus
 
     public void setGoodsno(String goodsno)
     {
-        this.goodsno = goodsno == null ? null : goodsno.trim();
+        this.goodsno = goodsno;
     }
 
     public String getGoodsname()
@@ -43,7 +34,7 @@ public class GoodsAndStatus
 
     public void setGoodsname(String goodsname)
     {
-        this.goodsname = goodsname == null ? null : goodsname.trim();
+        this.goodsname = goodsname;
     }
 
     public Integer getGoodsvnum()
@@ -74,5 +65,15 @@ public class GoodsAndStatus
     public void setGoodstolnum(Integer goodstolnum)
     {
         this.goodstolnum = goodstolnum;
+    }
+
+    public int getBooknum()
+    {
+        return booknum;
+    }
+
+    public void setBooknum(int booknum)
+    {
+        this.booknum = booknum;
     }
 }
