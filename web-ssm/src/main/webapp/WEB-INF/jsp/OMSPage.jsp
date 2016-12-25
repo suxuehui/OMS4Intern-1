@@ -781,11 +781,13 @@
                     <ul>
                         <li>
                             <label class="listName mt20">仓库编号：</label>
-                            <input type="text" class="inputList" id="warenum" onblur="idendifywhnum()" >
+                            <input type="text" class="inputList"   id="warenum" onblur="idendifywhnum(this.id)" >
+                            <span id="whnumdiv" style="font-size:10px;color: red"></span>
                         </li>
                         <li>
                             <label class="listName mt20">仓库名：</label>
-                            <input type="text" class="inputList" id="warename" onblur="idendifywhname()">
+                            <input type="text" class="inputList"   id="warename" onblur="idendifywhname(this.id)">
+                            <span id="whnamediv" style="font-size:10px;color: red"></span>
                         </li>
                         <li>
                             <input type="button" value="保存" onclick="addwarehouse()" class="save mt50">
@@ -802,14 +804,14 @@
                     <ul>
                         <li>
                             <label class="listName mt20">仓库编号：</label>
-                            <input type="text" class="inputList" id="updatewhnum">
+                            <input type="text" class="inputList"  id="updatewhnum" onblur="idendifywhnum(this.id)">
                         </li>
                         <li>
                             <label class="listName mt20">仓库名：</label>
-                            <input type="text"class="inputList" id="updatewhname">
+                            <input type="text"class="inputList"   id="updatewhname" onblur="idendifywhname(this.id)">
                         </li>
                         <li>
-                            <input type="button" id="saveupdatewh" name="" value="保存" onclick="updateware(this.name)" class="save mt50">
+                            <input type="button" id="saveupdatewh"   value="保存" onclick="updateware(this.name)" class="save mt50">
                         </li>
                     </ul>
                 </div>

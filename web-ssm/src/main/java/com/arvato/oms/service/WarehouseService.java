@@ -15,7 +15,7 @@ public interface WarehouseService {
     String listAllByparam (HttpServletRequest request) throws UnsupportedEncodingException;
 
     //添加仓库
-    int addWarehouse (String warehousenum, String warehousename) throws UnsupportedEncodingException;
+    int addWarehouse (String warehousenum, String warehousename) throws Exception;
 
     //编辑仓库
     int updateWarehouse (WarehouseModel warehoue) throws UnsupportedEncodingException;

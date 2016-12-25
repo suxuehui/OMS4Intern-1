@@ -19,6 +19,7 @@ import java.util.regex.Pattern;
 /**
  * Created by GONG036 on 2016/12/20.
  */
+
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class WarehouseServiceImpl implements WarehouseService {
@@ -31,7 +32,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         String option=request.getParameter("txtvalue"); //用户输入的值id
         int selectvalue= Integer.parseInt(request.getParameter("toseachid"))  ;//下拉框的value
         //每页展示的行数pagesize
-        int pagesize=2;
+        int pagesize=4;
         Page pagelist;
         List<WarehouseModel> warelist;
         //获取对象总数量
@@ -101,11 +102,11 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     //添加仓库
-    public int addWarehouse(String warehousenum, String warehousename) {
+    public int addWarehouse(String warehousenum, String warename) throws Exception {
         //对用户填写的数据校验 warehousenum：4位数字 warehousename：不含特殊字符2到16位
-        // 验证信息格式
+        String warehousename = URLDecoder.decode(warename, "UTF-8");
         boolean num = Pattern.matches("[0-9]{4}", warehousenum);
-        boolean name = Pattern.matches("[\\u4e00-\\u9fff\\w]{2,16}", warehousename);
+        boolean name = Pattern.matches("[\\u4E00-\\u9FA5A-Za-z0-9_]{2,16}", warehousename);
         boolean bl=num && name;
         int add=3;//仓库已存在
       try{
@@ -114,16 +115,18 @@ public class WarehouseServiceImpl implements WarehouseService {
             if (bl) { //向数据库添加仓库
                 add= this.warehouseModelModel.addWarehouse(warehousenum,warehousename);
             }
-            else if(!bl){
+             if(!bl){
                 add=2;//用户输入信息格式有误
             }
           }
-           return add;
       } catch (Exception e){
           add=3;
-          return add;
+         /* Logger logger=
+          logger.info("日志打印");*/
       }
+        return add;
     }
+
 
     //根据id列出仓库信息
     public WarehouseModel listupdateWarehouse(Integer id) throws UnsupportedEncodingException {
@@ -138,7 +141,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         String warehousenum = warehouse.getWarehousenum();
         //对用户填写的数据校验 warehousenum：4位数字 warehousename：不含特殊字符2到16位
         boolean num = Pattern.matches("[0-9]{4}", warehousenum);
-        boolean name = Pattern.matches("[\\u4e00-\\u9fff\\w]{2,16}", warehousename);
+        boolean name = Pattern.matches("[\\u4E00-\\u9FA5A-Za-z0-9_]{2,16}", warehousename);
         boolean updatebl = num && name;
         int update=3;//仓库已存在
         List<String> listnum = warehouseModelModel.selectBywhIdandNum(wareid, warehousenum);

@@ -30,7 +30,7 @@ private WarehouseService warehouseService ;
     //添加仓库
     @RequestMapping("addwarehouse")
     @ResponseBody
-    public String addWarehouse(String warehousenum, String warehousename) throws UnsupportedEncodingException {
+    public String addWarehouse(String warehousenum, String warehousename) throws Exception {
         int add=warehouseService.addWarehouse(warehousenum,warehousename);
         String str=String.valueOf(add);
         return str ;
@@ -56,7 +56,6 @@ private WarehouseService warehouseService ;
      @RequestMapping ("deleteWarehouse")
      @ResponseBody
      public String deleteWarehouse (String[] id) throws UnsupportedEncodingException {
-         System.out.println ("11111111111111111111111111111111111111111"+id);
          int delete = warehouseService.deleteWarehouseById(id);
          String str = String.valueOf (delete);
          return str;

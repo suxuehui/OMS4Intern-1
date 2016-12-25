@@ -59,7 +59,7 @@ function toincheck(oid){ //id为checkbox的id 属性值
             }
             //选中的操作 inbtn为button 的id
             document.getElementById("inbtn").disabled=false;
-            document.getElementById("inbtn").name=oid;
+            document.getElementById("inbtn").name=checkArry[0];
         }
     }
 }
