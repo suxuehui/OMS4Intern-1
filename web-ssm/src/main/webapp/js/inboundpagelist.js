@@ -2,6 +2,7 @@
  * Created by GONG036 on 2016/12/8.
  */
 window.onload= inGetnowPage(1);
+var inboundArray=new Array();
 function inGetnowPage(pagenow){
     var  myselect=document.getElementById("inselectid");
     var index=myselect.selectedIndex ;
@@ -24,9 +25,11 @@ function inGetnowPage(pagenow){
             var datalist =  data.list ;
             $("#inboundertab tbody tr").eq(0).nextAll().remove();
             document.getElementById("inbtn").disabled=true;
+            inboundArray.length=0;//每次分页就将勾选数组初始化
             for(var obj in datalist){
                 var  list=datalist[obj];
-                var html='<tr><td><input type="checkbox"  id="'+list.oid+'" onclick="toincheck(this.id)"  name="inck"></td><td>';
+                var html='<tr><td><input type="checkbox"  id="'+list.oid+'" ' +
+                    'onclick="toincheck(this)"  name="inck"></td><td>';
                     html+= '<button id="'+list.oid+'" style="border-style:none;outline:none;"  ondblclick="indblclick(this.id)" onclick="insgclick(this.id)">'+list.oid+'</button> </td><td>'
                         +list.channeloid+'</td><td>'
                     +list.returnedid+'</td><td>'+list.inboundid+'</td><td>'
@@ -35,9 +38,9 @@ function inGetnowPage(pagenow){
                     +list.modifytime+'</td><td>' +list.modifyman +'</td></tr>'
                 $("#inboundertab tbody ").append(html);
             }
-            inGetNavPage(datapage.totalPageCount,datapage.pageNow,indivpage);
+            inGetNavPage(datapage.totalPageCount,datapage.pageNow);
         },
-        error:function(data){
+        error:function(){
             alert("+++++error++");
         }
 
@@ -46,27 +49,33 @@ function inGetnowPage(pagenow){
 }
 
 /*点击checkbox */
-function toincheck(oid){ //id为checkbox的id 属性值
-    var count = 0;
-    var checkArry = document.getElementsByName("inck");//ck为checkbox的name属性
-    for (var i = 0; i < checkArry.length; i++) {
-        if(checkArry[i].checked == true){
-            ++count;
-            if( count >1){
-                alert("只能选中一条订单查看！")
-                checkArry[i].checked=false;
-                return;
+function toincheck(element){ //id为checkbox的id 属性值
+    var oid=$(element).attr("id");
+    var checkedVar = element.checked;
+    if (checkedVar==true) {
+        inboundArray.push(oid);
+    }
+    else {
+        for (var i = 0; i < inboundArray.length; i++) {
+            if (inboundArray[i] == oid) {
+                inboundArray.splice(i, 1);
             }
-            //选中的操作 inbtn为button 的id
-            document.getElementById("inbtn").disabled=false;
-            document.getElementById("inbtn").name=checkArry[0];
         }
+    }
+    //判断选中的checkbox
+    if (inboundArray.length == 1) {
+        document.getElementById("inbtn").disabled = false;
+    }
+    else{
+        document.getElementById("inbtn").disabled = true;
     }
 }
 //点击查看入库订单进入详情页
-function toinOrderdetail(oid){
-    toincheck(oid);
-    window.open("../inboundorder/details?oid="+oid);
+function toinOrderdetail(){
+    document.getElementById("inbtn").disabled = false;
+    var inoid=inboundArray[0];
+    window.open("../inboundorder/details?oid=" + inoid);
+
 }
 
 
@@ -77,7 +86,8 @@ function toinOrderdetail(oid){
   window.setTimeout(nn, 250);
    function nn()
    {
-    if (inisdb != false)return;
+    if (inisdb != false)
+        return;
     inpostOid(oid);
    }
  }
@@ -130,7 +140,7 @@ function inpageson(oid,pagenow){
                     $("#inboundertabson tbody  ").append(html);
                 }
             }
-            inpagelistson(totalpages, pagenow,insonpl,oid);
+            inpagelistson(totalpages, pagenow,oid);
         },
         error:function () {
             alert("error");

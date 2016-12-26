@@ -44,7 +44,7 @@ public class InboundorderController {
      public String listseach(HttpServletRequest request  )
             throws UnsupportedEncodingException {
 
-         String str = inboserciveimpl.searchAllByparam(request );
+         String str = inboserciveimpl.inboundsearchAllByparam (request );
         return  str;
     }
 

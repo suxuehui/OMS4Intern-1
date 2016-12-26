@@ -36,7 +36,7 @@ public class OutboundorderController {
     @RequestMapping(value="listseach")
     @ResponseBody
      public String listseach(HttpServletRequest request ) throws UnsupportedEncodingException{
-        String str = oboserciveimpl.searchAllByparam(request);
+        String str = oboserciveimpl.outboundsearchAllByparam(request);
             return  str;
     }
 

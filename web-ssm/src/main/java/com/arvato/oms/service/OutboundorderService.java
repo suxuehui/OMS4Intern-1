@@ -1,7 +1,6 @@
 package com.arvato.oms.service;
 
 import com.arvato.oms.model.OutboundorderModel;
-import net.sf.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
@@ -11,11 +10,11 @@ import java.io.UnsupportedEncodingException;
  */
 public interface OutboundorderService
 {
-     public JSONObject outboundOrder(String oId);
+
 
 
     //出库单条件查询，
-    String searchAllByparam(HttpServletRequest request ) throws UnsupportedEncodingException;
+    String outboundsearchAllByparam(HttpServletRequest request ) throws UnsupportedEncodingException;
 
     //出库单子页面查询，
     String listSonPage(HttpServletRequest request);

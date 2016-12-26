@@ -9,9 +9,9 @@ import com.arvato.oms.model.InboundorderModel;
 import com.arvato.oms.model.OutboundorderModel;
 import com.arvato.oms.model.RelationogModel;
 import com.arvato.oms.service.InboundorderService;
+import com.arvato.oms.utils.ObjectToJsonstr;
 import com.arvato.oms.utils.Page;
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -34,122 +34,158 @@ public class InboundorderServiceImpl implements InboundorderService {
     @Resource
     private RelationogModelMapper rogdao;
     //分页查询
-      public String searchAllByparam(HttpServletRequest request ) throws UnsupportedEncodingException {
-
+    public String inboundsearchAllByparam(HttpServletRequest request ) throws UnsupportedEncodingException {
         String pageNow = request.getParameter("currentpage");//获取当前页数pagenow
         String id=request.getParameter("txtvalue"); //用户输入的值id
         int selectvalue= Integer.parseInt(request.getParameter("toseachid"))  ;//下拉框的value
-        int pagesize=2;
-        Page pagelist  ;
-        List<InboundorderModel> list;
+        int pagesize=2;//分页的每页显示的数量
+        Page pagelist=null;
+        List<InboundorderModel> list=null;
+        int totalCount=0 ; //获取对象总数量
+        String jsonstr=null;//需要返回的json字符串
 
-        //获取对象总数量
-        int totalCount ;
-        // 页面显示所有信息
         if(id==null || id.length()<=0) {
-
-            if (pageNow != null)
-            {
-                totalCount = (int) ibodao.Count();
-                //调用Page工具类传入参数
-                pagelist =new Page(totalCount, Integer.parseInt(pageNow), pagesize);
-
-                list = this.ibodao.selectAll(pagelist.getStartPos(), pagelist.getPageSize());
-            }
-            else
-            {
-                totalCount = (int) ibodao.Count();
-                pagelist =new Page(totalCount, 1,pagesize);
-                list = this.ibodao.selectAll(pagelist.getStartPos(), pagelist.getPageSize());
-            }
+            // 页面显示所有信息
+            jsonstr= equalzero(pageNow,totalCount,pagesize,pagelist, list,jsonstr);
         }
         else
         {
-            //判断下拉框的值确定选择条件，进行数据查询
-            if(selectvalue==1)
-            {
-                if (pageNow != null) {
-                    totalCount= (int) ibodao.Countoid(id);
-                    //调用Page工具类传入参数
-                    pagelist =new Page(totalCount, Integer.parseInt(pageNow),pagesize);
-                    list=this.ibodao.selectAllByOid(id , pagelist.getStartPos(), pagelist.getPageSize());
-                } else {
-                    totalCount= (int) ibodao.Countoid(id);
-                    pagelist = new Page(totalCount, 1,pagesize);
-                    list=this.ibodao.selectAllByOid( id , pagelist.getStartPos(), pagelist.getPageSize());
-                }
-            }
-            else if(selectvalue==2){
-                if (pageNow != null) {
-
-                    totalCount= (int) ibodao.Countchid( id);
-
-                    pagelist =new Page(totalCount, Integer.parseInt(pageNow),pagesize);
-
-                    list=this.ibodao.selectAllBychannelOid( id , pagelist.getStartPos(), pagelist.getPageSize());
-                } else {
-
-                    totalCount= (int) ibodao.Countoid( id);
-
-                    pagelist = new Page(totalCount, 1,pagesize);
-
-                    list=this.ibodao.selectAllBychannelOid( id , pagelist.getStartPos(), pagelist.getPageSize());
-                }
-            }
-            else if(selectvalue==3){
-                if (pageNow != null) {
-
-                    totalCount= (int) ibodao.Countobid(id);
-
-                    pagelist =new Page(totalCount, Integer.parseInt(pageNow),pagesize);
-
-                    list=this.ibodao.selectAllByoutboundId(id , pagelist.getStartPos(), pagelist.getPageSize());
-
-                }
-
-                else {
-
-                    totalCount= (int) ibodao.Countobid( id);
-
-                    pagelist = new Page(totalCount, 1,pagesize);
-
-                    list=this.ibodao.selectAllByoutboundId(id , pagelist.getStartPos(), pagelist.getPageSize());
-
-                }
-            }
-            else if(selectvalue==4){
-                if (pageNow != null) {
-
-                    totalCount= (int) ibodao.Countrid(id);
-
-                    pagelist =new Page(totalCount, Integer.parseInt(pageNow),pagesize);
-
-                    list=this.ibodao.selectAllByreturnedId(id , pagelist.getStartPos(), pagelist.getPageSize());
-                }
-
-                else {
-
-                    totalCount= (int) ibodao.Countrid( id);
-
-                    pagelist = new Page(totalCount, 1,pagesize);
-
-                    list=this.ibodao.selectAllByreturnedId(id , pagelist.getStartPos(), pagelist.getPageSize());
-                }
-            }
-            else
-            {
-                pagelist=null;
-                list=null;
+            switch (selectvalue){
+                case 1:
+                    jsonstr= equalone(pageNow,totalCount,id,pagesize,pagelist, list,jsonstr);
+                    break;
+                case 2:
+                    jsonstr= equaltwo(pageNow,totalCount,id,pagesize,pagelist, list,jsonstr);
+                    break;
+                case 3:
+                    jsonstr= equalthree(pageNow,totalCount,id,pagesize,pagelist, list,jsonstr);
+                    break;
+                case 4:
+                    jsonstr=  equalfour(pageNow,totalCount,id,pagesize,pagelist, list,jsonstr);
+                    break;
+                default:
+                    break;
             }
         }
-
-        JSONObject json1 = JSONObject.fromObject(pagelist);//将java对象转换为json对象
-        String jsonstr = "{\"pagelist\":"+json1.toString();//将json对象转换为字符串
-        JSONArray array = JSONArray.fromObject(list);
-        jsonstr +=",\"list\":"+array.toString()+"}";
         return jsonstr;
+    }
+    //进入页面显示全部信息
+    public String equalzero(String pageNow,int totalCount,int pagesize,Page pagelist,
+                            List<InboundorderModel> list,String jsonstr){
+        if (pageNow != null)
+        {
+            totalCount = (int) ibodao.Count();
+            //调用Page工具类传入参数
+            pagelist =new Page(totalCount, Integer.parseInt(pageNow), pagesize);
 
+            list = this.ibodao.selectAll(pagelist.getStartPos(), pagelist.getPageSize());
+        }
+        else
+        {
+            totalCount = (int) ibodao.Count();
+            pagelist =new Page(totalCount, 1,pagesize);
+            list = this.ibodao.selectAll(pagelist.getStartPos(), pagelist.getPageSize());
+        }
+        //调用对象转json转字符串的工具类
+        ObjectToJsonstr objtojsonstr=new ObjectToJsonstr ();
+        jsonstr= objtojsonstr.objtojson (pagelist, list,jsonstr);
+        return jsonstr;
+    }
 
+    //下拉框的值等于1即选中订单号查询
+    public String equalone(String pageNow,int totalCount,String id,int pagesize,Page pagelist,
+                           List<InboundorderModel> list,String jsonstr){
+        if (pageNow != null) {
+            totalCount= (int) ibodao.Countoid(id);
+            //调用Page工具类传入参数
+            pagelist =new Page(totalCount, Integer.parseInt(pageNow),pagesize);
+            list=this.ibodao.selectAllByOid(id , pagelist.getStartPos(), pagelist.getPageSize());
+        } else {
+            totalCount= (int) ibodao.Countoid(id);
+            pagelist = new Page(totalCount, 1,pagesize);
+            list=this.ibodao.selectAllByOid( id , pagelist.getStartPos(), pagelist.getPageSize());
+        }
+        //调用对象转json转字符串的工具类
+        ObjectToJsonstr objtojsonstr=new ObjectToJsonstr ();
+        jsonstr= objtojsonstr.objtojson (pagelist, list,jsonstr);
+        return jsonstr;
+    }
+
+    //下拉框的值等于2即选中渠道订单号查询
+    public String equaltwo(String pageNow,int totalCount,String id,int pagesize,Page pagelist,
+                           List<InboundorderModel> list,String jsonstr){
+        if (pageNow != null) {
+
+            totalCount= (int) ibodao.Countchid( id);
+
+            pagelist =new Page(totalCount, Integer.parseInt(pageNow),pagesize);
+
+            list=this.ibodao.selectAllBychannelOid( id , pagelist.getStartPos(), pagelist.getPageSize());
+        }
+        else {
+
+            totalCount= (int) ibodao.Countoid( id);
+
+            pagelist = new Page(totalCount, 1,pagesize);
+
+            list=this.ibodao.selectAllBychannelOid( id , pagelist.getStartPos(), pagelist.getPageSize());
+        }
+        //调用对象转json转字符串的工具类
+        ObjectToJsonstr objtojsonstr=new ObjectToJsonstr ();
+        jsonstr= objtojsonstr.objtojson (pagelist, list,jsonstr);
+        return jsonstr;
+    }
+    //下拉框的值等于3即选中出库单号查询
+    public String equalthree(String pageNow,int totalCount,String id,int pagesize,Page pagelist,
+                             List<InboundorderModel> list,String jsonstr){
+        if (pageNow != null) {
+
+            totalCount= (int) ibodao.Countobid(id);
+
+            pagelist =new Page(totalCount, Integer.parseInt(pageNow),pagesize);
+
+            list=this.ibodao.selectAllByoutboundId(id , pagelist.getStartPos(), pagelist.getPageSize());
+
+        }
+
+        else {
+
+            totalCount= (int) ibodao.Countobid( id);
+
+            pagelist = new Page(totalCount, 1,pagesize);
+
+            list=this.ibodao.selectAllByoutboundId(id , pagelist.getStartPos(), pagelist.getPageSize());
+
+        }
+        //调用对象转json转字符串的工具类
+        ObjectToJsonstr objtojsonstr=new ObjectToJsonstr ();
+        jsonstr= objtojsonstr.objtojson (pagelist, list,jsonstr);
+        return jsonstr;
+    }
+    //下拉框的值等于4即选中退款号查询
+    public String equalfour(String pageNow,int totalCount,String id,int pagesize,Page pagelist,
+                            List<InboundorderModel> list,String jsonstr){
+        if (pageNow != null) {
+
+            totalCount= (int) ibodao.Countrid(id);
+
+            pagelist =new Page(totalCount, Integer.parseInt(pageNow),pagesize);
+
+            list=this.ibodao.selectAllByreturnedId(id , pagelist.getStartPos(), pagelist.getPageSize());
+        }
+
+        else {
+
+            totalCount= (int) ibodao.Countrid( id);
+
+            pagelist = new Page(totalCount, 1,pagesize);
+
+            list=this.ibodao.selectAllByreturnedId(id , pagelist.getStartPos(), pagelist.getPageSize());
+        }
+        //调用对象转json转字符串的工具类
+        ObjectToJsonstr objtojsonstr=new ObjectToJsonstr ();
+        jsonstr= objtojsonstr.objtojson (pagelist, list,jsonstr);
+        return jsonstr;
     }
 
     //子页面显示
@@ -180,7 +216,6 @@ public class InboundorderServiceImpl implements InboundorderService {
         jsonstr +=",\"goods\":"+a2.toString();
         JSONArray a3 = JSONArray.fromObject(roglist );   //商品与订单关系列表
         jsonstr +=",\"rglist\":"+a3.toString()+"}";
-        System.out.println("--------------------"+jsonstr);
         return jsonstr;
     }
 

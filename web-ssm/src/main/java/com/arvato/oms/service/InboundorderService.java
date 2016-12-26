@@ -10,7 +10,7 @@ import java.io.UnsupportedEncodingException;
  */
 public interface InboundorderService {
 
-     String searchAllByparam(HttpServletRequest request) throws UnsupportedEncodingException;
+     String inboundsearchAllByparam(HttpServletRequest request) throws UnsupportedEncodingException;
 
      InboundorderModel  selectByOid(String oid);
 

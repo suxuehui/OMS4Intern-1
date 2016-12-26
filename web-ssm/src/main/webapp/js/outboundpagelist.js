@@ -30,7 +30,8 @@ function outGetnowPage(pagenow){
             for(var obj in datalist){
               if(datalist.hasOwnProperty(obj)){
                   var  list=datalist[obj];
-                  var html='<tr><td><input type="checkbox" id="'+list.oid+'" onclick="tooutcheck(this.id)"  name="outck"></td><td>';
+                  var html='<tr><td><input type="checkbox" id="'+list.oid+'"' +
+                      'onclick="tooutcheck(this)"  name="outck"></td><td>';
                   html+='<button id="'+list.oid+'" style="border-style:none;outline:none;" ondblclick="outdblclick(this.id)" onclick="outsgclick(this.id)">'+list.oid+'</button></td><td>'
                       +list.channeloid+'</td><td>'
                       +list.orderstatus+'</td><td>'+list.warehouseobid+'</td><td>'
@@ -52,12 +53,11 @@ function outGetnowPage(pagenow){
 }
 
 /*点击checkbox */
-   function tooutcheck(oid)
-   { //id为checkbox的id 属性值 $("#"+oid).is(':checked'):
-       // $("[id=oid]:checkbox").prop("checked",false);
-       alert(document.getElementById(oid).checked)
-
-        if (document.getElementById(oid).checked) {
+   function tooutcheck(element)
+   { //id为checkbox的id
+       var oid=$(element).attr("id");
+       var checkedVar = element.checked;
+        if (checkedVar==true) {
             outboundArray.push(oid);
         }
         else {

@@ -5,20 +5,18 @@ import com.arvato.oms.dao.OrderModelMapper;
 import com.arvato.oms.dao.OutboundorderModelMapper;
 import com.arvato.oms.dao.RelationogModelMapper;
 import com.arvato.oms.model.GoodsModel;
-import com.arvato.oms.model.OrderModel;
 import com.arvato.oms.model.OutboundorderModel;
 import com.arvato.oms.model.RelationogModel;
 import com.arvato.oms.service.OutboundorderService;
+import com.arvato.oms.utils.ObjectToJsonstr;
 import com.arvato.oms.utils.Page;
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,111 +35,123 @@ public class OutboundorderServiceImpl implements OutboundorderService
     @Resource
     private RelationogModelMapper rogdao;
 
-    public JSONObject outboundOrder(String oId) {
-        OutboundorderModel outboundorderModel=new OutboundorderModel();
-        OrderModel orderModel=orderModelMapper.selectByOid(oId);
-        outboundorderModel.setOid(orderModel.getOid());
-        outboundorderModel.setChanneloid(orderModel.getChanneloid());
-        outboundorderModel.setOutboundid("SO"+orderModel.getOid());
-        outboundorderModel.setSynchrostate(false);
-        outboundorderModel.setReceivername(orderModel.getReceivername());
-        outboundorderModel.setReceiveraddress(orderModel.getReceiverprovince()+orderModel.getReceivercity()+orderModel.getReceiverarea()+orderModel.getDetailaddress());
-        outboundorderModel.setCreatedtime(new Date());
-        int i=outboundorderModelMapper.insert(outboundorderModel);
-
-        return null;
-    }
-
-
     //分页查询
-    public String searchAllByparam(HttpServletRequest request) throws UnsupportedEncodingException {
+    public String outboundsearchAllByparam(HttpServletRequest request) throws UnsupportedEncodingException {
         String pageNow = request.getParameter("currentpage");//获取当前页数pagenow
         String id=request.getParameter("txtvalue").trim(); //用户输入的值id
         int selectvalue= Integer.parseInt(request.getParameter("toseachid"))  ;//下拉框的value
-        int pagesize=4;
-        Page pagelist;
-        List<OutboundorderModel> list;
-        int totalCount ;//获取对象总数量
-
+        int pagesize=2;//每页显示的行数
+        Page pagelist=null;
+        List<OutboundorderModel> list=null;
+        int totalCount=0 ;//获取对象总数量
+        String jsonstr=null;//返回json字符串
         // 页面显示所有信息
         if(id== null || id.length() <= 0) {
-            if (pageNow != null)
-            {
-                totalCount = (int) outboundorderModelMapper.Count();
-                //调用Page工具类传入参数
-                pagelist =new  Page(totalCount, Integer.parseInt(pageNow), pagesize);
-                list = this.outboundorderModelMapper.selectAll(pagelist.getStartPos(), pagelist.getPageSize());
-            }
-            else
-            {
-                totalCount = (int) outboundorderModelMapper.Count();
-                pagelist =new  Page(totalCount, 1,pagesize);
-                list = this.outboundorderModelMapper.selectAll(pagelist.getStartPos(), pagelist.getPageSize());
-            }
+            jsonstr= equalzero(pageNow,totalCount,pagesize,pagelist, list,jsonstr);
         }
         else
         {
-            //判断下拉框的值确定选择条件，进行数据查询
-            if(selectvalue==1)
-            {
-                if (pageNow != null) {
-                    totalCount= (int) outboundorderModelMapper.Countoid(id);
-                    //调用Page工具类传入参数
-                    pagelist =new  Page(totalCount, Integer.parseInt(pageNow),pagesize);
-                    list=this.outboundorderModelMapper.selectAllByOid(id , pagelist.getStartPos(), pagelist.getPageSize());
-                } else {
-                    totalCount= (int) outboundorderModelMapper.Countoid(id);
-                    pagelist = new  Page(totalCount, 1,pagesize);
-                    list=this.outboundorderModelMapper.selectAllByOid( id , pagelist.getStartPos(), pagelist.getPageSize());
-                }
+            switch (selectvalue){
+                case 1:
+                    jsonstr= equalone(pageNow,totalCount,id,pagesize,pagelist, list,jsonstr);
+                    break;
+                case 2:
+                    jsonstr= equaltwo(pageNow,totalCount,id,pagesize,pagelist, list,jsonstr);
+                    break;
+                case 3:
+                    jsonstr= equalthree(pageNow,totalCount,id,pagesize,pagelist, list,jsonstr);
+                    break;
+                default:
+                    break;
             }
-            else if(selectvalue==2){
-                if (pageNow != null) {
-
-                    totalCount= (int) outboundorderModelMapper.Countchid( id);
-
-                    pagelist =new  Page(totalCount, Integer.parseInt(pageNow),pagesize);
-
-                    list=this.outboundorderModelMapper.selectAllBychannelOid( id , pagelist.getStartPos(), pagelist.getPageSize());
-                } else {
-
-                    totalCount= (int) outboundorderModelMapper.Countoid( id);
-
-                    pagelist = new  Page(totalCount, 1,pagesize);
-
-                    list=this.outboundorderModelMapper.selectAllBychannelOid( id , pagelist.getStartPos(), pagelist.getPageSize());
-                }
-            }
-            else if(selectvalue==3){
-                if (pageNow != null) {
-
-                    totalCount= (int) outboundorderModelMapper.Countobid(id);
-
-                    pagelist =new  Page(totalCount, Integer.parseInt(pageNow),pagesize);
-
-                    list=this.outboundorderModelMapper.selectAllByoutboundId(id , pagelist.getStartPos(), pagelist.getPageSize());
-                }
-                else {
-                    totalCount= (int) outboundorderModelMapper.Countobid( id);
-
-                    pagelist = new  Page(totalCount, 1,pagesize);
-
-                    list=this.outboundorderModelMapper.selectAllByoutboundId(id , pagelist.getStartPos(), pagelist.getPageSize());
-                }
-            }
-            else
-            {
-                pagelist=null;
-                list=null;
-            }
-
         }
-        JSONObject json1 = JSONObject.fromObject(pagelist);//将java对象转换为json对象
-        String jsonstr = "{\"pagelist\":"+json1.toString();//将json对象转换为字符串
-        JSONArray array = JSONArray.fromObject(list);
-        jsonstr +=",\"list\":"+array.toString()+"}";
         return jsonstr;
+    }
+    //选出所有的信息
+    public String equalzero(String pageNow, int totalCount, int pagesize, Page pagelist,
+                            List<OutboundorderModel> list, String jsonstr){
+        if (pageNow != null)
+        {
+            totalCount = (int) outboundorderModelMapper.Count();
+            //调用Page工具类传入参数
+            pagelist =new  Page(totalCount, Integer.parseInt(pageNow), pagesize);
+            list = this.outboundorderModelMapper.selectAll(pagelist.getStartPos(), pagelist.getPageSize());
+        }
+        else
+        {
+            totalCount = (int) outboundorderModelMapper.Count();
+            pagelist =new  Page(totalCount, 1,pagesize);
+            list = this.outboundorderModelMapper.selectAll(pagelist.getStartPos(), pagelist.getPageSize());
+        }
+        //调用对象转json转字符串的工具类
+        ObjectToJsonstr objtojsonstr=new ObjectToJsonstr ();
+        jsonstr= objtojsonstr.outobjtojson (pagelist, list,jsonstr);
+        return jsonstr;
+    }
 
+    //下拉框的值等于1即选中订单号查询
+    public String equalone(String pageNow, int totalCount, String id, int pagesize, Page pagelist,
+                           List<OutboundorderModel> list, String jsonstr){
+        if (pageNow != null) {
+            totalCount= (int) outboundorderModelMapper.Countoid(id);
+            //调用Page工具类传入参数
+            pagelist =new  Page(totalCount, Integer.parseInt(pageNow),pagesize);
+            list=this.outboundorderModelMapper.selectAllByOid(id , pagelist.getStartPos(), pagelist.getPageSize());
+        } else {
+            totalCount= (int) outboundorderModelMapper.Countoid(id);
+            pagelist = new  Page(totalCount, 1,pagesize);
+            list=this.outboundorderModelMapper.selectAllByOid( id , pagelist.getStartPos(), pagelist.getPageSize());
+        }
+        //调用对象转json转字符串的工具类
+        ObjectToJsonstr objtojsonstr=new ObjectToJsonstr ();
+        jsonstr= objtojsonstr.outobjtojson (pagelist, list,jsonstr);
+        return jsonstr;
+    }
+    //下拉框的值等于2即选中渠道订单号查询
+    public String equaltwo(String pageNow, int totalCount, String id, int pagesize, Page pagelist,
+                           List<OutboundorderModel> list, String jsonstr){
+        if (pageNow != null) {
+            totalCount= (int) outboundorderModelMapper.Countchid( id);
+
+            pagelist =new  Page(totalCount, Integer.parseInt(pageNow),pagesize);
+
+            list=this.outboundorderModelMapper.selectAllBychannelOid( id , pagelist.getStartPos(), pagelist.getPageSize());
+        } else {
+
+            totalCount= (int) outboundorderModelMapper.Countoid( id);
+
+            pagelist = new  Page(totalCount, 1,pagesize);
+
+            list=this.outboundorderModelMapper.selectAllBychannelOid( id , pagelist.getStartPos(), pagelist.getPageSize());
+        }
+        //调用对象转json转字符串的工具类
+        ObjectToJsonstr objtojsonstr=new ObjectToJsonstr ();
+        jsonstr= objtojsonstr.outobjtojson (pagelist, list,jsonstr);
+        return jsonstr;
+    }
+
+    //下拉框的值等于3即选中出库单号查询
+    public String equalthree(String pageNow, int totalCount, String id, int pagesize, Page pagelist,
+                             List<OutboundorderModel> list, String jsonstr){
+        if (pageNow != null) {
+
+            totalCount= (int) outboundorderModelMapper.Countobid(id);
+
+            pagelist =new  Page(totalCount, Integer.parseInt(pageNow),pagesize);
+
+            list=this.outboundorderModelMapper.selectAllByoutboundId(id , pagelist.getStartPos(), pagelist.getPageSize());
+        }
+        else {
+            totalCount= (int) outboundorderModelMapper.Countobid( id);
+
+            pagelist = new  Page(totalCount, 1,pagesize);
+
+            list=this.outboundorderModelMapper.selectAllByoutboundId(id , pagelist.getStartPos(), pagelist.getPageSize());
+        }
+        //调用对象转json转字符串的工具类
+        ObjectToJsonstr objtojsonstr=new ObjectToJsonstr ();
+        jsonstr= objtojsonstr.outobjtojson (pagelist, list,jsonstr);
+        return jsonstr;
     }
 
     //子页面显示
@@ -156,16 +166,13 @@ public class OutboundorderServiceImpl implements OutboundorderService
         List<RelationogModel> roglist=rogdao.selectAllByOid(oid);
         //获取商品实体 查询商品表
         List<Object> godslist=new ArrayList<Object>();
-
         for(int i=0;i<roglist.size();i++){
             //获取商品编号
             String sno= roglist.get(i).getGoodsno();
             //查询所有商品列
             GoodsModel gm= gddao.selectByGoodsNo(sno);
             godslist.add(gm);
-
         }
-
         //对象转JSON
         JSONArray a1= JSONArray.fromObject(obolist);
         String jsonstr="{\"obolist\":"+a1.toString(); //出库单列表
@@ -173,7 +180,6 @@ public class OutboundorderServiceImpl implements OutboundorderService
         jsonstr +=",\"goods\":"+a2.toString();
         JSONArray a3 = JSONArray.fromObject(roglist );   //商品与订单关系列表
         jsonstr +=",\"rglist\":"+a3.toString()+"}";
-        System.out.println("--------------------"+jsonstr);
         return jsonstr;
     }
 
@@ -183,7 +189,7 @@ public class OutboundorderServiceImpl implements OutboundorderService
         return list;
     }
 
-//向出库表中添加快递公司，快递单号,仓库出库单号的信息,以及修改出库单状态，订单状态
+    //向出库表中添加快递公司，快递单号,仓库出库单号的信息,以及修改出库单状态，订单状态
     public void updateOutboundorder(String orderStatus,String outboundState,String warehouseObid,String expressCompany,String expressId,String outboundId ) {
         outboundorderModelMapper.updateOutboundorder(orderStatus,outboundState,warehouseObid,expressCompany,expressId,outboundId);
     }
