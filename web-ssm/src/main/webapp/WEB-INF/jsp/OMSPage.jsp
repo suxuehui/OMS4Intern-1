@@ -235,7 +235,7 @@
                     </div>
                     <%--分页列出仓库列表只能放在后面--%>
                     <script src="${pageContext.request.contextPath}/js/warehouselist.js"></script>
-                    <div id="whdivpage"></div>
+                    <div class="page" id="whdivpage"></div>
                 </div>
             </div>
         </div>
@@ -476,7 +476,7 @@
                             </div>
                             <%--分页显示加载的信息，该引用只能放在页面下面--%>
                             <script src="${pageContext.request.contextPath}/js/outboundpagelist.js"></script>
-                            <div id="outdivpage"></div>
+                            <div class="page" id="outdivpage"></div>
                             </div>
                     </div>
                     <div class="orderDetails">
@@ -494,7 +494,7 @@
                                 </table>
                         </div>
                         <%--子页面的分页--%>
-                        <div id="outsonpl" ></div>
+                        <div class="page" id="outsonpl" ></div>
                     </div>
                 </div>
                 <!--入库单列表-->
@@ -537,7 +537,7 @@
                                         </tr>
                                     </table>
                             </div>
-                            <div   id="indivpage"></div>
+                            <div class="page"  id="indivpage"></div>
                             <%--显示加载的信息，该引用只能放在页面下面--%>
                             <script src="${pageContext.request.contextPath}/js/inboundpagelist.js"></script>
                         </div>
@@ -555,7 +555,7 @@
                                     </tr>
                                 </table>
                         </div>
-                        <div   id="insonpl"> </div>
+                        <div class="page"  id="insonpl"> </div>
                     </div>
                 </div>
                 <!--退货单列表-->

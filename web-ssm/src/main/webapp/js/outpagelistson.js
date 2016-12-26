@@ -4,9 +4,7 @@
 
 /*出库单子页面的分页js*/
 function outpagelistson(totalpages,currentPage,outsonpl,oid){
-    var output = "<h5>第" + currentPage + "页 / 共" + totalpages + "页</h5>";
-  //  oid=oid.substring(2);//截取字符串
-    if (totalpages > 1) {
+     if (totalpages > 1) {
         if (currentPage != 1) {
             //处理首页连接
             output += "<a  href='javascript:void(0)' onclick='outpageson("+oid +",1)'>首页</a> ";

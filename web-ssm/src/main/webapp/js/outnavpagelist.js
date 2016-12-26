@@ -7,7 +7,6 @@
 * */
 
 function  outGetNavPage(totalpages,currentPage){
-    var output = "<h5>第" + currentPage + "页 / 共" + totalpages + "页</h5>";
     if (totalpages > 1) {
         if (currentPage != 1) {
             //处理首页连接
