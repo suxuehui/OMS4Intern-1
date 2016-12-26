@@ -7,7 +7,7 @@
   */
 
 function  inGetNavPage(totalpages,currentPage,indivpage){
-   var output;
+   var output="";
     if (totalpages > 1) {
         if (currentPage != 1) {
             //处理首页连接

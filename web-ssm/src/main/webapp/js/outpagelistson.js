@@ -4,7 +4,7 @@
 
 /*出库单子页面的分页js*/
 function outpagelistson(totalpages,currentPage,outsonpl,oid){
-   var output;
+   var output="";
     if (totalpages > 1) {
         if (currentPage != 1) {
             //处理首页连接
