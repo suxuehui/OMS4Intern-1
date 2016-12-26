@@ -268,7 +268,7 @@ function goodCheck(goodsno) {
     }
 }
 //退换货
-function returnOrExchange(oid,returnedOrChange) {
+function returnOrExchange(returnoid,returnedOrChange) {
     if(goodsArray.length==0)
     {
         alert("请选择需退换货的商品");
@@ -286,7 +286,7 @@ function returnOrExchange(oid,returnedOrChange) {
         var good={"goodsno":goodsArray[i],"goodNum":num,"divideorderfee":fee};
         goodsList.push(good);
     }
-    var jsonStr={"oid":oid,"goods":goodsList,"returnedOrChange":returnedOrChange};
+    var jsonStr={"oid":returnoid,"goods":goodsList,"returnedOrChange":returnedOrChange};
     $.ajax({
         url:"../order/returnGoods",
         type:"post",
@@ -305,6 +305,7 @@ function returnOrExchange(oid,returnedOrChange) {
 }
 $(function () {
     $("#returnedOrderBtn").click(function () {
+        var oid=$("#goodsOid").text();
         if(oid!=oidArray[0])
         {
             alert("商品与勾选订单不符");
@@ -315,6 +316,7 @@ $(function () {
 })
 $(function () {
     $("#exchangeGoodsBtn").click(function () {
+        var oid=$("#goodsOid").text();
         if(oid!=oidArray[0])
         {
             alert("商品与勾选订单不符");
