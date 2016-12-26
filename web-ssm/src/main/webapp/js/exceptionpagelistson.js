@@ -1,4 +1,4 @@
-function pagelistson(totalpages,currentPage,exceptionsonpl,oid){
+function pagelistson(totalpages,currentPage,oid){
     var output = "<h5>第" + currentPage + "页 / 共" + totalpages + "页</h5>";
     oid=oid.substring(10);//截取字符串
     if (totalpages > 1) {

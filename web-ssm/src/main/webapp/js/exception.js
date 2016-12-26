@@ -71,12 +71,12 @@ function exceptiondbClick(oid) {
 function  exceptionPostOid(oid)
 {
     //OOYYYYMMDD12345
-    oid=oid.substring(10);//12345
+    oid=oid.substring(2);//YYYYMMDD12345
     exceptionpageson(oid,1);
 }
 
 function exceptionpageson(oid,pagenow){
-    oid="OOYYYYMMDD"+oid;
+    oid="OO"+oid;
     $.ajax({
         type : 'get',
         url :'../exceptionOrder/listExceptionSon',
@@ -113,7 +113,7 @@ function exceptionpageson(oid,pagenow){
                     $("#exception_table2 tbody  ").append(html);
                 }
             }
-            pagelistson(totalpages, pagenow,sonpl,oid);
+            pagelistson(totalpages, pagenow,oid);
         },
         error:function (data) {
             alert("error");

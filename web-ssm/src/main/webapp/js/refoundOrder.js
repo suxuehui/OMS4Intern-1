@@ -71,13 +71,13 @@ function refounddbClick(returnedId) {
 function  refoundpostReturnedId(returnedId)
 {
     //RTOOYYYYMMDD12341
-    returnedId=returnedId.substring(12);//12341
+    returnedId=returnedId.substring(2);//12341
     alert(returnedId);
     refoundPageson(returnedId,1);
 }
 
 function refoundPageson(returnedId,pagenow){
-    returnedId="RTOOYYYYMMDD"+returnedId;
+    returnedId="RT"+returnedId;
     $.ajax({
         type : 'get',
         url :'../refoundOrder/listRefoundOrderSon',

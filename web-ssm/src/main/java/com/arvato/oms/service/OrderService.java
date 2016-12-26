@@ -41,6 +41,4 @@ public interface OrderService {
     public int checkreturn(String oid);
 	//更新订单列表的订单状态
 	void updateOrder(String orderStatus,String oid );
-    //根据订单号查询该条退货单记录
-    OrderModel selectByoId(String oId);
 }

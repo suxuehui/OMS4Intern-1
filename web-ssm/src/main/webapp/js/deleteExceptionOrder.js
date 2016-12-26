@@ -17,10 +17,7 @@ function exception_del() {
     alert(oid);
     var parm = {oid: oid};//将参数传到后台
     $.post("../exceptionOrder/cancelException", parm, function (data) {
-        $("input[name='exceptionck']:checked").each(function () {
-            n = $(this).parents("tr").index();
-            $("#exception_table1").find("tr:eq(" + n + ")").remove();
-        });
+        window.onload= GetnowPage(1);
     });
 }
 
@@ -38,6 +35,7 @@ function exception_details(){
             for(var i=0;i<excheck .length;i++)
             {
                 excheck[i].checked=false;
+                $("#exception_inbtn").attr("disabled",true);
             }
         }
     }else
@@ -54,15 +52,16 @@ function exception_details(){
 
 
 
-
-
-
-
 //处理异常
 function handleException(){
     oid = getOid();
     var parm = {oid2: oid};//将参数传到后台
-    $.post("/exceptionOrder/handleException", parm, function (data) {
-
-    });
+    $.post("../exceptionOrder/handleException", parm, function (data) {
+        window.onload= GetnowPage(1);
+        var msg=data.msg;
+        if(msg==1){
+            alert("异常类型不完全相同");
+        }
+    },"json"
+    );
 }

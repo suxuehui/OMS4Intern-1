@@ -106,7 +106,7 @@ public class RefoundOrderController {
         ReturnedModel returnedModel = returnedModelServiceImpl.selectByReturnedId(returnedId3);
         //订单号
         String returned_oId = returnedModel.getOid();
-        OrderModel orderModel = orderServiceImpl.selectByoId(returned_oId);
+        OrderModel orderModel = orderServiceImpl.selectByOid(returned_oId);
         //渠道订单号
         String channelOid=orderModel.getChanneloid();
         //退款账号

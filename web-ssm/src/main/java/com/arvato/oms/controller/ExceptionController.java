@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 /**
@@ -64,8 +65,10 @@ public class ExceptionController {
 
     //异常订单的处理
     @RequestMapping(value = "handleException")
-    public String handleException(HttpServletRequest request,HttpServletResponse response){
+    @ResponseBody
+    public String handleExeption(HttpServletRequest request,HttpSession session,HttpServletResponse response){
         Set set=new HashSet();
+        String userName = (String)session.getAttribute("uname");
         String oid2 =request.getParameter("oid2");
         String[] exOid=oid2.split(",");
         for(int i=0;i<exOid.length;i++){
@@ -83,7 +86,7 @@ public class ExceptionController {
                         //先删除异常页面的异常订单
                         exceptionServiceImpl.deleteByOid(exOid[j]);
                         //再删除订单页面的订单信息
-                        //orderServiceImpl.cancleOrder(exOid[j]);
+                        orderServiceImpl.cancleOrder(exOid[j],userName);
                     }
                 }
                 //由预检发送过来，处理方式为：取消订单
@@ -93,25 +96,32 @@ public class ExceptionController {
                         //先删除异常页面的异常订单
                         exceptionServiceImpl.deleteByOid(exOid[j]);
                         //再删除订单页面的订单信息
-                        //orderServiceImpl.cancleOrder(exOid[j]);
+                        orderServiceImpl.cancleOrder(exOid[j],userName);
                     }
                 }
                 //由预检发送过来，处理方式为：跟客户确认后，进行下一步备注异常的检验
                 if(exceptionType.equals("金额异常"))
                 {
                     for(int j=0;j<exOid.length;j++){
+                        String orderStatus ="待预检";
+                        //先将订单状态改为“待预检”
+                        orderServiceImpl.updateOrder(orderStatus,exOid[j]);
                         String exceptionType2 = "备注异常";
                         //进行下一步备注异常的检验
-                        //orderServiceImpl.previewOrder(String exOid[j],String exceptionType2,String ???);
+                        orderServiceImpl.previewOrder(exOid[j],exceptionType2,userName);
+                        //再删除异常页面的异常订单
+                        exceptionServiceImpl.deleteByOid(exOid[j]);
                     }
                 }
-                //由预检发送过来，处理方式为：确认备注信息后，进行路由
 
+                //由预检发送过来，处理方式为：确认备注信息后，进行路由
                 if(exceptionType.equals("备注异常"))
                 {
                     for(int j=0;j<exOid.length;j++){
                         //进行路由
-                        //orderServiceImpl.routeOrder(exOid[j]);
+                        orderServiceImpl.routeOrder(exOid[j],userName);
+                        //再删除异常页面的异常订单
+                        exceptionServiceImpl.deleteByOid(exOid[j]);
                     }
                 }
                 //向wms发送出库单是异常，处理方式为：再次将出库单信息发送给WMS
@@ -123,16 +133,17 @@ public class ExceptionController {
                         //根据订单号查询出该条出库单记录
                         OutboundorderModel outboundorderModel =outboundorderServiceImpl.selectByOid(exOid[j]);
                         //再次将出库单信息发送给WMS
-                        //orderServiceImpl.sendOutboundOrder(orderModel,outboundorderModel);
+                        orderServiceImpl.sendOutboundOrder(orderModel,outboundorderModel,userName);
+                        //再删除异常页面的异常订单
+                        exceptionServiceImpl.deleteByOid(exOid[j]);
                     }
                 }
-
-
             }
         }else{
             System.out.println("异常类型不完全相同");
+            return "{\"msg\":\"1\"}";
         }
-        return "exception";
+        return "OMSPage";
     }
 
     //子页面显示
