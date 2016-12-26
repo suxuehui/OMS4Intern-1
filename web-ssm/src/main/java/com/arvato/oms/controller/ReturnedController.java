@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,10 +98,67 @@ public class ReturnedController
     @ResponseBody
     public int createRefoundOrder()
     {
+        /**
+         * @Author: 马潇霄
+         * @Description: 创建退款单
+         * @Date: 15:23 2016/12/14
+         * @param
+         * @Return:
+         */
        List<String> list = new ArrayList<String>();
         list.add("123");
         list.add("221");
        return returnedModelService.createRefoundOrders(list);
     }
 
+    @RequestMapping("/createOutBoundOrder")
+    @ResponseBody
+    public String createOutBoundOrder()
+    {
+       /**
+        * @Author: 马潇霄
+        * @Description: 创建出库单
+        * @Date: 10:02 2016/12/15
+        * @param
+        * @Return:
+        */
+        List<String> list = new ArrayList<String>();
+        list.add("RT111111111111111");
+        return returnedModelService.createOutboundOrders("RT111111111111111");
+    }
+
+    @RequestMapping("/createInBoundOrder")
+    @ResponseBody
+    public String createInBoundOrder()
+    {
+        /**
+         * @Author: 马潇霄
+         * @Description: 创建入库单
+         * @Date: 11:17 2016/12/15
+         * @param
+         * @Return:  int 0为失败，1为成功
+         */
+        List<String> list = new ArrayList<String>();
+        list.add("RT111111111111111");
+
+        return returnedModelService.checkInBound("RT111111111111111");
+    }
+
+    public static String getUTF8XMLString(String xml) {
+        // A StringBuffer Object
+        StringBuffer sb = new StringBuffer();
+        sb.append(xml);
+        String xmString = "";
+        String xmlUTF8="";
+        try {
+            xmString = new String(sb.toString().getBytes("UTF-8"));
+            xmlUTF8 = URLEncoder.encode(xmString, "UTF-8");
+            System.out.println("utf-8 编码：" + xmlUTF8) ;
+        } catch (UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        // return to String Formed
+        return xmlUTF8;
+    }
 }

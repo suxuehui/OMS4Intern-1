@@ -87,4 +87,10 @@
       goodNum = #{goodnum,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectAllGoodsByRid" resultMap="BaseResultMap">
+    SELECT * FROM relationrg
+    WHERE returnedId = #{returnedId}
+
+  </select>
 </mapper>

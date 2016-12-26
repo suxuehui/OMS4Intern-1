@@ -29,6 +29,8 @@ public interface RelationrgModelMapper {
     int countGoods(@Param("returnedId") String returnedId);
     //查询商品总数
 
+    List<RelationrgModel> selectAllGoodsByRid(@Param("returnedId") String returnedId);
+
 
 
 }

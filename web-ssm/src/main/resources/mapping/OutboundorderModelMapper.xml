@@ -296,7 +296,22 @@
 
   </select>
 
+  <select id="selectOutboundorder" resultMap="BaseResultMap">
+    SELECT * FROM outboundorder
+    WHERE oId = #{oid}
+  </select>
 
+  <select id="selectOutboundorders" resultMap="BaseResultMap">
+    SELECT * FROM outboundorder
+    WHERE oId = #{oid}
+  </select>
+
+
+  <update id="updateOutboundSynchrostate">
+    update outboundorder
+    set synchroState = "1"
+    where outboundId = #{outboundorderid}
+  </update>
 
 
 </mapper>

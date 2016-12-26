@@ -510,4 +510,15 @@
       buyerAlipayNo = #{buyeralipayno,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectOrderByOidM" resultMap="BaseResultMap">
+    SELECT * FROM `order`
+    WHERE oId = #{oid}
+  </select>
+
+  <update id="updateByPrimaryKeyma"  >
+    update order
+    set  orderStatus = #{orderstatus}
+    where oId = #{oid}
+  </update>
 </mapper>

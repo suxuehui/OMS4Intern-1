@@ -253,5 +253,17 @@
     where
     inboundId = #{inboundid,jdbcType=VARCHAR}
   </update>
+  
+
+  <select id="countInboundorder" resultType="int">
+    SELECT COUNT(1) FROM inboundorder
+    WHERE inboundId=#{inboundorderid}
+  </select>
+
+  <update id="updateInboundSynchrostate">
+    update inboundorder
+    set synchroState = "1"
+    where inboundId = #{inboundorderid}
+  </update>
 
 </mapper>
