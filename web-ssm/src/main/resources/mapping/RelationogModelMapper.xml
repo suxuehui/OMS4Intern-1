@@ -147,4 +147,9 @@
       status = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
    </update>
+
+  <select id="countBookGoods" resultType="int">
+    SELECT COALESCE(SUM(goodNum),0) FROM relationog
+    WHERE goodsNo = #{goodsNo} AND status = '1'
+  </select>
 </mapper>

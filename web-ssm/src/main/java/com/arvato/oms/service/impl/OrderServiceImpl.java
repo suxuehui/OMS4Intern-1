@@ -252,7 +252,7 @@ public class OrderServiceImpl implements OrderService
         }
         if(exceptionType==null||exceptionType.equals("金额异常"))
         {
-            if(orderModel.getGoodstolprice().doubleValue()>10000)
+            if(orderModel.getOrdertolprice().doubleValue()>10000)
             {
                 exceptionModel=createException(orderModel);
                 exceptionModel.setExceptiontype("金额异常");
@@ -307,6 +307,10 @@ public class OrderServiceImpl implements OrderService
         if(oId==null)
         {
             return 2;//订单不存在
+        }
+        if(orderModel==null)
+        {
+            return 3;//订单不存在
         }
         List<RelationogModel> relationogModelList=relationogModelMapper.selectAllByOid(oId);
         List<String> statusList= Arrays.asList("待预检","待路由","待出库");

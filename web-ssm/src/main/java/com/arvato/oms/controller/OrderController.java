@@ -4,11 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.arvato.oms.model.*;
 import com.arvato.oms.service.OrderService;
 import org.apache.log4j.Logger;
-import org.apache.poi.poifs.filesystem.OfficeXmlFileException;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,14 +40,14 @@ public class OrderController
 
     //根据订单号查看商品信息
     @RequestMapping("queryGoods")
-    public @ResponseBody JSONObject queryGoods(int pageNo,int pageSize,String oId)
+    @ResponseBody
+    public JSONObject queryGoods(int pageNo,int pageSize,String oId)
     {
         if(pageNo<=0||pageSize<=0||oId==null)
         {
             return null;
         }
-        JSONObject jsonObject=orderService.selectByOid(pageNo,pageSize,oId);
-        return jsonObject;
+        return orderService.selectByOid(pageNo,pageSize,oId);
     }
     //进入详情页
     @RequestMapping("orderdetail")
@@ -123,19 +118,20 @@ public class OrderController
     }
     //条件查询，分页，模糊查询
     @RequestMapping("queryByCondition")
-    public @ResponseBody JSONObject queryByOid(int queryMode,int pageNo,int pageSize,String data,Model model)
+    @ResponseBody
+    public JSONObject queryByOid(int queryMode,int pageNo,int pageSize,String data,Model model)
     {
         if(queryMode<1||queryMode>7||pageNo<=0||pageSize<=0)
         {
             return null;
         }
-        JSONObject orderModelList=orderService.selects(queryMode,pageNo,pageSize,"%"+data+"%");
-        return orderModelList;
+        return orderService.selects(queryMode,pageNo,pageSize,"%"+data+"%");
     }
 
     //检查订单是否可以退换货
     @RequestMapping("checkreturn")
-    public @ResponseBody int checkreturn(String oid)
+    @ResponseBody
+    public int checkreturn(String oid)
     {
         if(oid==null)
         {
@@ -146,14 +142,16 @@ public class OrderController
 
     //退换货
     @RequestMapping("returnGoods")
-    public @ResponseBody int returnGoods(String jsonStr)
+    @ResponseBody
+    public int returnGoods(String jsonStr)
     {
         return orderService.returnGoods(jsonStr);
     }
 
     //预检
     @RequestMapping("previewOrder")
-    public @ResponseBody JSONObject previewOrder(String[] oIds,HttpSession session)
+    @ResponseBody
+    public JSONObject previewOrder(String[] oIds,HttpSession session)
     {
         if(oIds==null)
         {
@@ -181,7 +179,8 @@ public class OrderController
 
     //路由
     @RequestMapping("routeOrder")
-    public @ResponseBody JSONObject routeOrder(String[] oIds,HttpSession session)
+    @ResponseBody
+    public JSONObject routeOrder(String[] oIds,HttpSession session)
     {
         int success=0;
         int exception=0;
@@ -204,7 +203,8 @@ public class OrderController
 
     //出库
     @RequestMapping("outboundOrder")
-    public @ResponseBody JSONObject outboundOrder(String[] oIds,HttpSession session)
+    @ResponseBody
+    public JSONObject outboundOrder(String[] oIds,HttpSession session)
     {
         int success=0;
         int exception=0;
@@ -227,7 +227,8 @@ public class OrderController
     }
     //取消订单
     @RequestMapping("cancleOrder")
-    public @ResponseBody JSONObject cancleOrder(String[] oIds,HttpSession session)
+    @ResponseBody
+    public JSONObject cancleOrder(String[] oIds,HttpSession session)
     {
         int success=0;
         int exception=0;
@@ -251,7 +252,8 @@ public class OrderController
 
     //导入excel
     @RequestMapping("importOrder")
-    public @ResponseBody int importOrder(@RequestParam(value = "file", required = false) MultipartFile file,HttpServletRequest request)
+    @ResponseBody
+    public int importOrder(@RequestParam(value = "file", required = false) MultipartFile file,HttpServletRequest request)
     {
         if(file.isEmpty())
         {
@@ -273,7 +275,7 @@ public class OrderController
         //得到上传的文件名
         String fileName = file.getOriginalFilename();
         //得到文件后缀名
-        newfileName+=fileName.substring(fileName.lastIndexOf("."), fileName.length());
+        newfileName+=fileName.substring(fileName.lastIndexOf('.'), fileName.length());
         File targetFile = new File(path, newfileName);
         try {
             //拷贝文件到目录路径

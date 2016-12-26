@@ -13,6 +13,7 @@ import com.arvato.oms.utils.ObjectToJsonstr;
 import com.arvato.oms.utils.Page;
 import net.sf.json.JSONArray;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;

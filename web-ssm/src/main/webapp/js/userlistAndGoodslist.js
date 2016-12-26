@@ -183,15 +183,13 @@ $(document).ready(function () {
         });
 
 
+
         $("#updateUser").click(function () {
 
             var username = $('#updateUserName').val().trim();
             var password = $('#updateUserPassword').val().trim();
             var userIdArray = new Array();
             var i = 0;
-            $("input:checkbox[name='usercheck']:checked").each(function () {
-                userIdArray[i++] = parseInt($(this).attr("id"));
-            });
             if (username == '') {
                 alert("请输入用户名");
             } else {
@@ -208,7 +206,11 @@ $(document).ready(function () {
                             if (!zzbds.test(password)) {
                                 alert("请输入有效密码");
                             } else {
+                                $("input:checkbox[name='usercheck']:checked").each(function () {
+                                    userIdArray[i++] = parseInt($(this).attr("id"));
+                                });
                                 var userIds = userIdArray.join("/");
+
                                 $.ajax({
                                     type: 'get',
                                     url: '/oms/user/updateUser',
@@ -227,8 +229,14 @@ $(document).ready(function () {
                                             inGetUserNowPage(1);
                                         } else {
                                             alert("用户名已存在");
-                                            $('#updateUserName').val("");
-                                            $('#updateUserPassword').val("");
+                                            var unameid = "#"+userIds+"uname";
+                                            var upassid = "#"+userIds+"upass";
+
+                                            var uname = $(unameid).html();
+                                            var upass = $(upassid).html();
+                                            $('#updateUserName').val(uname);
+                                            upass = upass.replace("&nbsp;","");
+                                            $('#updateUserPassword').val(upass);
                                         }
                                     },
                                     error: function (data) {
@@ -282,7 +290,7 @@ $(document).ready(function () {
                     $('#usertbody').html("");
                     for (var i in userList) {
                         var id = i * 1 + 1 * 1;
-                        $('#usertbody').append("<tr><td>" + id + "</td><td><input type='checkbox' id='" + userList[i].uid + "user" + "' name='usercheck' onchange='usercheckclick(this.id)'></td><td><a>" + userList[i].uname + "</a></td> <td>&nbsp;" + userList[i].upassword + "</td> <td>&nbsp;" + userList[i].urole + "</td> </tr>");
+                        $('#usertbody').append("<tr><td>" + id + "</td><td><input type='checkbox' id='" + userList[i].uid + "user" + "' name='usercheck' onclick='usercheckclick(this.id)'></td><td id='" + userList[i].uid + "uname" + "'>" + userList[i].uname + "</td> <td id='" + userList[i].uid + "upass" + "'>&nbsp;" + userList[i].upassword + "</td> <td>&nbsp;" + userList[i].urole + "</td> </tr>");
                         $('#totalUserPage').html(totalPage);
                     }
 
@@ -315,7 +323,7 @@ $(document).ready(function () {
                     $('#usertbody').html("");
                     for (var i in userList) {
                         var id = i * 1 + 1 * 1;
-                        $('#usertbody').append("<tr><td>" + id + "</td><td><input type='checkbox' id='" + userList[i].uid + "user" + "' name='usercheck' onclick='usercheckclick(this.id)'></td><td><a>" + userList[i].uname + "</a></td> <td>&nbsp;" + userList[i].upassword + "</td> <td>&nbsp;" + userList[i].urole + "</td> </tr>");
+                        $('#usertbody').append("<tr><td>" + id + "</td><td><input type='checkbox' id='" + userList[i].uid + "user" + "' name='usercheck' onclick='usercheckclick(this.id)'></td><td id='" + userList[i].uid + "uname" + "'>" + userList[i].uname + "</td> <td id='" + userList[i].uid + "upass" + "'>&nbsp;" + userList[i].upassword + "</td> <td>&nbsp;" + userList[i].urole + "</td> </tr>");
                         $('#totalUserPage').html(totalPage);
                     }
                 },
@@ -326,8 +334,166 @@ $(document).ready(function () {
             });
         }
 
+        $("#updateUserBut").click(
+            function () {
+
+                var  userIds = parseInt($("input:checkbox[name='usercheck']:checked").attr("id")) ;
+
+                var unameid = "#"+userIds+"uname";
+                var upassid = "#"+userIds+"upass";
+
+                var uname = $(unameid).html();
+                var upass = $(upassid).html();
+                $('#updateUserName').val(uname);
+                upass = upass.replace("&nbsp;","");
+                $('#updateUserPassword').val(upass);
+
+            }
+        );
+
     } else {
 
-        alert("普通用户");
+
     }
+
+    window.onload = inGetGoodsNowPage($('#goodsPageNow').html());
+
+    $('#nextGoodsPage').click(
+        function () {
+
+            var goodspage = $('#goodsPageNow').html();
+            var totalPage = $('#totalGoodPage').html();
+            if (goodspage < totalPage) {
+                inGetGoodsNowPage(goodspage * 1 + 1 * 1);
+                $('#goodsPageNow').html(goodspage * 1 + 1 * 1);
+            } else {
+                alert("已到最后一页");
+            }
+
+
+        }
+    );
+    $('#preGoodsPage').click(
+        function () {
+
+            var goodspage = $('#goodsPageNow').html();
+            if (goodspage > 1) {
+                $('#userPageNow').html(goodspage * 1 - 1 * 1);
+                inGetGoodsNowPage(goodspage * 1 - 1 * 1);
+            } else {
+                alert("已到第一页");
+            }
+        }
+    );
+
+
+    $('#firstGoodsPage').click(
+        function () {
+            $('#goodsPageNow').html(1);
+            inGetGoodsNowPage(1);
+
+        }
+    );
+
+    $('#endGoodsPage').click(
+        function () {
+            inGetGoodsNowPage($('#totalGoodPage').html());
+            $('#goodsPageNow').html($('#totalGoodPage').html());
+        }
+    );
+
+    function inGetGoodsNowPage(pageNow) {
+        var page = pageNow;
+        var pageSize = 20;
+        $.ajax({
+            type: 'get',
+            url: '/oms/goods/getAllGoods',
+            data: {
+                page: page,
+                pageSize: pageSize
+            },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                //alert(data.userList[0].uid);
+                var goodsList = data.goodsAndStatus;
+                var totalPage = data.pageTotal;
+                $('#goodsbody').html("");
+                for (var i in goodsList) {
+                    var id = i * 1 + 1 * 1;
+                    $('#goodsbody').append("<tr><td>" + id + "</td><td><input type='checkbox'  name='goodscheck' ></td><td><a>" + goodsList[i].goodsno + "</a></td> <td>&nbsp;" + goodsList[i].goodsname + "</td> <td>&nbsp;" + goodsList[i].goodsvnum + "</td> <td>&nbsp;" + goodsList[i].booknum + "</td>  <td>&nbsp;" + goodsList[i].goodstolnum + "</td><td>&nbsp;" + goodsList[i].goodsprice+ "</td></tr>");
+                    $('#totalGoodPage').html(totalPage);
+
+                }
+            },
+            error: function (data) {
+                alert("获取商品列表失败");
+            }
+
+        });
+    }
+
+    function selectGoodsByValue(pageNow, value ,select) {
+        var page = pageNow;
+        var username = value;
+        var select =select;
+        var pageSize = 20;
+        $.ajax({
+            type: 'get',
+            url: '/oms/goods/selectGoods',
+            data: {
+                select: select,
+                value: value,
+                nowPage: page,
+                pageSize: pageSize
+            },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                var goodsList = data.goodsAndStatus;
+                var totalPage = data.pageTotal;
+                $('#goodsbody').html("");
+                for (var i in goodsList) {
+                    var id = i * 1 + 1 * 1;
+                    $('#goodsbody').append("<tr><td>" + id + "</td><td><input type='checkbox'  name='goodscheck' ></td><td><a>" + goodsList[i].goodsno + "</a></td> <td>&nbsp;" + goodsList[i].goodsname + "</td> <td>&nbsp;" + goodsList[i].goodsvnum + "</td> <td>&nbsp;" + goodsList[i].booknum + "</td>  <td>&nbsp;" + goodsList[i].goodstolnum + "</td><td>&nbsp;" + goodsList[i].goodsprice+ "</td></tr>");
+                    $('#totalGoodPage').html(totalPage);
+
+                }
+            },
+            error: function (data) {
+                alert("查询商品失败");
+            }
+
+        });
+    }
+
+
+
+    $('#selectgoodsbut').click(
+        function () {
+            var select = $('#selectGoodssle').val();
+            var value = $('#goodsvaluetxt').val();
+            if (value.length == 0) {
+                alert("请输入查询内容");
+            } else {
+                var zzbds2 = /^([\u4E00-\u9FA5]|\w)*$/;
+                if (!zzbds2.test(value)) {
+                    alert("请不要输入特殊符号");
+                } else {
+
+                    if (select=="按名称查询"){
+                        selectGoodsByValue(1,value,"name");
+
+
+                    }else if(select=="按商品编码查询"){
+                        selectGoodsByValue(1,value,"id");
+                    }
+                    $('#preGoodsPage').hide();
+                    $('#nextGoodsPage').hide();
+                    $('#endGoodsPage').hide();
+                }
+            }
+
+        }
+    );
 });

@@ -41,4 +41,7 @@ public interface UserModelService
     boolean isAdmin(String uname);
     //判断用户名是否是管理员
 
+    int checkUnameEXself(String uname,int uid);
+    //查询除参数id以外记录是否有同名用户
+
 }
