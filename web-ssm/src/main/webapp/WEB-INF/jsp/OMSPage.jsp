@@ -801,11 +801,16 @@
                         <li>
                             <label class="listName mt20">仓库编号：</label>
                             <input type="text" class="inputList"   id="warenum" onblur="idendifywhnum(this.id)" >
-                            <span id="whnumdiv" style="font-size:10px;color: red"></span>
                         </li>
+
                         <li>
                             <label class="listName mt20">仓库名：</label>
                             <input type="text" class="inputList"   id="warename" onblur="idendifywhname(this.id)">
+                        </li>
+                        <li class="warn">
+                            <span id="whnumdiv" style="font-size:10px;color: red"></span>
+                        </li>
+                        <li class="warn">
                             <span id="whnamediv" style="font-size:10px;color: red"></span>
                         </li>
                         <li>
@@ -828,6 +833,12 @@
                         <li>
                             <label class="listName mt20">仓库名：</label>
                             <input type="text"class="inputList"   id="updatewhname" onblur="idendifywhname(this.id)">
+                        </li>
+                        <li class="warn">
+                            <span id="whupnumdiv" style="font-size:10px;color: red"></span>
+                        </li>
+                        <li class="warn">
+                            <span id="whupnamediv" style="font-size:10px;color: red"></span>
                         </li>
                         <li>
                             <input type="button" id="saveupdatewh"   value="保存" onclick="updateware(this.name)" class="save mt50">

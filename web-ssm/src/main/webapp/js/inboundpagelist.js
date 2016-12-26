@@ -27,6 +27,7 @@ function inGetnowPage(pagenow){
             document.getElementById("inbtn").disabled=true;
             inboundArray.length=0;//每次分页就将勾选数组初始化
             for(var obj in datalist){
+                if(datalist.hasOwnProperty(obj)){
                 var  list=datalist[obj];
                 var html='<tr><td><input type="checkbox"  id="'+list.oid+'" ' +
                     'onclick="toincheck(this)"  name="inck"></td><td>';
@@ -37,7 +38,7 @@ function inGetnowPage(pagenow){
                     +list.warehouse+'</td><td>' +list.createdtime+'</td><td>'
                     +list.modifytime+'</td><td>' +list.modifyman +'</td></tr>'
                 $("#inboundertab tbody ").append(html);
-            }
+            }}
             inGetNavPage(datapage.totalPageCount,datapage.pageNow);
         },
         error:function(){
@@ -133,7 +134,6 @@ function inpageson(oid,pagenow){
                 {
                     var obj=rglist[i] ;//获取关系表的一个对象
                     var god=gdlist[i];//获取商品表的一个对象
-                    var num=obj.goodnum;//需要显示在页面的部分
                     var html='<tr><td>' + god.goodsno+'</td><td>'
                         + god.goodsname+'</td><td>'+obj.goodnum +'</td><td>'
                         + obj.goodnum+'</td></tr>'

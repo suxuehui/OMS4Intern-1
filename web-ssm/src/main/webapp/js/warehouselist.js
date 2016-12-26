@@ -93,31 +93,56 @@ function  WareGetNavPage(totalpages,currentPage){
 //验证格式warehousenum
 function  idendifywhnum(id)
 {
-    var warenum=document.getElementById(id).value;
-    var regex1=/^[0-9]{4}$/;
-    if (!regex1.test(warenum))
-    {
-        document.getElementById("whnumdiv").innerHTML="仓库编码格式错误，由4位数字组成";
-        return false;
+    var divname;
+    if(id=="warenum"){
+          divname="whnumdiv";
     }
-   else{
-        document.getElementById("whnumdiv").innerHTML="";
+    else{
+          divname="whupnumdiv";
     }
-
+    ifwhnum(id,divname)
 }
 //验证格式warehousename 参数为该标签的id属性值
 function  idendifywhname(id)
 {
+    var divname;
+    if(id=="warename"){
+        divname="whnamediv";
+    }
+    else{
+        divname="whupnamediv";
+    }
+    ifwhname(id,divname)
+
+}
+//验证格式warehousenum
+function  ifwhnum(id,divname)
+{
+    var warenum=document.getElementById(id).value;
+    var regex1=/^[0-9]{4}$/;
+    if (!regex1.test(warenum))
+    {
+        document.getElementById(divname).innerHTML="仓库编码格式错误，由4位数字组成";
+        return false;
+    }
+    else{
+        document.getElementById(divname).innerHTML="";
+    }
+}
+
+
+function ifwhname(id,divname){
     var warename=document.getElementById(id).value;
     var regex1=/^[\u4E00-\u9FA5A-Za-z0-9_]{2,16}$/;
     if (!regex1.test(warename))
     {
-        document.getElementById("whnamediv").innerHTML="名称格式错误，仓库名称是汉字，数字，字母，下划线组成的2-16位字符";
+        document.getElementById(divname).innerHTML="名称格式错误，仓库名称是汉字，数字，字母，下划线组成的2-16位字符";
         return false;
     }
     else{
-        document.getElementById("whnamediv").innerHTML="";
+        document.getElementById(divname).innerHTML="";
     }
+
 }
 
 //当仓库添加成功后就关闭弹窗进入列表页

@@ -14,7 +14,6 @@ a,button,input{outline: none;font-family:"幼圆",sans-serif;font-size:15px}
 .w150{width:150px}
 .w200{width:200px}
 .w350{width:350px}
-.w1200{1200px}
 .w1500{width:1500px}
 .w1550{width:1550px}
 .w1950{width:1950px}
@@ -41,10 +40,10 @@ a,button,input{outline: none;font-family:"幼圆",sans-serif;font-size:15px}
 .order.hide{display:none}
 .orderList{width:200px;height:100%;min-height:676px;background:#FFF}
 .orderListCent{width:200px}
-.orderListCent li{width:170px;height:20px;line-height:20px;border-bottom:1px solid #0CF;background:#FFF;padding-left:30px}
+.orderListCent li{width:170px;height:25px;line-height:25px;border-bottom:1px solid #0CF;background:#FFF;padding-left:30px}
 .orderListCent li a{font-size:15px}
 .orderListCent li.on{background:#efefef}
-.orderListCent li.listTit{height:25px;width:190px;background:#0CF;padding-top:10px;padding-left:10px}
+.orderListCent li.listTit{height:35px;line-height:35px;width:190px;background:#0CF;padding-left:10px}
 .listTit p.listContTit{font-size:18px;font-weight:bold}
 .orderMain{width:1128px;height:100%;min-height:676px;margin-left:10px;border:1px solid #d7d7d7;background:#FFF}
 .orderManage{width:1128px;background:#FFF;position:relative}
@@ -56,7 +55,7 @@ table{margin:0;padding:0;width:100%;font-size:15px;table-layout:fixed}
 .tableTit th,.table.revise .tableTit th{background:#dcdcdc;height:25px;border:1px solid #CCC}
 .table td,.tableDetails td,.table.revise td{border:1px solid #CCC;height:25px;word-wrap:break-word;text-align:center}
 table.orderTable th{background:#dcdcdc;height:25px;margin:0;border:1px solid #CCC}
-table.orderTable td{border:1px solid #CCCl;height:25px}
+table.orderTable td{border:1px solid #CCC;height:25px}
 .orderDetails{width:1128px;background:#FFF;}
 .orderDetails.Item{margin-top:80px}
 .page a{display:inline-block;margin-right:5px;float:right}
@@ -64,40 +63,41 @@ table.orderTable td{border:1px solid #CCCl;height:25px}
 .relatedOrder.hide{display:none}
 .submitBtn{margin-left:10px;margin-top:5px}
 /*popup*/
-.customShow>div,.productShow,.storeShow>div,.leadingInShow{position:fixed;margin:auto;left:0;right:0;top:0;bottom:0;width:640px;height:248px;background-color:#0CF;border:1px solid #f1f1f1;display:none}
-.productShow.revise{height:295px}
+.customShow>div,.productShow,.storeShow>div,.leadingInShow{position:fixed;margin:auto;left:0;right:0;top:0;bottom:0;width:640px;height:258px;background-color:#0CF;border:1px solid #f1f1f1;display:none}
+.productShow.revise{height:340px}
 .iconClose{width:16px;height:16px;background:url(../images/ui-icons_ffffff_256x240.png) no-repeat;background-position:-96px -128px}
 .popupTopTit{font-size:20px;margin-left:5px}
-.popupCont{width:628px;height:216px;background:#FFF;margin:5px}
-.popupCont.revise{height:263px}
-.popupCont ul li{width:628px;height:54px;line-height:54px;text-align:center}
-.popupCont ul li label.listName{display:inline-block;width:100px;text-align:right}
+.popupCont{width:628px;height:226px;background:#FFF;margin:5px}
+.popupCont.revise{height:308px}
+.popupCont ul li{width:628px;height:44px;line-height:44px;text-align:center;display:inline-block;margin-top:10px}
+.popupCont ul li.warn{height:15px;line-height:15px;font-size:15px;color:#F00;text-align:center}
+.popupCont ul li label.listName{display:inline-block;width:100px;text-align:left}
 .customSearch,.productSearch,.storeSearch,.orderSearch{width:100%;height:40px}
 .customSearch ul li,.productSearch ul li,.storeSearch ul li,.orderSearch ul li{float:left;width:100px;height:30px;margin-left:10px}
-.customSearch ul li .btn,.submitBtn,.productSearch ul li .btn,.storeSearch ul li .btn,.orderSearch ul li .btn,.leadingIn
+.customSearch ul li .btn,.submitBtn,.productSearch ul li .btn,.storeSearch ul li .btn,.orderSearch ul li .btn,.leadingIn,.save
 {   width:100px;height:30px;margin-top:5px;
     border-style:none;cursor:pointer;    
     -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
     -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
     box-shadow:inset 0px 1px 0px 0px #ffffff;
     background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #d1d1d1) );
-    background:-moz-linear-gradient( center top, #ffffff 5%, #d1d1d1 100% );
+    background:-moz-linear-gradient(top,#ffffff 5%,#d1d1d1 100% );
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#d1d1d1');
     background-color:#ffffff;
     -moz-border-radius:6px;
     -webkit-border-radius:6px;
     border-radius:6px;
     border:1px solid #dcdcdc;
-    display:inline-block;
+    display:block;
     font-family:"幼圆";
     font-size:16px;
     font-weight:bold;
     text-shadow:1px 1px 0px #ffffff;
 }
-.customSearch ul li .btn:active,.submitBtn:active,.productSearch ul li .btn:active,.storeSearch ul li .btn:active,.orderSearch ul li .btn:active,.leadingIn:active
+.customSearch ul li .btn:active,.submitBtn:active,.productSearch ul li .btn:active,.storeSearch ul li .btn:active,.orderSearch ul li .btn:active,.leadingIn:active,.save:active
 {   
     background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #d1d1d1), color-stop(1, #ffffff) );
-    background:-moz-linear-gradient( center top, #d1d1d1 5%, #ffffff 100% );
+    background:-moz-linear-gradient(top,#d1d1d1 5%,#ffffff 100% );
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#d1d1d1', endColorstr='#ffffff');
     background-color:#d1d1d1;
 }
@@ -106,11 +106,9 @@ table.orderTable td{border:1px solid #CCCl;height:25px}
 .orderSearch.beta ul li .btn.beta{width:50px}
 .orderSearch.beta ul li{float:left;width:50px;height:30px;margin-left:10px}
 .inputList{background:#f4f6f7;height:25px}
-.save{width:50px;height:30px;font-size:15px;border-radius:10px;-webkit-border-radius:10px;-moz-border-radius:10px;outline:none}
+.save{margin:0 auto}
 .leadingInShow .popupCont ul{height:216px}
 .leadingInShow .popupCont ul li{height:216px;line-height:216px}
 .loading{display:none;position:fixed;top:0;left:0; width:100%;height:100%; z-index:99999}
 .loading .mask{position:fixed;top:0;left:0;width:100%;height:100%;background-color:#000;opacity:.8}
 .loading .loading-icon{position:absolute;top:50%;left:50%;margin-left:-40px;margin-top:-40px}
-.goodNum{border:1px solid;text-align: center}
-.goodNum.edit{border: none;text-align: center}
