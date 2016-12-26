@@ -192,19 +192,5 @@ public class UserModelServiceImpl implements UserModelService
         }
     }
 
-    public int checkUnameEXself(String uname, int uid)
-    {
-        /**
-         * @Author: 马潇霄
-         * @Description: 查询除参数id外是否有同名用户，用户修改用户
-         * @Date: 0:09 2016/12/26
-         * @param uname
-         * @param uid
-         * @Return:  
-         */
-
-        return userModelMapper.countUserByNameEXid(uid, uname);
-    }
-
 
 }

@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 
 <!doctype html>
 <html>
@@ -16,10 +16,6 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/css.css">
     <script src="${pageContext.request.contextPath}/js/jquery-3.1.1.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/OMSPage.js"></script>
-
-
-    <script src="${pageContext.request.contextPath}/js/userlistAndGoodslist.js"></script>
-
     <script src="${pageContext.request.contextPath}/js/OrderPage.js"></script>
     <script src="${pageContext.request.contextPath}/js/orderpagelist.js"></script>
     <script src="${pageContext.request.contextPath}/js/innavpagelist.js"></script>
@@ -41,152 +37,137 @@
         <div class="menu fl">
             <div class="menuTit">OMS</div>
             <ul>
-                <c:if test="${urole == 1}">
-                    <li class="on">用户</li>
-                    <li >商品</li>
-                    <li>仓库</li>
-                    <li>订单</li>
-                </c:if>
-
-                <c:if test="${urole == 2}">
-                    <li></li>
-                    <li class="on">商品</li>
-                    <li>仓库</li>
-                    <li>订单</li>
-                </c:if>
+                <li class="on">用户</li>
+                <li>商品</li>
+                <li>仓库</li>
+                <li>订单</li>
             </ul>
         </div>
         <div class="logOut fr"><a>【注销】</a></div>
     </div><!--header结束-->
     <div class="content">
-
-        <c:if test="${urole == 1}">
-            <!--用户模块-->
-            <div class="order">
-                <div class="orderList fl">
-                    <ul>
-                        <li>
-                            <ul class="orderListCent">
-                                <li class="listTit"><p class="listContTit">用户管理</p></li>
-                                <li class="on"><a>用户列表</a></li>
+        <!--用户模块-->
+        <div class="order">
+            <div class="orderList fl">
+                <ul>
+                    <li>
+                        <ul class="orderListCent">
+                            <li class="listTit"><p class="listContTit">用户管理</p></li>
+                            <li><a>用户列表</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!--orderList结束-->
+            <div class="orderMain fl">
+                <div class="orderManage">
+                    <div class="orderTag">
+                        <div class="orderTit">用户列表</div>
+                        <div class="customSearch">
+                            <ul>
+                                <li><input type="button" value="新增用户" class="btn"></li>
+                                <li><input type="button" value="修改用户" class="btn"></li>
+                                <li><input type="button" value="删除用户" class="btn"></li>
                             </ul>
-                        </li>
-                    </ul>
-                </div><!--orderList结束-->
-
-                <div class="orderMain fl">
-                    <div class="orderManage">
-                        <div class="orderTag">
-                            <div class="orderTit">用户列表</div>
-                            <div class="customSearch">
-                                <ul>
-                                    <li><input type="button" value="新增用户" class="btn" ></li>
-                                    <li><input type="button" value="修改用户" class="btn" id="updateUserBut"
-                                               disabled="disabled"></li>
-                                    <li><input type="button" value="删除用户" class="btn" id="deleteUser"></li>
-                                </ul>
-                                <form>
-                                    <input type="button" value="查询" class="submitBtn fr" id="userselectbutton">
-                                    <input type="text" value="名称" class="textArea fr" id="userselectvalue" onFocus="if(value==defaultValue){value='';}">
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="orderDetails">
-                        <div class="tableDetails">
                             <form>
-                                <table cellspacing="0" cellpadding="0">
-                                    <tr class="tableTit">
-                                        <th class="w50">序号</th>
-                                        <th class="w50">批量</th>
-                                        <th>用户名</th>
-                                        <th>密码</th>
-                                        <th>用户角色</th>
-                                    </tr>
-                                    <tbody id="usertbody">
-                                    </tbody>
-                                </table>
+                                <input type="button" value="查询" class="submitBtn fr">
+                                <input type="text" value="名称" class="textArea fr">
                             </form>
                         </div>
-                        <div class="page"><span id="userPageNow" hidden>1</span> <span id="totalUserPage"
-                                                                                       hidden>0</span><a
-                                id="endUserPage">尾页</a><a id="nextUserPage">下一页</a><a id="preUserPage">上一页</a><a
-                                id="firstUserPage">首页</a></div>
-                    </div>
-                </div><!--orderMain结束-->
-            </div>
-            <!--order结束-->
-            <!--用户模块-->
-        </c:if>
-
-        <c:if test="${urole == 2}">
-            <!--用户模块-->
-            <div class="order">
-            </div>
-            <!--order结束-->
-            <!--用户模块-->
-        </c:if>
-
-        <!--商品模块-->
-        <c:if test="${urole == 2}">
-        <div>
-            </c:if>
-            <c:if test="${urole == 1}">
-            <div class="order hide">
-                </c:if>
-                <div class="orderList fl">
-                    <ul>
-                        <li>
-                            <ul class="orderListCent">
-                                <li class="listTit"><p class="listContTit">商品管理</p></li>
-                                <li class="on"><a>商品列表</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div><!--orderList结束-->
-                <div class="orderMain fl">
-                    <div class="orderManage">
-                        <div class="orderTag">
-                            <div class="orderTit">商品列表</div>
-                            <div class="productSearch">
-                                <form>
-                                    <input type="button" value="查询" class="submitBtn fr" id="selectgoodsbut">
-                                    <input type="text" class="textArea fr" id="goodsvaluetxt">
-                                    <select class="selectArea fr" id="selectGoodssle">
-                                        <option id="selectGoodsByNameop">按名称查询</option>
-                                        <option id="selectGoodsByIdop">按商品编码查询</option>
-
-                                    </select>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="orderDetails">
-                        <div class="tableDetails">
-                            <form>
-                                <table cellspacing="0" cellpadding="0">
-                                    <tr class="tableTit">
-                                        <th class="w50">序号</th>
-                                        <th class="w50">批量</th>
-                                        <th>商品编码</th>
-                                        <th>商品名称</th>
-                                        <th>可用库存</th>
-                                        <th>锁定库存</th>
-                                        <th>总库存</th>
-                                        <th>价格</th>
-                                    </tr>
-                                    <tbody id="goodsbody">
-
-                                    </tbody>
-
-                                </table>
-                            </form>
-                        </div>
-                        <div class="page"><span id="goodsPageNow" hidden>1</span> <span id="totalGoodPage" hidden>0</span><a
-                                id="endGoodsPage">尾页</a><a id="nextGoodsPage">下一页</a><a id="preGoodsPage">上一页</a><a
-                                id="firstGoodsPage">首页</a></div>
                     </div>
                 </div>
+                <div class="orderDetails">
+                    <div class="tableDetails">
+                        <form>
+                            <table cellspacing="0" cellpadding="0">
+                                <tr class="tableTit">
+                                    <th class="w50">序号</th>
+                                    <th class="w50">批量</th>
+                                    <th>用户名</th>
+                                    <th>密码</th>
+                                    <th>用户角色</th>
+                                </tr>
+                                <tbody  >
+                                <tr>
+                                    <td>1</td>
+                                    <td><input type="checkbox"></td>
+                                    <td><a></a></td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                    <div class="page"><a>尾页</a><a>下一页</a><a>上一页</a><a>首页</a></div>
+                </div>
+            </div><!--orderMain结束-->
+        </div><!--order结束-->
+        <!--用户模块-->
+        <!--商品模块-->
+        <div class="order hide">
+            <div class="orderList fl">
+                <ul>
+                    <li>
+                        <ul class="orderListCent">
+                            <li class="listTit"><p class="listContTit">商品管理</p></li>
+                            <li><a  >商品列表</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!--orderList结束-->
+            <div class="orderMain fl">
+                <div class="orderManage">
+                    <div class="orderTag">
+                        <div class="orderTit">商品列表</div>
+                        <div class="productSearch">
+                            <form>
+                                <ul>
+                                    <li><input type="button" value="添加"  class="btn"></li>
+                                    <li><input type="button" value="删除"  class="btn"></li>
+                                </ul>
+                                <input type="button" value="查询" class="submitBtn fr">
+                                <input type="text" class="textArea fr">
+                                <select class="selectArea fr">
+                                    <option></option>
+                                    <option></option>
+                                    <option></option>
+                                </select>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="orderDetails">
+                    <div class="tableDetails">
+                        <form>
+                            <table cellspacing="0" cellpadding="0">
+                                <tr class="tableTit">
+                                    <th class="w50">序号</th>
+                                    <th class="w50">批量</th>
+                                    <th>商品编码</th>
+                                    <th>商品名称</th>
+                                    <th>可用库存</th>
+                                    <th>锁定库存</th>
+                                    <th>总库存</th>
+                                    <th>价格</th>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td><input type="checkbox"></td>
+                                    <td></td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+
+                            </table>
+                        </form>
+                    </div>
+                    <div class="page"><a>尾页</a><a>下一页</a><a>上一页</a><a>首页</a></div>
+                </div>
+            </div>
             <!--orderMain结束-->
         </div>
         <!--order结束-->
@@ -709,55 +690,55 @@
         <!--订单模块-->
     </div><!--content结束-->
     <!--弹窗模块-->
-        <div class="popupAll">
-            <div class="customShow">
-                <div>
-                    <div class="popupTop">
-                        <span class="iconClose fr"></span>
-                        <p class="popupTopTit">新增用户</p>
-                    </div>
-                    <div class="popupCont">
-                        <form>
-                            <ul>
-                                <li>
-                                    <label class="listName mt20">用户名：</label>
-                                    <input type="text" class="inputList" id="addUserName">
-                                </li>
-                                <li>
-                                    <label class="listName mt20">密码：</label>
-                                    <input type="text" class="inputList" id="addUserPassword">
-                                </li>
-                                <li>
-                                    <input type="button" value="保存" class="save mt50" id="addUser">
-                                </li>
-                            </ul>
-                        </form>
-                    </div>
+    <div class="popupAll">
+        <div class="customShow">
+            <div>
+                <div class="popupTop">
+                    <span class="iconClose fr"></span>
+                    <p class="popupTopTit">新增用户</p>
                 </div>
-                <div id="updateUserBound">
-                    <div class="popupTop">
-                        <span class="iconClose fr"></span>
-                        <p class="popupTopTit">修改用户</p>
-                    </div>
-                    <div class="popupCont">
-                        <form>
-                            <ul>
-                                <li>
-                                    <label class="listName mt20">新用户名：</label>
-                                    <input type="text" class="inputList" id="updateUserName">
-                                </li>
-                                <li>
-                                    <label class="listName mt20">新密码：</label>
-                                    <input type="text" class="inputList" id="updateUserPassword">
-                                </li>
-                                <li>
-                                    <input type="button" value="保存" class="save mt50" id="updateUser">
-                                </li>
-                            </ul>
-                        </form>
-                    </div>
+                <div class="popupCont">
+                    <form>
+                        <ul>
+                            <li>
+                                <label class="listName mt20">用户名：</label>
+                                <input type="text" class="inputList">
+                            </li>
+                            <li>
+                                <label class="listName mt20">密码：</label>
+                                <input type="text" class="inputList">
+                            </li>
+                            <li>
+                                <input type="button" value="保存" class="save mt50">
+                            </li>
+                        </ul>
+                    </form>
                 </div>
             </div>
+            <div>
+                <div class="popupTop">
+                    <span class="iconClose fr"></span>
+                    <p class="popupTopTit">修改用户</p>
+                </div>
+                <div class="popupCont">
+                    <form>
+                        <ul>
+                            <li>
+                                <label class="listName mt20">新用户名：</label>
+                                <input type="text" class="inputList">
+                            </li>
+                            <li>
+                                <label class="listName mt20">新密码：</label>
+                                <input type="text" class="inputList">
+                            </li>
+                            <li>
+                                <input type="button" value="保存" class="save mt50">
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+        </div>
         <!--customShow结束-->
         <div class="productShow revise">
             <div class="popupTop">
@@ -846,7 +827,7 @@
                 <form id="importForm" action="importOrder" method="post" enctype="multipart/form-data">
                     <ul>
                         <li>
-                            <input type="file" style="font-size:20px" name="file">
+                            <input type="file" style="font-size:20px" name="file" id="orderfile">
                             <input type="button" value="导入" style="font-size:20px" class="leadingBtn" id="importBtn">
                         </li>
                     </ul>

@@ -1,32 +1,26 @@
 package com.arvato.oms.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
-import com.arvato.oms.model.ErrorModel;
 import com.arvato.oms.model.*;
 import com.arvato.oms.service.OrderService;
-import com.arvato.oms.utils.HTTPClientDemo;
+import org.apache.log4j.Logger;
+import org.apache.poi.poifs.filesystem.OfficeXmlFileException;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import javax.persistence.Convert;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.*;
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -37,6 +31,15 @@ import java.util.List;
 @RequestMapping("/order/")
 public class OrderController
 {
+    private Logger log = Logger.getLogger(OrderController.class);
+    private static final String ERRORPAGE="error";
+    private static final String ORDERMODEL="orderModel";
+    private static final String GOODSPOJOLIST="goodsPojoList";
+    private static final String ORDERDETAILS="orderDetails";
+    private static final String UNAME="uname";
+    private static final String SUCCESS="success";
+    private static final String EXCEPTION="exception";
+
     @Resource
     OrderService orderService;
 
@@ -57,17 +60,17 @@ public class OrderController
     {
         if(oId==null)
         {
-            return "error";
+            return ERRORPAGE;
         }
         OrderModel orderModel=orderService.selectByOid(oId);
         if(orderModel==null)
         {
-            return "error";
+            return ERRORPAGE;
         }
         List<GoodsPojo> goodsPojoList=orderService.selectGoodsByOid(oId);
-        model.addAttribute("orderModel",orderModel);
-        model.addAttribute("goodsPojoList",goodsPojoList);
-        return "orderDetails";
+        model.addAttribute(ORDERMODEL,orderModel);
+        model.addAttribute(GOODSPOJOLIST,goodsPojoList);
+        return ORDERDETAILS;
     }
     //取消编辑
     @RequestMapping("cancelEdit")
@@ -76,17 +79,17 @@ public class OrderController
         String oId=request.getParameter("oId");
         if(oId==null)
         {
-            return "error";
+            return ERRORPAGE;
         }
         OrderModel orderModel=orderService.selectByOid(oId);
         if(orderModel==null)
         {
-            return "error";
+            return ERRORPAGE;
         }
         List<GoodsPojo> goodsPojoList=orderService.selectGoodsByOid(oId);
-        model.addAttribute("orderModel",orderModel);
-        model.addAttribute("goodsPojoList",goodsPojoList);
-        return "orderDetails";
+        model.addAttribute(ORDERMODEL,orderModel);
+        model.addAttribute(GOODSPOJOLIST,goodsPojoList);
+        return ORDERDETAILS;
     }
     //修改订单信息
     @RequestMapping("modifyInfo")
@@ -95,12 +98,12 @@ public class OrderController
         String oid=request.getParameter("oId");
         if(oid==null)
         {
-            return "error";
+            return ERRORPAGE;
         }
         OrderModel orderModel=orderService.selectByOid(oid);
         if(orderModel==null)
         {
-            return "error";
+            return ERRORPAGE;
         }
         orderModel.setReceivername(request.getParameter("receiverName"));
         orderModel.setReceivermobel(request.getParameter("receiverMobel"));
@@ -111,12 +114,12 @@ public class OrderController
         orderModel.setDetailaddress(request.getParameter("detailAddress"));
         orderModel.setZipcode(request.getParameter("zipCode"));
         orderModel.setModifytime(new Date());
-        orderModel.setModifyman((String)session.getAttribute("uname"));
+        orderModel.setModifyman((String)session.getAttribute(UNAME));
         orderService.updateByOidSelective(orderModel);
         List<GoodsPojo> goodsPojoList=orderService.selectGoodsByOid(oid);
-        model.addAttribute("orderModel",orderModel);
-        model.addAttribute("goodsPojoList",goodsPojoList);
-        return "orderDetails";
+        model.addAttribute(ORDERMODEL,orderModel);
+        model.addAttribute(GOODSPOJOLIST,goodsPojoList);
+        return ORDERDETAILS;
     }
     //条件查询，分页，模糊查询
     @RequestMapping("queryByCondition")
@@ -160,7 +163,7 @@ public class OrderController
         int exception=0;
         for(int i=0;i<oIds.length;i++)
         {
-            int j=orderService.previewOrder(oIds[i],null,(String)session.getAttribute("uname"));
+            int j=orderService.previewOrder(oIds[i],null,(String)session.getAttribute(UNAME));
             if(j==1)
             {
                 success++;
@@ -171,8 +174,8 @@ public class OrderController
             }
         }
         JSONObject jsonObject=new JSONObject();
-        jsonObject.put("success",success);
-        jsonObject.put("exception",exception);
+        jsonObject.put(SUCCESS,success);
+        jsonObject.put(EXCEPTION,exception);
         return jsonObject;
     }
 
@@ -183,9 +186,8 @@ public class OrderController
         int success=0;
         int exception=0;
         JSONObject jsonObject=new JSONObject();
-        List<ErrorModel> errorModelList=new ArrayList<ErrorModel>();
         for(String str:oIds){
-            int i=orderService.routeOrder(str,(String)session.getAttribute("uname"));
+            int i=orderService.routeOrder(str,(String)session.getAttribute(UNAME));
             if(i==1)
             {
                 success++;
@@ -195,8 +197,8 @@ public class OrderController
                 exception++;
             }
         }
-        jsonObject.put("success",success);
-        jsonObject.put("exception",exception);
+        jsonObject.put(SUCCESS,success);
+        jsonObject.put(EXCEPTION,exception);
         return jsonObject;
     }
 
@@ -207,10 +209,9 @@ public class OrderController
         int success=0;
         int exception=0;
         JSONObject jsonObject=new JSONObject();
-        List<ErrorModel> errorModelList=new ArrayList<ErrorModel>();
         for(String str:oIds)
         {
-            int i=orderService.outboundOrder(str,(String)session.getAttribute("uname"));
+            int i=orderService.outboundOrder(str,(String)session.getAttribute(UNAME));
             if(i==1)
             {
                 success++;
@@ -220,8 +221,8 @@ public class OrderController
                 exception++;
             }
         }
-        jsonObject.put("success",success);
-        jsonObject.put("exception",exception);
+        jsonObject.put(SUCCESS,success);
+        jsonObject.put(EXCEPTION,exception);
         return jsonObject;
     }
     //取消订单
@@ -231,10 +232,9 @@ public class OrderController
         int success=0;
         int exception=0;
         JSONObject jsonObject=new JSONObject();
-        List<ErrorModel> errorModelList=new ArrayList<ErrorModel>();
         for(int i=0;i<oIds.length;i++)
         {
-            int j=orderService.cancleOrder(oIds[i],(String)session.getAttribute("uname"));
+            int j=orderService.cancleOrder(oIds[i],(String)session.getAttribute(UNAME));
             if(j==1)
             {
                 success++;
@@ -244,8 +244,8 @@ public class OrderController
                 exception++;
             }
         }
-        jsonObject.put("success",success);
-        jsonObject.put("exception",exception);
+        jsonObject.put(SUCCESS,success);
+        jsonObject.put(EXCEPTION,exception);
         return jsonObject;
     }
 
@@ -279,47 +279,8 @@ public class OrderController
             //拷贝文件到目录路径
             file.transferTo(targetFile);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.info(e);
         }
-        return analysisExcel(path+File.separator+newfileName);
-    }
-
-    public int analysisExcel(String filePath)
-    {
-        XSSFWorkbook hssfWorkbook=null;
-        try {
-            InputStream is = new FileInputStream(filePath);
-            try {
-                hssfWorkbook = new XSSFWorkbook(is);
-            }catch(Exception e)
-            {
-                e.printStackTrace();
-                return 2;
-            }
-            finally {
-                is.close();
-            }
-            for (int numSheet = 0; numSheet < hssfWorkbook.getNumberOfSheets(); numSheet++) {
-                XSSFSheet hssfSheet = hssfWorkbook.getSheetAt(numSheet);
-                if (hssfSheet == null) {
-                    continue;
-                }
-                // 循环行Row
-                for (int rowNum = 0; rowNum <= hssfSheet.getLastRowNum(); rowNum++) {
-                    XSSFRow hssfRow = hssfSheet.getRow(rowNum);
-                    if (hssfRow != null) {
-                        XSSFCell tradeStr = hssfRow.getCell(0);
-                        orderService.importOrder(tradeStr.toString());
-                    }
-                }
-            }
-        }catch(FileNotFoundException e)
-        {
-            e.printStackTrace();
-        }catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        return 1;
+        return orderService.analysisExcel(path+File.separator+newfileName);
     }
 }

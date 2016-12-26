@@ -1,7 +1,6 @@
 package com.arvato.oms.dao;
 
 import com.arvato.oms.model.RelationogModel;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,6 +30,4 @@ public interface RelationogModelMapper {
     int updateGoodsRnum(int id,int status);
 	
 	int updateByPrimaryKey(RelationogModel record);
-
-    int countBookGoods(@Param("goodsNo")String goodsNo);
 }

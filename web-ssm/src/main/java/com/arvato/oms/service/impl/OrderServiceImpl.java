@@ -10,9 +10,18 @@ import com.arvato.oms.model.*;
 import com.arvato.oms.service.OrderService;
 import com.arvato.oms.utils.HTTPClientDemo;
 import com.arvato.oms.utils.Page;
+import org.apache.poi.poifs.filesystem.OfficeXmlFileException;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -165,6 +174,7 @@ public class OrderServiceImpl implements OrderService
         jObj.put("orderModels",orderModels);
         return jObj;
     }
+    //更新订单
     public int updateByOidSelective(OrderModel record)
     {
         return orderModelMapper.updateByOidSelective(record);
@@ -437,6 +447,7 @@ public class OrderServiceImpl implements OrderService
         jsonObject.put("deliveryOrder",deliveryOrder);
         HTTPClientDemo httpClientDemo=new HTTPClientDemo("http://114.215.252.146:8080/wms/outboundOrder/receiveOrder");
         String response=httpClientDemo.postMethod(jsonObject.toString());
+        System.out.println(jsonObject.toString());
         String code="";
         int cause=0;
         try {
@@ -644,4 +655,41 @@ public class OrderServiceImpl implements OrderService
         return orderModelMapper.selectByoId(oId);
     }
 
+    //解析excel文件
+    public int analysisExcel(String filePath)
+    {
+        XSSFWorkbook hssfWorkbook=null;
+        try {
+            InputStream is = new FileInputStream(filePath);
+            try {
+                hssfWorkbook = new XSSFWorkbook(is);
+            }
+            catch(Exception e)
+            {
+                return 2;
+            }
+            is.close();
+            XSSFSheet hssfSheet = hssfWorkbook.getSheetAt(0);
+            // 循环行Row
+            for (int rowNum = 0; rowNum <= hssfSheet.getLastRowNum(); rowNum++) {
+                XSSFRow hssfRow = hssfSheet.getRow(rowNum);
+                if (hssfRow == null) {
+                    continue;
+                }
+                XSSFCell tradeStr = hssfRow.getCell(0);
+                importOrder(tradeStr.toString());
+            }
+        }catch(FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        catch (OfficeXmlFileException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return 1;
+    }
 }

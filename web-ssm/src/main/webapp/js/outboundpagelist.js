@@ -55,7 +55,7 @@ function outGetnowPage(pagenow){
    function tooutcheck(oid)
    { //id为checkbox的id 属性值 $("#"+oid).is(':checked'):
        // $("[id=oid]:checkbox").prop("checked",false);
-       alert("wwwwwwwwwwww=="+$("#"+oid).is(':checked'))
+       alert(document.getElementById(oid).checked)
 
         if (document.getElementById(oid).checked) {
             outboundArray.push(oid);

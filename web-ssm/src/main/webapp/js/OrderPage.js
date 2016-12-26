@@ -47,6 +47,7 @@ $(function () {
 })
 
 function ordercheck(oid) {
+    alert(document.getElementById(oid).checked);
     if(document.getElementById(oid).checked){
         oidArray.push(oid);
     }

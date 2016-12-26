@@ -43,7 +43,4 @@ public interface UserModelMapper
     int countSelectUser(@Param("uName") String uName);
     //统计查询用户个数
 
-    int countUserByNameEXid(@Param("uId")int uId,@Param("uName") String uName);
-    //查询除参数id外用户名是否冲突
-
 }
