@@ -3,7 +3,8 @@
  */
 var queryMode=1;
 var queryData="";
-window.onload= queryOrder(1,10);
+var orderPageSize=10;
+window.onload= queryOrder(1,orderPageSize);
 function queryOrder(pageNo,pageSize) {
     $.ajax({
         url:"../order/queryByCondition",
@@ -71,35 +72,36 @@ $(function () {
     $("#queryOrderBtn").click(function () {
         queryMode=$("#queryMode option:selected").val();
         queryData=$("#queryOrderCon").val();
-        queryOrder(1,10);
+        queryOrder(1,orderPageSize);
     })
 })
 $(function () {
     $("#firstorder").click(function () {
-        queryOrder(1,10);
+        queryOrder(1,orderPageSize);
     });
 })
 $(function () {
     $("#preorder").click(function () {
         var pageNo=$("#orderPageNo").text()-1;
-        queryOrder(pageNo,10);
+        queryOrder(pageNo,orderPageSize);
     })
 })
 $(function () {
     $("#nextorder").click(function () {
         var pageNo=$("#orderPageNo").text();
-        queryOrder(++pageNo,10);
+        queryOrder(++pageNo,orderPageSize);
     })
 })
 $(function () {
     $("#lastorder").click(function () {
         var pageNo=$("#orderPageTotal").text();
-        queryOrder(pageNo,10);
+        queryOrder(pageNo,orderPageSize);
     })
 })
 /*单双击事件*/
 var time = null;
 var oId=null;
+
 function ordersgclick(oid) {
 
     // 取消上次延时未执行的方法
@@ -107,7 +109,7 @@ function ordersgclick(oid) {
     //执行延时
     time = setTimeout(function(){
         oId=oid;
-        queryGoodsByOid(1,10,oid);
+        queryGoodsByOid(1,orderPageSize,oid);
     },300);
 
 }
@@ -161,23 +163,39 @@ function queryGoodsByOid(pageNo,pageSize,oid) {
             {
                 $("#ogNextpage").show();
             }
+            judgeGoodsChecked();
         }
     })
 }
+//商品跳页
 $(function () {
     $("#ogFirstpage").click(function () {
-        queryGoodsByOid(1,10,oId);
+        queryGoodsByOid(1,orderPageSize,oId);
     });
     $("#ogPrepage").click(function () {
         var pageNo=$("#ogPageNo").text()-1;
-        queryGoodsByOid(pageNo,10,oId);
+        queryGoodsByOid(pageNo,orderPageSize,oId);
     });
     $("#ogNextpage").click(function () {
         var pageNo=$("#ogPageNo").text();
-        queryGoodsByOid(++pageNo,10,oId);
+        queryGoodsByOid(++pageNo,orderPageSize,oId);
     });
     $("#ogLastpage").click(function () {
         var pageNo=$("#ogPageTotal").text();
-        queryGoodsByOid(pageNo,10,oId);
+        queryGoodsByOid(pageNo,orderPageSize,oId);
+
     });
 })
+//判断商品是否选中
+function judgeGoodsChecked() {
+    if(goodsArray.length==0)
+    {
+        return;
+    }
+    for(var i=0;i<goodsArray.length;i++)
+    {
+        $("#"+goodsArray[i]).attr("checked",true);
+        $("#n"+goodsArray[i]).removeAttr("readonly");
+        $("#n"+goodsArray[i]).removeClass("edit");
+    }
+}

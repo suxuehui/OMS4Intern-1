@@ -29,7 +29,7 @@ $(function () {
                     alert("文件格式不对，请选择Excel文件");
                 }
                 $(".loading").hide();
-                queryOrder(1,10);
+                queryOrder(1,orderPageSize);
             }
         })
     })
@@ -176,7 +176,7 @@ $(function () {
                 }
                 alert(content);
                 var pageNo=$("#orderPageNo").text();
-                queryOrder(pageNo,10);
+                queryOrder(pageNo,orderPageSize);
             }
         })
     })
@@ -195,7 +195,7 @@ $(function () {
                 var exception=data.exception;
                 alert("success:"+success+"'\n'exception:"+exception);
                 var pageNo=$("#orderPageNo").text();
-                queryOrder(pageNo,10);
+                queryOrder(pageNo,orderPageSize);
             }
         })
     })
@@ -214,7 +214,7 @@ $(function () {
                 var exception=data.exception;
                 alert("success:"+success+"'\n'exception:"+exception);
                 var pageNo=$("#orderPageNo").text();
-                queryOrder(pageNo,10);
+                queryOrder(pageNo,orderPageSize);
             }
         })
     })
@@ -233,7 +233,7 @@ $(function () {
                 var exception=data.exception;
                 alert("success:"+success+"'\n'exception:"+exception);
                 var pageNo=$("#orderPageNo").text();
-                queryOrder(pageNo,10);
+                queryOrder(pageNo,orderPageSize);
             }
         })
     })
@@ -241,7 +241,16 @@ $(function () {
 //商品勾选框
 var goodsArray=new Array();
 function goodCheck(goodsno) {
+    if(oidArray.length==0||oidArray.length>1)
+    {
+        return;
+    }
     if(oidArray.length==1&&document.getElementById(goodsno).checked){
+        var oid=$("#goodsOid").text();
+        if(oid!=oidArray[0])
+        {
+            return;
+        }
         goodsArray.push(goodsno);
         $("#n"+goodsno).removeAttr("readonly");
         $("#n"+goodsno).removeClass("edit");
@@ -314,3 +323,4 @@ $(function () {
         returnOrExchange(oidArray[0],"change");
     })
 })
+

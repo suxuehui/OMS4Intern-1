@@ -655,11 +655,6 @@ public class OrderServiceImpl implements OrderService
         orderModelMapper.updateOrder(orderStatus,oid);
     }
 
-    //根据订单号查询该条退货单记录
-    public OrderModel selectByoId(String oId) {
-        return orderModelMapper.selectByoId(oId);
-    }
-
     //解析excel文件
     public int analysisExcel(String filePath)
     {

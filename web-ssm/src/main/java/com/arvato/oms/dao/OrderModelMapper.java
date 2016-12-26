@@ -14,8 +14,6 @@ public interface OrderModelMapper
 
     int selectCount();
 
-    OrderModel selectByoId(String oId);
-
     int deleteByPrimaryKey(Integer id);
 
     int insert(OrderModel record);
