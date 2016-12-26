@@ -43,14 +43,13 @@ function wareGetnowPage(pagenow){
         }
     });
 }
-
 // 页面分页 totalpages  总页数   currentPage  当前页数  waredivpage  div的id属性
 function  WareGetNavPage(totalpages,currentPage){
-    var output = "<h5>第" + currentPage + "页 / 共" + totalpages + "页</h5>";
+    var output ;
     if (totalpages > 1) {
         if (currentPage != 1) {
             //处理首页连接
-            output += "<a class='pageLink' href='javascript:void(0)' onclick='wareGetnowPage(1)'>首页</a> ";
+            output  = "<a class='pageLink' href='javascript:void(0)' onclick='wareGetnowPage(1)'>首页</a> ";
         }
         if (currentPage > 1) {
             var lastpage = currentPage - 1;

@@ -7,10 +7,11 @@
 * */
 
 function  outGetNavPage(totalpages,currentPage){
+    var output;
     if (totalpages > 1) {
         if (currentPage != 1) {
             //处理首页连接
-            output += "<a class='pageLink' href='javascript:void(0)' onclick='outGetnowPage(1)'>首页</a> ";
+            output = "<a class='pageLink' href='javascript:void(0)' onclick='outGetnowPage(1)'>首页</a> ";
         }
         if (currentPage > 1) {
             var lastpage = currentPage - 1;
