@@ -37,7 +37,6 @@ public class OmsOpenInterfaceController {
     public String updateOutboundOrder(@RequestBody String updateOutboundOrder_message, HttpServletRequest request){
         //获得从client传来的json对象
         JSONObject object = JSONObject.fromObject(updateOutboundOrder_message);
-        System.out.println("objectwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"+object);
         if(object==null){//未获得从client传来的json对象
             return "{\"msg\":\"200\"}";
         }

@@ -659,7 +659,7 @@
                                         <li><input type="button" value="查看订单"  class="btn beta" disabled="disabled" id="refoundOrder_inbtn" onclick="refoundOrder_details()"></li>
                                     </ul>
                                     <input type="button" value="查询" class="submitBtn fr" id="refoundOrderSearch" onclick="refoundGetnowPage(1)">
-                                    <input type="text" class="textArea fr" name="refoundOrderTxt" id="refoundOrderTxt">
+                                    <input type="text" class="textArea fr" name="refoundTxt" id="refoundOrderTxt">
                                     <select class="selectArea fr" name="refoundToseachid" id="refoundOrderSelectid">
                                         <option value="1" selected>退款单号</option>
                                         <option value="2">退款状态</option>

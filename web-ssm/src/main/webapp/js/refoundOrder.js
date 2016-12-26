@@ -15,7 +15,7 @@ function refoundGetnowPage(pagenow){
         data : {
             currentpage: s1,
             refoundToseachid: optxt,
-            txtvalue: search_value
+            refoundTxt: search_value
         },
         contentType: "application/json; charset=utf-8",
         dataType:"json",
@@ -32,8 +32,8 @@ function refoundGetnowPage(pagenow){
                 var html='<tr><td>'+i+'</td><td><input type="checkbox" value="'+list.returnedid+'" name="refoundOrder_ck" onclick="refoundOrder_getReturnedId()" ></td><td>';
                 html+= '<button id="'+list.returnedid+'" style="border-style:none;outline:none;" ' +
                     'ondblclick="refounddbClick(this.id)" onclick="refoundsingleClick(this.id)">'+list.drawbackid+'</button>'+
-                    '</td><td>';
-                html+='</td><td>'+list.drawbackmoney+'</td><td>'
+                    '</td>';
+                html+='<td>'+list.drawbackmoney+'</td><td>'
                     +list.drawbackstatus+'</td><td>'+list.returnedid+'</td><td>' +list.createtime+'</td><td>'
                     +list.modifytime+'</td><td>' +list.modifyman+'</td></tr>'
                 $("#refoundOrdertable1 tbody ").append(html);
@@ -63,7 +63,7 @@ function refoundsingleClick(returnedId) {
 function refounddbClick(returnedId) {
     exceptionDb = true;
     alert("测试双击"+returnedId+"--"+exceptionDb)
-    window.open("details?returnedId="+returnedId);
+    window.open("../refoundOrder/details?returnedId="+returnedId);
 }
 
 
@@ -130,7 +130,7 @@ function refoundOrder_getReturnedId() {
     {
         if(a[i].checked){
             var info = (info + a[i].value) + (((i + 1)== a.length) ? '':',');
-            //alert(info);
+            $("#refoundOrder_inbtn").attr("disabled",false);
         }
     }
     return info;
@@ -141,13 +141,17 @@ function refoundOrder_details(){
     var returnedId2 = refoundOrder_getReturnedId();
     var Array = returnedId2.split(",");
     if(Array.length>1){
-        //alert("s="+Array[1]);
         if(Array[1]==[]){//选中第一条数据时，其后会有一个逗号，需将其判断出来
             returnedId3 = Array[0];
             window.open("../refoundOrder/details?returnedId="+returnedId3);
         }else{
             alert("一次只能查看一条订单的信息");
-            //document.getElementById("exception_inbtn").disabled=false;
+            var excheck = document.getElementsByName("refoundOrder_ck");
+            for(var i=0;i<excheck .length;i++)
+            {
+                excheck[i].checked=false;
+                $("#refoundOrder_inbtn").attr("disabled",true);
+            }
         }
     }
     else
@@ -171,7 +175,12 @@ function drawback(){
             window.open("../refoundOrder/drawback?returnedId3="+returnedId3);
         }else{
             alert("一次只能操作一条退款单");
-            //document.getElementById("exception_inbtn").disabled=false;
+            var excheck = document.getElementsByName("refoundOrder_ck");
+            for(var i=0;i<excheck .length;i++)
+            {
+                excheck[i].checked=false;
+                $("#refoundOrder_inbtn").attr("disabled",true);
+            }
         }
     }
     else
