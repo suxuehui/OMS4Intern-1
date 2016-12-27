@@ -21,4 +21,6 @@ public interface RefoundOrderService {
     //子页面显示
     String listRefoundOrderSon(HttpServletRequest request);
 
+    //更新退款单状态为已退款
+    void updataRefoundDrawbackId(String drawbackStatus,String drawbackId);
 }

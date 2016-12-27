@@ -15,7 +15,7 @@ function refoundGetnowPage(pagenow){
         data : {
             currentpage: s1,
             refoundToseachid: optxt,
-            refoundTxt: search_value
+            refoundOrderTxtvalue: search_value
         },
         contentType: "application/json; charset=utf-8",
         dataType:"json",
@@ -171,8 +171,19 @@ function drawback(){
     if(Array.length>1){
         if(Array[1]==[]){//选中第一条数据时，其后会有一个逗号，需将其判断出来
             returnedId3 = Array[0];
-            //alert("returnedId3:"+returnedId3);
-            window.open("../refoundOrder/drawback?returnedId3="+returnedId3);
+            var parm = {returnedId3: returnedId3};//将参数传到后台
+            $.post("../refoundOrder/drawback", parm, function (data) {
+                    window.onload= refoundGetnowPage(1);
+                    var msg=data.msg;
+                    if(msg==666){
+                        alert("退款成功");
+                    }else if(msg==777){
+                        alert("随机数退款失败");
+                    }else if(msg==123){
+                        alert("退款失败");
+                    }
+                },"json"
+            );
         }else{
             alert("一次只能操作一条退款单");
             var excheck = document.getElementsByName("refoundOrder_ck");
@@ -188,7 +199,19 @@ function drawback(){
         for(var i=0;i<Array.length;i++){
             //alert(Array[i]);;
             returnedId3 = Array[i];
-            window.open("../refoundOrder/drawback?returnedId3="+returnedId3);
+            var parm2 = {returnedId3: returnedId3};//将参数传到后台
+            $.post("../refoundOrder/drawback", parm2, function (data) {
+                    window.onload= refoundGetnowPage(1);
+                    var msg=data.msg;
+                    if(msg==666){
+                        alert("退款成功");
+                    }else if(msg==777){
+                        alert("随机数退款失败");
+                    }else if(msg==123){
+                        alert("退款失败");
+                    }
+                },"json"
+            );
         }
     }
 }

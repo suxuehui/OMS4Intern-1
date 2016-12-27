@@ -8,12 +8,12 @@ function  refoundGetPage(totalpages,currentPage){
     if (totalpages > 1) {
         if (currentPage != 1) {
             //处理首页连接
-            output += "<a class='pageLink' href='javascript:void(0)' onclick='GetnowPage(1)'>首页</a> ";
+            output += "<a class='pageLink' href='javascript:void(0)' onclick='refoundGetnowPage(1)'>首页</a> ";
         }
         if (currentPage > 1) {
             var lastpage = currentPage - 1;
             //处理上一页的连接
-            output += "<a class='pageLink' href='javascript:void(0)' onclick='GetnowPage("+lastpage+")'>上一页</a> ";
+            output += "<a class='pageLink' href='javascript:void(0)' onclick='refoundGetnowPage("+lastpage+")'>上一页</a> ";
         }
         else {
         }
@@ -26,11 +26,11 @@ function  refoundGetPage(totalpages,currentPage){
             if ((currentPage + i - currint) >= 1 && (currentPage + i - currint) <= totalpages) {
                 if (currint == i) {
                     //当前页处理
-                    output += "<a class='cpb' href='javascript:void(0)' onclick='GetnowPage("+currentPage+")'>" + currentPage + "</a> ";
+                    output += "<a class='cpb' href='javascript:void(0)' onclick='refoundGetnowPage("+currentPage+")'>" + currentPage + "</a> ";
                 }
                 else {
                     //一般页处理
-                    output += "<a class='pageLink' href='javascript:void(0)' onclick='GetnowPage("+page+")'>" + page + "</a> ";
+                    output += "<a class='pageLink' href='javascript:void(0)' onclick='refoundGetnowPage("+page+")'>" + page + "</a> ";
                 }
             }
             output += " ";
@@ -38,13 +38,13 @@ function  refoundGetPage(totalpages,currentPage){
         if (currentPage < totalpages) {
             var nextpage = currentPage + 1;
             //处理下一页的链接
-            output += "<a class='pageLink' href='javascript:void(0)' onclick='GetnowPage(" + nextpage + ")'>下一页</a> ";
+            output += "<a class='pageLink' href='javascript:void(0)' onclick='refoundGetnowPage(" + nextpage + ")'>下一页</a> ";
         }
         else {
         }
         output += " ";
         if (currentPage != totalpages) {
-            output += "<a class='pageLink' href='javascript:void(0)' onclick='GetnowPage(" + totalpages + ")'>末页</a> ";
+            output += "<a class='pageLink' href='javascript:void(0)' onclick='refoundGetnowPage(" + totalpages + ")'>末页</a> ";
         }
         output += " ";
     }

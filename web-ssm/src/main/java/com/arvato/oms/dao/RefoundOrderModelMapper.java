@@ -25,6 +25,9 @@ public interface RefoundOrderModelMapper {
     //精确匹配 通过returnedId选出所有信息
     RefoundOrderModel  selectByReturnedId(String returnedId);
 
+    //更新退款单状态为已退款
+    void updataRefoundDrawbackId(String drawbackStatus,String drawbackId);
+
     int deleteByPrimaryKey(Integer id);
 
     int insert(RefoundOrderModel record);

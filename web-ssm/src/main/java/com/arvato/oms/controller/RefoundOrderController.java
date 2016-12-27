@@ -52,7 +52,6 @@ public class RefoundOrderController {
         return  str;
     }
 
-
     //子页面显示
     @RequestMapping(value="listRefoundOrderSon")
     @ResponseBody
@@ -96,6 +95,7 @@ public class RefoundOrderController {
 
     //调退款接口
     @RequestMapping(value="drawback")
+    @ResponseBody
     public String refoundInterface(HttpServletRequest request, HttpServletResponse response) {
         String returnedId3=request.getParameter("returnedId3");
         RefoundOrderModel refoundOrderModel = refoundOrderServiceImpl.selectByReturnedId(returnedId3);
@@ -117,6 +117,7 @@ public class RefoundOrderController {
         object.put("originNumbers",channelOid);//渠道订单号
         object.put("refundment",drawbackMoney);//退款金额
         object.put("refundAccount",buyerAlipayNo);//退款账号
+        System.out.println("-----------------------------------OBJECT:"+object.toString());
         HTTPClientDemo httpClientDemo = new HTTPClientDemo("http://114.215.252.146:8080/DGFORQ3/oms/api/v1/refund");
         //得到返回信息
         String return_information = httpClientDemo.postMethod(object.toString());
@@ -131,6 +132,23 @@ public class RefoundOrderController {
             e.printStackTrace();
             System.out.println("连接异常");
         }
-        return code;
+        if("666".equals(code))
+        {
+            System.out.println("退款成功");
+            //将退款状态改为已退款
+            String drawbackStatus = "已退款";
+            refoundOrderServiceImpl.updataRefoundDrawbackId(drawbackStatus,drawbackId);
+            return "{\"msg\":\"666\"}";
+        }
+        else if("777".equals(code))
+        {
+            System.out.println("随机数退款失败");
+            return "{\"msg\":\"777\"}";
+        }
+        else
+        {
+            System.out.println("退款失败");
+            return "{\"msg\":\"123\"}";
+        }
     }
 }
