@@ -15,6 +15,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by ZHOU169 on 2016/12/16.
@@ -77,6 +79,11 @@ public class OmsOpenInterfaceController {
             String expressId = outbound_message.getString("expressId");
             if(expressId==null){
                 return "{\"msg\":\"307\"}";//快递单号不能为空
+            }
+            Pattern pattern = Pattern.compile("[0-9]*");
+            Matcher isNum = pattern.matcher(expressId);
+            if( !isNum.matches() ){
+                return "{\"msg\":\"309\"}";//快递单号格式错误
             }
             String orderStatus="已发货";
             //向出库表中添加快递公司，快递单号,仓库出库单号的信息,以及修改出库单状态，订单状态
