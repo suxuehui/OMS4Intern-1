@@ -3,7 +3,8 @@
  */
 
 /*出库单子页面的分页js*/
-function outpagelistson(totalpages,currentPage,outsonpl,oid){
+function outpagelistson(totalpages,currentPage ,oid){
+    oid= oid.substring(2);//截取字符串
    var output="";
     if (totalpages > 1) {
         if (currentPage != 1) {
@@ -36,6 +37,7 @@ function outpagelistson(totalpages,currentPage,outsonpl,oid){
         if (currentPage < totalpages) {
             var nextpage = currentPage + 1;
             //处理下一页的链接
+            alert("出库单子也米娜下一页sssss+"+oid+"---"+nextpage)
             output += "<a class='pageLink' href='javascript:void(0)' onclick='outpageson("+oid+","+ nextpage + ")'>下一页</a> ";
         }
         output += " ";

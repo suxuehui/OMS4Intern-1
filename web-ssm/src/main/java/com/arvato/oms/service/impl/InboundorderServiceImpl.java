@@ -6,14 +6,13 @@ import com.arvato.oms.dao.InboundorderModelMapper;
 import com.arvato.oms.dao.RelationogModelMapper;
 import com.arvato.oms.model.GoodsModel;
 import com.arvato.oms.model.InboundorderModel;
-import com.arvato.oms.model.OutboundorderModel;
 import com.arvato.oms.model.RelationogModel;
 import com.arvato.oms.service.InboundorderService;
 import com.arvato.oms.utils.ObjectToJsonstr;
 import com.arvato.oms.utils.Page;
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +38,7 @@ public class InboundorderServiceImpl implements InboundorderService {
         String pageNow = request.getParameter("currentpage");//获取当前页数pagenow
         String id=request.getParameter("txtvalue"); //用户输入的值id
         int selectvalue= Integer.parseInt(request.getParameter("toseachid"))  ;//下拉框的value
-        int pagesize=2;//分页的每页显示的数量
+        int pagesize=10;//分页的每页显示的数量
         Page pagelist=null;
         List<InboundorderModel> list=null;
         int totalCount=0 ; //获取对象总数量
@@ -193,14 +192,27 @@ public class InboundorderServiceImpl implements InboundorderService {
     public String listSonPage(HttpServletRequest request)
     {
         String oid = request.getParameter("oid");//获取订单oid
-        List<OutboundorderModel> list;
+        String pagenow=request.getParameter ("currentpage");//获取当前页
+        List<RelationogModel> roglist ;
+        Page pagelist ;
+        int pagesize=5;
         int totalCount ; //获取对象总数量
-        //查询出库单列表
-        InboundorderModel iodlist=ibodao.selectByOid(oid);
-        //获取商品编码  查询关系表
-        List<RelationogModel> roglist=rogdao.selectAllByOid(oid);
         //获取商品实体 查询商品表
         List<Object> godslist=new ArrayList<Object>();
+        //查询入库单列表
+        InboundorderModel iodlist=ibodao.selectByOid(oid);
+        totalCount=  this.rogdao.selectCount(oid); //获取总数
+        if (pagenow != null)
+        {
+            //调用Page工具类传入参数Integer pageNo,Integer pageSize,String oId
+            pagelist =new  Page(totalCount, Integer.parseInt(pagenow),pagesize);
+            roglist=this.rogdao.selectByOid(pagelist.getStartPos(), pagelist.getPageSize(),oid );
+        }
+        else
+        {
+            pagelist = new  Page(totalCount, 1,pagesize);
+            roglist=this.rogdao.selectByOid (pagelist.getStartPos(), pagelist.getPageSize(),oid);
+        }
 
         for(int i=0;i<roglist.size();i++){
             //获取商品编号
@@ -209,12 +221,13 @@ public class InboundorderServiceImpl implements InboundorderService {
             GoodsModel gm= gddao.selectByGoodsNo(sno);
             godslist.add(gm);
         }
-
         //对象转JSON
+        JSONObject a0= JSONObject.fromObject(pagelist);
+        String jsonstr="{\"pagelist\":"+a0.toString();//分页
         JSONArray a1= JSONArray.fromObject(iodlist);
-        String jsonstr="{\"obolist\":"+a1.toString(); //出库单列表
+        jsonstr +=",\"obolist\":"+a1.toString(); //出库单列表
         JSONArray a2 = JSONArray.fromObject(godslist);   //商品列表
-        jsonstr +=",\"goods\":"+a2.toString();
+        jsonstr +=",\"gdslist\":"+a2.toString();
         JSONArray a3 = JSONArray.fromObject(roglist );   //商品与订单关系列表
         jsonstr +=",\"rglist\":"+a3.toString()+"}";
         return jsonstr;

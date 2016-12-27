@@ -11,6 +11,7 @@ import com.arvato.oms.service.OutboundorderService;
 import com.arvato.oms.utils.ObjectToJsonstr;
 import com.arvato.oms.utils.Page;
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -40,7 +41,7 @@ public class OutboundorderServiceImpl implements OutboundorderService
         String pageNow = request.getParameter("currentpage");//获取当前页数pagenow
         String id=request.getParameter("txtvalue").trim(); //用户输入的值id
         int selectvalue= Integer.parseInt(request.getParameter("toseachid"))  ;//下拉框的value
-        int pagesize=2;//每页显示的行数
+        int pagesize=10;//每页显示的行数
         Page pagelist=null;
         List<OutboundorderModel> list=null;
         int totalCount=0 ;//获取对象总数量
@@ -158,12 +159,27 @@ public class OutboundorderServiceImpl implements OutboundorderService
     public String listSonPage(HttpServletRequest request)
     {
         String oid = request.getParameter("oid");//获取订单oid
-        List<OutboundorderModel> list;
+        String pagenow=request.getParameter ("currentpage");//获取当前页
+        List<RelationogModel> roglist ;
         int totalCount ; //获取对象总数量
-        //查询出库单列表
-        OutboundorderModel obolist=outboundorderModelMapper.selectByOid(oid);
-        //获取商品编码  查询关系表
-        List<RelationogModel> roglist=rogdao.selectAllByOid(oid);
+         //通过oid精确查询出库单信息
+        OutboundorderModel  obolist=outboundorderModelMapper.selectByOid(oid);
+
+        Page pagelist ;
+        int pagesize=5;
+        totalCount=  this.rogdao.selectCount(oid); //获取总数
+        if (pagenow != null)
+        {
+            //调用Page工具类传入参数Integer pageNo,Integer pageSize,String oId
+            pagelist =new  Page(totalCount, Integer.parseInt(pagenow),pagesize);
+            roglist=this.rogdao.selectByOid(pagelist.getStartPos(), pagelist.getPageSize(),oid );
+        }
+        else
+        {
+            pagelist = new  Page(totalCount, 1,pagesize);
+            roglist=this.rogdao.selectByOid (pagelist.getStartPos(), pagelist.getPageSize(),oid);
+        }
+
         //获取商品实体 查询商品表
         List<Object> godslist=new ArrayList<Object>();
         for(int i=0;i<roglist.size();i++){
@@ -174,10 +190,12 @@ public class OutboundorderServiceImpl implements OutboundorderService
             godslist.add(gm);
         }
         //对象转JSON
+        JSONObject a0= JSONObject.fromObject(pagelist);
+        String jsonstr="{\"pagelist\":"+a0.toString();//分页
         JSONArray a1= JSONArray.fromObject(obolist);
-        String jsonstr="{\"obolist\":"+a1.toString(); //出库单列表
+        jsonstr +=",\"obolist\":"+a1.toString(); //出库单列表
         JSONArray a2 = JSONArray.fromObject(godslist);   //商品列表
-        jsonstr +=",\"goods\":"+a2.toString();
+        jsonstr +=",\"gdslist\":"+a2.toString();
         JSONArray a3 = JSONArray.fromObject(roglist );   //商品与订单关系列表
         jsonstr +=",\"rglist\":"+a3.toString()+"}";
         return jsonstr;

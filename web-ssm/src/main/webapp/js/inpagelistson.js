@@ -2,7 +2,8 @@
  * Created by GONG036 on 2016/12/11.
  */
 
-function inpagelistson(totalpages,currentPage,insonpl,oid){
+function inpagelistson(totalpages,currentPage ,oid){
+    oid= oid.substring(2);//截取字符串
     var output = "";
     if (totalpages > 1) {
         if (currentPage != 1) {

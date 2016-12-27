@@ -98,43 +98,39 @@ function outGetnowPage(pagenow){
 //双击跳转详细页面
     function outdblclick(oid) {
         outisdb = true;
-
         window.open("../outboundorder/details?oid=" + oid);
     }
 
 //单击跳转子页面
     function outpostOid(oid) {
+        oid=oid.substring(2);//截取字符串
         outpageson(oid, 1);
     }
 
-//子页面分页展示
+//子页面分页展示outpageson
     function outpageson(oid, pagenow) {
+        oid="OO"+oid;//补全oid字符串
         $.ajax({
             type: 'get',
             url: '../outboundorder/listobolson',
             data: {
                 oid: oid,
+                currentpage:pagenow,
             },
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
+                alert(data)
                 var outboindid = data.obolist[0].outboundid;//出库单号
                 var warehouseobid = data.obolist[0].warehouseobid;//仓库出库单号
                 var rglist = data.rglist;
-                var gdlist = data.goods;
-                var listtotalcount = rglist.length;//数据的总数
-                var pagesize = 2;    //每页展示行数
-                var totalpages;
-                var count = listtotalcount % pagesize;//判断奇偶数
-                totalpages = parseInt(listtotalcount / pagesize);//共多少页数
-                if (count != 0) {
-                    totalpages += 1;
-                }
+                var gdlist = data.gdslist;
+                var datapage = data.pagelist;
+
+                alert("lalalla"+rglist+">>>>>>"+gdlist)
+
                 $("#outboundertabson tbody tr").eq(0).nextAll().remove();
                 for (var i in rglist) {
-                    //显示第几页数据
-                    if (pagesize * (pagenow - 1) <= i && i < pagesize * pagenow) //？？？？？？？
-                    {
                         var obj = rglist[i];//获取关系表的一个对象
                         var god = gdlist[i];//获取商品表的一个对象
                         var html = '<tr><td>' + outboindid + '</td><td>'
@@ -143,8 +139,7 @@ function outGetnowPage(pagenow){
                             + obj.goodnum + '</td></tr>'
                         $("#outboundertabson tbody  ").append(html);
                     }
-                }
-                outpagelistson(totalpages, pagenow, outsonpl, oid);
+                outpagelistson(datapage.totalPageCount,datapage.pageNow , oid);
             },
             error: function () {
                 alert("error");

@@ -9,7 +9,8 @@ import java.util.List;
 public interface RelationogModelMapper {
     //通过returnedId选出商品与退款关系表的数据
 	List<RelationogModel> selectMessageByOid(String oid);
-	
+
+    //通过oid获取总数
     int selectCount(String oId);
 
     int deleteByPrimaryKey(Integer id);
@@ -24,6 +25,7 @@ public interface RelationogModelMapper {
 
     RelationogModel selectByPrimaryKey(Integer id);
 
+    //分页取得商品列
     List<RelationogModel> selectByOid(Integer pageNo,Integer pageSize,String oId);
 
     int updateByPrimaryKeySelective(RelationogModel record);

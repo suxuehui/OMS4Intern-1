@@ -60,7 +60,6 @@ public class OutboundorderController {
         List<RelationogModel> roglist=rogserviceimpl.selectALLByOid(oid);
         //获取商品实体 查询商品表
         List<Object> godslist=new ArrayList<Object>();
-
         for(int i=0;i<roglist.size();i++){
             GoodsPojo gp=new GoodsPojo();
             //获取商品编号

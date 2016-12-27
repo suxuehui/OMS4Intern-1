@@ -41,7 +41,6 @@ function  inGetNavPage(totalpages,currentPage,indivpage){
             //处理下一页的链接
             output += "<a class='pageLink' href='javascript:void(0)' onclick='inGetnowPage(" + nextpage + ")'>下一页</a> ";
         }
-
         output += " ";
         if (currentPage != totalpages) {
             output += "<a class='pageLink' href='javascript:void(0)' onclick='inGetnowPage(" + totalpages + ")'>末页</a> ";

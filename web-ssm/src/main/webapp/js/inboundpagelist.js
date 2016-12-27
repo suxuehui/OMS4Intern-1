@@ -103,44 +103,36 @@ function indblclick(oid) {
 //单击跳转子页面
 function  inpostOid(oid)
 {
+    oid=oid.substring(2);//截取字符串
     inpageson(oid,1);
 }
 
 function inpageson(oid,pagenow){
+    oid="OO"+oid;//补全oid字符串
     $.ajax({
         type : 'get',
         url :'/oms/inboundorder/listinodson',
         data : {
             oid:oid,
+            currentpage:pagenow
         },
         contentType: "application/json; charset=utf-8",
         dataType:"json",
         success:function (data) {
-            var rglist=data.rglist;
-            var gdlist=data.goods;
-            var listtotalcount =rglist.length;//数据的总数
-            var pagesize=2;//每页展示行数
-            var totalpages;
-            var count=listtotalcount%pagesize;//判断奇偶数
-            totalpages=parseInt(listtotalcount/pagesize);//共多少页数
-            if(count!=0){
-                totalpages+=1;
-            }
+            var rglist = data.rglist;
+            var gdlist = data.gdslist;
+            var datapage = data.pagelist;
             $("#inboundertabson tbody tr").eq(0).nextAll().remove();
             for(var i in rglist)
             {
-                //显示第几页数据
-                if( pagesize*(pagenow-1)<=i && i< pagesize*pagenow) //？？？？？？？
-                {
                     var obj=rglist[i] ;//获取关系表的一个对象
                     var god=gdlist[i];//获取商品表的一个对象
                     var html='<tr><td>' + god.goodsno+'</td><td>'
                         + god.goodsname+'</td><td>'+obj.goodnum +'</td><td>'
                         + obj.goodnum+'</td></tr>'
                     $("#inboundertabson tbody  ").append(html);
-                }
             }
-            inpagelistson(totalpages, pagenow,oid);
+            inpagelistson(datapage.totalPageCount,datapage.pageNow , oid);
         },
         error:function () {
             alert("error");
