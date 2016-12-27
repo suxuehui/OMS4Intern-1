@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface ReturnedModelService
 {
-    public int cancelReturn(List<Integer> ids);
+    public int cancelReturn(Integer id);
     //取消退货单（更新退货单状态为已取消）
 
     public JSONObject getAllReturnedOrders(int pageNow, int num);
@@ -29,9 +29,15 @@ public interface ReturnedModelService
     public String createOutboundOrders(String returnedId);
     //换货发货，生成出库单
 
-    public String checkInBound(String returnedId);
+    public String checkInBound(Integer returnedId);
 
     //根据退款单号查询该条退货单记录
     ReturnedModel selectByReturnedId(String returnedId);
+
+    JSONObject getReturnedAndGoodsByid(Integer id);
+    //根据id查询退货单和商品信息（用于退货单详情页面）
+
+    String getStatus(Integer id);
+    //根据查询退货单状态
 
 }

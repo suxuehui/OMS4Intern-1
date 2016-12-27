@@ -27,7 +27,7 @@ public interface ReturnedModelMapper {
 	
 	ReturnedModel selectByOid(String oId);
 
-    int updateStatusToDisable(@Param("ids")List<Integer> ids,@Param("returnedstatus")String returnedstatus);
+    int updateStatusToDisable(@Param("id") Integer id,@Param("returnedstatus")String returnedstatus);
 
     int countReturnedOrders();
 
@@ -61,4 +61,5 @@ public interface ReturnedModelMapper {
 
     int updateReturnedStatus(@Param("returnedId") String returnedId,@Param("returnedstatus")String returnedstatus);
     //更新一条退货单状态
+
 }

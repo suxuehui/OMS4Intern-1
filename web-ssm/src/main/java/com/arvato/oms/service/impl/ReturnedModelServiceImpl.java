@@ -47,7 +47,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
     @Resource
     RefoundOrderModelMapper refoundOrderModelMapper;
 
- @Resource
+    @Resource
     OrderModelMapper orderModelMapper;
 
     @Resource
@@ -57,7 +57,8 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
     InboundorderModelMapper inboundorderModelMapper;
 
     private Logger log = Logger.getLogger(ReturnedModelServiceImpl.class);
-    public int cancelReturn(List<Integer> ids)
+
+    public int cancelReturn(Integer id)
     {
         /**
          * @Author: 马潇霄
@@ -66,7 +67,18 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
          * @param ids 需要取消的订单号
          * @Return: int 取消成功条数
          */
-       return returnedModelMapper.updateStatusToDisable(ids, "取消退货");
+        ReturnedModel returnedModel = returnedModelMapper.selectByPrimaryKey(id);
+        String returnedOrChange = returnedModel.getReturnedorchange();
+        if (returnedOrChange.equals("return")){
+            return returnedModelMapper.updateStatusToDisable(id,"取消退货");
+
+        }else if (returnedOrChange.equals("change")){
+            return returnedModelMapper.updateStatusToDisable(id,"取消换货");
+        }else {
+            return 0;
+        }
+
+
     }
 
     public JSONObject getAllReturnedOrders(int pageNow, int num)
@@ -79,11 +91,13 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
          * @param num 一页显示数据条数
          * @Return: JSONObject：returnedModels，totalPage，size
          */
-        Page page = new Page(pageNow, num);
+        int countReturnedOrders = returnedModelMapper.countReturnedOrders();
+        log.info(countReturnedOrders);
+        Page page = new Page(countReturnedOrders, pageNow, num);
         List<ReturnedModel> returnedModels = returnedModelMapper.selectAllReturnedByPage(page.getStartPos(), num);
         JSONObject json = new JSONObject();
         json.put("returnedModels", returnedModels);
-        json.put("totalPage", page.getTotalPageCount(num));
+        json.put("totalPage", page.getTotalPageCount());
         json.put("size", returnedModels.size());
         json.put("getStartPos", page.getStartPos());
 
@@ -101,9 +115,12 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
          * @param num 一页显示的数目
          * @Return: JSONObject：returnedSonList，pageSize
          */
-        Page page = new Page(pageNow, num);
+        int i1 = relationrgModelMapper.countGoods(returnedId);
+        Page page = new Page(i1, pageNow, num);
+        log.info("getStartPos" + page.getStartPos());
+        log.info("countGoods" + i1);
         List<RelationrgModel> relationrgModels = relationrgModelMapper.selectGoodsByRid(returnedId, page.getStartPos(), num);
-       
+        log.info("relationrgModels.size()" + relationrgModels.size());
         List<ReturnedSon> returnedSonList = new ArrayList<ReturnedSon>();
         for (int i = 0; i < relationrgModels.size(); i++)
         {
@@ -121,7 +138,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         json.put("returnedSonList", returnedSonList);
 
         json.put("pageSize", page.getPageSize());
-        json.put("totalPageCount", page.getTotalPageCount(num));
+        json.put("totalPageCount", page.getTotalPageCount());
         json.put("pageNow", page.getPageNow());
         json.put("startPos", page.getStartPos());
         json.put("isHasFirst", page.isHasFirst());
@@ -171,7 +188,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
          * @Description: 创建退款单
          * @Date: 11:19 2016/12/13
          * @param returnedIds 退货单号
-         * @Return:  int 创建条数
+         * @Return: int 创建条数
          */
         int j = 0;
         for (int i = 0; i < returnedIds.size(); i++)
@@ -189,13 +206,13 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
             refoundOrderModel.setDrawbackmoney(returnedModel.getReturnedmoney());//退款金额
             refoundOrderModel.setDrawbackstatus("0");//退款单状态
             refoundOrderModel.setReturnedid(returnedIds.get(i));//退货单号
-            j = refoundOrderModelMapper.insertSelective(refoundOrderModel)+j;
+            j = refoundOrderModelMapper.insertSelective(refoundOrderModel) + j;
         }
 
         return j;
     }
 
-       public String createOutboundOrders(String returnedId)
+    public String createOutboundOrders(String returnedId)
     {
 
         /**
@@ -265,37 +282,38 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
                 Boolean synchrostate1 = outboundorderModel.getSynchrostate();
                 if (!synchrostate1)
                 {
-                String s = sendOutBoundToWMS(outBoundRoot);
-                if (s.equals("100"))
-                {//推送成功
-                    log.info("推送出库单" + outboundorderModel.getOutboundid() + "成功");
-                    outboundorderModelMapper.updateOutboundSynchrostate(outboundorderModel.getOutboundid());
+                    String s = sendOutBoundToWMS(outBoundRoot);
+                    if (s.equals("100"))
+                    {//推送成功
+                        log.info("推送出库单" + outboundorderModel.getOutboundid() + "成功");
+                        outboundorderModelMapper.updateOutboundSynchrostate(outboundorderModel.getOutboundid());
 
-                } else if (s.equals("0"))
-                {//链接接口异常
-                    log.info("推送出库单" + outboundorderModel.getOutboundid() + "链接接口异常");
+                    } else if (s.equals("0"))
+                    {//链接接口异常
+                        log.info("推送出库单" + outboundorderModel.getOutboundid() + "链接接口异常");
 
-                    return "链接接口异常";
-                } else if (s.equals("101"))
-                {//数据格式错误
-                    log.info("推送出库单" + outboundorderModel.getOutboundid() + "数据格式错误");
+                        return "链接接口异常";
+                    } else if (s.equals("101"))
+                    {//数据格式错误
+                        log.info("推送出库单" + outboundorderModel.getOutboundid() + "数据格式错误");
 
-                    return "数据格式错误";
-                } else if (s.equals("102"))
-                {//重复的入库单
-                    log.info("推送出库单" + outboundorderModel.getOutboundid() + "重复的出库单");
+                        return "数据格式错误";
+                    } else if (s.equals("102"))
+                    {//重复的入库单
+                        log.info("推送出库单" + outboundorderModel.getOutboundid() + "重复的出库单");
 
-                    return "重复的出库单";
-                } else
-                {//链接失败
-                    return "链接接口异常1";
-                }
+                        return "重复的出库单";
+                    } else
+                    {//链接失败
+                        return "链接接口异常1";
+                    }
                     return "~~";
                 } else
                 {
                     return "创建出库单失败";
                 }
-            }else {
+            } else
+            {
                 return "此订单已同步";
             }
         } else
@@ -305,7 +323,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
 
     }
 
-    public String checkInBound(String returnedId)
+    public String checkInBound(Integer id)
     {
         /**
          * @Author: 马潇霄
@@ -315,11 +333,11 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
          * @Return:
          */
 
-        ReturnedModel returnedModel = returnedModelMapper.selectOneReturnedById(returnedId);
+        ReturnedModel returnedModel = returnedModelMapper.selectByPrimaryKey(id);
         String returnedstatus = returnedModel.getReturnedstatus();
         if (returnedstatus.equals("待审核"))
         {
-            returnedModelMapper.updateReturnedStatus(returnedId, "审核通过");
+
             //待审核订单可以审核
             InboundorderModel inboundorderModel = new InboundorderModel();
             inboundorderModel.setOid(returnedModel.getOid());
@@ -351,21 +369,21 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
                     //以下代码为拼 需要同步给WMS的数据
                     Inbounddeliveryorder inbounddeliveryorder = new Inbounddeliveryorder();
                     inbounddeliveryorder.setReceiver(orderModel.getReceivername());
-                    inbounddeliveryorder.setReceivertel(orderModel.getReceivertelnum());
+                    inbounddeliveryorder.setReceivertel(orderModel.getReceivermobel());
                     inbounddeliveryorder.setReceiveraddress(orderModel.getReceiverprovince() + orderModel.getReceivercity() + orderModel.getReceiverarea());
-                    List<RelationrgModel> relationrgModels = relationrgModelMapper.selectAllGoodsByRid(returnedId);
+                    List<RelationrgModel> relationrgModels = relationrgModelMapper.selectAllGoodsByRid(returnedModel.getReturnedid());
                     List<Inboundordergoods> inboundordergoodss = new ArrayList<Inboundordergoods>();
                     for (int j = 0; j < relationrgModels.size(); j++)
                     {
                         RelationrgModel relationrgModel = relationrgModels.get(j);
                         GoodsModel goodsModel = goodsModelMapper.selectOneGoodsByNo(relationrgModel.getGoodsno());
                         Inboundordergoods inboundordergoods = new Inboundordergoods();
-                        inboundordergoods.setInboundnum(relationrgModel.getGoodnum());//商品入库数量
+                        inboundordergoods.setInboundnum(relationrgModel.getGoodnum().toString());//商品入库数量
                         inboundordergoods.setSku(relationrgModel.getGoodsno());//商品编码
                         inboundordergoods.setName(goodsModel.getGoodsname());//商品名称
-                        inboundordergoods.setNum(relationrgModel.getGoodnum());//商品总数
-                        inboundordergoods.setPrice(goodsModel.getGoodsprice());//商品单价
-                        inboundordergoods.setTotalprice(goodsModel.getGoodsprice().multiply(new BigDecimal(relationrgModel.getGoodnum())));//商品总价
+                        inboundordergoods.setNum(relationrgModel.getGoodnum().toString());//商品总数
+                        inboundordergoods.setPrice(goodsModel.getGoodsprice().toString());//商品单价
+                        inboundordergoods.setTotalprice(goodsModel.getGoodsprice().multiply(new BigDecimal(relationrgModel.getGoodnum())).toString());//商品总价
                         inboundordergoodss.add(inboundordergoods);
                     }
                     InBoundRoot inBoundRoot = new InBoundRoot();
@@ -376,22 +394,30 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
                     inBoundRoot.setReturnorderid(inboundorderModel.getReturnedid());
 
 
-                    String s = sendInboundToWMS(inBoundRoot);//推送给WMS，返回状态码
-
+                    String s="1";//推送给WMS，返回状态码
+                    try
+                    {
+                        s = sendInboundToWMS(inBoundRoot);
+                    } catch (Exception e)
+                    {
+                        log.error("推送入库单给wms失败");
+                    }
                     if (s.equals("100"))
                     {//推送成功
-                    log.info("推送入库单" + inboundorderModel.getInboundid() + "成功");
-                    int i2 = inboundorderModelMapper.updateInboundSynchrostate(inboundorderModel.getInboundid());
-                    //更新入库单同步状态为已同步
-                    if (i2 > 0)
-                    {
-                        log.info("更新入库单" + inboundorderModel.getInboundid() + "状态为已同步");
-                        return "更新入库单状态为已同步";
-                    } else
-                    {
-                        log.info("更新入库单" + inboundorderModel.getInboundid() + "状态为已同步时发生错误");
-                        return "更新入库单状态失败";
-                    }
+                        log.info("推送入库单" + inboundorderModel.getInboundid() + "成功");
+                        int i2 = inboundorderModelMapper.updateInboundSynchrostate(inboundorderModel.getInboundid());
+                        returnedModelMapper.updateReturnedStatus(returnedModel.getReturnedid(), "审核通过");
+
+                        //更新入库单同步状态为已同步
+                        if (i2 > 0)
+                        {
+                            log.info("更新入库单" + inboundorderModel.getInboundid() + "状态为已同步");
+                            return "更新入库单状态为已同步";
+                        } else
+                        {
+                            log.info("更新入库单" + inboundorderModel.getInboundid() + "状态为已同步时发生错误");
+                            return "更新入库单状态失败";
+                        }
 
                     } else if (s.equals("0"))
                     {//链接接口异常
@@ -416,7 +442,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
 
             } else
             {
-                returnedModelMapper.updateReturnedStatus(returnedId, "审核失败");
+                returnedModelMapper.updateReturnedStatus(returnedModel.getReturnedstatus(), "审核失败");
                 return "入库单已经存在";
 
             }
@@ -501,7 +527,40 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         }
         return code;
     }    //根据退款单号查询该条退货单记录
-    public ReturnedModel selectByReturnedId(String returnedId) {
+
+    public ReturnedModel selectByReturnedId(String returnedId)
+    {
         return returnedModelMapper.selectByReturnedId(returnedId);
+    }
+
+    public JSONObject getReturnedAndGoodsByid(Integer id)
+    {
+        ReturnedModel returnedModel = returnedModelMapper.selectByPrimaryKey(id);
+        JSONObject json = new JSONObject();
+        json.put("returnedModel", returnedModel);
+        List<RelationrgModel> relationrgModels = relationrgModelMapper.selectAllGoodsByRid(returnedModel.getReturnedid());
+
+        List<ReturnedSon> returnedSonList = new ArrayList<ReturnedSon>();
+        for (int i = 0; i < relationrgModels.size(); i++)
+        {
+            RelationrgModel relationrgModel = relationrgModels.get(i);
+            ReturnedSon returnedSon = new ReturnedSon();
+            returnedSon.setGoodnum(relationrgModel.getGoodnum());
+            returnedSon.setGoodsno(relationrgModel.getGoodsno());
+            GoodsModel goodsModel = goodsModelMapper.selectOneGoodsByNo(returnedSon.getGoodsno());
+            returnedSon.setGoodsname(goodsModel.getGoodsname());
+            returnedSon.setGoodsprice(goodsModel.getGoodsprice());
+            returnedSonList.add(returnedSon);
+
+        }
+
+        json.put("returnedSonList", returnedSonList);
+        return json;
+    }
+
+    public String getStatus(Integer id)
+    {
+        ReturnedModel returnedModel = returnedModelMapper.selectByPrimaryKey(id);
+        return returnedModel.getReturnedstatus();
     }
 }

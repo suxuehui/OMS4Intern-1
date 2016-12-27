@@ -6,10 +6,10 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +27,7 @@ public class ReturnedController
 
     @RequestMapping("/cancelReturn")
     @ResponseBody
-    public int cancelReturn()
+    public JSONObject cancelReturn(Integer id)
     {
         /**
          * @Author: 马潇霄
@@ -36,16 +36,16 @@ public class ReturnedController
          * @param
          * @Return:
          */
-        List<Integer> ids = new ArrayList<Integer>();
-        ids.add(1);
-        ids.add(2);
-        int i = returnedModelService.cancelReturn(ids);
-        return i;
+
+        int i = returnedModelService.cancelReturn(id);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("isSuccess",i);
+        return jsonObject;
     }
 
     @RequestMapping("/getAllReturned")
     @ResponseBody
-    public JSONObject getAllReturned(int pageNow, int pageSize)
+    public JSONObject getAllReturned(int pageNow, int pageSizeR)
     {
         /**
          * @Author: 马潇霄
@@ -54,7 +54,7 @@ public class ReturnedController
          * @param
          * @Return:
          */
-        JSONObject allReturnedOrders = returnedModelService.getAllReturnedOrders(pageNow, pageSize);
+        JSONObject allReturnedOrders = returnedModelService.getAllReturnedOrders(pageNow, pageSizeR);
         return allReturnedOrders;
     }
 
@@ -72,13 +72,14 @@ public class ReturnedController
          * @param returnedId 退货单号
          * @Return: JSONObject
          */
+        log.info("returnedId" + returnedId);
         JSONObject goodsListByRid = returnedModelService.getGoodsListByRid(returnedId, pageNow, pageSize);
-        return  goodsListByRid;
+        return goodsListByRid;
     }
 
     @RequestMapping("/getReturnedBySelect")
     @ResponseBody
-    public JSONObject getReturnedBySelect(int pageNow, int pageSize, String select ,String value)
+    public JSONObject getReturnedBySelect(int pageNow, int pageSize, String select, String value)
     {
         /**
          * @Author: 马潇霄
@@ -90,8 +91,8 @@ public class ReturnedController
          * @param value 条件内容
          * @Return: JSONObject
          */
-        JSONObject getReturnedBySelect = returnedModelService.getReturnedListBySelect(select,value,pageNow,pageSize);
-        return  getReturnedBySelect;
+        JSONObject getReturnedBySelect = returnedModelService.getReturnedListBySelect(select, value, pageNow, pageSize);
+        return getReturnedBySelect;
     }
 
     @RequestMapping("/createRefoundOrder")
@@ -105,23 +106,23 @@ public class ReturnedController
          * @param
          * @Return:
          */
-       List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<String>();
         list.add("123");
         list.add("221");
-       return returnedModelService.createRefoundOrders(list);
+        return returnedModelService.createRefoundOrders(list);
     }
 
     @RequestMapping("/createOutBoundOrder")
     @ResponseBody
     public String createOutBoundOrder()
     {
-       /**
-        * @Author: 马潇霄
-        * @Description: 创建出库单
-        * @Date: 10:02 2016/12/15
-        * @param
-        * @Return:
-        */
+        /**
+         * @Author: 马潇霄
+         * @Description: 创建出库单
+         * @Date: 10:02 2016/12/15
+         * @param
+         * @Return:
+         */
         List<String> list = new ArrayList<String>();
         list.add("RT111111111111111");
         return returnedModelService.createOutboundOrders("RT111111111111111");
@@ -129,36 +130,38 @@ public class ReturnedController
 
     @RequestMapping("/createInBoundOrder")
     @ResponseBody
-    public String createInBoundOrder()
+    public JSONObject createInBoundOrder(Integer id) throws UnsupportedEncodingException
     {
         /**
          * @Author: 马潇霄
          * @Description: 创建入库单
          * @Date: 11:17 2016/12/15
          * @param
-         * @Return:  int 0为失败，1为成功
+         * @Return: int 0为失败，1为成功
          */
-        List<String> list = new ArrayList<String>();
-        list.add("RT111111111111111");
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("return", returnedModelService.checkInBound(id));
 
-        return returnedModelService.checkInBound("RT111111111111111");
+        return jsonObject;
     }
 
-    public static String getUTF8XMLString(String xml) {
-        // A StringBuffer Object
-        StringBuffer sb = new StringBuffer();
-        sb.append(xml);
-        String xmString = "";
-        String xmlUTF8="";
-        try {
-            xmString = new String(sb.toString().getBytes("UTF-8"));
-            xmlUTF8 = URLEncoder.encode(xmString, "UTF-8");
-            System.out.println("utf-8 编码：" + xmlUTF8) ;
-        } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        // return to String Formed
-        return xmlUTF8;
+
+    @RequestMapping("/returnedDetail")
+    public ModelAndView returnedDetail(int id)
+    {
+        ModelAndView mov = new ModelAndView("returnedOderDetail");
+        mov.addObject("a", returnedModelService.getReturnedAndGoodsByid(id));
+        return mov;
     }
+
+    @RequestMapping("/getReturnedStatus")
+    @ResponseBody
+    public JSONObject getReturnedStatus(int id)
+    {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("status", returnedModelService.getStatus(id));
+        return jsonObject;
+    }
+
+
 }

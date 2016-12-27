@@ -32,10 +32,8 @@
   <update id="updateStatusToDisable">
     update returnedorder
     set returnedStatus = #{returnedstatus}
-    where id in
-    <foreach item="id" collection="ids" open="(" separator="," close=")">
-      #{id}
-    </foreach>
+    where id = #{id}
+
   </update>
 
   <select id="countReturnedOrders" resultType="int">
@@ -104,7 +102,7 @@
   <update id="updateReturnedStatus">
     update returnedorder
     set returnedStatus = #{returnedstatus}
-    where returnedId = ${returnedId}
+    where returnedId = '${returnedId}'
   </update>
 
   <!--根据订单号查询退换货单是否存在-->

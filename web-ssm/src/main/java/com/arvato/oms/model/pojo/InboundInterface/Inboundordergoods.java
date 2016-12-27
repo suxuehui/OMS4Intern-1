@@ -10,49 +10,71 @@ public class Inboundordergoods {
 
     private String name;
 
-    private int num;
+    private String num;
 
-    private BigDecimal price;
+    private String price;
 
-    private BigDecimal totalprice;
+    private String totalprice;
 
-    private int inboundnum;
+    private String inboundnum;
 
-    public void setSku(String sku){
+    public String getSku()
+    {
+        return sku;
+    }
+
+    public void setSku(String sku)
+    {
         this.sku = sku;
     }
-    public String getSku(){
-        return this.sku;
-    }
-    public void setName(String name){
-        this.name = name;
-    }
-    public String getName(){
-        return this.name;
-    }
-    public void setNum(int num){
-        this.num = num;
-    }
-    public int getNum(){
-        return this.num;
-    }
-    public void setPrice(BigDecimal price){
-        this.price = price;
-    }
-    public BigDecimal getPrice(){
-        return this.price;
-    }
-    public void setTotalprice(BigDecimal totalprice){
-        this.totalprice = totalprice;
-    }
-    public BigDecimal getTotalprice(){
-        return this.totalprice;
-    }
-    public void setInboundnum(int inboundnum){
-        this.inboundnum = inboundnum;
-    }
-    public int getInboundnum(){
-        return this.inboundnum;
+
+    public String getName()
+    {
+        return name;
     }
 
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public String getNum()
+    {
+        return num;
+    }
+
+    public void setNum(String num)
+    {
+        this.num = num;
+    }
+
+    public String getPrice()
+    {
+        return price;
+    }
+
+    public void setPrice(String price)
+    {
+        this.price = price;
+    }
+
+    public String getTotalprice()
+    {
+        return totalprice;
+    }
+
+    public void setTotalprice(String totalprice)
+    {
+        this.totalprice = totalprice;
+    }
+
+    public String getInboundnum()
+    {
+        return inboundnum;
+    }
+
+    public void setInboundnum(String inboundnum)
+    {
+        this.inboundnum = inboundnum;
+    }
 }

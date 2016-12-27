@@ -253,7 +253,7 @@
     where
     inboundId = #{inboundid,jdbcType=VARCHAR}
   </update>
-  
+
 
   <select id="countInboundorder" resultType="int">
     SELECT COUNT(1) FROM inboundorder

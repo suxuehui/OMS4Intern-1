@@ -93,4 +93,15 @@
     WHERE returnedId = #{returnedId}
 
   </select>
+
+  <select id="selectGoodsByRid" resultMap="BaseResultMap">
+    SELECT * FROM relationrg
+    WHERE returnedId = #{returnedId}
+    limit #{startPage},#{num}
+  </select>
+
+  <select id="countGoods" resultType="int">
+    SELECT COUNT(1) FROM relationrg
+    WHERE returnedId = #{returnedId}
+  </select>
 </mapper>

@@ -43,7 +43,7 @@
             <ul>
                 <c:if test="${urole == 1}">
                     <li class="on">用户</li>
-                    <li >商品</li>
+                    <li>商品</li>
                     <li>仓库</li>
                     <li>订单</li>
                 </c:if>
@@ -80,14 +80,15 @@
                             <div class="orderTit">用户列表</div>
                             <div class="customSearch">
                                 <ul>
-                                    <li><input type="button" value="新增用户" class="btn" ></li>
+                                    <li><input type="button" value="新增用户" class="btn"></li>
                                     <li><input type="button" value="修改用户" class="btn" id="updateUserBut"
                                                disabled="disabled"></li>
                                     <li><input type="button" value="删除用户" class="btn" id="deleteUser"></li>
                                 </ul>
                                 <form>
                                     <input type="button" value="查询" class="submitBtn fr" id="userselectbutton">
-                                    <input type="text" value="名称" class="textArea fr" id="userselectvalue" onFocus="if(value==defaultValue){value='';}">
+                                    <input type="text" value="名称" class="textArea fr" id="userselectvalue"
+                                           onFocus="if(value==defaultValue){value='';}">
                                 </form>
                             </div>
                         </div>

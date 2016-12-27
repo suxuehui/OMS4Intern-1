@@ -40,33 +40,438 @@ function usercheckclick(userid) {
 
 }
 
-$(document).ready(function () {
+function checkboxreturneddis(id){
+    var count = 0;
+    var checkArry = document.getElementsByName("returnedcheck");
+    for (var i = 0; i < checkArry.length; i++) {
+
+        if (checkArry[i].checked == true) {
+            ++count;
+        }
+    }
+    if (count == 1) {
+        $('#returnedDetailbut').removeAttr("disabled");
+    } else {
+        $('#returnedDetailbut').attr('disabled',"true");
+    }
+
+}
+
+function returnedGetGoods(returnedid) {
 
 
-    var urole = $.getUrlVar('urole');
-    if (urole == 1) {
-        window.onload = inGetUserNowPage($('#userPageNow').html());
-        $('#nextUserPage').click(
+    var returnedid = returnedid;
+    var pageNow = $("#returnedPageNow").html();
+    var pageSize = 5;
+
+    returngetgoodsfromserver(returnedid, pageNow, pageSize);
+
+
+
+}
+
+function returngetgoodsfromserver(returnedid, pageNow, pageSize) {
+    $.ajax({
+        type: 'get',
+        url: '/oms/returned/getGoods',
+        data: {
+            pageNow: pageNow,
+            pageSize: pageSize,
+            returnedId: returnedid
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+            //alert(data.userList[0].uid);
+            var returnedSonList = data.returnedSonList;
+            var totalPage = data.totalPageCount;
+            $('#returnedGoodsBody').html("");
+            for (var i in returnedSonList) {
+                var id = i * 1 + 1 * 1;
+                $('#returnedGoodsBody').append("<tr><td><input type='checkbox'  name='returnedsoncheck'   id='" + returnedSonList[i].goodsno + "returnedson" + "'></td><td><a id='" + returnedSonList[i].goodsno + "'>" + returnedSonList[i].goodsno + "</a></td> <td>&nbsp;" + returnedSonList[i].goodsname + "</td> <td>&nbsp;" + returnedSonList[i].goodnum + "</td> <td>&nbsp;" + returnedSonList[i].goodsprice + "</td></tr>");
+                $('#totalreturnedGoodsPage').html(totalPage);
+
+            }
+            $("#returnedidongoods").html(returnedid);
+        },
+        error: function (data) {
+            alert("获取退货单商品失败");
+        }
+
+
+    });
+
+}
+
+function showReturnDetail(id) {
+    window.open("/oms/returned/returnedDetail?id="+id);
+}
+
+function getreturnedStatus(id) {
+    var status;
+    $.ajax({
+        type: 'get',
+        url: '/oms/returned/getReturnedStatus',
+        data: {
+            id: id,
+        },
+        async: false,//同步
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+            status = data.status
+
+        },
+        error: function (data) {
+            alert("获取退货单状态失败");
+        }
+
+
+    });
+
+    return status;
+
+}
+$(
+    function () {
+
+
+        var urole = $.getUrlVar('urole');
+        if (urole == 1) {
+            window.onload = inGetUserNowPage($('#userPageNow').html());
+            $('#nextUserPage').click(
+                function () {
+
+                    var userpage = $('#userPageNow').html();
+                    var totalPage = $('#totalUserPage').html();
+                    if (userpage < totalPage) {
+                        $('#userPageNow').html(userpage * 1 + 1 * 1);
+                        inGetUserNowPage(userpage * 1 + 1 * 1);
+                    } else {
+                        alert("已到最后一页");
+                    }
+
+                }
+            );
+            $('#preUserPage').click(
+                function () {
+
+                    var userpage = $('#userPageNow').html();
+                    if (userpage > 1) {
+                        $('#userPageNow').html(userpage * 1 - 1 * 1);
+                        inGetUserNowPage(userpage * 1 - 1 * 1);
+                    } else {
+                        alert("已到第一页");
+                    }
+                }
+            );
+
+
+            $('#firstUserPage').click(
+                function () {
+                    inGetUserNowPage(1);
+                    $('#userPageNow').html(1);
+                }
+            );
+
+            $('#endUserPage').click(
+                function () {
+                    inGetUserNowPage($('#totalUserPage').html());
+                    $('#userPageNow').html($('#totalUserPage').html());
+                }
+            );
+
+
+            $('#deleteUser').click(
+                function () {
+                    var userIdArray = new Array();
+                    var i = 0;
+                    $("input:checkbox[name='usercheck']:checked").each(function () {
+                        userIdArray[i++] = parseInt($(this).attr("id"));
+                    });
+                    if (userIdArray.length == 0) {
+                        alert("请选择要删除的用户");
+                    } else {
+
+                        var userIds = userIdArray.join("/");
+                        $.ajax({
+                            type: 'get',
+                            url: '/oms/user/deleteUserByIds',
+                            data: {
+                                userIdList: userIds
+                            },
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (data) {
+                                if (data > 0) {
+                                    inGetUserNowPage(1);
+                                    alert("删除成功");
+                                } else if (data = 0) {
+                                    alert("删除失败");
+                                } else if (data = -1) {
+                                    alert("不可以删除自己");
+                                }
+                            },
+                            error: function (data) {
+                                alert("删除失败");
+                                inGetUserNowPage(1);
+                            }
+
+                        });
+                    }
+                });
+
+            $("#addUser").click(function () {
+
+                var username = $('#addUserName').val().trim();
+                var password = $('#addUserPassword').val().trim();
+                if (username == '') {
+                    alert("请输入用户名");
+                } else {
+                    if (password == '') {
+                        alert("请输入密码");
+                    } else {
+                        if (password.length < 6) {
+                            alert("密码不得少于6位数");
+                        } else {
+                            var zzbds = /^([\u4E00-\u9FA5]|\w)*$/;
+                            if (!zzbds.test(username)) {
+                                alert("请输入有效用户名");
+                            } else {
+                                if (!zzbds.test(password)) {
+                                    alert("请输入有效密码");
+                                } else {
+                                    $.ajax({
+                                        type: 'get',
+                                        url: '/oms/user/addUser',
+                                        data: {
+                                            userName: username,
+                                            password: password
+                                        },
+                                        contentType: "application/json; charset=utf-8",
+                                        dataType: "json",
+                                        success: function (data) {
+                                            if (data == 1) {
+                                                alert("添加成功");
+                                                $('#addUserName').val("");
+                                                $('#addUserPassword').val("");
+                                                inGetUserNowPage($('#totalUserPage').html());
+                                            } else {
+                                                alert("用户名已存在");
+                                                $('#addUserName').val("");
+                                                $('#addUserPassword').val("");
+                                            }
+                                        },
+                                        error: function (data) {
+                                            alert("添加用户失败");
+                                        }
+
+                                    });
+                                }
+                            }
+                        }
+                    }
+                }
+
+            });
+
+
+            $("#updateUser").click(function () {
+
+                var username = $('#updateUserName').val().trim();
+                var password = $('#updateUserPassword').val().trim();
+                var userIdArray = new Array();
+                var i = 0;
+                if (username == '') {
+                    alert("请输入用户名");
+                } else {
+                    if (password == '') {
+                        alert("请输入密码");
+                    } else {
+                        if (password.length < 6) {
+                            alert("密码不得少于6位数");
+                        } else {
+                            var zzbds = /^([\u4E00-\u9FA5]|\w)*$/;
+                            if (!zzbds.test(username)) {
+                                alert("请输入有效用户名");
+                            } else {
+                                if (!zzbds.test(password)) {
+                                    alert("请输入有效密码");
+                                } else {
+                                    $("input:checkbox[name='usercheck']:checked").each(function () {
+                                        userIdArray[i++] = parseInt($(this).attr("id"));
+                                    });
+                                    var userIds = userIdArray.join("/");
+
+                                    $.ajax({
+                                        type: 'get',
+                                        url: '/oms/user/updateUser',
+                                        data: {
+                                            uid: userIds,
+                                            userName: username,
+                                            password: password
+                                        },
+                                        contentType: "application/json; charset=utf-8",
+                                        dataType: "json",
+                                        success: function (data) {
+                                            if (data == 1) {
+                                                alert("修改成功");
+                                                $('#updateUserName').val("");
+                                                $('#updateUserPassword').val("");
+                                                inGetUserNowPage(1);
+                                            } else {
+                                                alert("用户名已存在");
+                                                var unameid = "#" + userIds + "uname";
+                                                var upassid = "#" + userIds + "upass";
+
+                                                var uname = $(unameid).html();
+                                                var upass = $(upassid).html();
+                                                $('#updateUserName').val(uname);
+                                                upass = upass.replace("&nbsp;", "");
+                                                $('#updateUserPassword').val(upass);
+                                            }
+                                        },
+                                        error: function (data) {
+                                            alert("修改用户失败");
+                                        }
+
+                                    });
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            $('#userselectbutton').click(function () {
+
+                var select = $('#userselectvalue').val().trim();
+                if (select.length == 0) {
+
+                    alert("请输入查询内容");
+                } else {
+                    var zzbds = /^([\u4E00-\u9FA5]|\w)*$/;
+                    if (!zzbds.test(select)) {
+                        alert("请不要输入特殊符号");
+                    } else {
+                        selectByUserName(1, select);
+                        $('#preUserPage').hide();
+                        $('#nextUserPage').hide();
+                        $('#endUserPage').hide();
+                    }
+                }
+
+            });
+
+            function inGetUserNowPage(pageNow) {
+                var page = pageNow;
+                var pageSize = 20;
+                $.ajax({
+                    type: 'get',
+                    url: '/oms/user/getAllUsers',
+                    data: {
+                        nowPage: page,
+                        pageSize: pageSize
+                    },
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        //alert(data.userList[0].uid);
+                        var userList = data.userList;
+                        var totalPage = data.totalPage;
+                        $('#usertbody').html("");
+                        for (var i in userList) {
+                            var id = i * 1 + 1 * 1;
+                            $('#usertbody').append("<tr><td>" + id + "</td><td><input type='checkbox' id='" + userList[i].uid + "user" + "' name='usercheck' onclick='usercheckclick(this.id)'></td><td id='" + userList[i].uid + "uname" + "'>" + userList[i].uname + "</td> <td id='" + userList[i].uid + "upass" + "'>&nbsp;" + userList[i].upassword + "</td> <td>&nbsp;" + userList[i].urole + "</td> </tr>");
+                            $('#totalUserPage').html(totalPage);
+                        }
+
+
+                    },
+                    error: function (data) {
+                        alert("获取用户列表失败");
+                    }
+
+                });
+            }
+
+            function selectByUserName(pageNow, userName) {
+                var page = pageNow;
+                var username = userName;
+                var pageSize = 20;
+                $.ajax({
+                    type: 'get',
+                    url: '/oms/user/selectUserByName',
+                    data: {
+                        username: username,
+                        nowPage: page,
+                        pageSize: pageSize
+                    },
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        var userList = data.userList;
+                        var totalPage = data.totalPage;
+                        $('#usertbody').html("");
+                        for (var i in userList) {
+                            var id = i * 1 + 1 * 1;
+                            $('#usertbody').append("<tr><td>" + id + "</td><td><input type='checkbox' id='" + userList[i].uid + "user" + "' name='usercheck' onclick='usercheckclick(this.id)'></td><td id='" + userList[i].uid + "uname" + "'>" + userList[i].uname + "</td> <td id='" + userList[i].uid + "upass" + "'>&nbsp;" + userList[i].upassword + "</td> <td>&nbsp;" + userList[i].urole + "</td> </tr>");
+                            $('#totalUserPage').html(totalPage);
+                        }
+                    },
+                    error: function (data) {
+                        alert("查询失败");
+                    }
+
+                });
+            }
+
+            $("#updateUserBut").click(
+                function () {
+
+                    var userIds = parseInt($("input:checkbox[name='usercheck']:checked").attr("id"));
+
+                    var unameid = "#" + userIds + "uname";
+                    var upassid = "#" + userIds + "upass";
+
+                    var uname = $(unameid).html();
+                    var upass = $(upassid).html();
+                    $('#updateUserName').val(uname);
+                    upass = upass.replace("&nbsp;", "");
+                    $('#updateUserPassword').val(upass);
+
+                }
+            );
+
+        } else {
+
+
+        }
+
+        window.onload = inGetGoodsNowPage($('#goodsPageNow').html());
+
+        $('#nextGoodsPage').click(
             function () {
 
-                var userpage = $('#userPageNow').html();
-                var totalPage = $('#totalUserPage').html();
-                if (userpage < totalPage) {
-                    $('#userPageNow').html(userpage * 1 + 1 * 1);
-                    inGetUserNowPage(userpage * 1 + 1 * 1);
+                var goodspage = $('#goodsPageNow').html();
+                var totalPage = $('#totalGoodPage').html();
+                if (goodspage < totalPage) {
+                    inGetGoodsNowPage(goodspage * 1 + 1 * 1);
+                    $('#goodsPageNow').html(goodspage * 1 + 1 * 1);
                 } else {
                     alert("已到最后一页");
                 }
 
+
             }
         );
-        $('#preUserPage').click(
+        $('#preGoodsPage').click(
             function () {
 
-                var userpage = $('#userPageNow').html();
-                if (userpage > 1) {
-                    $('#userPageNow').html(userpage * 1 - 1 * 1);
-                    inGetUserNowPage(userpage * 1 - 1 * 1);
+                var goodspage = $('#goodsPageNow').html();
+                if (goodspage > 1) {
+                    $('#userPageNow').html(goodspage * 1 - 1 * 1);
+                    inGetGoodsNowPage(goodspage * 1 - 1 * 1);
                 } else {
                     alert("已到第一页");
                 }
@@ -74,426 +479,326 @@ $(document).ready(function () {
         );
 
 
-        $('#firstUserPage').click(
+        $('#firstGoodsPage').click(
             function () {
-                inGetUserNowPage(1);
-                $('#userPageNow').html(1);
+                $('#goodsPageNow').html(1);
+                inGetGoodsNowPage(1);
+
             }
         );
 
-        $('#endUserPage').click(
+        $('#endGoodsPage').click(
             function () {
-                inGetUserNowPage($('#totalUserPage').html());
-                $('#userPageNow').html($('#totalUserPage').html());
+                inGetGoodsNowPage($('#totalGoodPage').html());
+                $('#goodsPageNow').html($('#totalGoodPage').html());
             }
         );
 
-
-        $('#deleteUser').click(
-            function () {
-                var userIdArray = new Array();
-                var i = 0;
-                $("input:checkbox[name='usercheck']:checked").each(function () {
-                    userIdArray[i++] = parseInt($(this).attr("id"));
-                });
-                if (userIdArray.length == 0) {
-                    alert("请选择要删除的用户");
-                } else {
-
-                    var userIds = userIdArray.join("/");
-                    $.ajax({
-                        type: 'get',
-                        url: '/oms/user/deleteUserByIds',
-                        data: {
-                            userIdList: userIds
-                        },
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function (data) {
-                            if (data > 0) {
-                                inGetUserNowPage(1);
-                                alert("删除成功");
-                            } else if(data=0){
-                                alert("删除失败");
-                            }else if(data=-1){
-                                alert("不可以删除自己");
-                            }
-                        },
-                        error: function (data) {
-                            alert("删除失败");
-                            inGetUserNowPage(1);
-                        }
-
-                    });
-                }
-            });
-
-        $("#addUser").click(function () {
-
-            var username = $('#addUserName').val().trim();
-            var password = $('#addUserPassword').val().trim();
-            if (username == '') {
-                alert("请输入用户名");
-            } else {
-                if (password == '') {
-                    alert("请输入密码");
-                } else {
-                    if (password.length < 6) {
-                        alert("密码不得少于6位数");
-                    } else {
-                        var zzbds = /^([\u4E00-\u9FA5]|\w)*$/;
-                        if (!zzbds.test(username)) {
-                            alert("请输入有效用户名");
-                        } else {
-                            if (!zzbds.test(password)) {
-                                alert("请输入有效密码");
-                            } else {
-                                $.ajax({
-                                    type: 'get',
-                                    url: '/oms/user/addUser',
-                                    data: {
-                                        userName: username,
-                                        password: password
-                                    },
-                                    contentType: "application/json; charset=utf-8",
-                                    dataType: "json",
-                                    success: function (data) {
-                                        if (data == 1) {
-                                            alert("添加成功");
-                                            $('#addUserName').val("");
-                                            $('#addUserPassword').val("");
-                                            inGetUserNowPage($('#totalUserPage').html());
-                                        } else {
-                                            alert("用户名已存在");
-                                            $('#addUserName').val("");
-                                            $('#addUserPassword').val("");
-                                        }
-                                    },
-                                    error: function (data) {
-                                        alert("添加用户失败");
-                                    }
-
-                                });
-                            }
-                        }
-                    }
-                }
-            }
-
-        });
-
-
-
-        $("#updateUser").click(function () {
-
-            var username = $('#updateUserName').val().trim();
-            var password = $('#updateUserPassword').val().trim();
-            var userIdArray = new Array();
-            var i = 0;
-            if (username == '') {
-                alert("请输入用户名");
-            } else {
-                if (password == '') {
-                    alert("请输入密码");
-                } else {
-                    if (password.length < 6) {
-                        alert("密码不得少于6位数");
-                    } else {
-                        var zzbds = /^([\u4E00-\u9FA5]|\w)*$/;
-                        if (!zzbds.test(username)) {
-                            alert("请输入有效用户名");
-                        } else {
-                            if (!zzbds.test(password)) {
-                                alert("请输入有效密码");
-                            } else {
-                                $("input:checkbox[name='usercheck']:checked").each(function () {
-                                    userIdArray[i++] = parseInt($(this).attr("id"));
-                                });
-                                var userIds = userIdArray.join("/");
-
-                                $.ajax({
-                                    type: 'get',
-                                    url: '/oms/user/updateUser',
-                                    data: {
-                                        uid: userIds,
-                                        userName: username,
-                                        password: password
-                                    },
-                                    contentType: "application/json; charset=utf-8",
-                                    dataType: "json",
-                                    success: function (data) {
-                                        if (data == 1) {
-                                            alert("修改成功");
-                                            $('#updateUserName').val("");
-                                            $('#updateUserPassword').val("");
-                                            inGetUserNowPage(1);
-                                        } else {
-                                            alert("用户名已存在");
-                                            var unameid = "#"+userIds+"uname";
-                                            var upassid = "#"+userIds+"upass";
-
-                                            var uname = $(unameid).html();
-                                            var upass = $(upassid).html();
-                                            $('#updateUserName').val(uname);
-                                            upass = upass.replace("&nbsp;","");
-                                            $('#updateUserPassword').val(upass);
-                                        }
-                                    },
-                                    error: function (data) {
-                                        alert("修改用户失败");
-                                    }
-
-                                });
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-        $('#userselectbutton').click(function () {
-
-            var select = $('#userselectvalue').val().trim();
-            if (select.length == 0) {
-
-                alert("请输入查询内容");
-            } else {
-                var zzbds = /^([\u4E00-\u9FA5]|\w)*$/;
-                if (!zzbds.test(select)) {
-                    alert("请不要输入特殊符号");
-                } else {
-                    selectByUserName(1, select);
-                    $('#preUserPage').hide();
-                    $('#nextUserPage').hide();
-                    $('#endUserPage').hide();
-                }
-            }
-
-        });
-
-        function inGetUserNowPage(pageNow) {
+        function inGetGoodsNowPage(pageNow) {
             var page = pageNow;
             var pageSize = 20;
             $.ajax({
                 type: 'get',
-                url: '/oms/user/getAllUsers',
+                url: '/oms/goods/getAllGoods',
                 data: {
-                    nowPage: page,
+                    page: page,
                     pageSize: pageSize
                 },
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
                     //alert(data.userList[0].uid);
-                    var userList = data.userList;
-                    var totalPage = data.totalPage;
-                    $('#usertbody').html("");
-                    for (var i in userList) {
+                    var goodsList = data.goodsAndStatus;
+                    var totalPage = data.pageTotal;
+                    $('#goodsbody').html("");
+                    for (var i in goodsList) {
                         var id = i * 1 + 1 * 1;
-                        $('#usertbody').append("<tr><td>" + id + "</td><td><input type='checkbox' id='" + userList[i].uid + "user" + "' name='usercheck' onclick='usercheckclick(this.id)'></td><td id='" + userList[i].uid + "uname" + "'>" + userList[i].uname + "</td> <td id='" + userList[i].uid + "upass" + "'>&nbsp;" + userList[i].upassword + "</td> <td>&nbsp;" + userList[i].urole + "</td> </tr>");
-                        $('#totalUserPage').html(totalPage);
+                        $('#goodsbody').append("<tr><td>" + id + "</td><td><input type='checkbox'  name='goodscheck' ></td><td><a>" + goodsList[i].goodsno + "</a></td> <td>&nbsp;" + goodsList[i].goodsname + "</td> <td>&nbsp;" + goodsList[i].goodsvnum + "</td> <td>&nbsp;" + goodsList[i].booknum + "</td>  <td>&nbsp;" + goodsList[i].goodstolnum + "</td><td>&nbsp;" + goodsList[i].goodsprice + "</td></tr>");
+                        $('#totalGoodPage').html(totalPage);
+
                     }
-
-
                 },
                 error: function (data) {
-                    alert("获取用户列表失败");
+                    alert("获取商品列表失败");
                 }
 
             });
         }
 
-        function selectByUserName(pageNow, userName) {
+        function selectGoodsByValue(pageNow, value, select) {
             var page = pageNow;
-            var username = userName;
+            var username = value;
+            var select = select;
             var pageSize = 20;
             $.ajax({
                 type: 'get',
-                url: '/oms/user/selectUserByName',
+                url: '/oms/goods/selectGoods',
                 data: {
-                    username: username,
+                    select: select,
+                    value: value,
                     nowPage: page,
                     pageSize: pageSize
                 },
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    var userList = data.userList;
-                    var totalPage = data.totalPage;
-                    $('#usertbody').html("");
-                    for (var i in userList) {
+                    var goodsList = data.goodsAndStatus;
+                    var totalPage = data.pageTotal;
+                    $('#goodsbody').html("");
+                    for (var i in goodsList) {
                         var id = i * 1 + 1 * 1;
-                        $('#usertbody').append("<tr><td>" + id + "</td><td><input type='checkbox' id='" + userList[i].uid + "user" + "' name='usercheck' onclick='usercheckclick(this.id)'></td><td id='" + userList[i].uid + "uname" + "'>" + userList[i].uname + "</td> <td id='" + userList[i].uid + "upass" + "'>&nbsp;" + userList[i].upassword + "</td> <td>&nbsp;" + userList[i].urole + "</td> </tr>");
-                        $('#totalUserPage').html(totalPage);
+                        $('#goodsbody').append("<tr><td>" + id + "</td><td><input type='checkbox'  name='goodscheck' ></td><td><a>" + goodsList[i].goodsno + "</a></td> <td>&nbsp;" + goodsList[i].goodsname + "</td> <td>&nbsp;" + goodsList[i].goodsvnum + "</td> <td>&nbsp;" + goodsList[i].booknum + "</td>  <td>&nbsp;" + goodsList[i].goodstolnum + "</td><td>&nbsp;" + goodsList[i].goodsprice + "</td></tr>");
+                        $('#totalGoodPage').html(totalPage);
+
                     }
                 },
                 error: function (data) {
-                    alert("查询失败");
+                    alert("查询商品失败");
                 }
 
             });
         }
 
-        $("#updateUserBut").click(
+
+        $('#selectgoodsbut').click(
             function () {
+                var select = $('#selectGoodssle').val();
+                var value = $('#goodsvaluetxt').val();
+                if (value.length == 0) {
+                    alert("请输入查询内容");
+                } else {
+                    var zzbds2 = /^([\u4E00-\u9FA5]|\w)*$/;
+                    if (!zzbds2.test(value)) {
+                        alert("请不要输入特殊符号");
+                    } else {
 
-                var  userIds = parseInt($("input:checkbox[name='usercheck']:checked").attr("id")) ;
+                        if (select == "按名称查询") {
+                            selectGoodsByValue(1, value, "name");
 
-                var unameid = "#"+userIds+"uname";
-                var upassid = "#"+userIds+"upass";
 
-                var uname = $(unameid).html();
-                var upass = $(upassid).html();
-                $('#updateUserName').val(uname);
-                upass = upass.replace("&nbsp;","");
-                $('#updateUserPassword').val(upass);
+                        } else if (select == "按商品编码查询") {
+                            selectGoodsByValue(1, value, "id");
+                        }
+                        $('#preGoodsPage').hide();
+                        $('#nextGoodsPage').hide();
+                        $('#endGoodsPage').hide();
+                    }
+                }
 
             }
         );
 
-    } else {
 
+        function inGetReturnedNowPage(pageNow) {
+            var page = pageNow;
+            var pageSizeR = 5;
 
-    }
+            $.ajax({
+                type: 'get',
+                url: '/oms/returned/getAllReturned',
+                data: {
+                    pageNow: page,
+                    pageSizeR: pageSizeR
+                },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    //alert(data.userList[0].uid);
+                    var returnedList = data.returnedModels;
+                    var totalPage = data.totalPage;
+                    $('#returnedBody').html("");
+                    for (var i in returnedList) {
+                        var id = i * 1 + 1 * 1;
+                        $('#returnedBody').append("<tr><td>" + id + "</td><td><input type='checkbox' onclick='checkboxreturneddis(this.id)' name='returnedcheck'  id='" + returnedList[i].id + "returned" + "'></td><td><a id='" + returnedList[i].returnedid + "' onclick='returnedGetGoods(this.id)' ondblclick='showReturnDetail("+returnedList[i].id+")' '>" + returnedList[i].returnedid + "</a></td> <td>&nbsp;" + returnedList[i].returnedorchange + "</td> <td>&nbsp;" + returnedList[i].returnedstatus + "</td> <td>&nbsp;" + returnedList[i].oid + "</td>  <td>&nbsp;" + returnedList[i].channeloid + "</td><td>&nbsp;" + returnedList[i].returnedmoney + "</td><td>&nbsp;" + returnedList[i].createtime + "</td><td>&nbsp;" + returnedList[i].modifytime + "</td><td>&nbsp;" + returnedList[i].modifyman + "</td></tr>");
+                        $('#totalReturnedPage').html(totalPage);
 
-    window.onload = inGetGoodsNowPage($('#goodsPageNow').html());
-
-    $('#nextGoodsPage').click(
-        function () {
-
-            var goodspage = $('#goodsPageNow').html();
-            var totalPage = $('#totalGoodPage').html();
-            if (goodspage < totalPage) {
-                inGetGoodsNowPage(goodspage * 1 + 1 * 1);
-                $('#goodsPageNow').html(goodspage * 1 + 1 * 1);
-            } else {
-                alert("已到最后一页");
-            }
-
-
-        }
-    );
-    $('#preGoodsPage').click(
-        function () {
-
-            var goodspage = $('#goodsPageNow').html();
-            if (goodspage > 1) {
-                $('#userPageNow').html(goodspage * 1 - 1 * 1);
-                inGetGoodsNowPage(goodspage * 1 - 1 * 1);
-            } else {
-                alert("已到第一页");
-            }
-        }
-    );
-
-
-    $('#firstGoodsPage').click(
-        function () {
-            $('#goodsPageNow').html(1);
-            inGetGoodsNowPage(1);
-
-        }
-    );
-
-    $('#endGoodsPage').click(
-        function () {
-            inGetGoodsNowPage($('#totalGoodPage').html());
-            $('#goodsPageNow').html($('#totalGoodPage').html());
-        }
-    );
-
-    function inGetGoodsNowPage(pageNow) {
-        var page = pageNow;
-        var pageSize = 20;
-        $.ajax({
-            type: 'get',
-            url: '/oms/goods/getAllGoods',
-            data: {
-                page: page,
-                pageSize: pageSize
-            },
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (data) {
-                //alert(data.userList[0].uid);
-                var goodsList = data.goodsAndStatus;
-                var totalPage = data.pageTotal;
-                $('#goodsbody').html("");
-                for (var i in goodsList) {
-                    var id = i * 1 + 1 * 1;
-                    $('#goodsbody').append("<tr><td>" + id + "</td><td><input type='checkbox'  name='goodscheck' ></td><td><a>" + goodsList[i].goodsno + "</a></td> <td>&nbsp;" + goodsList[i].goodsname + "</td> <td>&nbsp;" + goodsList[i].goodsvnum + "</td> <td>&nbsp;" + goodsList[i].booknum + "</td>  <td>&nbsp;" + goodsList[i].goodstolnum + "</td><td>&nbsp;" + goodsList[i].goodsprice+ "</td></tr>");
-                    $('#totalGoodPage').html(totalPage);
-
-                }
-            },
-            error: function (data) {
-                alert("获取商品列表失败");
-            }
-
-        });
-    }
-
-    function selectGoodsByValue(pageNow, value ,select) {
-        var page = pageNow;
-        var username = value;
-        var select =select;
-        var pageSize = 20;
-        $.ajax({
-            type: 'get',
-            url: '/oms/goods/selectGoods',
-            data: {
-                select: select,
-                value: value,
-                nowPage: page,
-                pageSize: pageSize
-            },
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (data) {
-                var goodsList = data.goodsAndStatus;
-                var totalPage = data.pageTotal;
-                $('#goodsbody').html("");
-                for (var i in goodsList) {
-                    var id = i * 1 + 1 * 1;
-                    $('#goodsbody').append("<tr><td>" + id + "</td><td><input type='checkbox'  name='goodscheck' ></td><td><a>" + goodsList[i].goodsno + "</a></td> <td>&nbsp;" + goodsList[i].goodsname + "</td> <td>&nbsp;" + goodsList[i].goodsvnum + "</td> <td>&nbsp;" + goodsList[i].booknum + "</td>  <td>&nbsp;" + goodsList[i].goodstolnum + "</td><td>&nbsp;" + goodsList[i].goodsprice+ "</td></tr>");
-                    $('#totalGoodPage').html(totalPage);
-
-                }
-            },
-            error: function (data) {
-                alert("查询商品失败");
-            }
-
-        });
-    }
-
-
-
-    $('#selectgoodsbut').click(
-        function () {
-            var select = $('#selectGoodssle').val();
-            var value = $('#goodsvaluetxt').val();
-            if (value.length == 0) {
-                alert("请输入查询内容");
-            } else {
-                var zzbds2 = /^([\u4E00-\u9FA5]|\w)*$/;
-                if (!zzbds2.test(value)) {
-                    alert("请不要输入特殊符号");
-                } else {
-
-                    if (select=="按名称查询"){
-                        selectGoodsByValue(1,value,"name");
-
-
-                    }else if(select=="按商品编码查询"){
-                        selectGoodsByValue(1,value,"id");
                     }
-                    $('#preGoodsPage').hide();
-                    $('#nextGoodsPage').hide();
-                    $('#endGoodsPage').hide();
+                },
+                error: function (data) {
+                    alert("获取退货单列表失败");
+                }
+
+            });
+        }
+
+        window.onload = inGetReturnedNowPage($('#returnedPageNow').html());
+
+        $('#nextReturnedPage').click(
+            function () {
+
+                var returnedpage = $('#returnedPageNow').html();
+                var totalPage = $('#totalReturnedPage').html();
+                if (returnedpage < totalPage) {
+                    inGetReturnedNowPage(returnedpage * 1 + 1 * 1);
+                    $('#returnedPageNow').html(returnedpage * 1 + 1 * 1);
+                } else {
+                    alert("已到最后一页");
+                }
+
+
+            }
+        );
+        $('#preReturnedPage').click(
+            function () {
+
+                var returnedpage = $('#returnedPageNow').html();
+                if (returnedpage > 1) {
+                    $('#returnedPageNow').html(returnedpage * 1 - 1 * 1);
+                    inGetReturnedNowPage(returnedpage * 1 - 1 * 1);
+                } else {
+                    alert("已到第一页");
                 }
             }
+        );
 
-        }
-    );
-});
+
+        $('#firstReturnedPage').click(
+            function () {
+
+                $('#returnedPageNow').html(1);
+                inGetReturnedNowPage(1);
+
+            }
+        );
+
+        $('#endReturnedPage').click(
+            function () {
+
+                inGetReturnedNowPage($('#totalReturnedPage').html());
+                $('#returnedPageNow').html($('#totalReturnedPage').html());
+            }
+        );
+
+
+        $('#nextreturnedGoodsPage').click(
+            function () {
+
+                var returnedGoodspage = $('#returnedGoodsPageNow').html();
+                var totalPage = $('#totalreturnedGoodsPage').html();
+                var returnedid = $('#returnedidongoods').html();
+                if (returnedGoodspage < totalPage) {
+                    $('#returnedGoodsPageNow').html(returnedGoodspage * 1 + 1 * 1);
+                    returngetgoodsfromserver(returnedid,returnedGoodspage * 1 + 1 * 1,5);
+                } else {
+                    alert("已到最后一页");
+                }
+
+            }
+        );
+        $('#prereturnedGoodsPage').click(
+            function () {
+                var returnedid = $('#returnedidongoods').html();
+                var returnedGoodsPageNow = $('#returnedGoodsPageNow').html();
+                if (returnedGoodsPageNow > 1) {
+                    $('#returnedGoodsPageNow').html(returnedGoodsPageNow * 1 - 1 * 1);
+                    returngetgoodsfromserver(returnedid,returnedGoodsPageNow * 1 - 1 * 1,5);
+                } else {
+                    alert("已到第一页");
+                }
+            }
+        );
+
+
+        $('#firstreturnedGoodsPage').click(
+            function () {
+                var returnedid = $('#returnedidongoods').html();
+                returngetgoodsfromserver(returnedid,1,5);
+                $('#returnedGoodsPageNow').html(1);
+            }
+        );
+
+        $('#endreturnedGoodsPage').click(
+            function () {
+                var returnedid = $('#returnedidongoods').html();
+                returngetgoodsfromserver(returnedid,$('#totalreturnedGoodsPage').html(),5);
+                $('#returnedGoodsPageNow').html($('#totalreturnedGoodsPage').html());
+            }
+        );
+
+        $('#returnedDetailbut').click(
+            function () {
+                var returnIdArray = new Array();
+                var i = 0;
+                $("input:checkbox[name='returnedcheck']:checked").each(function () {
+                    returnIdArray[i++] = parseInt($(this).attr("id"));
+                });
+                var returnIds = returnIdArray.join("/");
+                window.open("/oms/returned/returnedDetail?id="+returnIds);
+            }
+        );
+
+        $('#checkreturnedorder').click(
+            function () {
+                var returnIdArray = new Array();
+                var i = 0;
+                $("input:checkbox[name='returnedcheck']:checked").each(function () {
+                    returnIdArray[i++] = parseInt($(this).attr("id"));
+                });
+                var returnIds = returnIdArray.join("/");
+                for(var j=0;j<returnIdArray.length;j++){
+                    var id = returnIdArray[j];
+                    var a = getreturnedStatus(id);
+                    if(a=="待审核"){
+                        $.ajax({
+                            type: 'get',
+                            url: '/oms/returned/createInBoundOrder',
+                            data: {
+                                id:id,
+                            },
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (data) {
+                                alert(data.return);
+                            },
+                            error: function (data) {
+                                alert("审核异常");
+                                return false;
+                            }
+
+                        });
+                    }else {
+                        alert("请选择待审核状态退货单信息");
+                        return false;
+                    }
+                }
+            }
+        );
+        $("#cancelReturnedOrder").click(
+            function () {
+                var returnIdArray = new Array();
+                var i = 0;
+                $("input:checkbox[name='returnedcheck']:checked").each(function () {
+                    returnIdArray[i++] = parseInt($(this).attr("id"));
+                });
+                var returnIds = returnIdArray.join("/");
+                for(var j=0;j<returnIdArray.length;j++){
+                    var id = returnIdArray[j];
+                    var a = getreturnedStatus(id);
+                    if(a=="待审核"){
+                        $.ajax({
+                            type: 'get',
+                            url: '/oms/returned/cancelReturn',
+                            data: {
+                                id:id,
+                            },
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (data) {
+                                
+                            },
+                            error: function (data) {
+                                alert("取消异常");
+                                return false;
+                            }
+
+                        });
+                    }else {
+                        alert("请选择待审核状态退货单信息");
+                        return false;
+                    }
+                }
+            }
+        );
+        
+
+    });
