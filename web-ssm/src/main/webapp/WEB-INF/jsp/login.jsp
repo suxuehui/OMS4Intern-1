@@ -22,11 +22,11 @@
                 var msg = $("#msg");
                 if ($.trim(userId.val()) == "") {
                     userId.focus();
-                    msg.html("<br/>用户名不能为空");
+                    msg.html("<br/>请输入用户名");
                     return false;
                 } else if ($.trim(password.val()) == "") {
                     password.focus();
-                    msg.html("<br/>密码不能为空");
+                    msg.html("<br/>请输入密码");
                     return false;
                 } else {
                     var checkUNameUrl = "checkUName?uName=" + userId.val();
@@ -38,6 +38,7 @@
                             msg.html("<br/>用户名不存在");
                             return false;
                         } else {
+                            msg.html("");
                             $.ajax({
                                 type: "POST",
                                 url: "checkUser",
@@ -45,7 +46,7 @@
                                 dataType: "json",
                                 success: function (data) {
                                     if (data.check == 0) {
-                                        alert("请输入正确密码")
+                                        alert("密码错误");
                                     } else if (data.check == 1) {
                                         alert("管理员");
                                         window.location.href="index?urole="+1;

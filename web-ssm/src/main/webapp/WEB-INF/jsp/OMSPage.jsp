@@ -56,7 +56,7 @@
                 </c:if>
             </ul>
         </div>
-        <div class="logOut fr"><a>【注销】</a></div>
+        <div class="logOut fr"><a href="login">【注销】</a></div>
     </div><!--header结束-->
     <div class="content">
 
@@ -80,7 +80,7 @@
                             <div class="orderTit">用户列表</div>
                             <div class="customSearch">
                                 <ul>
-                                    <li><input type="button" value="新增用户" class="btn"></li>
+                                    <li><input type="button" value="新增用户" class="btn" id="adduserbutindex"></li>
                                     <li><input type="button" value="修改用户" class="btn" id="updateUserBut"
                                                disabled="disabled"></li>
                                     <li><input type="button" value="删除用户" class="btn" id="deleteUser"></li>

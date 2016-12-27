@@ -40,6 +40,7 @@ function usercheckclick(userid) {
 
 }
 
+
 function checkboxreturneddis(id){
     var count = 0;
     var checkArry = document.getElementsByName("returnedcheck");
@@ -231,8 +232,8 @@ $(
                     if (password == '') {
                         alert("请输入密码");
                     } else {
-                        if (password.length < 6) {
-                            alert("密码不得少于6位数");
+                        if (password.length < 6||password.length>15) {
+                            alert("请输入6-15位密码");
                         } else {
                             var zzbds = /^([\u4E00-\u9FA5]|\w)*$/;
                             if (!zzbds.test(username)) {
@@ -256,6 +257,7 @@ $(
                                                 $('#addUserName').val("");
                                                 $('#addUserPassword').val("");
                                                 inGetUserNowPage($('#totalUserPage').html());
+
                                             } else {
                                                 alert("用户名已存在");
                                                 $('#addUserName').val("");
@@ -288,8 +290,8 @@ $(
                     if (password == '') {
                         alert("请输入密码");
                     } else {
-                        if (password.length < 6) {
-                            alert("密码不得少于6位数");
+                        if (password.length < 6||password.length>15) {
+                            alert("请输入6-15位密码");
                         } else {
                             var zzbds = /^([\u4E00-\u9FA5]|\w)*$/;
                             if (!zzbds.test(username)) {
@@ -447,6 +449,14 @@ $(
 
 
         }
+
+        $('#adduserbutindex').click(
+            function () {
+
+                $('#addUserName').val("");
+                $('#addUserPassword').val("");
+            }
+        );
 
         window.onload = inGetGoodsNowPage($('#goodsPageNow').html());
 
