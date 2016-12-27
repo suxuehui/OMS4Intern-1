@@ -183,8 +183,8 @@
                                 </table>
                             </form>
                         </div>
-                        <div class="page"><span id="goodsPageNow" hidden>1</span> <span id="totalGoodPage" hidden>0</span><a
-                                id="endGoodsPage">尾页</a><a id="nextGoodsPage">下一页</a><a id="preGoodsPage">上一页</a><a
+                         <div class="page"><span id="goodsPageNow" hidden>1</span> <span id="totalGoodPage"
+                                                                                        hidden>0</span><a                                id="endGoodsPage">尾页</a><a id="nextGoodsPage">下一页</a><a id="preGoodsPage">上一页</a><a
                                 id="firstGoodsPage">首页</a></div>
                     </div>
                 </div>
@@ -566,14 +566,17 @@
                             <div class="orderTit">退货单列表</div>
                             <div class="orderSearch">
                                 <form>
-                                    <ul>
-                                        <li><input type="button" value="创建退款单"  class="btn"></li>
-                                        <li><input type="button" value="换货发货"  class="btn"></li>
-                                        <li><input type="button" value="审核"  class="btn"></li>
-                                        <li><input type="button" value="取消退货"  class="btn"></li>
-                                        <%--查看按钮  dfdgfg--%>
-                                        <li><input type="button" value="查看订单"  class="btn beta" disabled="disabled"></li>
-                                    </ul>
+                                     <ul>
+                                            <li><input type="button" value="创建退款单" class="btn"
+                                                       id="returnedCreaterefoundOder"></li>
+                                            <li><input type="button" value="换货发货" class="btn"></li>
+                                            <li><input type="button" value="审核" class="btn" id="checkreturnedorder"></li>
+                                            <li><input type="button" value="取消退货" class="btn" id="cancelReturnedOrder">
+                                            </li>
+                                            <%--查看按钮  dfdgfg--%>
+                                            <li><input type="button" value="查看订单" class="btn beta" disabled="disabled" id="returnedDetailbut">
+                                            </li>
+                                        </ul>
                                     <input type="button" value="查询" class="submitBtn fr">
                                     <input type="text" class="textArea fr">
                                     <select class="selectArea fr">
@@ -601,27 +604,19 @@
                                             <th class="w200">修改时间</th>
                                             <th class="w100">修改人</th>
                                         </tr>
-                                        <tbody  >
-                                        <tr>
-                                            <td style="text-align:center">1</td>
-                                            <td align="center"><input type="checkbox"></td>
-                                            <td><a>8012984120571209241</a></td>
-                                            <td></td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                        </tr>
+                                      <tbody id="returnedBody">
 
-                                        </tbody>
+
+                                            </tbody>
                                     </table>
                                 </form>
                             </div>
-                            <div class="page"><a>尾页</a><a>下一页</a><a>上一页</a><a>首页</a></div>
-                        </div>
+                            <div class="page"><span id="returnedPageNow" hidden>1</span> <span
+                                        id="totalReturnedPage" hidden>0</span><a
+                                        id="endReturnedPage">尾页</a><a id="nextReturnedPage">下一页</a><a
+                                        id="preReturnedPage">上一页</a><a
+                                        id="firstReturnedPage">首页</a></div>
+                            </div>
                     </div>
                     <div class="orderDetails">
                         <div class="tableDetails">
@@ -633,20 +628,20 @@
                                         <th>商品名称</th>
                                         <th>退货数量</th>
                                         <th>退货金额</th>
-                                    </tr>
-                                    <tr>
-                                        <td align="center"><input type="checkbox"></td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                    </tr>
+                                     </tr>
+                                        <tbody id="returnedGoodsBody">
 
-                                </table>
+
+                                        </tbody>
+                                        </table>
                             </form>
                         </div>
-                        <div class="page"><a>尾页</a><a>下一页</a><a>上一页</a><a>首页</a></div>
-                    </div>
+                       <div class="page"><span id="returnedidongoods" hidden>null</span> <span id="returnedGoodsPageNow" hidden >1</span> <span
+                                    id="totalreturnedGoodsPage" hidden>0</span><a
+                                    id="endreturnedGoodsPage">尾页</a><a id="nextreturnedGoodsPage">下一页</a><a
+                                    id="prereturnedGoodsPage">上一页</a><a
+                                    id="firstreturnedGoodsPage">首页</a></div>
+                        </div>
                 </div>
                 <!--退款单列表-->
                 <div class="relatedOrder hide">
