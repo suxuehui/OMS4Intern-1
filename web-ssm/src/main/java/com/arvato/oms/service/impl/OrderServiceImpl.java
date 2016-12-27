@@ -528,7 +528,7 @@ public class OrderServiceImpl implements OrderService
         OrderModel orderModel1=orderModelMapper.selectByChannelOid(tradeJson.getString("tid"));
         if(orderModel1!=null)
         {
-            return 2;
+            return 2;//订单存在
         }
         orderModel.setChanneloid(tradeJson.getString("tid"));
         orderModel.setOrderstatus("待预检");

@@ -5,6 +5,12 @@
 $(function () {
     $("#importBtn").click(function () {
         var formData=new FormData($("#importForm")[0]);
+        var file=document.getElementById("orderfile").files[0];
+        if(file==undefined)
+        {
+            alert("请选择需导入的文件");
+            return;
+        }
         var fileSize=document.getElementById("orderfile").files[0].size;
         if(fileSize>32000000)
         {
@@ -20,16 +26,24 @@ $(function () {
             contentType: false,
             processData: false,
             success:function (data) {
+                $(".loading").hide();
                 if(data==0)
                 {
-                    alert("请选择文件");
+                    alert("请选择需导入的文件");
+                    return;
                 }
                 if(data==2)
                 {
                     alert("文件格式不对，请选择Excel文件");
+                    return;
                 }
-                $(".loading").hide();
+                if(data==3)
+                {
+                    alert("文件过大");
+                    return;
+                }
                 queryOrder(1,orderPageSize);
+                alert("导入成功");
             }
         })
     })

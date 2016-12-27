@@ -259,6 +259,10 @@ public class OrderController
         {
             return 0;//文件为空
         }
+        if(file.getSize()>32000000)
+        {
+            return 3;//文件过大
+        }
         // 得到服务器物理路径名/upload/
         String path = request.getSession().getServletContext()
                 .getRealPath(File.separator+"upload"+File.separator);
