@@ -1,15 +1,15 @@
-function refoundPagelistson(totalpages,currentPage,oid){
+function refoundpagelistson(totalpages,currentPage,oid){
     var output = "<h5>第" + currentPage + "页 / 共" + totalpages + "页</h5>";
-    oid=oid.substring(10);//截取字符串
+    oid=oid.substring(2);//截取字符串
     if (totalpages > 1) {
         if (currentPage != 1) {
             //处理首页连接
-            output += "<a  href='javascript:void(0)' onclick='pageson("+oid +",1)'>首页</a> ";
+            output += "<a  id="+oid+" href='javascript:void(0)' onclick='refoundpageson(this.id,1)'>首页</a> ";
         }
         if (currentPage > 1) {
             var lastpage = currentPage - 1;
             //处理上一页的连接
-            output += "<a class='pageLink' href='javascript:void(0)' onclick='pageson("+oid+","+lastpage+")'>上一页</a> ";
+            output += "<a id="+oid+" class='pageLink' href='javascript:void(0)' onclick='refoundpageson(this.id,"+lastpage+")'>上一页</a> ";
         }
         output += " ";
         var currint = 5;
@@ -20,11 +20,11 @@ function refoundPagelistson(totalpages,currentPage,oid){
             if (page>= 1 && page<= totalpages) {
                 if (currint == i) {
                     //当前页处理
-                    output += "<a class='cpb' href='javascript:void(0)' onclick='pageson("+oid+","+currentPage+")'>" + currentPage + "</a> ";
+                    output += "<a id="+oid+" class='cpb' href='javascript:void(0)' onclick='refoundpageson(this.id,"+currentPage+")'>" + currentPage + "</a> ";
                 }
                 else {
                     //一般页处理
-                    output += "<a class='pageLink' href='javascript:void(0)' onclick='pageson("+oid+","+page+")'>" + page + "</a> ";
+                    output += "<a id="+oid+"  class='pageLink' href='javascript:void(0)' onclick='refoundpageson(this.id,"+page+")'>" + page + "</a> ";
                 }
             }
             output += " ";
@@ -32,13 +32,13 @@ function refoundPagelistson(totalpages,currentPage,oid){
         if (currentPage < totalpages) {
             var nextpage = currentPage + 1;
             //处理下一页的链接
-            output += "<a class='pageLink' href='javascript:void(0)' onclick='pageson("+oid+","+ nextpage + ")'>下一页</a> ";
+            output += "<a id="+oid+" class='pageLink'  href='javascript:void(0)' onclick='refoundpageson(this.id,"+ nextpage + ")'>下一页</a> ";
         }
         else {
         }
         output += " ";
         if (currentPage != totalpages) {
-            output += "<a class='pageLink' href='javascript:void(0)' onclick='pageson("+oid+","+totalpages + ")'>末页</a> ";
+            output += "<a id="+oid+" class='pageLink' href='javascript:void(0)' onclick='refoundpageson(this.id,"+totalpages + ")'>末页</a> ";
         }
         output += " ";
     }

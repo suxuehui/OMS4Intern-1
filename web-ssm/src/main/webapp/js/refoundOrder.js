@@ -55,14 +55,14 @@ function refoundsingleClick(returnedId) {
     window.setTimeout(cc, 250)
     function cc() {
         if (exceptionDb != false)return;
-        alert("测试单击" +returnedId+"--"+exceptionDb)
+        //alert("测试单击" +returnedId+"--"+exceptionDb)
         refoundpostReturnedId(returnedId);
     }
 }
 
 function refounddbClick(returnedId) {
     exceptionDb = true;
-    alert("测试双击"+returnedId+"--"+exceptionDb)
+    //alert("测试双击"+returnedId+"--"+exceptionDb)
     window.open("../refoundOrder/details?returnedId="+returnedId);
 }
 
@@ -72,11 +72,10 @@ function  refoundpostReturnedId(returnedId)
 {
     //RTOOYYYYMMDD12341
     returnedId=returnedId.substring(2);//12341
-    alert(returnedId);
-    refoundPageson(returnedId,1);
+    refoundpageson(returnedId,1);
 }
 
-function refoundPageson(returnedId,pagenow){
+function refoundpageson(returnedId,pagenow){
     returnedId="RT"+returnedId;
     $.ajax({
         type : 'get',
@@ -114,7 +113,7 @@ function refoundPageson(returnedId,pagenow){
                     $("#refoundOrdertable2 tbody  ").append(html);
                 }
             }
-            refoundPagelistson(totalpages, pagenow,returnedId);
+            refoundpagelistson(totalpages, pagenow,returnedId);
         },
         error:function (data) {
             alert("error");

@@ -95,7 +95,6 @@ public class ExceptionServiceImpl implements ExceptionService {
             {
                 if (pageNow != null) {
                     totalCount= (int) exceptionModelMapper.Counttype(txtvalue);
-                    System.out.println("totalCount00000000000000000000000000000000000000000000000000:"+totalCount);
                     pagelist =new Page(totalCount, Integer.parseInt(pageNow),pagesize);
                     list=this.exceptionModelMapper.selectAllByexceptionType(txtvalue , pagelist.getStartPos(),pagelist.getPageSize());
                 }

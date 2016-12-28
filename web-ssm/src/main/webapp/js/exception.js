@@ -3,7 +3,6 @@ window.onload= GetnowPage(1);//加载页面时就执行函数进入后台
 //使用ajax提交数据到后台
 
 function GetnowPage(pagenow){
-    alert("ssssssssssssssssss");
     var myselect=document.getElementById("exceptionSelectid");
     var index=myselect.selectedIndex;
     var optxt=myselect.options[index].value;//查询条件
@@ -90,7 +89,7 @@ function exceptionpageson(oid,pagenow){
             var rglist=data.rglist;
             var gdlist=data.goods;
             var listtotalcount =rglist.length;//数据的总数
-            var pagesize=2;//每页展示行数
+            var pagesize=5;//每页展示行数
             var totalpages;
             var count=listtotalcount%pagesize;//判断奇偶数
             totalpages=parseInt(listtotalcount/pagesize);//共多少页数

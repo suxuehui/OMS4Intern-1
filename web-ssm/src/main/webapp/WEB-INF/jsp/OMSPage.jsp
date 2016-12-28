@@ -409,7 +409,7 @@
                                     </table>
 
                             </div>
-                            <div id="exceptiondivpage"></div>
+                            <div id="exceptiondivpage" class="fr"></div>
                             <%--显示加载的信息，该引用只能放在页面下面--%>
                             <script type="text/javascript" src="${pageContext.request.contextPath}/js/exception.js" charset="utf-8"></script>
                         </div>
@@ -429,7 +429,7 @@
                                 </table>
                             </form>
                         </div>
-                        <div id="exceptionsonpl"></div>
+                        <div id="exceptionsonpl" class="fr"></div>
                     </div>
                 </div>
                 <!--出库单列表-->
