@@ -37,7 +37,7 @@ function outpagelistson(totalpages,currentPage ,oid){
         if (currentPage < totalpages) {
             var nextpage = currentPage + 1;
             //处理下一页的链接
-            alert("出库单子也米娜下一页sssss+"+oid+"---"+nextpage)
+
             output += "<a class='pageLink' href='javascript:void(0)' onclick='outpageson("+oid+","+ nextpage + ")'>下一页</a> ";
         }
         output += " ";

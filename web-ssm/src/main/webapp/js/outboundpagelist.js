@@ -120,15 +120,11 @@ function outGetnowPage(pagenow){
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (data) {
-                alert(data)
                 var outboindid = data.obolist[0].outboundid;//出库单号
                 var warehouseobid = data.obolist[0].warehouseobid;//仓库出库单号
                 var rglist = data.rglist;
                 var gdlist = data.gdslist;
                 var datapage = data.pagelist;
-
-                alert("lalalla"+rglist+">>>>>>"+gdlist)
-
                 $("#outboundertabson tbody tr").eq(0).nextAll().remove();
                 for (var i in rglist) {
                         var obj = rglist[i];//获取关系表的一个对象
