@@ -34,14 +34,14 @@ function queryOrder(pageNo,pageSize) {
                     +orderModels[i].paystatus+'</td><td>'+orderModels[i].paystyle+'</td><td>'
                     +orderModels[i].paytime+'</td><td>'+orderModels[i].goodstolprice+'</td><td>'
                     +orderModels[i].discountprice+'</td><td>'+orderModels[i].ordertolprice+'</td><td>'
-                    +orderModels[i].goodswarehouse+'</td><td>'+orderModels[i].logisticscompany+'</td><td>'
-                    +orderModels[i].logisticsid+'</td><td>'+orderModels[i].sendtime+'</td><td>'
-                    +orderModels[i].remark+'</td><td>'+orderModels[i].receivername+'</td><td>'
-                    +orderModels[i].receivermobel+'</td><td>'+orderModels[i].receivertelnum+'</td><td>'
+                    +changeNull(orderModels[i].goodswarehouse)+'</td><td>'+changeNull(orderModels[i].logisticscompany)+'</td><td>'
+                    +changeNull(orderModels[i].logisticsid)+'</td><td>'+changeNull(orderModels[i].sendtime)+'</td><td>'
+                    +changeNull(orderModels[i].remark)+'</td><td>'+orderModels[i].receivername+'</td><td>'
+                    +orderModels[i].receivermobel+'</td><td>'+changeNull(orderModels[i].receivertelnum)+'</td><td>'
                     +orderModels[i].receiverprovince+'</td><td>'+orderModels[i].receivercity+'</td><td>'
                     +orderModels[i].receiverarea+'</td><td>'+orderModels[i].detailaddress+'</td><td>'
-                    +orderModels[i].zipcode+'</td><td>'+orderModels[i].modifytime+'</td><td>'
-                    +orderModels[i].modifyman+'</td></tr>'
+                    +orderModels[i].zipcode+'</td><td>'+changeNull(orderModels[i].modifytime)+'</td><td>'
+                    +changeNull(orderModels[i].modifyman)+'</td></tr>'
             }
             oidArray=[];
             for(var i=0;i<document.getElementsByName("orderBtn").length;i++)
@@ -198,4 +198,9 @@ function judgeGoodsChecked() {
         $("#n"+goodsArray[i]).removeAttr("readonly");
         $("#n"+goodsArray[i]).removeClass("edit");
     }
+}
+
+//将null改为空字符串
+function changeNull(str) {
+    return str==null?"":str;
 }

@@ -304,11 +304,11 @@ public class OrderServiceImpl implements OrderService
     //取消订单
     public int cancleOrder(String oId,String uname)
     {
-        OrderModel orderModel=orderModelMapper.selectByOid(oId);
         if(oId==null)
         {
             return 2;//订单不存在
         }
+        OrderModel orderModel=orderModelMapper.selectByOid(oId);
         if(orderModel==null)
         {
             return 3;//订单不存在
