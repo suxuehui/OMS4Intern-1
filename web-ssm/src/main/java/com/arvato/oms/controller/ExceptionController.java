@@ -161,7 +161,7 @@ public class ExceptionController {
         String oid3=request.getParameter("oid3");
         //查询异常订单列表
         ExceptionModel exceptionList = exceptionServiceImpl.selectByOid(oid3);
-        /* 获取商品编码  查询关系表 */
+        // 获取商品编码  查询关系表
         List<RelationogModel> rogList= relationogServiceImpl.selectALLByOid(oid3);
         //获取商品实体 查询商品表
         List<Object> godsList=new ArrayList<Object>();

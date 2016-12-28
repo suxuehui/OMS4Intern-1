@@ -34,9 +34,8 @@ public class RefoundOrderServiceImpl implements RefoundOrderService{
         //获取当前页数
         String pageNow = request.getParameter("currentpage");
         String txtvalue=request.getParameter("refoundOrderTxtvalue"); //用户输入的值txtvalue
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@txtvalue"+txtvalue);
         int selectValue = Integer.parseInt(request.getParameter("refoundToseachid"))  ;//下拉框的value
-        int pagesize=2;
+        int pagesize=4;
         Page pagelist = null;
         List<RefoundOrderModel> list;
         //获取对象总数量

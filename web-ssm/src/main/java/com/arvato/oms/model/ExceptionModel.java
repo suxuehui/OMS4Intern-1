@@ -1,5 +1,7 @@
 package com.arvato.oms.model;
 
+import com.arvato.oms.utils.DatetoString;
+
 import java.util.Date;
 
 public class ExceptionModel {
@@ -19,11 +21,14 @@ public class ExceptionModel {
 
     private String exceptionstatus;
 
-    private Date createtime;
+    private String createtime;
 
     private Date modifytime;
 
     private String modifyman;
+
+    //日期格式转换
+    DatetoString dateString =new DatetoString();
 
     public Integer getId() {
         return id;
@@ -89,12 +94,12 @@ public class ExceptionModel {
         this.exceptionstatus = exceptionstatus == null ? null : exceptionstatus.trim();
     }
 
-    public Date getCreatetime() {
+    public String getCreatetime() {
         return createtime;
     }
 
     public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
+        this.createtime = dateString.formmat(createtime);
     }
 
     public Date getModifytime() {

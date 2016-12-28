@@ -57,7 +57,7 @@ function handleException(){
     oid = getOid();
     var parm = {oid2: oid};//将参数传到后台
     $.post("../exceptionOrder/handleException", parm, function (data) {
-        window.onload= GetnowPage(1);
+        GetnowPage(1);
         var msg=data.msg;
         if(msg==1){
             alert("异常类型不完全相同");
