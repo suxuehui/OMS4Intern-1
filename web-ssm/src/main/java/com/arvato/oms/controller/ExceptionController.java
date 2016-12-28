@@ -67,7 +67,7 @@ public class ExceptionController {
     public String handleException(HttpServletRequest request,HttpSession session){
         Set set=new HashSet();
         String userName = (String)session.getAttribute("uname");
-        String oid2 =request.getParameter("oid2");
+        String oid2 =request.getParameter("oid4");
         String[] exOid=oid2.split(",");
         for(int i=0;i<exOid.length;i++){
             //根据订单号查询该条订单的异常类型

@@ -5,16 +5,16 @@ function getOid() {
     for(var i=0;i<a.length;i++)
     {
         if(a[i].checked){
-            var info2 = (info + a[i].value) + (((i + 1)== a.length) ? '':',');
+            var info = (info + a[i].value) + (((i + 1)== a.length) ? '':',');
             $("#exception_inbtn").attr("disabled",false);
         }
     }
-    return info2;
+    return info;
 }
 
 function exception_del() {
-    var oid = getOid();
-    var parm = {oid: oid};//将参数传到后台
+    var oid1 = getOid();
+    var parm = {oid: oid1};//将参数传到后台
     $.post("../exceptionOrder/cancelException", parm, function () {
         window.onload= GetnowPage(1);
     });
@@ -48,8 +48,8 @@ function exception_details(){
 
 //处理异常
 function handleException(){
-    var oid = getOid();
-    var parm = {oid2: oid};//将参数传到后台
+    var oid4 = getOid();
+    var parm = {oid4: oid4};//将参数传到后台
     $.post("../exceptionOrder/handleException", parm, function (data) {
         GetnowPage(1);
         var msg=data.msg;

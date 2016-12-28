@@ -577,7 +577,7 @@
                                         </tr>
                                     </table>
                             </div>
-                            <div id="relatedOrderDivpage"></div>
+                            <div id="relatedOrderDivpage" class="fr"></div>
                             <%--显示加载的信息，该引用只能放在页面下面--%>
                             <script type="text/javascript" src="${pageContext.request.contextPath}/js/refoundOrder.js" charset="utf-8"></script>
                         </div>
@@ -595,7 +595,7 @@
                                     </tr>
                                 </table>
                         </div>
-                        <div id="refoundOrderSonpl"></div>
+                        <div id="refoundOrderSonpl" class="fr"></div>
                     </div>
                 </div>
             </div><!--orderMain结束-->
