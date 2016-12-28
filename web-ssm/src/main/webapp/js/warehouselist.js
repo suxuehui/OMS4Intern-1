@@ -155,7 +155,6 @@ function cleartext(){
              case 1 :
                  alert("仓库已成功添加");
                  cleartext();
-
                  break;
              case 2 :
                  alert("信息填写有误");

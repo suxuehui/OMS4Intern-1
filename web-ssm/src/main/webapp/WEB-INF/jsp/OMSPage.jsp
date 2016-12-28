@@ -815,10 +815,10 @@
                             <input type="text" class="inputList"   id="warename" onblur="idendifywhname(this.id)">
                         </li>
                         <li class="warn">
-                            <span id="whnumdiv" style="font-size:10px;color: red"></span>
+                            <span id="whnumdiv" class="lixx" style="font-size:10px;color: red"></span>
                         </li>
                         <li class="warn">
-                            <span id="whnamediv" style="font-size:10px;color: red"></span>
+                            <span id="whnamediv" class="lixx" style="font-size:10px;color: red"></span>
                         </li>
                         <li>
                             <input type="button" value="保存" onclick="addwarehouse()" class="save mt50">
@@ -839,13 +839,13 @@
                         </li>
                         <li>
                             <label class="listName mt20">仓库名：</label>
-                            <input type="text"class="inputList"   id="updatewhname" onblur="idendifywhname(this.id)">
+                            <input type="text" class="inputList"   id="updatewhname" onblur="idendifywhname(this.id)">
                         </li>
                         <li class="warn">
-                            <span id="whupnumdiv" style="font-size:10px;color: red"></span>
+                            <span id="whupnumdiv" class="lixx" style="font-size:10px;color: red"></span>
                         </li>
                         <li class="warn">
-                            <span id="whupnamediv" style="font-size:10px;color: red"></span>
+                            <span id="whupnamediv" class="lixx" style="font-size:10px;color: red"></span>
                         </li>
                         <li>
                             <input type="button" id="saveupdatewh"   value="保存" onclick="updateware(this.name)" class="save mt50">

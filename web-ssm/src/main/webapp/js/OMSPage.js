@@ -44,7 +44,9 @@ function addware(obj){
 
 $(document).ready(function(){
 	$(".storeShow .popupTop .iconClose").click(function(){
-		 $(".popupAll .storeShow > div").hide();
+		$(".inputList").val("");
+		$(".lixx").html("");
+		$(".popupAll .storeShow > div").hide();
     });
 });
 
