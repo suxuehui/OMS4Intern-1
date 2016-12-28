@@ -51,10 +51,14 @@ function handleException(){
     var oid4 = getOid();
     var parm = {oid4: oid4};//将参数传到后台
     $.post("../exceptionOrder/handleException", parm, function (data) {
-        GetnowPage(1);
         var msg=data.msg;
         if(msg==1){
             alert("异常类型不完全相同");
+            GetnowPage(1);
+        }
+        if(msg==2){
+            GetnowPage(1);
+            queryOrder(1,10);
         }
     },"json"
     );
