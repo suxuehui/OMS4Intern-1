@@ -18,8 +18,7 @@ public class RelationogServiceImpl implements RelationogService {
 
     //通过oid选出商品与订单关系表的数据
     public List<RelationogModel> selectALLByOid(String oid) {
-        List<RelationogModel> list=relationogModelMapper.selectMessageByOid(oid);
-        return list;
+        return relationogModelMapper.selectMessageByOid(oid);
     }
 
 }

@@ -20,8 +20,6 @@ function refoundGetnowPage(pagenow){
         contentType: "application/json; charset=utf-8",
         dataType:"json",
         success : function(data) {
-            //alert(data);
-            //var data = JSON.parse(data);
             var dataPage = data.pagelist;
             var dataList = eval(data.list);
             $("#refoundOrdertable1 tbody tr").eq(0).nextAll().remove();
@@ -39,9 +37,6 @@ function refoundGetnowPage(pagenow){
                 $("#refoundOrdertable1 tbody ").append(html);
             }
             refoundGetPage(dataPage.totalPageCount,dataPage.pageNow);
-        },
-        error:function(data){
-            alert("+++++error++");
         }
     });
 
@@ -51,18 +46,13 @@ function refoundGetnowPage(pagenow){
 /*单、双击事件跳转*/
 var exceptionDb;
 function refoundsingleClick(returnedId) {
-    exceptionDb = false;
     window.setTimeout(cc, 250)
     function cc() {
-        if (exceptionDb != false)return;
-        //alert("测试单击" +returnedId+"--"+exceptionDb)
         refoundpostReturnedId(returnedId);
     }
 }
 
 function refounddbClick(returnedId) {
-    exceptionDb = true;
-    //alert("测试双击"+returnedId+"--"+exceptionDb)
     window.open("../refoundOrder/details?returnedId="+returnedId);
 }
 
@@ -105,7 +95,6 @@ function refoundpageson(returnedId,pagenow){
                     var obj=rglist[i] ;//获取关系表的一个对象
                     var god=gdlist[i];//获取商品表的一个对象
                     var totalPrice=god.goodsprice*obj.goodnum;//商品总价
-                    var num=obj.goodnum;//需要显示在页面的部分
                     var html='<tr><td><input type="checkbox" value="" name="" onclick="" ></td><td>' + god.goodsno+'</td><td>'
                         + god.goodsname+'</td><td>'+god.goodsprice +'</td><td>'
                         + obj.goodnum+'</td><td>'
@@ -114,9 +103,6 @@ function refoundpageson(returnedId,pagenow){
                 }
             }
             refoundpagelistson(totalpages, pagenow,returnedId);
-        },
-        error:function (data) {
-            alert("error");
         }
     });
 }
@@ -141,7 +127,7 @@ function refoundOrder_details(){
     var Array = returnedId2.split(",");
     if(Array.length>1){
         if(Array[1]==[]){//选中第一条数据时，其后会有一个逗号，需将其判断出来
-            returnedId3 = Array[0];
+            var returnedId3 = Array[0];
             window.open("../refoundOrder/details?returnedId="+returnedId3);
         }else{
             alert("一次只能查看一条订单的信息");
@@ -156,7 +142,6 @@ function refoundOrder_details(){
     else
     {
         for(var i=0;i<Array.length;i++){
-            //alert(Array[i]);;
             returnedId2 = Array[i];
             window.open("../refoundOrder/details?returnedId="+returnedId2);
         }
@@ -196,7 +181,6 @@ function drawback(){
     else
     {
         for(var i=0;i<Array.length;i++){
-            //alert(Array[i]);;
             returnedId3 = Array[i];
             var parm2 = {returnedId3: returnedId3};//将参数传到后台
             $.post("../refoundOrder/drawback", parm2, function (data) {

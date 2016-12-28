@@ -5,18 +5,17 @@ function getOid() {
     for(var i=0;i<a.length;i++)
     {
         if(a[i].checked){
-            var info = (info + a[i].value) + (((i + 1)== a.length) ? '':',');
+            var info2 = (info + a[i].value) + (((i + 1)== a.length) ? '':',');
             $("#exception_inbtn").attr("disabled",false);
         }
     }
-    return info;
+    return info2;
 }
 
 function exception_del() {
-    oid = getOid();
-    alert(oid);
+    var oid = getOid();
     var parm = {oid: oid};//将参数传到后台
-    $.post("../exceptionOrder/cancelException", parm, function (data) {
+    $.post("../exceptionOrder/cancelException", parm, function () {
         window.onload= GetnowPage(1);
     });
 }
@@ -27,7 +26,7 @@ function exception_details(){
     var Array = oid2.split(",");
     if(Array.length>1){
         if(Array[1]==[]){//选中第一条数据时，其后会有一个逗号，需将其判断出来
-            oid3 = Array[0];
+            var oid3 = Array[0];
             window.open("../exceptionOrder/details?oid3="+oid3);
         }else{
             alert("一次只能查看一条订单的信息");
@@ -40,21 +39,16 @@ function exception_details(){
         }
     }else
     {
-        for(var i=0;i<Array.length;i++){
-            //alert(Array[i]);;
-            oid3 = Array[i];
+        for(var j=0;j<Array.length;j++){
+            oid3 = Array[j];
             window.open("../exceptionOrder/details?oid3="+oid3);
         }
     }
-
-
 }
-
-
 
 //处理异常
 function handleException(){
-    oid = getOid();
+    var oid = getOid();
     var parm = {oid2: oid};//将参数传到后台
     $.post("../exceptionOrder/handleException", parm, function (data) {
         GetnowPage(1);

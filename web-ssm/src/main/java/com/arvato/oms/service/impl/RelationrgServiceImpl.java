@@ -18,7 +18,6 @@ public class RelationrgServiceImpl implements RelationrgService {
 
     //通过returnedId选出商品与退款单关系表的数据
     public List<RelationrgModel> selectALLByReturnedId(String returnedId) {
-        List<RelationrgModel> list=relationrgModelMapper.selectByReturnedId(returnedId);
-        return list;
+        return relationrgModelMapper.selectByReturnedId(returnedId);
     }
 }

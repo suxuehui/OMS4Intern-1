@@ -24,7 +24,6 @@ import java.util.List;
 @RequestMapping("/refoundOrder/")
 public class RefoundOrderController {
     private Logger log = Logger.getLogger(ExceptionController.class);
-
     @Resource
     private RefoundOrderService refoundOrderServiceImpl;
     @Resource
@@ -48,8 +47,7 @@ public class RefoundOrderController {
     @RequestMapping(value = "showRefoundOrderList")
     @ResponseBody
     public String showRefoundOrderList(HttpServletRequest request){
-        String str = refoundOrderServiceImpl.showRefoundOrderList(request);
-        return  str;
+        return  refoundOrderServiceImpl.showRefoundOrderList(request);
     }
 
     //子页面显示
@@ -57,9 +55,7 @@ public class RefoundOrderController {
     @ResponseBody
     public String listRefoundOrderSon(HttpServletRequest request )
     {
-        String str=refoundOrderServiceImpl.listRefoundOrderSon(request);
-        System.out.println("refound"+str);
-        return str;
+        return refoundOrderServiceImpl.listRefoundOrderSon(request);
     }
 
     //退款单详细页面展示
@@ -105,49 +101,44 @@ public class RefoundOrderController {
         BigDecimal drawbackMoney = refoundOrderModel.getDrawbackmoney();
         ReturnedModel returnedModel = returnedModelServiceImpl.selectByReturnedId(returnedId3);
         //订单号
-        String returned_oId = returnedModel.getOid();
-        OrderModel orderModel = orderServiceImpl.selectByOid(returned_oId);
+        String returnedoId = returnedModel.getOid();
+        OrderModel orderModel = orderServiceImpl.selectByOid(returnedoId);
         //渠道订单号
         String channelOid=orderModel.getChanneloid();
         //退款账号
         String buyerAlipayNo=orderModel.getBuyeralipayno();
         JSONObject object = new JSONObject();
-        object.put("orderNumbers",returned_oId);//订单号
+        object.put("orderNumbers",returnedoId);//订单号
         object.put("refundNumbers",drawbackId);//退款单号
         object.put("originNumbers",channelOid);//渠道订单号
         object.put("refundment",drawbackMoney);//退款金额
         object.put("refundAccount",buyerAlipayNo);//退款账号
-        System.out.println("-----------------------------------OBJECT:"+object.toString());
         HTTPClientDemo httpClientDemo = new HTTPClientDemo("http://114.215.252.146:8080/DGFORQ3/oms/api/v1/refund");
         //得到返回信息
-        String return_information = httpClientDemo.postMethod(object.toString());
+        String returnInformation = httpClientDemo.postMethod(object.toString());
         String code = null;
         try {
-            JSONObject return_object = JSONObject.fromObject(return_information);
-            code = return_object.getString("code");
-            String msg = return_object.getString("msg");
-            String body = return_object.getString("body");
-            System.out.println("code:"+code+"   msg:"+msg+"   body:"+body);
+            JSONObject returnObject = JSONObject.fromObject(returnInformation);
+            code = returnObject.getString("code");
         }catch (Exception e){
-            e.printStackTrace();
-            System.out.println("连接异常");
+            log.info(e);
         }
+        //退款成功
         if("666".equals(code))
         {
-            System.out.println("退款成功");
             //将退款状态改为已退款
             String drawbackStatus = "已退款";
             refoundOrderServiceImpl.updataRefoundDrawbackId(drawbackStatus,drawbackId);
             return "{\"msg\":\"666\"}";
         }
+        //随机数退款失败
         else if("777".equals(code))
         {
-            System.out.println("随机数退款失败");
             return "{\"msg\":\"777\"}";
         }
+        //退款失败
         else
         {
-            System.out.println("退款失败");
             return "{\"msg\":\"123\"}";
         }
     }

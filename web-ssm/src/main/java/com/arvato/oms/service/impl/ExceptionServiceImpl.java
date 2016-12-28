@@ -40,12 +40,12 @@ public class ExceptionServiceImpl implements ExceptionService {
         String txtvalue=request.getParameter("txtvalue"); //用户输入的值txtvalue
         int selectValue= Integer.parseInt(request.getParameter("toseachid"))  ;//下拉框的value
         int pagesize=10;
-        Page pagelist = null;
+        Page pagelist;
         List<ExceptionModel> list;
         //获取对象总数量
         int totalCount ;
         // 页面显示所有信息
-        if(txtvalue==null||txtvalue.equals("")) {
+        if(txtvalue==null||"".equals(txtvalue)) {
             if (pageNow != null) {
                 totalCount= (int) exceptionModelMapper.Count();
                 //调用Page工具类传入参数
@@ -115,7 +115,6 @@ public class ExceptionServiceImpl implements ExceptionService {
         String jsonstr = "{\"pagelist\":"+json1.toString();//将json对象转换为字符串
         JSONArray array = JSONArray.fromObject(list);
         jsonstr +=",\"list\":"+array.toString()+"}";
-        System.out.print("异常页面的jsonstr: "+jsonstr);
         return jsonstr ;
     }
 
@@ -128,8 +127,7 @@ public class ExceptionServiceImpl implements ExceptionService {
     //根据订单号查询该条异常订单记录
     public ExceptionModel selectByOid(String oId)
     {
-        ExceptionModel  list=this.exceptionModelMapper.selectByExceptionOid(oId);
-        return list;
+        return this.exceptionModelMapper.selectByExceptionOid(oId);
     }
 
     //根据订单号查询该条订单的异常类型
@@ -141,8 +139,6 @@ public class ExceptionServiceImpl implements ExceptionService {
     public String listExceptionSon(HttpServletRequest request)
     {
         String oid = request.getParameter("oid3");//获取订单oid
-        List<ExceptionModel> list;
-        int totalCount ; //获取对象总数量
         //查询出库单列表
         ExceptionModel exceptionList = exceptionModelMapper.selectByExceptionOid(oid);
         //获取商品编码  查询关系表
@@ -155,7 +151,6 @@ public class ExceptionServiceImpl implements ExceptionService {
             String sno= roglist.get(i).getGoodsno();
             //查询所有商品列
             GoodsModel gm= goodsModelMapper.selectByGoodsNo(sno);
-            System.out.println("gm:"+gm);
             goodsList.add(gm);
         }
 
@@ -166,7 +161,6 @@ public class ExceptionServiceImpl implements ExceptionService {
         jsonstr +=",\"goods\":"+a2.toString();
         JSONArray a3 = JSONArray.fromObject(roglist);  //商品与订单关系列表
         jsonstr +=",\"rglist\":"+a3.toString()+"}";
-        System.out.println("exceptionList："+jsonstr);
         return jsonstr;
     }
 

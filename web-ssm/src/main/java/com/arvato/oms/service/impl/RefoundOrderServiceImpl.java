@@ -36,12 +36,12 @@ public class RefoundOrderServiceImpl implements RefoundOrderService{
         String txtvalue=request.getParameter("refoundOrderTxtvalue"); //用户输入的值txtvalue
         int selectValue = Integer.parseInt(request.getParameter("refoundToseachid"))  ;//下拉框的value
         int pagesize=4;
-        Page pagelist = null;
+        Page pagelist;
         List<RefoundOrderModel> list;
         //获取对象总数量
         int totalCount ;
         // 页面显示所有信息
-        if(txtvalue==null||txtvalue.equals("")) {
+        if(txtvalue==null||"".equals(txtvalue)) {
             if (pageNow != null) {
                 totalCount= (int) refoundOrderModelMapper.Count();
                 //调用Page工具类传入参数
@@ -118,8 +118,7 @@ public class RefoundOrderServiceImpl implements RefoundOrderService{
     //根据退款号查询该条退款单记录
     public RefoundOrderModel selectByReturnedId(String returnedId)
     {
-        RefoundOrderModel  list=this.refoundOrderModelMapper.selectByReturnedId(returnedId);
-        return list;
+        return this.refoundOrderModelMapper.selectByReturnedId(returnedId);
     }
 
 
@@ -127,12 +126,8 @@ public class RefoundOrderServiceImpl implements RefoundOrderService{
     public String listRefoundOrderSon(HttpServletRequest request)
     {
         String returnedId = request.getParameter("returnedId");//获取退款单returnedid
-        List<ExceptionModel> list;
-        int totalCount ; //获取对象总数量
         //查询退款单列表
-        System.out.println("returnedId:"+returnedId);
         RefoundOrderModel refoundOrderModelList = refoundOrderModelMapper.selectByReturnedId(returnedId);
-        System.out.println("refoundOrderModelList:"+refoundOrderModelList);
         //获取商品编码 查询关系表
         List<RelationrgModel> roglist = relationrgModelMapper.selectByReturnedId(returnedId);
         //获取商品实体 查询商品表
@@ -153,7 +148,6 @@ public class RefoundOrderServiceImpl implements RefoundOrderService{
         jsonstr +=",\"goods\":"+a2.toString();
         JSONArray a3 = JSONArray.fromObject(roglist);  //商品与退款单关系列表
         jsonstr +=",\"rglist\":"+a3.toString()+"}";
-        System.out.println("refoundOrderModelList："+jsonstr);
         return jsonstr;
     }
 

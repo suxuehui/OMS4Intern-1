@@ -20,7 +20,6 @@ function GetnowPage(pagenow){
         contentType: "application/json; charset=utf-8",
         dataType:"json",
         success : function(data) {
-            //var data = JSON.parse(data);
             var dataPage = data.pagelist;
             var dataList = eval(data.list);
             $("#exetable tbody tr").eq(0).nextAll().remove();
@@ -41,28 +40,20 @@ function GetnowPage(pagenow){
             }
             exGetNavPage(dataPage.totalPageCount,dataPage.pageNow);
         },
-        error:function(data){
-            alert("+++++error++");
-        }
+
     });
 }
 
 
 /*单、双击事件跳转*/
-var exceptionDb;
 function exceptionsingleClick(oid) {
-    exceptionDb = false;
     window.setTimeout(cc, 250)
     function cc() {
-        if (exceptionDb != false)return;
-        //alert("测试单击" +oid+"--"+exceptionDb)
-        exceptionPostOid(oid);
+            return exceptionPostOid(oid);
     }
 }
 
 function exceptiondbClick(oid) {
-    exceptionDb = true;
-    //alert("测试双击"+oid+"--"+exceptionDb)
     window.open("../exceptionOrder/details?oid3="+oid);
 }
 
@@ -105,7 +96,6 @@ function exceptionpageson(oid,pagenow){
                     var obj=rglist[i] ;//获取关系表的一个对象
                     var god=gdlist[i];//获取商品表的一个对象
                     var totalPrice=god.goodsprice*obj.goodnum;//商品总价
-                    var num=obj.goodnum;//需要显示在页面的部分
                     var html='<tr><td><input type="checkbox" value="" name="" onclick="" ></td><td>' + god.goodsno+'</td><td>'
                         + god.goodsname+'</td><td>'+god.goodsprice +'</td><td>'
                         + obj.goodnum+'</td><td>'
@@ -114,10 +104,8 @@ function exceptionpageson(oid,pagenow){
                 }
             }
             pagelistson(totalpages, pagenow,oid);
-        },
-        error:function (data) {
-            alert("error");
         }
+
     });
 }
 

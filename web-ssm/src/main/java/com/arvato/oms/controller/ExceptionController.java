@@ -22,9 +22,9 @@ import java.util.*;
 @Controller
 @RequestMapping("/exceptionOrder/")
 public class ExceptionController {
-
     private Logger log = Logger.getLogger(ExceptionController.class);
 
+    private static final String PAGE = "OMSPage";
     @Resource
     private ExceptionService exceptionServiceImpl;
     @Resource
@@ -39,7 +39,7 @@ public class ExceptionController {
     //进入页面
     @RequestMapping(value="indexExceptionList")
     public String indexExceptionList(){
-        return "OMSPage";
+        return PAGE;
     }
 
     //分页显示出所有异常订单
@@ -47,26 +47,24 @@ public class ExceptionController {
     @ResponseBody
     public String showExceptionList(HttpServletRequest request,HttpServletResponse response ){
 
-        String str = exceptionServiceImpl.showExceptionOrder(request );
-        return  str;
+        return  exceptionServiceImpl.showExceptionOrder(request );
     }
 
     //取消异常订单
     @RequestMapping(value = "cancelException")
     public String cancelException(HttpServletRequest request){
         String oid = request.getParameter("oid");
-        System.out.println("zzzzzz:"+oid);
         String[] sq=oid.split(",");
         for (int i = 0; i < sq.length; i++) {
             exceptionServiceImpl.deleteByOid(sq[i]);
         }
-        return "OMSPage";
+        return PAGE;
     }
 
     //异常订单的处理
     @RequestMapping(value = "handleException")
     @ResponseBody
-    public String handleExeption(HttpServletRequest request,HttpSession session,HttpServletResponse response){
+    public String handleException(HttpServletRequest request,HttpSession session){
         Set set=new HashSet();
         String userName = (String)session.getAttribute("uname");
         String oid2 =request.getParameter("oid2");
@@ -81,7 +79,7 @@ public class ExceptionController {
             while(iterator.hasNext()){
                 String exceptionType = iterator.next().toString();
                 //由预检发送过来，处理方式为：取消订单
-                if (exceptionType.equals("商品异常")){
+                if ("商品异常".equals(exceptionType)){
                     for(int j=0;j<exOid.length;j++){
                         //先删除异常页面的异常订单
                         exceptionServiceImpl.deleteByOid(exOid[j]);
@@ -93,7 +91,7 @@ public class ExceptionController {
                     }
                 }
                 //由预检发送过来，处理方式为：取消订单
-                if(exceptionType.equals("仓库库存异常"))
+                if("仓库库存异常".equals(exceptionType))
                 {
                     for(int j=0;j<exOid.length;j++){
                         //先删除异常页面的异常订单
@@ -106,7 +104,7 @@ public class ExceptionController {
                     }
                 }
                 //由预检发送过来，处理方式为：跟客户确认后，进行下一步备注异常的检验
-                if(exceptionType.equals("金额异常"))
+                if("金额异常".equals(exceptionType))
                 {
                     for(int j=0;j<exOid.length;j++){
                         String orderStatus ="待预检";
@@ -121,7 +119,7 @@ public class ExceptionController {
                 }
 
                 //由预检发送过来，处理方式为：确认备注信息后，进行路由
-                if(exceptionType.equals("备注异常"))
+                if("备注异常".equals(exceptionType))
                 {
                     for(int j=0;j<exOid.length;j++){
                         String orderStatus3 ="待路由";
@@ -134,7 +132,7 @@ public class ExceptionController {
                     }
                 }
                 //向wms发送出库单是异常，处理方式为：再次将出库单信息发送给WMS
-                if(exceptionType.equals("出库异常"))
+                if("出库异常".equals(exceptionType))
                 {
                     for(int j=0;j<exOid.length;j++) {
                         //根据订单号查询出该条订单记录
@@ -152,10 +150,10 @@ public class ExceptionController {
                 }
             }
         }else{
-            System.out.println("异常类型不完全相同");
+            log.info("异常类型不完全相同");
             return "{\"msg\":\"1\"}";
         }
-        return "OMSPage";
+        return PAGE;
     }
 
     //子页面显示
@@ -163,8 +161,7 @@ public class ExceptionController {
     @ResponseBody
     public String listExceptionSon(HttpServletRequest request )
     {
-        String str=exceptionServiceImpl.listExceptionSon(request);
-        return str;
+        return exceptionServiceImpl.listExceptionSon(request);
     }
 
     //异常订单详细页面展示
