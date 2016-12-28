@@ -16,6 +16,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.FileInputStream;
@@ -52,6 +53,8 @@ public class OrderServiceImpl implements OrderService
     ReturnedModelMapper returnedModelMapper;
     @Resource
     RelationrgModelMapper relationrgModelMapper;
+    @Resource
+    RefoundOrderModelMapper refoundOrderModelMapper;
     //根据订单号分页查询商品信息
     public JSONObject selectByOid(int pageNo,int pageSize,String oId)
     {
@@ -215,7 +218,10 @@ public class OrderServiceImpl implements OrderService
                     orderModel.setModifytime(new Date());
                     orderModel.setModifyman(name);
                     orderModelMapper.updateByOidSelective(orderModel);
-                    exceptionModelMapper.insertSelective(exceptionModel);
+                    if(checkException(oId))
+                    {
+                        exceptionModelMapper.insertSelective(exceptionModel);
+                    }
                     return 5;
                 }
             }
@@ -246,7 +252,10 @@ public class OrderServiceImpl implements OrderService
                     exceptionModel.setOrderfrom("预检");
                     orderModel.setOrderstatus("订单异常");
                     orderModelMapper.updateByOidSelective(orderModel);
-                    exceptionModelMapper.insertSelective(exceptionModel);
+                    if(checkException(oId))
+                    {
+                        exceptionModelMapper.insertSelective(exceptionModel);
+                    }
                     return 5;
                 }
             }
@@ -262,7 +271,10 @@ public class OrderServiceImpl implements OrderService
                 exceptionModel.setOrderfrom("预检");
                 orderModel.setOrderstatus("订单异常");
                 orderModelMapper.updateByOidSelective(orderModel);
-                exceptionModelMapper.insertSelective(exceptionModel);
+                if(checkException(oId))
+                {
+                    exceptionModelMapper.insertSelective(exceptionModel);
+                }
                 return 5;
             }
         }
@@ -277,7 +289,10 @@ public class OrderServiceImpl implements OrderService
                 exceptionModel.setOrderfrom("预检");
                 orderModel.setOrderstatus("订单异常");
                 orderModelMapper.updateByOidSelective(orderModel);
-                exceptionModelMapper.insertSelective(exceptionModel);
+                if(checkException(oId))
+                {
+                    exceptionModelMapper.insertSelective(exceptionModel);
+                }
                 return 5;
             }
         }
@@ -291,7 +306,16 @@ public class OrderServiceImpl implements OrderService
         orderModelMapper.updateByOidSelective(orderModel);
         return 1;
     }
-
+    //判断异常列表中该订单号是否存在
+    public boolean checkException(String oId)
+    {
+        ExceptionModel exceptionModel=exceptionModelMapper.selectByExceptionOid(oId);
+        if(exceptionModel==null)
+        {
+            return true;
+        }
+        return false;
+    }
     public ExceptionModel createException(OrderModel orderModel)
     {
         ExceptionModel exceptionModel=new ExceptionModel();
@@ -364,7 +388,6 @@ public class OrderServiceImpl implements OrderService
                         re.setStatus((byte)0);
                         relationogModelMapper.updateByPrimaryKeySelective(re);
                     }
-                    return 1;
                 }
             }
             catch (Exception e)
@@ -380,7 +403,24 @@ public class OrderServiceImpl implements OrderService
                 return 5;//无效的出库单号
             }
         }
-        return 1;
+        return createReturned(oId);
+    }
+    //根据订单号生成退款单
+    public int createReturned(String oId)
+    {
+        OrderModel orderModel=orderModelMapper.selectByOid(oId);
+        RefoundOrderModel refoundOrderModel=new RefoundOrderModel();
+        String refoundId="RF"+oId+(int)(Math.random()*90000+10000);
+        refoundOrderModel.setDrawbackid(refoundId);
+        refoundOrderModel.setDrawbackmoney(orderModel.getOrdertolprice());
+        refoundOrderModel.setDrawbackstatus("未退款");
+        refoundOrderModel.setCreatetime(new Date());
+        RefoundOrderModel refoundOrderModel1=refoundOrderModelMapper.selectByRefoundId(refoundId);
+        if(refoundOrderModel1!=null)
+        {
+            return 6;//退款单已存在
+        }
+        return refoundOrderModelMapper.insertSelective(refoundOrderModel);
     }
     //路由
     public int routeOrder(String oId,String uname) {

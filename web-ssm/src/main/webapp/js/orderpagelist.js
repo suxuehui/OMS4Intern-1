@@ -51,19 +51,23 @@ function queryOrder(pageNo,pageSize) {
             $("#order").html(html);
             if(pageNo==1)
             {
+                $("#firstorder").hide();
                 $("#preorder").hide();
             }
             else
             {
+                $("#firstorder").show();
                 $("#preorder").show();
             }
             if(pageNo==pageTotal)
             {
                 $("#nextorder").hide();
+                $("#lastorder").hide();
             }
             else
             {
                 $("#nextorder").show();
+                $("#lastorder").show();
             }
         }
     })
@@ -149,19 +153,23 @@ function queryGoodsByOid(pageNo,pageSize,oid) {
             $("#goodsOid").text(oid);
             if(pageNo==1)
             {
+                $("#ogFirstpage").hide();
                 $("#ogPrepage").hide();
             }
             else
             {
+                $("#ogFirstpage").show();
                 $("#ogPrepage").show();
             }
             if(pageNo==pageTotal)
             {
                 $("#ogNextpage").hide();
+                $("#ogLastpage").hide();
             }
             else
             {
                 $("#ogNextpage").show();
+                $("#ogLastpage").show();
             }
             judgeGoodsChecked();
         }

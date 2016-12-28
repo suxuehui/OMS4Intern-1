@@ -258,6 +258,7 @@ $(function () {
                 alert("success:"+success+"'\n'exception:"+exception);
                 var pageNo=$("#orderPageNo").text();
                 queryOrder(pageNo,orderPageSize);
+                refoundGetnowPage(1);
             }
         })
     })
