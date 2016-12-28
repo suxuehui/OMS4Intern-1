@@ -72,7 +72,12 @@ public class UserController
         int i = 0;//初始值为0，添加成功为1
         if (checkCount == 0)
         {
-            return userModelService.updateUser(uid, userName, password);
+            if (uid==6){
+                return userModelService.updateUser(uid, userName, password)-2;
+            }else {
+                return userModelService.updateUser(uid, userName, password);
+            }
+
         } else
         {
             return 0;

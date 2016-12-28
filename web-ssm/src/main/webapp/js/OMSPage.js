@@ -73,6 +73,6 @@ $(document).ready(function(){
 //loading
 $(document).ready(function() {
     $(".popupAll .save,.popupAll .leadingBtn").click(function(){
-	  $(".loading").show();
+	  $(".loading").hide();
 	});
 });

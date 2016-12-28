@@ -83,6 +83,8 @@
                                     <li><input type="button" value="新增用户" class="btn" id="adduserbutindex"></li>
                                     <li><input type="button" value="修改用户" class="btn" id="updateUserBut"
                                                disabled="disabled"></li>
+ <span id="updateusernamehidden" hidden></span>
+                                    <span id="updateupasshidden" hidden></span>
                                     <li><input type="button" value="删除用户" class="btn" id="deleteUser"></li>
                                 </ul>
                                 <form>
@@ -153,7 +155,7 @@
                                 <form>
                                     <input type="button" value="查询" class="submitBtn fr" id="selectgoodsbut">
                                     <input type="text" class="textArea fr" id="goodsvaluetxt">
-                                    <select class="selectArea fr" id="selectGoodssle">
+                                      <select class="selectArea fr revise" id="selectGoodssle">
                                         <option id="selectGoodsByNameop">按名称查询</option>
                                         <option id="selectGoodsByIdop">按商品编码查询</option>
 
@@ -183,8 +185,9 @@
                                 </table>
                             </form>
                         </div>
-                         <div class="page"><span id="goodsPageNow" hidden>1</span> <span id="totalGoodPage"
-                                                                                        hidden>0</span><a                                id="endGoodsPage">尾页</a><a id="nextGoodsPage">下一页</a><a id="preGoodsPage">上一页</a><a
+                        <div class="page"><span id="goodsPageNow" hidden>1</span> <span id="totalGoodPage"
+                                                                                        hidden>0</span><a
+                                id="endGoodsPage">尾页</a><a id="nextGoodsPage">下一页</a><a id="preGoodsPage">上一页</a><a
                                 id="firstGoodsPage">首页</a></div>
                     </div>
                 </div>
@@ -566,15 +569,17 @@
                             <div class="orderTit">退货单列表</div>
                             <div class="orderSearch">
                                 <form>
-                                     <ul>
+                                      <ul>
                                             <li><input type="button" value="创建退款单" class="btn"
                                                        id="returnedCreaterefoundOder"></li>
                                             <li><input type="button" value="换货发货" class="btn"></li>
-                                            <li><input type="button" value="审核" class="btn" id="checkreturnedorder"></li>
+                                            <li><input type="button" value="审核" class="btn" id="checkreturnedorder">
+                                            </li>
                                             <li><input type="button" value="取消退货" class="btn" id="cancelReturnedOrder">
                                             </li>
                                             <%--查看按钮  dfdgfg--%>
-                                            <li><input type="button" value="查看订单" class="btn beta" disabled="disabled" id="returnedDetailbut">
+                                            <li><input type="button" value="查看订单" class="btn beta" disabled="disabled"
+                                                       id="returnedDetailbut">
                                             </li>
                                         </ul>
                                     <input type="button" value="查询" class="submitBtn fr">
@@ -636,7 +641,8 @@
                                         </table>
                             </form>
                         </div>
-                       <div class="page"><span id="returnedidongoods" hidden>null</span> <span id="returnedGoodsPageNow" hidden >1</span> <span
+                        <div class="page"><span id="returnedidongoods" hidden>null</span> <span
+                                    id="returnedGoodsPageNow" hidden>1</span> <span
                                     id="totalreturnedGoodsPage" hidden>0</span><a
                                     id="endreturnedGoodsPage">尾页</a><a id="nextreturnedGoodsPage">下一页</a><a
                                     id="prereturnedGoodsPage">上一页</a><a
@@ -707,7 +713,7 @@
     <!--弹窗模块-->
         <div class="popupAll">
             <div class="customShow">
-                <div>
+                 <div id="addUserwindows">
                     <div class="popupTop">
                         <span class="iconClose fr"></span>
                         <p class="popupTopTit">新增用户</p>
@@ -862,12 +868,12 @@
         </div>
         <!--导入弹框结束-->
     </div>
-    <!--弹窗模块-->
-    <%--<div class="loading" style="display: none">
-        <div class="mask"></div>
-        <div class="loading-icon"><img src="${pageContext.request.contextPath}/images/loader.gif"></div>
-    </div>--%>
-</div><!--wrap结束-->
+    
+        <div class="loading" style="display: none">
+            <div class="mask"></div>
+            <div class="loading-icon"><img src="${pageContext.request.contextPath}/images/loader.gif"></div>
+        </div>
+    </div>
 </body>
 </html>
 
