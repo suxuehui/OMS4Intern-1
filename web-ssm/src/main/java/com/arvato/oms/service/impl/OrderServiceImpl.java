@@ -253,7 +253,7 @@ public class OrderServiceImpl implements OrderService
         }
         if(exceptionType==null||exceptionType.equals("金额异常"))
         {
-            if(orderModel.getOrdertolprice().doubleValue()>10000)
+            if(orderModel.getOrdertolprice().doubleValue()>=10000)
             {
                 exceptionModel=createException(orderModel);
                 exceptionModel.setExceptiontype("金额异常");
@@ -521,7 +521,7 @@ public class OrderServiceImpl implements OrderService
         OrderModel orderModel=new OrderModel();
         RelationogModel relationogModel=new RelationogModel();
         GoodsModel goodsModel=new GoodsModel();
-        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("YYYYMMdd");
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyyMMdd");
         String oId="OO"+simpleDateFormat.format(new Date())+(int)(Math.random()*90000+10000);
         orderModel.setOid(oId);
         //判断该渠道订单是否已经存在

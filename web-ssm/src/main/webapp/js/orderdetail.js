@@ -26,6 +26,7 @@ function cancel() {
 
 $(function () {
     $("#save").click(function () {
+            $(".loading").show;
             var receiverName=$("#receiverName").val();
             if(receiverName=="")
             {
@@ -76,6 +77,7 @@ $(function () {
             }
         document.edit.action="modifyInfo";
         document.edit.submit();
+        $(".loading").show();
     });
 })
 $(function () {

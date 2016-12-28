@@ -4,6 +4,7 @@
 //导入订单
 $(function () {
     $("#importBtn").click(function () {
+        $(".loading").show();
         var formData=new FormData($("#importForm")[0]);
         var file=document.getElementById("orderfile").files[0];
         if(file==undefined)
@@ -42,8 +43,9 @@ $(function () {
                     alert("文件过大");
                     return;
                 }
-                queryOrder(1,orderPageSize);
                 alert("导入成功");
+                $(".popupAll .leadingInShow").hide();
+                queryOrder(1,orderPageSize);
             }
         })
     })
@@ -187,6 +189,7 @@ $(function () {
                 if(exception!=0)
                 {
                     content+="'\n'请去异常订单页查看";
+                    GetnowPage(1);
                 }
                 alert(content);
                 var pageNo=$("#orderPageNo").text();
@@ -226,9 +229,16 @@ $(function () {
             success:function (data) {
                 var success=data.success;
                 var exception=data.exception;
-                alert("success:"+success+"'\n'exception:"+exception);
+                var content="success:"+success+"'\n'exception:"+exception;
+                if(exception!=0)
+                {
+                    content+="'\n'请去异常订单页查看";
+                    GetnowPage(1);
+                }
+                alert(content);
                 var pageNo=$("#orderPageNo").text();
                 queryOrder(pageNo,orderPageSize);
+                outGetnowPage(1);
             }
         })
     })
@@ -314,6 +324,7 @@ function returnOrExchange(returnoid,returnedOrChange) {
             {
                 alert("退换货异常");
             }
+            refoundGetnowPage(1);
         }
     });
 }
