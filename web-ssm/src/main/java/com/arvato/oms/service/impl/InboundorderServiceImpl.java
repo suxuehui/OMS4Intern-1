@@ -35,8 +35,8 @@ public class InboundorderServiceImpl implements InboundorderService {
     private RelationogModelMapper rogdao;
     //分页查询
     public String inboundsearchAllByparam(HttpServletRequest request ) throws UnsupportedEncodingException {
-        String pageNow = request.getParameter("currentpage");//获取当前页数pagenow
-        String id=request.getParameter("txtvalue"); //用户输入的值id
+        String pageNow = request.getParameter("currentpage").trim ();//获取当前页数pagenow
+        String id=request.getParameter("txtvalue").trim (); //用户输入的值id
         int selectvalue= Integer.parseInt(request.getParameter("toseachid"))  ;//下拉框的value
         int pagesize=10;//分页的每页显示的数量
         Page pagelist=null;

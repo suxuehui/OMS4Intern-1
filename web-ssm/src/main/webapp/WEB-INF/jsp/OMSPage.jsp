@@ -14,9 +14,10 @@
     <meta charset="utf-8">
     <title>OMS订单管理系统</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/css.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/pagelink.css">
+
     <script src="${pageContext.request.contextPath}/js/jquery-3.1.1.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/OMSPage.js"></script>
-
 
     <script src="${pageContext.request.contextPath}/js/userlistAndGoodslist.js"></script>
 
@@ -477,7 +478,9 @@
                                         </tr>
                                         </tbody>
                                     </table>
+                                <div id="infodiv" style="margin: auto;font-size: 40px;color: cornflowerblue">Sorry,您所查询的条件不存在，请确认您的输入信息</div>
                             </div>
+
                             <%--分页显示加载的信息，该引用只能放在页面下面--%>
                             <script src="${pageContext.request.contextPath}/js/outboundpagelist.js"></script>
                             <div class="page" id="outdivpage"></div>
@@ -540,6 +543,8 @@
                                             <th class="w100">修改人</th>
                                         </tr>
                                     </table>
+                                <div id="inboundinfordiv" style="margin: auto;font-size: 40px;color: cornflowerblue">Sorry,您所查询的条件不存在，请确认您的输入信息</div>
+
                             </div>
                             <div class="page"  id="indivpage"></div>
                             <%--显示加载的信息，该引用只能放在页面下面--%>

@@ -4,7 +4,7 @@
 
 function inpagelistson(totalpages,currentPage ,oid){
     oid= oid.substring(2);//截取字符串
-    var output = "";
+    var output = " ";
     if (totalpages > 1) {
         if (currentPage != 1) {
             //处理首页连接
@@ -16,33 +16,15 @@ function inpagelistson(totalpages,currentPage ,oid){
             output += "<a class='pageLink' href='javascript:void(0)' onclick='inpageson("+oid+","+lastpage+")'>上一页</a> ";
         }
         output += " ";
-        var currint = 5;
-        var page = 1;
-        for (var i = 0; i <= 10; i++) {
-            //一共最多显示10个页码，前面5个，后面5个
-            page = currentPage + i - currint;
-            if (page>= 1 && page<= totalpages) {
-                if (currint == i) {
-                    //当前页处理
-                    output += "<a class='cpb' href='javascript:void(0)' onclick='inpageson("+oid+","+currentPage+")'>" + currentPage + "</a> ";
-                }
-                else {
-                    //一般页处理
-                    output += "<a class='pageLink' href='javascript:void(0)' onclick='inpageson("+oid+","+page+")'>" + page + "</a> ";
-                }
-            }
-            output += " ";
-        }
+
         if (currentPage < totalpages) {
             var nextpage = currentPage + 1;
             //处理下一页的链接
             output += "<a class='pageLink' href='javascript:void(0)' onclick='inpageson("+oid+","+ nextpage + ")'>下一页</a> ";
         }
-        else {
-        }
         output += " ";
         if (currentPage != totalpages) {
-            output += "<a class='pageLink' href='javascript:void(0)' onclick='inpageson("+oid+","+totalpages + ")'>末页</a> ";
+            output += "<a class='pageLink' href='javascript:void(0)' onclick='inpageson("+oid+","+totalpages + ")'>尾页</a> ";
         }
         output += " ";
     }

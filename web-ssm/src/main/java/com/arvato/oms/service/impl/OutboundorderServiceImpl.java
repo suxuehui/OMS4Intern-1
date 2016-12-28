@@ -103,10 +103,13 @@ public class OutboundorderServiceImpl implements OutboundorderService
             pagelist = new  Page(totalCount, 1,pagesize);
             list=this.outboundorderModelMapper.selectAllByOid( id , pagelist.getStartPos(), pagelist.getPageSize());
         }
-        //调用对象转json转字符串的工具类
-        ObjectToJsonstr objtojsonstr=new ObjectToJsonstr ();
-        jsonstr= objtojsonstr.outobjtojson (pagelist, list,jsonstr);
+
+            //调用对象转json转字符串的工具类
+            ObjectToJsonstr objtojsonstr=new ObjectToJsonstr ();
+            jsonstr= objtojsonstr.outobjtojson (pagelist, list,jsonstr);
+
         return jsonstr;
+
     }
     //下拉框的值等于2即选中渠道订单号查询
     public String equaltwo(String pageNow, int totalCount, String id, int pagesize, Page pagelist,

@@ -23,7 +23,12 @@ function inGetnowPage(pagenow){
         success : function(data) {
             var datapage = data.pagelist;
             var datalist =  data.list ;
+            //关闭数据为空时的提示信息
+            document.getElementById("inboundinfordiv").style.display="none"
+            //清除母页面信息
             $("#inboundertab tbody tr").eq(0).nextAll().remove();
+            //清除子页面信息
+            $("#inboundertabson tbody tr").eq(0).nextAll().remove();
             document.getElementById("inbtn").disabled=true;
             inboundArray.length=0;//每次分页就将勾选数组初始化
             for(var obj in datalist){
@@ -39,6 +44,11 @@ function inGetnowPage(pagenow){
                     +list.modifytime+'</td><td>' +list.modifyman +'</td></tr>'
                 $("#inboundertab tbody ").append(html);
             }}
+            //打开数据为空时的提示信息
+            if(datalist.length==0){
+                document.getElementById("inboundinfordiv").style.display="block"
+            }
+            //分页设置
             inGetNavPage(datapage.totalPageCount,datapage.pageNow);
         },
         error:function(){
@@ -122,6 +132,7 @@ function inpageson(oid,pagenow){
             var rglist = data.rglist;
             var gdlist = data.gdslist;
             var datapage = data.pagelist;
+            //清除子页面信息
             $("#inboundertabson tbody tr").eq(0).nextAll().remove();
             for(var i in rglist)
             {
@@ -132,6 +143,8 @@ function inpageson(oid,pagenow){
                         + obj.goodnum+'</td></tr>'
                     $("#inboundertabson tbody  ").append(html);
             }
+            //inboundinfordiv
+
             inpagelistson(datapage.totalPageCount,datapage.pageNow , oid);
         },
         error:function () {

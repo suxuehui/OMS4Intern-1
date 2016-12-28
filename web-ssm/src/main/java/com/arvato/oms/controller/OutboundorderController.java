@@ -53,7 +53,7 @@ public class OutboundorderController {
     //详情页面展示
     @RequestMapping(value="details")
     public String  details(HttpServletRequest request,Model model){
-        String oid=request.getParameter("oid");
+        String oid=request.getParameter("oid").trim ();
         //查询出库单列表
         OutboundorderModel obolist=oboserciveimpl.selectByOid(oid);
         //获取商品编码  查询关系表

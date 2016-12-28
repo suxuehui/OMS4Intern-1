@@ -24,30 +24,41 @@ function outGetnowPage(pagenow){
         success:function(data) {
             var datapage = data.pagelist;
             var datalist = data.list;
+            //关闭数据为空时的提示信息
+            document.getElementById("infodiv").style.display="none"
+            //清除母页面信息
              $("#outboundertab tbody tr").eq(0).nextAll().remove();
-             document.getElementById("outbtn").disabled=true;
-             outboundArray.length=0;//每次分页就将勾选数组初始化
-            for(var obj in datalist){
-              if(datalist.hasOwnProperty(obj)){
-                  var  list=datalist[obj];
-                  var html='<tr><td><input type="checkbox" id="'+list.oid+'"' +
-                      'onclick="tooutcheck(this)"  name="outck"></td><td>';
-                  html+='<button id="'+list.oid+'" style="border-style:none;outline:none;" ondblclick="outdblclick(this.id)" onclick="outsgclick(this.id)">'+list.oid+'</button></td><td>'
-                      +list.channeloid+'</td><td>'
-                      +list.orderstatus+'</td><td>'+list.warehouseobid+'</td><td>'
-                      +list.outboundid+'</td><td>'+list.outboundstate+'</td><td>'
-                      +list.synchrostate+'</td><td>' +list.receivername+'</td><td>'
-                      +list.expresscompany+'</td><td>' +list.expressid+'</td><td>'
-                      +list.receiveraddress+'</td><td>'
-                      +list.createdtime+'</td><td>'+list.modifytime+'</td><td>'
-                      +list.modifyman +'</td></tr>'
-                  $("#outboundertab tbody ").append(html);
-              }
+            //清除子页面信息
+            $("#outboundertabson tbody tr").eq(0).nextAll().remove();
+            document.getElementById("outbtn").disabled=true;
+            outboundArray.length=0;//每次分页就将勾选数组初始化
+            for(var obj in datalist) {
+                 if(datalist.hasOwnProperty(obj)) {
+                     var list = datalist[obj];
+                     var html = '<tr><td><input type="checkbox" id="' + list.oid + '"' +
+                         'onclick="tooutcheck(this)"  name="outck"></td><td>';
+                     html += '<button id="' + list.oid + '" style="border-style:none;outline:none;" ondblclick="outdblclick(this.id)" onclick="outsgclick(this.id)">' + list.oid + '</button></td><td>'
+                         + list.channeloid + '</td><td>'
+                         + list.orderstatus + '</td><td>' + list.warehouseobid + '</td><td>'
+                         + list.outboundid + '</td><td>' + list.outboundstate + '</td><td>'
+                         + list.synchrostate + '</td><td>' + list.receivername + '</td><td>'
+                         + list.expresscompany + '</td><td>' + list.expressid + '</td><td>'
+                         + list.receiveraddress + '</td><td>'
+                         + list.createdtime + '</td><td>' + list.modifytime + '</td><td>'
+                         + list.modifyman + '</td></tr>'
+                     $("#outboundertab tbody ").append(html);
+                 }
             }
+            //打开数据为空时的提示信息
+            if(datalist.length==0){
+                document.getElementById("infodiv").style.display="block"
+            }
+            //分页设置
             outGetNavPage(datapage.totalPageCount,datapage.pageNow);
         },
         error:function(){
             alert("+++++error++");
+
         }
     });
 }

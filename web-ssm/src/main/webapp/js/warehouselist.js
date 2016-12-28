@@ -25,8 +25,8 @@ function wareGetnowPage(pagenow){
         success:function(data) {
             var datapage = data.pagelist;
             var datalist = data.warelist;
+            //清除原先的数据
             $("#warehousetab tbody tr").eq(0).nextAll().remove();
-
             for(var listindex in datalist){
                 var  list=datalist[listindex];
                 var html='<tr><td>'+(++listindex)+'</td><td><input type="checkbox" id="'
@@ -39,13 +39,13 @@ function wareGetnowPage(pagenow){
             WareGetNavPage(datapage.totalPageCount,datapage.pageNow);
         },
         error:function(){
-            alert("+++++error++");
+            alert("error");
         }
     });
 }
 // 页面分页 totalpages  总页数   currentPage  当前页数  waredivpage  div的id属性
 function  WareGetNavPage(totalpages,currentPage){
-    var output="" ;
+    var output=" " ;
     if (totalpages > 1) {
         if (currentPage != 1) {
             //处理首页连接
@@ -57,23 +57,6 @@ function  WareGetNavPage(totalpages,currentPage){
             output += "<a class='pageLink' href='javascript:void(0)' onclick='wareGetnowPage("+lastpage+")'>上一页</a> ";
         }
         output += " ";
-        var currint = 5;
-        var page;
-        for (var i = 0; i <= 10; i++) {
-            //一共最多显示10个页码，前面5个，后面5个
-            page = currentPage + i - currint;
-            if ((currentPage + i - currint) >= 1 && (currentPage + i - currint) <= totalpages) {
-                if (currint == i) {
-                    //当前页处理
-                    output += "<a class='cpb' href='javascript:void(0)' onclick='wareGetnowPage("+currentPage+")'>" + currentPage + "</a> ";
-                }
-                else {
-                    //一般页处理
-                    output += "<a class='pageLink' href='javascript:void(0)' onclick='wareGetnowPage("+page+")'>" + page + "</a> ";
-                }
-            }
-            output += " ";
-        }
         if (currentPage < totalpages) {
             var nextpage = currentPage + 1;
             //处理下一页的链接
@@ -81,7 +64,7 @@ function  WareGetNavPage(totalpages,currentPage){
         }
         output += " ";
         if (currentPage != totalpages) {
-            output += "<a class='pageLink' href='javascript:void(0)' onclick='wareGetnowPage(" + totalpages + ")'>末页</a> ";
+            output += "<a class='pageLink' href='javascript:void(0)' onclick='wareGetnowPage(" + totalpages + ")'>尾页</a> ";
         }
         output += " ";
     }
@@ -179,7 +162,6 @@ function cleartext(){
                  break;
              case 3 :
                  alert("添加失败");
-
                  break;
              default:
         }
