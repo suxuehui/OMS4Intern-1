@@ -233,6 +233,7 @@
                                 <th>名称</th>
                             </tr>
                         </table>
+                        <div id="whinfdiv" style="margin: auto;font-size: 40px;color: cornflowerblue">Sorry,您所查询的条件不存在，请确认您的输入信息</div>
                     </div>
                     <%--分页列出仓库列表只能放在后面--%>
                     <script src="${pageContext.request.contextPath}/js/warehouselist.js"></script>
@@ -694,12 +695,12 @@
                     <ul>
                         <li>
                             <label class="listName mt20">仓库编号：</label>
-                            <input type="text" class="inputList"   id="warenum" onblur="idendifywhnum(this.id)" >
+                            <input type="text" class="inputList"   id="warenum"   >
                         </li>
 
                         <li>
                             <label class="listName mt20">仓库名：</label>
-                            <input type="text" class="inputList"   id="warename" onblur="idendifywhname(this.id)">
+                            <input type="text" class="inputList"   id="warename"  >
                         </li>
                         <li class="warn">
                             <span id="whnumdiv" class="lixx" style="font-size:10px;color: red"></span>
@@ -722,11 +723,11 @@
                     <ul>
                         <li>
                             <label class="listName mt20">仓库编号：</label>
-                            <input type="text" class="inputList"  id="updatewhnum" onblur="idendifywhnum(this.id)">
+                            <input type="text" class="inputList"  id="updatewhnum"  >
                         </li>
                         <li>
                             <label class="listName mt20">仓库名：</label>
-                            <input type="text" class="inputList"   id="updatewhname" onblur="idendifywhname(this.id)">
+                            <input type="text" class="inputList"   id="updatewhname"  >
                         </li>
                         <li class="warn">
                             <span id="whupnumdiv" class="lixx" style="font-size:10px;color: red"></span>
@@ -760,8 +761,8 @@
         </div>
         <!--导入弹框结束-->
     </div>
-    
-        <div class="loading" style="display: none">
+    <div>
+        <div class="loading"  >
             <div class="mask"></div>
             <div class="loading-icon"><img src="${pageContext.request.contextPath}/images/loader.gif"></div>
         </div>

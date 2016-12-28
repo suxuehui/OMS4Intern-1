@@ -32,7 +32,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         String option=request.getParameter("txtvalue"); //用户输入的值id
         int selectvalue= Integer.parseInt(request.getParameter("toseachid"))  ;//下拉框的value
         //每页展示的行数pagesize
-        int pagesize=4;
+        int pagesize=20;
         Page pagelist;
         List<WarehouseModel> warelist;
         //获取对象总数量
@@ -105,8 +105,11 @@ public class WarehouseServiceImpl implements WarehouseService {
     public int addWarehouse(String warehousenum, String warename) throws Exception {
         //对用户填写的数据校验 warehousenum：4位数字 warehousename：不含特殊字符2到16位
         String warehousename = URLDecoder.decode(warename, "UTF-8");
-        boolean num = Pattern.matches("[0-9]{4}", warehousenum);
-        boolean name = Pattern.matches("[\\u4E00-\\u9FA5A-Za-z0-9_]{2,16}", warehousename);
+        if(warehousenum=="" && warename==""){
+            return 4;
+        }
+        boolean num = Pattern.matches("[A-Za-z0-9]{4}", warehousenum);
+        boolean name = Pattern.matches("[\\u4E00-\\u9FA5A-Za-z0-9_]{1,}", warehousename);
         boolean bl=num && name;
         int add=3;//仓库已存在
       try{
@@ -139,9 +142,12 @@ public class WarehouseServiceImpl implements WarehouseService {
         int wareid = warehouse.getId();
         String warehousename = URLDecoder.decode(warehouse.getWarehousename(), "UTF-8");
         String warehousenum = warehouse.getWarehousenum();
+        if(warehousenum=="" && warehousename==""){
+            return 4;//信息全为空
+        }
         //对用户填写的数据校验 warehousenum：4位数字 warehousename：不含特殊字符2到16位
-        boolean num = Pattern.matches("[0-9]{4}", warehousenum);
-        boolean name = Pattern.matches("[\\u4E00-\\u9FA5A-Za-z0-9_]{2,16}", warehousename);
+        boolean num = Pattern.matches("[A-Za-z0-9]{4}", warehousenum);
+        boolean name = Pattern.matches("[\\u4E00-\\u9FA5A-Za-z0-9_]{1,}", warehousename);
         boolean updatebl = num && name;
         int update=3;//仓库已存在
         List<String> listnum = warehouseModelModel.selectBywhIdandNum(wareid, warehousenum);

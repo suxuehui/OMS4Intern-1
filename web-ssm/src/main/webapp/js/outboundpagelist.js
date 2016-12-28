@@ -35,6 +35,8 @@ function outGetnowPage(pagenow){
             for(var obj in datalist) {
                  if(datalist.hasOwnProperty(obj)) {
                      var list = datalist[obj];
+                     //将同步状态的显示格式进行修改
+                     booleantoString(list);
                      var html = '<tr><td><input type="checkbox" id="' + list.oid + '"' +
                          'onclick="tooutcheck(this)"  name="outck"></td><td>';
                      html += '<button id="' + list.oid + '" style="border-style:none;outline:none;" ondblclick="outdblclick(this.id)" onclick="outsgclick(this.id)">' + list.oid + '</button></td><td>'
@@ -46,6 +48,7 @@ function outGetnowPage(pagenow){
                          + list.receiveraddress + '</td><td>'
                          + list.createdtime + '</td><td>' + list.modifytime + '</td><td>'
                          + list.modifyman + '</td></tr>'
+
                      $("#outboundertab tbody ").append(html);
                  }
             }
@@ -58,9 +61,18 @@ function outGetnowPage(pagenow){
         },
         error:function(){
             alert("+++++error++");
-
         }
     });
+}
+//将同步状态的显示格式进行修改
+function booleantoString(list){
+    if(list.synchrostate){
+        list.synchrostate="已接收"
+    }
+    else{
+        list.synchrostate="已发送"
+    }
+
 }
 
 /*点击checkbox */

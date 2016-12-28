@@ -34,6 +34,8 @@ function inGetnowPage(pagenow){
             for(var obj in datalist){
                 if(datalist.hasOwnProperty(obj)){
                 var  list=datalist[obj];
+                   //将同步状态的显示格式进行修改
+                    bytetoString(list)
                 var html='<tr><td><input type="checkbox"  id="'+list.oid+'" ' +
                     'onclick="toincheck(this)"  name="inck"></td><td>';
                     html+= '<button id="'+list.oid+'" style="border-style:none;outline:none;"  ondblclick="indblclick(this.id)" onclick="insgclick(this.id)">'+list.oid+'</button> </td><td>'
@@ -58,7 +60,15 @@ function inGetnowPage(pagenow){
     });
 
 }
-
+//将同步状态的显示格式进行修改
+function bytetoString(list) {
+    if (list.synchrostate) {
+        list.synchrostate = "已接收"
+    }
+    else {
+        list.synchrostate = "已发送"
+    }
+}
 /*点击checkbox */
 function toincheck(element){ //id为checkbox的id 属性值
     var oid=$(element).attr("id");
