@@ -85,6 +85,9 @@ public class ExceptionController {
                     for(int j=0;j<exOid.length;j++){
                         //先删除异常页面的异常订单
                         exceptionServiceImpl.deleteByOid(exOid[j]);
+                        String orderStatus1 ="待预检";
+                        //先将订单状态改为“待预检”,然后才能进行订单的修改操作
+                        orderServiceImpl.updateOrder(orderStatus1,exOid[j]);
                         //再删除订单页面的订单信息
                         orderServiceImpl.cancleOrder(exOid[j],userName);
                     }
@@ -95,6 +98,9 @@ public class ExceptionController {
                     for(int j=0;j<exOid.length;j++){
                         //先删除异常页面的异常订单
                         exceptionServiceImpl.deleteByOid(exOid[j]);
+                        String orderStatus2 ="待预检";
+                        //先将订单状态改为“待预检”,然后才能进行订单的修改操作
+                        orderServiceImpl.updateOrder(orderStatus2,exOid[j]);
                         //再删除订单页面的订单信息
                         orderServiceImpl.cancleOrder(exOid[j],userName);
                     }
@@ -118,6 +124,9 @@ public class ExceptionController {
                 if(exceptionType.equals("备注异常"))
                 {
                     for(int j=0;j<exOid.length;j++){
+                        String orderStatus3 ="待路由";
+                        //先将订单状态改为“待路由”,然后才能进行订单的修改操作
+                        orderServiceImpl.updateOrder(orderStatus3,exOid[j]);
                         //进行路由
                         orderServiceImpl.routeOrder(exOid[j],userName);
                         //再删除异常页面的异常订单
@@ -132,6 +141,9 @@ public class ExceptionController {
                         OrderModel orderModel=orderServiceImpl.selectByOid(exOid[j]);
                         //根据订单号查询出该条出库单记录
                         OutboundorderModel outboundorderModel =outboundorderServiceImpl.selectByOid(exOid[j]);
+                        String orderStatus4 ="待出库";
+                        //先将订单状态改为“待出库”,然后才能进行订单的修改操作
+                        orderServiceImpl.updateOrder(orderStatus4,exOid[j]);
                         //再次将出库单信息发送给WMS
                         orderServiceImpl.sendOutboundOrder(orderModel,outboundorderModel,userName);
                         //再删除异常页面的异常订单
