@@ -22,6 +22,11 @@ function queryOrder(pageNo,pageSize) {
             $("#orderPageNo").text(data.pageNo);
             $("#orderPageTotal").text(data.pageTotal);
             var orderModels=data.orderModels;
+            if(orderModels=="")
+            {
+                alert("查询无结果");
+                return;
+            }
             var html="";
             for(var i=0;i<orderModels.length;i++)
             {

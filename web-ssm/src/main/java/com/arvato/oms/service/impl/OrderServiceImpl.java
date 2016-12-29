@@ -514,6 +514,7 @@ public class OrderServiceImpl implements OrderService
             orderModelMapper.updateByOidSelective(orderModel);
             outboundorderModel.setOrderstatus("已出库");
             outboundorderModel.setOutboundstate("处理中");
+            outboundorderModel.setSynchrostate(true);
             outboundorderModel.setModifyman(uname);
             outboundorderModel.setModifytime(new Date());
             outboundorderModelMapper.updateByOidSelective(outboundorderModel);
@@ -544,6 +545,7 @@ public class OrderServiceImpl implements OrderService
         exceptionModelMapper.insertSelective(exceptionModel);
         outboundorderModel.setOrderstatus("出库异常");
         outboundorderModel.setOutboundstate("出库异常");
+        outboundorderModel.setSynchrostate(true);
         outboundorderModel.setModifytime(new Date());
         outboundorderModel.setModifyman(uname);
         outboundorderModelMapper.updateByOidSelective(outboundorderModel);
@@ -555,7 +557,14 @@ public class OrderServiceImpl implements OrderService
     }
     //导入订单
     public int importOrder(String str) {
-        JSONObject jsonObject= JSON.parseObject(str);
+        JSONObject jsonObject=null;
+        try {
+            jsonObject = JSON.parseObject(str);
+        }
+        catch(Exception e)
+        {
+            return 4;//excel内容错误
+        }
         JSONObject tradeJson=jsonObject.getJSONObject("trade_fullinfo_get_response").getJSONObject("trade");
         String promotion_details= tradeJson.getJSONObject("promotion_details").getString("promotion_detail");
         String orders= tradeJson.getJSONObject("orders").getString("order");
@@ -621,7 +630,7 @@ public class OrderServiceImpl implements OrderService
             relationogModel.setTotalfee(totalfee);
             relationogModelMapper.insertSelective(relationogModel);
         }
-        return j;
+        return 1;
     }
 
     //退换货
@@ -672,18 +681,10 @@ public class OrderServiceImpl implements OrderService
         returnedModel.setReturnedstatus("待审核");
         Date date=new Date();
         returnedModel.setCreatetime(date);
-        int i=returnedModelMapper.insertSelective(returnedModel);
-        if(i==0)
-        {
-            return 0;
-        }
+        returnedModelMapper.insertSelective(returnedModel);
         for(RelationrgModel re:relationRgModels)
         {
-            int j=relationrgModelMapper.insertSelective(re);
-            if(j==0)
-            {
-                return 0;
-            }
+            relationrgModelMapper.insertSelective(re);
         }
         return 1;
     }
@@ -725,7 +726,11 @@ public class OrderServiceImpl implements OrderService
                     continue;
                 }
                 XSSFCell tradeStr = hssfRow.getCell(0);
-                importOrder(tradeStr.toString());
+                int j=importOrder(tradeStr.toString());
+                if(j!=1)
+                {
+                    return j;
+                }
             }
         }catch(FileNotFoundException e)
         {

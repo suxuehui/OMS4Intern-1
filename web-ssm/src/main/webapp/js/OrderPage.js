@@ -43,6 +43,11 @@ $(function () {
                     alert("文件过大");
                     return;
                 }
+                if(data==4)
+                {
+                    alert("请选择正确的excel文件");
+                    return;
+                }
                 alert("导入成功");
                 $(".popupAll .leadingInShow").hide();
                 $(".hbg").hide();//隐藏阴影层
