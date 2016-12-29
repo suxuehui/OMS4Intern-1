@@ -5,6 +5,15 @@
 window.onload= wareGetnowPage(1);
 //定义全局变量 checkbox勾选的Array
 var whidArray=new Array();
+var warelistnull;
+//点击查询时无结果就显示提示
+function WarehousegetPage(pagenow){
+    warelistnull=0;//每次调用时初始化全局变量
+    wareGetnowPage(pagenow)
+    if(warelistnull==0){//判断是否有订单
+        alert("查询无结果！")
+    }
+}
 function wareGetnowPage(pagenow){
     var  myselect=document.getElementById("whselectid");
     var index=myselect.selectedIndex;
@@ -31,8 +40,8 @@ function wareGetnowPage(pagenow){
             var datalist = data.warelist;
             //清空数组，防止操作下一页时，数组不为空导致删除失败
             whidArray.length=0;
-            //关闭无信息展示时页面提示
-            document.getElementById("whinfdiv").style.display="none"
+            //打开数据为空时设置全局变量以提示信息
+            warelistnull=datalist.length;
             //清除原先的数据
             $("#warehousetab tbody tr").eq(0).nextAll().remove();
             for(var listindex in datalist) {
@@ -44,10 +53,7 @@ function wareGetnowPage(pagenow){
                     $("#warehousetab tbody ").append(html);
                 }
             }
-            //打开数据为空时的提示信息
-            if(datalist.length==0){
-                document.getElementById("whinfdiv").style.display="block"
-            }
+
             WareGetNavPage(datapage.totalPageCount,datapage.pageNow);
         },
         error:function(){

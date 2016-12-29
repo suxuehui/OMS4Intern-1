@@ -4,9 +4,18 @@
  /*出库单的分页显示，调取数据*/
 window.onload= outGetnowPage(1);
 var outboundArray=new Array();//定义全局数组，记录已点击的checkbox
+var outlistnull;
+//点击查询时无结果就显示提示
+function outGNPage(pagenow){
+    outlistnull=0;//每次调用时初始化全局变量
+    outGetnowPage(pagenow)
+    if(outlistnull==0){//判断是否有订单
+        alert("查询无结果！")
+    }
+}
 function outGetnowPage(pagenow){
     var  myselect=document.getElementById("outselectid");
-    var index=myselect.selectedIndex ;
+    var index=myselect.selectedIndex;
     var optxt=myselect.options[index].value;//查询条件
     var search_value=document.getElementById("outtxt").value;//查询值
     var s1=pagenow;
@@ -24,14 +33,14 @@ function outGetnowPage(pagenow){
         success:function(data) {
             var datapage = data.pagelist;
             var datalist = data.list;
-            //关闭数据为空时的提示信息
-            document.getElementById("infodiv").style.display="none"
             //清除母页面信息
              $("#outboundertab tbody tr").eq(0).nextAll().remove();
             //清除子页面信息
             $("#outboundertabson tbody tr").eq(0).nextAll().remove();
             document.getElementById("outbtn").disabled=true;
             outboundArray.length=0;//每次分页就将勾选数组初始化
+            //打开数据为空时设置全局变量以提示信息
+            outlistnull=datalist.length;
             for(var obj in datalist) {
                  if(datalist.hasOwnProperty(obj)) {
                      var list = datalist[obj];
@@ -48,13 +57,8 @@ function outGetnowPage(pagenow){
                          + list.receiveraddress + '</td><td>'
                          + list.createdtime + '</td><td>' + list.modifytime + '</td><td>'
                          + list.modifyman + '</td></tr>'
-
                      $("#outboundertab tbody ").append(html);
                  }
-            }
-            //打开数据为空时的提示信息
-            if(datalist.length==0){
-                document.getElementById("infodiv").style.display="block"
             }
             //分页设置
             outGetNavPage(datapage.totalPageCount,datapage.pageNow);

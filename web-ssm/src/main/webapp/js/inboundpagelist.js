@@ -3,6 +3,15 @@
  */
 window.onload= inGetnowPage(1);
 var inboundArray=new Array();
+var inlistnull;
+//点击查询时无结果就显示提示
+function inGNPage(pagenow){
+    inlistnull=0;//每次调用时初始化全局变量
+    inGetnowPage(pagenow)
+    if(inlistnull==0){//判断是否有订单
+        alert("查询无结果！")
+    }
+}
 function inGetnowPage(pagenow){
     var  myselect=document.getElementById("inselectid");
     var index=myselect.selectedIndex ;
@@ -23,14 +32,14 @@ function inGetnowPage(pagenow){
         success : function(data) {
             var datapage = data.pagelist;
             var datalist =  data.list ;
-            //关闭数据为空时的提示信息
-            document.getElementById("inboundinfordiv").style.display="none"
             //清除母页面信息
             $("#inboundertab tbody tr").eq(0).nextAll().remove();
             //清除子页面信息
             $("#inboundertabson tbody tr").eq(0).nextAll().remove();
             document.getElementById("inbtn").disabled=true;
             inboundArray.length=0;//每次分页就将勾选数组初始化
+            //打开数据为空时设置全局变量以提示信息
+            inlistnull=datalist.length;
             for(var obj in datalist){
                 if(datalist.hasOwnProperty(obj)){
                 var  list=datalist[obj];
@@ -46,10 +55,7 @@ function inGetnowPage(pagenow){
                     +list.modifytime+'</td><td>' +list.modifyman +'</td></tr>'
                 $("#inboundertab tbody ").append(html);
             }}
-            //打开数据为空时的提示信息
-            if(datalist.length==0){
-                document.getElementById("inboundinfordiv").style.display="block"
-            }
+
             //分页设置
             inGetNavPage(datapage.totalPageCount,datapage.pageNow);
         },

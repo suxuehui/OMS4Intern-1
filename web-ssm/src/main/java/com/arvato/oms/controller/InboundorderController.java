@@ -32,11 +32,7 @@ public class InboundorderController {
     @Resource
     private GoodsModelService godserviceimpl;
 
-    //进入页面
-    @RequestMapping(value="listindex")
-    public String listseach(){
-        return "InboundOrder";
-    }
+
 
     //通过分页查询所有列表 listseach'
      @RequestMapping(value="listseach")

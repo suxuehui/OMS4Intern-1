@@ -193,54 +193,7 @@
         <!--order结束-->
         <!--商品模块-->
         <!--仓库模块-->
-        <div class="order hide">
-            <div class="orderList fl">
-                <ul>
-                    <li>
-                        <ul class="orderListCent">
-                            <li class="listTit"><p class="listContTit">仓库管理</p></li>
-                            <li><a id="">仓库列表</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-            <div class="orderMain fl">
-                <div class="orderManage">
-                    <div class="orderTag">
-                        <div class="orderTit">仓库列表</div>
-                        <div class="storeSearch">
-                            <ul>
-                                <li><input type="button" value="新增"  id="wareadd" class="btn" onclick="addware(this)" ></li>
-                                <li><input type="button" value="编辑"   id="wareupdate" onclick="warehouseupdate(this)" class="btn"></li>
-                                <li><input type="button" value="删除"  id="waredelete" onclick="deleteware()" class="btn"></li>
-                            </ul>
-                            <input type="button" value="查询" onclick="wareGetnowPage(1)"  class="submitBtn fr">
-                            <input type="text"  id="whtxt" value="" class="textArea fr" >
-                            <select id="whselectid" class="selectArea fr">
-                                <option value="1" selected="selected">仓库编号</option>
-                                <option value="2" >名称</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="orderDetails">
-                    <div class="tableDetails">
-                        <table id="warehousetab" cellspacing="0" cellpadding="0">
-                            <tr class="tableTit">
-                                <th class="w50">序号</th>
-                                <th class="w50">批量</th>
-                                <th>仓库编号</th>
-                                <th>名称</th>
-                            </tr>
-                        </table>
-                        <div id="whinfdiv" style="margin: auto;font-size: 40px;color: cornflowerblue">该仓库信息不存在</div>
-                    </div>
-                    <%--分页列出仓库列表只能放在后面--%>
-                    <script src="${pageContext.request.contextPath}/js/warehouselist.js"></script>
-                    <div class="fenpage"  id="whdivpage"></div>
-                </div>
-            </div>
-        </div>
+                <jsp:include page="warehouse.jsp"></jsp:include>
         <!--订单模块-->
         <div class="order hide">
             <div class="orderList fl">
@@ -324,137 +277,13 @@
                         <div id="exceptionsonpl" class="fr"></div>
                     </div>
                 </div>
+
                 <!--出库单列表-->
-                <div class="relatedOrder hide">
-                    <div class="orderManage">
-                        <div class="orderTag">
-                            <div class="orderTit">出库单列表</div>
-                            <div class="orderSearch">
-                                <ul>
+                <jsp:include page="outbounder.jsp"></jsp:include>
 
-                                    <li><input type="button" value="查看订单" id="outbtn" name="outorderbtn" onclick="tooutOrderdetail(this.name)" class="btn" disabled="disabled"></li>
-                                </ul>
-                                    <input type="button" id="outsearch" onclick="outGetnowPage(1)"  value="查询" class="submitBtn fr">
-                                    <input type="text" class="textArea fr" name="outtxtvalue" id="outtxt">
-                                    <select class="selectArea fr" name="outselect" id="outselectid">
-                                                <option value="1" selected>订单号</option>
-                                                <option value="2">渠道订单号</option>
-                                                <option value="3">出库单号</option>
-                                    </select>
-                            </div>
-                        </div>
-                        <div class="orderMainCont revise">
-                            <div class="table revise">
-                                    <table id="outboundertab" cellspacing="0" cellpadding="0" class="w2250">
-                                        <tr class="tableTit" height="20">
-                                            <%--<th class="w50">序号</th>--%>
-                                            <th class="w50">批量</th>
-                                            <th class="w200">订单号</th>
-                                            <th class="w200">渠道订单号</th>
-                                            <th class="w100">订单状态</th>
-                                            <th class="w200">仓库出库单号 </th>
-                                            <th class="w200">出库单号</th>
-                                            <th class="w100">出库单状态</th>
-                                            <th class="w100">同步状态</th>
-                                            <th class="w100">收货人</th>
-                                            <th class="w200">快递公司</th>
-                                            <th class="w200">快递单号</th>
-                                            <th class="w350">收货地址</th>
-                                            <th class="w200">创建时间</th>
-                                            <th class="w200">修改时间</th>
-                                            <th class="w100">修改人</th>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                <div id="infodiv" style="margin: auto;font-size: 40px;color: cornflowerblue">查询的出库单不存在</div>
-                            </div>
-
-                            <%--分页显示加载的信息，该引用只能放在页面下面--%>
-                            <script src="${pageContext.request.contextPath}/js/outboundpagelist.js"></script>
-                            <div class="fenpage" id="outdivpage"></div>
-                            </div>
-                    </div>
-                    <div class="orderDetails">
-                        <div class="tableDetails">
-                                <table  id="outboundertabson"  cellspacing="0" cellpadding="0">
-                                    <tr class="tableTit">
-                                       <%-- <th class="w50">批量</th>--%>
-                                        <th>出库单号</th>
-                                        <th>仓库出库单号</th>
-                                        <th>商品编码</th>
-                                        <th>商品名称</th>
-                                        <th>商品数量</th>
-                                        <th>出库数量</th>
-                                    </tr>
-                                </table>
-                        </div>
-                        <%--子页面的分页--%>
-                        <div class="fenpage" id="outsonpl" ></div>
-                    </div>
-                </div>
                 <!--入库单列表-->
-                <div class="relatedOrder hide">
-                    <div class="orderManage">
-                        <div class="orderTag">
-                            <div class="orderTit">入库单列表</div>
-                            <div class="orderSearch">
-                                <ul>
+                <jsp:include page="inboundorder.jsp"></jsp:include>
 
-                                    <li><input type="button" value="查看订单" id="inbtn" name="inorderbtn" onclick="toinOrderdetail(this.name)" class="btn" disabled="disabled"></li>
-                                </ul>
-
-                                    <input type="button" id="insearch" onclick="inGetnowPage(1)" value="查询" class="submitBtn fr">
-                                    <input type="text" name="intxtvalue" id="intxt" class="textArea fr">
-                                        <select class="selectArea fr" name="inselect" id="inselectid">
-                                            <option value="1" selected>订单号</option>
-                                            <option value="2">渠道订单号</option>
-                                            <option value="3">入库单号</option>
-                                            <option value="4">退货单号</option>
-                                        </select>
-                            </div>
-                        </div>
-                        <div class="orderMainCont revise">
-                            <div class="table revise">
-                                    <table id="inboundertab" cellspacing="0" cellpadding="0" class="w1950">
-                                        <tr class="tableTit" height="20">
-                                            <%--<th class="w50">序号</th>--%>
-                                            <th class="w50">批量</th>
-                                            <th class="w200">订单号</th>
-                                            <th class="w200">渠道订单号</th>
-                                            <th class="w200">退货单号</th>
-                                            <th class="w200">入库单号</th>
-                                            <th class="w100">入库单状态</th>
-                                            <th class="w100">同步状态</th>
-                                            <th class="w350">收货仓库</th>
-                                            <th class="w200">创建时间</th>
-                                            <th class="w200">修改时间</th>
-                                            <th class="w100">修改人</th>
-                                        </tr>
-                                    </table>
-                                <div id="inboundinfordiv" style="margin: auto;font-size: 40px;color: cornflowerblue">查询的入库单不存在</div>
-
-                            </div>
-                            <div class="fenpage"  id="indivpage"></div>
-                            <%--显示加载的信息，该引用只能放在页面下面--%>
-                            <script src="${pageContext.request.contextPath}/js/inboundpagelist.js"></script>
-                        </div>
-                    </div>
-                    <%--子页面 商品页--%>
-                    <div class="orderDetails">
-                        <div class="tableDetails">
-                                <table id="inboundertabson" cellspacing="0" cellpadding="0">
-                                    <tr class="tableTit">
-                                        <%--<th class="w50">批量</th>--%>
-                                        <th class="w350">商品编码</th>
-                                        <th>商品名称</th>
-                                        <th>商品数量</th>
-                                        <th>入库数量</th>
-                                    </tr>
-                                </table>
-                        </div>
-                        <div class="fenpage"  id="insonpl"> </div>
-                    </div>
-                </div>
                 <!--退货单列表-->
                 <div class="relatedOrder hide">
                     <div class="orderManage">
