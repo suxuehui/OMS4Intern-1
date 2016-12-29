@@ -29,7 +29,7 @@ public interface RefoundOrderModelMapper {
     RefoundOrderModel  selectByRefoundId(String refoundId);
 
     //更新退款单状态为已退款
-    void updataRefoundDrawbackId(String drawbackStatus,String drawbackId);
+    void updataRefoundDrawbackId(String drawbackStatus,String dataNow,String userName,String drawbackId);
 
     int deleteByPrimaryKey(Integer id);
 

@@ -39,8 +39,6 @@ function refoundGetnowPage(pagenow){
             refoundGetPage(dataPage.totalPageCount,dataPage.pageNow);
         }
     });
-
-
 }
 
 /*单、双击事件跳转*/
@@ -157,7 +155,6 @@ function drawback(){
             returnedId3 = Array[0];
             var parm = {returnedId3: returnedId3};//将参数传到后台
             $.post("../refoundOrder/drawback", parm, function (data) {
-                    window.onload= refoundGetnowPage(1);
                     var msg=data.msg;
                     if(msg==666){
                         alert("退款成功");
@@ -165,7 +162,10 @@ function drawback(){
                         alert("随机数退款失败");
                     }else if(msg==123){
                         alert("退款失败");
+                    }else {
+                        alert("该退款单已退过款了");
                     }
+                    refoundGetnowPage(1);
                 },"json"
             );
         }else{

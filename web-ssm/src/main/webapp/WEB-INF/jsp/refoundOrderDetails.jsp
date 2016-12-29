@@ -12,7 +12,7 @@
 <head>
     <meta charset="utf-8">
     <title>refoundOrderDetails</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/Details.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/refoundDetails.css">
 </head>
 
 <body>

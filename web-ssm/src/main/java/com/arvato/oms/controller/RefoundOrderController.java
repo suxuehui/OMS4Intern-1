@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.math.BigDecimal;
+import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -92,13 +94,19 @@ public class RefoundOrderController {
     //调退款接口
     @RequestMapping(value="drawback")
     @ResponseBody
-    public String refoundInterface(HttpServletRequest request, HttpServletResponse response) {
+    public String refoundInterface(HttpServletRequest request, HttpSession session) {
         String returnedId3=request.getParameter("returnedId3");
         RefoundOrderModel refoundOrderModel = refoundOrderServiceImpl.selectByReturnedId(returnedId3);
+        //判断该退款单是否已经退过款了
+        String drawbackstatus=refoundOrderModel.getDrawbackstatus();
+        if("已退款".equals(drawbackstatus)){
+            return "{\"msg\":\"111\"}";
+        }
         //退款单号
         String drawbackId = refoundOrderModel.getDrawbackid();
         //退款金额
-        BigDecimal drawbackMoney = refoundOrderModel.getDrawbackmoney();
+        String drawbackMoney = refoundOrderModel.getDrawbackmoney().toString();
+        log.info("-----------------------------------drawbackMoney:"+drawbackMoney);
         ReturnedModel returnedModel = returnedModelServiceImpl.selectByReturnedId(returnedId3);
         //订单号
         String returnedoId = returnedModel.getOid();
@@ -113,6 +121,7 @@ public class RefoundOrderController {
         object.put("originNumbers",channelOid);//渠道订单号
         object.put("refundment",drawbackMoney);//退款金额
         object.put("refundAccount",buyerAlipayNo);//退款账号
+        log.info("-----------------------------------object:"+object.toString());
         HTTPClientDemo httpClientDemo = new HTTPClientDemo("http://114.215.252.146:8080/DGFORQ3/oms/api/v1/refund");
         //得到返回信息
         String returnInformation = httpClientDemo.postMethod(object.toString());
@@ -128,7 +137,10 @@ public class RefoundOrderController {
         {
             //将退款状态改为已退款
             String drawbackStatus = "已退款";
-            refoundOrderServiceImpl.updataRefoundDrawbackId(drawbackStatus,drawbackId);
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+            String dataNow = df.format(new Date());//修改时间
+            String userName = (String)session.getAttribute("uname");//修改人
+            refoundOrderServiceImpl.updataRefoundDrawbackId(drawbackStatus,dataNow,userName,drawbackId);
             return "{\"msg\":\"666\"}";
         }
         //随机数退款失败
@@ -139,6 +151,7 @@ public class RefoundOrderController {
         //退款失败
         else
         {
+            log.info("code:"+code);
             return "{\"msg\":\"123\"}";
         }
     }

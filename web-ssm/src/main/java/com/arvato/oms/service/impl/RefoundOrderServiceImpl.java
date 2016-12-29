@@ -151,7 +151,7 @@ public class RefoundOrderServiceImpl implements RefoundOrderService{
         return jsonstr;
     }
 
-    public void updataRefoundDrawbackId(String drawbackStatus,String drawbackId) {
-        refoundOrderModelMapper.updataRefoundDrawbackId(drawbackStatus,drawbackId);
+    public void updataRefoundDrawbackId(String drawbackStatus,String dataNow,String userName,String drawbackId) {
+        refoundOrderModelMapper.updataRefoundDrawbackId(drawbackStatus,dataNow,userName,drawbackId);
     }
 }

@@ -12,7 +12,7 @@
 <head>
     <meta charset="utf-8">
     <title>exceptionDetails</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/Details.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/exceptionDetails.css">
 </head>
 
 <body>
@@ -23,7 +23,7 @@
     <div class="details">
         <div class="detailsBox">
             <!--基本信息-->
-            <div class="detailsCont fl">
+            <div class="detailsCont">
                 <div class="contTit">基本信息</div>
                 <div class="content revise">
                     <form>
@@ -72,7 +72,7 @@
                     </form>
                 </div>
             </div>
-            <div class="detailsCont fr">
+            <div class="detailsCont">
                 <div class="contTit">商品信息</div>
                 <div class="content extra">
                     <form>

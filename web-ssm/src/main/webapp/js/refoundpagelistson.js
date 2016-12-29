@@ -1,5 +1,5 @@
 function refoundpagelistson(totalpages,currentPage,oid){
-    var output = "<h5>第" + currentPage + "页 / 共" + totalpages + "页</h5>";
+    var output = " ";
     oid=oid.substring(2);//截取字符串
     if (totalpages > 1) {
         if (currentPage != 1) {
