@@ -623,7 +623,7 @@ $(
                         select: select,
                         value:value,
                         pageNow: page,
-                        pageSize: 5
+                        pageSize: 10
                     },
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
@@ -885,7 +885,7 @@ $(
 
         function inGetReturnedNowPage(pageNow) {
             var page = pageNow;
-            var pageSizeR = 5;
+            var pageSizeR = 10;
 
             $.ajax({
                 type: 'get',
