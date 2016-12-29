@@ -566,13 +566,10 @@ public class OrderServiceImpl implements OrderService
             return 4;//excel内容错误
         }
         JSONObject tradeJson=jsonObject.getJSONObject("trade_fullinfo_get_response").getJSONObject("trade");
-        String promotion_details= tradeJson.getJSONObject("promotion_details").getString("promotion_detail");
         String orders= tradeJson.getJSONObject("orders").getString("order");
-        ArrayList<Promotion_detail> promotion_detailList=JSON.parseObject(promotion_details,new TypeReference<ArrayList<Promotion_detail>>(){});
         ArrayList<Order> orderList=JSON.parseObject(orders,new TypeReference<ArrayList<Order>>(){});
         OrderModel orderModel=new OrderModel();
         RelationogModel relationogModel=new RelationogModel();
-        GoodsModel goodsModel=new GoodsModel();
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyyMMdd");
         String oId="OO"+simpleDateFormat.format(new Date())+(int)(Math.random()*90000+10000);
         orderModel.setOid(oId);
@@ -592,12 +589,6 @@ public class OrderServiceImpl implements OrderService
         orderModel.setPaystyle("支付宝");
         orderModel.setPaytime(tradeJson.getDate("pay_time"));
         orderModel.setGoodstolprice(tradeJson.getBigDecimal("total_fee"));
-        double discountPrice=0.00;
-        for(Promotion_detail p:promotion_detailList)
-        {
-            discountPrice+=Double.parseDouble(p.getDiscount_fee());
-        }
-        orderModel.setDiscountprice(discountPrice);
         orderModel.setOrdertolprice(tradeJson.getBigDecimal("payment"));
         orderModel.setRemark(tradeJson.getString("buyer_message"));
         orderModel.setReceivername(tradeJson.getString("receiver_name"));
@@ -609,9 +600,10 @@ public class OrderServiceImpl implements OrderService
         orderModel.setDetailaddress(tradeJson.getString("receiver_address"));
         orderModel.setZipcode(tradeJson.getString("receiver_zip"));
         orderModel.setBuyeralipayno(tradeJson.getString("buyer_alipay_no"));
-        int j=orderModelMapper.insertSelective(orderModel);
+        double discountPrice=0.00;
         for(Order order:orderList)
         {
+            discountPrice+=Double.parseDouble(order.getDiscount_fee());
             relationogModel.setOid(oId);
             relationogModel.setGoodsno(order.getNum_iid());
             relationogModel.setGoodnum(order.getNum());
@@ -626,6 +618,8 @@ public class OrderServiceImpl implements OrderService
             {
                 divideorderfee=new BigDecimal((totalfee.doubleValue())/(order.getNum()));
             }
+            orderModel.setDiscountprice(discountPrice);
+            orderModelMapper.insertSelective(orderModel);
             relationogModel.setDivideorderfee(divideorderfee);
             relationogModel.setTotalfee(totalfee);
             relationogModelMapper.insertSelective(relationogModel);
