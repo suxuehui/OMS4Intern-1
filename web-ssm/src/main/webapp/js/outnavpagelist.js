@@ -12,6 +12,7 @@ function  outGetNavPage(totalpages,currentPage){
         if (currentPage != 1) {
             //处理首页连接
             output = "<a class='pageLink' href='javascript:void(0)' onclick='outGetnowPage(1)'>首页</a> ";
+
         }
         if (currentPage > 1) {
             var lastpage = currentPage - 1;
@@ -19,7 +20,6 @@ function  outGetNavPage(totalpages,currentPage){
             output += "<a class='pageLink' href='javascript:void(0)' onclick='outGetnowPage("+lastpage+")'>上一页</a> ";
         }
         output += " ";
-
         if (currentPage < totalpages) {
             var nextpage = currentPage + 1;
             //处理下一页的链接

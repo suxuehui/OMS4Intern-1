@@ -237,7 +237,7 @@
                     </div>
                     <%--分页列出仓库列表只能放在后面--%>
                     <script src="${pageContext.request.contextPath}/js/warehouselist.js"></script>
-                    <div class="page" id="whdivpage"></div>
+                    <div class="fenpage"  id="whdivpage"></div>
                 </div>
             </div>
         </div>
@@ -371,7 +371,7 @@
 
                             <%--分页显示加载的信息，该引用只能放在页面下面--%>
                             <script src="${pageContext.request.contextPath}/js/outboundpagelist.js"></script>
-                            <div class="page" id="outdivpage"></div>
+                            <div class="fenpage" id="outdivpage"></div>
                             </div>
                     </div>
                     <div class="orderDetails">
@@ -389,7 +389,7 @@
                                 </table>
                         </div>
                         <%--子页面的分页--%>
-                        <div class="page" id="outsonpl" ></div>
+                        <div class="fenpage" id="outsonpl" ></div>
                     </div>
                 </div>
                 <!--入库单列表-->
@@ -434,7 +434,7 @@
                                 <div id="inboundinfordiv" style="margin: auto;font-size: 40px;color: cornflowerblue">查询的入库单不存在</div>
 
                             </div>
-                            <div class="page"  id="indivpage"></div>
+                            <div class="fenpage"  id="indivpage"></div>
                             <%--显示加载的信息，该引用只能放在页面下面--%>
                             <script src="${pageContext.request.contextPath}/js/inboundpagelist.js"></script>
                         </div>
@@ -452,7 +452,7 @@
                                     </tr>
                                 </table>
                         </div>
-                        <div class="page"  id="insonpl"> </div>
+                        <div class="fenpage"  id="insonpl"> </div>
                     </div>
                 </div>
                 <!--退货单列表-->
@@ -762,6 +762,7 @@
         </div>
         <!--导入弹框结束-->
     </div>
+            <%--阴影层--%>
             <div class="hbg"></div>
     <div>
         <div class="loading"  >
