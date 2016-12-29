@@ -106,6 +106,8 @@ function ifden(warenum,warename){
 //当仓库添加成功后就关闭弹窗进入列表页
 function cleartext(){
     $(".popupAll .storeShow > div").hide();//关闭弹窗
+   //将其他页面隐藏
+    $(".hbg").hide();
     wareGetnowPage(1);
 }
 
@@ -188,7 +190,6 @@ function towhcheck(warehouseid) {
 
 //设置编辑弹窗的输入框的值
 function warehouseupdate(obj) {
-
     if(whidArray.length==1){
         var selectupdateid=whidArray[0];//获取选中的仓库id
         $.ajax({
@@ -201,15 +202,18 @@ function warehouseupdate(obj) {
                  document.getElementById("saveupdatewh").name=data.id;//将id保存为save按钮的name值
                  document.getElementById("updatewhnum").value=data.warehousenum;
                  document.getElementById("updatewhname").value=data.warehousename;
-
             },
             error: function () {
                 alert("warehouse error");
             }
         })
+
         //显示弹窗
         var index=$(obj).parent().index();
         $(".popupAll .storeShow > div").eq(index).show().siblings().hide();
+        //将其他页面隐藏
+        $(".hbg").show();
+
     }
     else{
         alert("请选中一条信息进行编辑");
@@ -221,6 +225,8 @@ function updateware(wareid){
     //获取输入框的值
     var warenum=document.getElementById("updatewhnum").value;
     var warename=document.getElementById("updatewhname").value;
+    //显示loading图标
+    $(".loading").show();
     $.ajax({
         type:'get',
         url:'../warehouse/toupdatewh',

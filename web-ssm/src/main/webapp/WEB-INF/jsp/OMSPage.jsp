@@ -233,7 +233,7 @@
                                 <th>名称</th>
                             </tr>
                         </table>
-                        <div id="whinfdiv" style="margin: auto;font-size: 40px;color: cornflowerblue">Sorry,您所查询的条件不存在，请确认您的输入信息</div>
+                        <div id="whinfdiv" style="margin: auto;font-size: 40px;color: cornflowerblue">该仓库信息不存在</div>
                     </div>
                     <%--分页列出仓库列表只能放在后面--%>
                     <script src="${pageContext.request.contextPath}/js/warehouselist.js"></script>
@@ -366,7 +366,7 @@
                                         </tr>
                                         </tbody>
                                     </table>
-                                <div id="infodiv" style="margin: auto;font-size: 40px;color: cornflowerblue">Sorry,您所查询的条件不存在，请确认您的输入信息</div>
+                                <div id="infodiv" style="margin: auto;font-size: 40px;color: cornflowerblue">查询的出库单不存在</div>
                             </div>
 
                             <%--分页显示加载的信息，该引用只能放在页面下面--%>
@@ -431,7 +431,7 @@
                                             <th class="w100">修改人</th>
                                         </tr>
                                     </table>
-                                <div id="inboundinfordiv" style="margin: auto;font-size: 40px;color: cornflowerblue">Sorry,您所查询的条件不存在，请确认您的输入信息</div>
+                                <div id="inboundinfordiv" style="margin: auto;font-size: 40px;color: cornflowerblue">查询的入库单不存在</div>
 
                             </div>
                             <div class="page"  id="indivpage"></div>
@@ -761,6 +761,7 @@
         </div>
         <!--导入弹框结束-->
     </div>
+            <div class="hbg"></div>
     <div>
         <div class="loading"  >
             <div class="mask"></div>

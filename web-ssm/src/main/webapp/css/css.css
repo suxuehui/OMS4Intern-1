@@ -63,7 +63,7 @@ table.orderTable td{border:1px solid #CCC;height:25px}
 .relatedOrder.hide{display:none}
 .submitBtn{margin-left:10px;margin-top:5px}
 /*popup*/
-.customShow>div,.productShow,.storeShow>div,.leadingInShow{position:fixed;margin:auto;left:0;right:0;top:0;bottom:0;width:640px;height:258px;background-color:#0CF;border:1px solid #f1f1f1;display:none}
+.customShow>div,.productShow,.storeShow>div,.leadingInShow{z-index:1000;position:fixed;margin:auto;left:0;right:0;top:0;bottom:0;width:640px;height:258px;background-color:#0CF;border:1px solid #f1f1f1;display:none}
 .productShow.revise{height:340px}
 .iconClose{width:16px;height:16px;background:url(../images/ui-icons_ffffff_256x240.png) no-repeat;background-position:-96px -128px}
 .popupTopTit{font-size:20px;margin-left:5px}
@@ -115,3 +115,6 @@ table.orderTable td{border:1px solid #CCC;height:25px}
 .loading .loading-icon{position:absolute;top:50%;left:50%;margin-left:-40px;margin-top:-40px}
 .goodNum{border:1px solid;text-align: center}
 .goodNum.edit{border: none;text-align: center}
+
+
+.hbg{width:100%;position:absolute;background:#000;z-index:998;top:0;left:0;filter:alpha(opacity=60);opacity:0.6;display:none;height:100%;position:fixed}

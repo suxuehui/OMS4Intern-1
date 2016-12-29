@@ -6,7 +6,7 @@
  *
   */
 
-function  inGetNavPage(totalpages,currentPage,indivpage){
+function  inGetNavPage(totalpages,currentPage){
    var output="";
     if (totalpages > 1) {
         if (currentPage != 1) {

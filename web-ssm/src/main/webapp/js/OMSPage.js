@@ -39,14 +39,15 @@ $(document).ready(function(){
 function addware(obj){
 	 var index=$(obj).parent().index();
 	 $(".popupAll .storeShow > div").eq(index).show().siblings().hide();
+	$(".hbg").show();//显示阴影层
 };
 
 
 $(document).ready(function(){
 	$(".storeShow .popupTop .iconClose").click(function(){
-		$(".inputList").val("");
-		$(".lixx").html("");
+		$(".inputList").val("");//清空弹框的输入框的值
 		$(".popupAll .storeShow > div").hide();
+		$(".hbg").hide();//隐藏阴影层
     });
 });
 

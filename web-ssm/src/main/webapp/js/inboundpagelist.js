@@ -153,7 +153,7 @@ function inpageson(oid,pagenow){
                         + obj.goodnum+'</td></tr>'
                     $("#inboundertabson tbody  ").append(html);
             }
-            //inboundinfordiv
+
 
             inpagelistson(datapage.totalPageCount,datapage.pageNow , oid);
         },
