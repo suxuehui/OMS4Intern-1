@@ -51,8 +51,8 @@ public class OmsOpenInterfaceController {
         if(warehouseObid==null){
             return "{\"msg\":\"301\"}";//仓库出库单号不能为空
         }
-        if (warehouseObid.length()!=17||!"WO".equals(warehouseObid.substring(0,2))){
-            //WO+15位订单号
+        if (warehouseObid.length()!=22||!"WO".equals(warehouseObid.substring(0,2))){
+            //WO+15位订单号+5位随机数
             return "{\"msg\":\"302\"}";//仓库出库单号格式错误
         }
         //出库单号
@@ -60,8 +60,8 @@ public class OmsOpenInterfaceController {
         if(outboundId==null){
             return "{\"msg\":\"303\"}";//出库单号不能为空
         }
-        if(outboundId.length()!=17||!"SO".equals(outboundId.substring(0,2))){
-            //SO+15位订单号
+        if(outboundId.length()!=22||!"SO".equals(outboundId.substring(0,2))){
+            //SO+15位订单号+5为随机数
             return "{\"msg\":\"304\"}";//出库单号格式错误
         }
         //出库单状态
