@@ -7,6 +7,7 @@ import com.arvato.oms.model.RelationogModel;
 import com.arvato.oms.service.GoodsModelService;
 import com.arvato.oms.service.impl.InboundorderServiceImpl;
 import com.arvato.oms.service.impl.RelationogServiceImpl;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,8 @@ import java.util.List;
 @RequestMapping("inboundorder")
 public class InboundorderController {
 
+    private Logger log = Logger.getLogger(InboundorderController.class);
+
     @Resource
     private InboundorderServiceImpl inboserciveimpl;
     @Resource
@@ -32,14 +35,12 @@ public class InboundorderController {
     @Resource
     private GoodsModelService godserviceimpl;
 
-
-
     //通过分页查询所有列表 listseach'
      @RequestMapping(value="listseach")
     @ResponseBody
      public String listseach(HttpServletRequest request  )
             throws UnsupportedEncodingException {
-
+         log.info("分页查询所有列表");
          String str = inboserciveimpl.inboundsearchAllByparam (request );
         return  str;
     }
@@ -49,6 +50,7 @@ public class InboundorderController {
     @ResponseBody
     public String  listobolson(HttpServletRequest request )
     {
+        log.info("子页面显示");
         String str=inboserciveimpl.listSonPage(request);
 
         return str;
@@ -56,6 +58,7 @@ public class InboundorderController {
     //详情页面展示
     @RequestMapping(value="details")
     public String  details(HttpServletRequest request,Model model){
+        log.info("详情页面展示");
         String oid=request.getParameter("oid");
         //查询入库单列表
         InboundorderModel iodlist=inboserciveimpl.selectByOid(oid);

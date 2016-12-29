@@ -7,6 +7,7 @@ import com.arvato.oms.model.RelationogModel;
 import com.arvato.oms.service.GoodsModelService;
 import com.arvato.oms.service.OutboundorderService;
 import com.arvato.oms.service.RelationogService;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,8 @@ import java.util.List;
 @Controller
 @RequestMapping("outboundorder")
 public class OutboundorderController {
+    private Logger log = Logger.getLogger(OutboundorderController.class);
+
     @Resource
     private OutboundorderService oboserciveimpl;
     @Resource
@@ -36,6 +39,7 @@ public class OutboundorderController {
     @RequestMapping(value="listseach")
     @ResponseBody
      public String listseach(HttpServletRequest request ) throws UnsupportedEncodingException{
+        log.info("出库分页查询所有列表");
         String str = oboserciveimpl.outboundsearchAllByparam(request);
             return  str;
     }
@@ -45,7 +49,7 @@ public class OutboundorderController {
     @ResponseBody
     public String  listobolson(HttpServletRequest request )
     {
-
+        log.info("出库子页面显示");
         String str=oboserciveimpl.listSonPage(request);
 
         return str;
@@ -53,6 +57,7 @@ public class OutboundorderController {
     //详情页面展示
     @RequestMapping(value="details")
     public String  details(HttpServletRequest request,Model model){
+        log.info("出库详情页面展示");
         String oid=request.getParameter("oid").trim ();
         //查询出库单列表
         OutboundorderModel obolist=oboserciveimpl.selectByOid(oid);

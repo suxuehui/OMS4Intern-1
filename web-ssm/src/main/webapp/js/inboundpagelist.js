@@ -60,9 +60,9 @@ function inGetnowPage(pagenow){
             inGetNavPage(datapage.totalPageCount,datapage.pageNow);
         },
         error:function(){
-            alert("+++++error++");
+            self.location="../login/login" ;
+            alert("登陆超时，请重新登陆！");
         }
-
     });
 
 }
@@ -164,7 +164,8 @@ function inpageson(oid,pagenow){
             inpagelistson(datapage.totalPageCount,datapage.pageNow , oid);
         },
         error:function () {
-            alert("error");
+            self.location="../login/login" ;
+            alert("登陆超时，请重新登陆！");
         }
     });
 }

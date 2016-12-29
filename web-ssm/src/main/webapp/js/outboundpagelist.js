@@ -64,7 +64,8 @@ function outGetnowPage(pagenow){
             outGetNavPage(datapage.totalPageCount,datapage.pageNow);
         },
         error:function(){
-            alert("+++++error++");
+            self.location="../login/login" ;
+            alert("登陆超时，请重新登陆！");
         }
     });
 }
@@ -154,6 +155,7 @@ function booleantoString(list){
                 var datapage = data.pagelist;
                 $("#outboundertabson tbody tr").eq(0).nextAll().remove();
                 for (var i in rglist) {
+                    if (rglist.hasOwnProperty(i)) {
                         var obj = rglist[i];//获取关系表的一个对象
                         var god = gdlist[i];//获取商品表的一个对象
                         var html = '<tr><td>' + outboindid + '</td><td>'
@@ -161,11 +163,12 @@ function booleantoString(list){
                             + god.goodsname + '</td><td>' + obj.goodnum + '</td><td>'
                             + obj.goodnum + '</td></tr>'
                         $("#outboundertabson tbody  ").append(html);
-                    }
+                    }}
                 outpagelistson(datapage.totalPageCount,datapage.pageNow , oid);
             },
             error: function () {
-                alert("error");
+                self.location="../login/login" ;
+                alert("登陆超时，请重新登陆！");
             }
         });
     }

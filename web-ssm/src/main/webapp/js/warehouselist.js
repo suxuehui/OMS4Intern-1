@@ -57,7 +57,8 @@ function wareGetnowPage(pagenow){
             WareGetNavPage(datapage.totalPageCount,datapage.pageNow);
         },
         error:function(){
-            alert("error");
+            self.location="../login/login" ;
+            alert("登陆超时，请重新登陆！");
         }
     });
 }
@@ -157,7 +158,8 @@ function cleartext(){
         }
       },
       error:function(){
-            alert("error");
+          self.location="../login/login" ;
+          alert("登陆超时，请重新登陆！");
       }
   })
  }
@@ -210,16 +212,15 @@ function warehouseupdate(obj) {
                  document.getElementById("updatewhname").value=data.warehousename;
             },
             error: function () {
-                alert("warehouse error");
+                self.location="../login/login" ;
+                alert("登陆超时，请重新登陆！");
             }
         })
-
         //显示弹窗
         var index=$(obj).parent().index();
         $(".popupAll .storeShow > div").eq(index).show().siblings().hide();
         //将其他页面隐藏
         $(".hbg").show();
-
     }
     else{
         alert("请选中一条信息进行编辑");
@@ -266,7 +267,8 @@ function updateware(wareid){
             }
         },
         error:function(){
-            alert("error");
+            self.location="../login/login" ;
+            alert("登陆超时，请重新登陆！");
         }
     })
 
@@ -298,7 +300,8 @@ function deleteware() {
                 }
             },
             error: function () {
-                alert("delete warehouse error");
+                self.location="../login/login" ;
+                alert("登陆超时，请重新登陆！");
             }
         })
 
