@@ -45,6 +45,7 @@ $(function () {
                 }
                 alert("导入成功");
                 $(".popupAll .leadingInShow").hide();
+                $(".hbg").hide();//隐藏阴影层
                 queryOrder(1,orderPageSize);
             }
         })

@@ -55,12 +55,14 @@ $(document).ready(function(){
 $(document).ready(function(){
 	$(".orderTit.leading .leadingIn").click(function(){
 		 $(".popupAll .leadingInShow").show();
+		$(".hbg").show();//显示阴影层
     });
 });
 
 $(document).ready(function(){
 	$(".leadingInShow .popupTop .iconClose").click(function(){
-		 $(".popupAll .leadingInShow").hide();	
+		 $(".popupAll .leadingInShow").hide();
+		$(".hbg").hide();//隐藏阴影层
     });
 });
 

@@ -34,6 +34,7 @@ import java.util.List;
  * Created by ZHAN545 on 2016/12/6.
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class OrderServiceImpl implements OrderService
 {
     @Resource
@@ -448,6 +449,11 @@ public class OrderServiceImpl implements OrderService
         {
             return 3;//订单状态不符
         }
+        OutboundorderModel outboundorderModel1=outboundorderModelMapper.selectByOid(oId);
+        if(outboundorderModel1!=null)
+        {
+            return 0;
+        }
         OutboundorderModel outboundorderModel=new OutboundorderModel();
         outboundorderModel.setOid(orderModel.getOid());
         outboundorderModel.setChanneloid(orderModel.getChanneloid());
@@ -643,6 +649,11 @@ public class OrderServiceImpl implements OrderService
         if(goodsList.size()==0)
         {
             return 0;//没有选择商品
+        }
+        ReturnedModel returnedModel1=returnedModelMapper.selectByOid(jsonObject.getString("oid"));
+        if(returnedModel1!=null)
+        {
+            return 0;
         }
         returnedModel.setChanneloid(orderModel.getChanneloid());
         returnedModel.setReturnedid("RT"+jsonObject.getString("oid")+(int)(Math.random()*90000+10000));
