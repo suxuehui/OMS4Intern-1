@@ -48,9 +48,9 @@ public class LoginController
         int i = userModelService.login(uname, password);
         log.info("查询用户名密码是否匹配，判断" + uname + "身份是" + i + "密码是" + password);
         HttpSession session = request.getSession();
-        String id = session.getId();
         session.setAttribute("uname", uname);
         session.setAttribute("urole", userModelService.isAdmin(uname) ? 1 : 2);
+        session.setMaxInactiveInterval(30*60);
         JSONObject json = new JSONObject();
         json.put("check", i);
 
@@ -71,12 +71,6 @@ public class LoginController
         return "login";
     }
 
-    @RequestMapping("/index")
-    public ModelAndView index(int urole)
-    {
-        ModelAndView mov = new ModelAndView("OMSPage");
-        mov.addObject("urole",urole);
-        return mov;
-    }
+
 
 }

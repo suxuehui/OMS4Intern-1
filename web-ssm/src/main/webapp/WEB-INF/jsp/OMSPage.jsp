@@ -182,8 +182,8 @@
                                 </table>
                             </form>
                         </div>
-                        <div class="page"><span id="goodsPageNow" hidden>1</span> <span id="totalGoodPage"
-                                                                                        hidden>0</span><a
+                        <div class="page"><span id="goodsPageNow" >1</span> <span id="totalGoodPage"
+                                                                                       >0</span><a
                                 id="endGoodsPage">尾页</a><a id="nextGoodsPage">下一页</a><a id="preGoodsPage">上一页</a><a
                                 id="firstGoodsPage">首页</a></div>
                     </div>

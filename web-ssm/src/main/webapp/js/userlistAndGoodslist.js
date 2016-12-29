@@ -191,10 +191,18 @@ $(
         $('#endUserPage').hide();
         $('#nextUserPage').hide();
 
+        $('#preGoodsPage').hide();
+        $('#firstGoodsPage').hide();
+        $('#endGoodsPage').hide();
+        $('#nextGoodsPage').hide();
+
+
+
 
         var urole = $.getUrlVar('urole');
         if (urole == 1) {
             window.onload = inGetUserNowPage($('#userPageNow').html());
+
             $('#nextUserPage').click(
                 function () {
 
@@ -649,6 +657,12 @@ $(
                 var goodspage = $('#goodsPageNow').html();
                 var totalPage = $('#totalGoodPage').html();
                 if (goodspage < totalPage) {
+                    if (goodspage* 1 + 1 * 1 == totalPage){
+                        $('#endGoodsPage').hide();
+                        $('#nextGoodsPage').hide();
+                    }
+                    $('#preGoodsPage').show();
+                    $('#firstGoodsPage').show();
                     inGetGoodsNowPage(goodspage * 1 + 1 * 1);
                     $('#goodsPageNow').html(goodspage * 1 + 1 * 1);
                 } else {
@@ -658,12 +672,18 @@ $(
 
             }
         );
+
+
         $('#preGoodsPage').click(
             function () {
 
                 var goodspage = $('#goodsPageNow').html();
                 if (goodspage > 1) {
-                    $('#userPageNow').html(goodspage * 1 - 1 * 1);
+                    if (goodspage * 1 - 1 * 1 == 1) {
+                        $('#pregoodspage').hide();
+                        $('#firstGoodsPage').hide();
+                    }
+                    $('#goodsPageNow').html(goodspage * 1 - 1 * 1);
                     inGetGoodsNowPage(goodspage * 1 - 1 * 1);
                 } else {
                     alert("已到第一页");
@@ -676,16 +696,25 @@ $(
             function () {
                 $('#goodsPageNow').html(1);
                 inGetGoodsNowPage(1);
-
+                $('#preGoodsPage').hide();
+                $('#firstGoodsPage').hide();
+                $('#endGoodsPage').show();
+                $('#nextGoodsPage').show();
             }
         );
 
         $('#endGoodsPage').click(
             function () {
+                $('#preGoodsPage').show();
+                $('#firstGoodsPage').show();
+                $('#endGoodsPagee').hide();
+                $('#nextGoodsPage').hide();
                 inGetGoodsNowPage($('#totalGoodPage').html());
                 $('#goodsPageNow').html($('#totalGoodPage').html());
             }
         );
+
+
 
         function inGetGoodsNowPage(pageNow) {
             var page = pageNow;
@@ -703,6 +732,35 @@ $(
                     //alert(data.userList[0].uid);
                     var goodsList = data.goodsAndStatus;
                     var totalPage = data.pageTotal;
+
+                    if (pageNow == 1) {
+                        if (totalPage == 0 || totalPage == 1) {
+                            $('#preGoodsPage').hide();
+                            $('#firstGoodsPage').hide();
+                            $('#endGoodsPage').hide();
+                            $('#nextGoodsPage').hide();
+                        } else {
+                            $('#nextGoodsPage').show();
+                            $('#endGoodsPage').show();
+                        }
+                    } else if (pageNow < totalPage) {
+                        if (totalPage == 0 || totalPage == 1) {
+                            $('#preGoodsPage').hide();
+                            $('#firstGoodsPage').hide();
+                            $('#endGoodsPage').hide();
+                            $('#nextGoodsPage').hide();
+                        } else {
+                            $('#nextGoodsPage').show();
+                            $('#endGoodsPage').show();
+                            $('#preGoodsPage').show();
+                            $('#firstGoodsPage').show();
+
+                        }
+                    } else if (pageNow = totalPage) {
+                        $('#endGoodsPage').hide();
+                        $('#nextGoodsPage').hide();
+                    }
+
                     $('#goodsbody').html("");
                     for (var i in goodsList) {
                         var id = i * 1 + 1 * 1;

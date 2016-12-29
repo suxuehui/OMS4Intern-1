@@ -2,12 +2,14 @@ package com.arvato.oms.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.arvato.oms.model.UsersModel;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by MAVI003 on 2016/12/6.
  */
+
 public interface UserModelService
 {
 
