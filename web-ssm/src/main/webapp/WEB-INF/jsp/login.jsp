@@ -38,7 +38,7 @@
                             msg.html("<br/>用户名不存在");
                             return false;
                         } else {
-                            msg.html("");
+                            msg.html("<br/> <br/>");
                             $.ajax({
                                 type: "POST",
                                 url: "checkUser",
@@ -88,7 +88,7 @@
                             <label class="listName" for="密码">密码：</label>
                             <input type="password" name="" class="inputList ml20" id="password">
                         </li>
-                        <label class="msg" id="msg"></label>
+                        <label class="msg" id="msg"><br/><br/></label>
                         <li><input type="submit" value="" class="submitBtn" align="center" id="loginsubmit"></li>
                     </ul>
                 </div>

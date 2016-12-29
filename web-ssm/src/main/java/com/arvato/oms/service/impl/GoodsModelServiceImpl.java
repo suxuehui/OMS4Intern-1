@@ -188,7 +188,7 @@ public class GoodsModelServiceImpl implements GoodsModelService
             int goodsCount = goodsModelMapper.countGoodsByNoAndPage(value);
             Page page = new Page(goodsCount,nowPage, pageSize);
             int startPage = page.getStartPos();
-            List<GoodsModel> goodsModels = goodsModelMapper.selectGoodsByNoAndPage(value, startPage, nowPage);
+            List<GoodsModel> goodsModels = goodsModelMapper.selectGoodsByNoAndPage(value, startPage, pageSize);
             List<GoodsAndStatus> goodsAndStatus = new ArrayList<GoodsAndStatus>();
             for (int i = 0; i < goodsModels.size(); i++)
             {

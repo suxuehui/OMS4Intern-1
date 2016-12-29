@@ -53,7 +53,7 @@
                 </c:if>
             </ul>
         </div>
-        <div class="logOut fr"><a href="login">【注销】</a></div>
+        <div class="logOut fr"><a href="${pageContext.request.contextPath }/login/logout">【注销】</a></div>
     </div><!--header结束-->
     <div class="content">
 
@@ -82,11 +82,11 @@
                                                disabled="disabled"></li>
  <span id="updateusernamehidden" hidden></span>
                                     <span id="updateupasshidden" hidden></span>
-                                    <li><input type="button" value="删除用户" class="btn" id="deleteUser"></li>
+                                    <li><input type="button" value="删除用户" class="btn" id="deleteUser" disabled="disabled"></li>
                                 </ul>
                                 <form>
                                     <input type="button" value="查询" class="submitBtn fr" id="userselectbutton">
-                                    <input type="text" value="名称" class="textArea fr" id="userselectvalue"
+                                    <input type="text"  class="textArea fr" id="userselectvalue"
                                            onFocus="if(value==defaultValue){value='';}">
                                 </form>
                             </div>
@@ -182,8 +182,8 @@
                                 </table>
                             </form>
                         </div>
-                        <div class="page"><span id="goodsPageNow" >1</span> <span id="totalGoodPage"
-                                                                                       >0</span><a
+                        <div class="page"><span id="goodsPageNow" hidden>1</span> <span id="totalGoodPage"
+                                                                                       hidden>0</span><a
                                 id="endGoodsPage">尾页</a><a id="nextGoodsPage">下一页</a><a id="preGoodsPage">上一页</a><a
                                 id="firstGoodsPage">首页</a></div>
                     </div>
@@ -318,7 +318,7 @@
             <div class="customShow">
                  <div id="addUserwindows">
                     <div class="popupTop">
-                        <span class="iconClose fr"></span>
+                        <span class="iconClose fr" id="closeAddUser"></span>
                         <p class="popupTopTit">新增用户</p>
                     </div>
                     <div class="popupCont">
@@ -341,7 +341,7 @@
                 </div>
                 <div id="updateUserBound">
                     <div class="popupTop">
-                        <span class="iconClose fr"></span>
+                        <span class="iconClose fr" id="closeUpdateUser"></span>
                         <p class="popupTopTit">修改用户</p>
                     </div>
                     <div class="popupCont">
@@ -366,7 +366,7 @@
         <!--customShow结束-->
         <div class="productShow revise">
             <div class="popupTop">
-                <span class="iconClose fr"></span>
+                <span class="iconClose fr" id="closeoodsicon"></span>
                 <p class="popupTopTit">添加商品</p>
             </div>
             <div class="popupCont revise">
@@ -479,7 +479,7 @@
             <div class="loading-icon"><img src="${pageContext.request.contextPath}/images/loader.gif"></div>
         </div>
     </div>
-    </div>
+
 </body>
 </html>
 
