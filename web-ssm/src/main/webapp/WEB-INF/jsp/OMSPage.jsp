@@ -213,74 +213,9 @@
                 <!--订单列表-->
                 <jsp:include page="order.jsp"></jsp:include>
                 <!--异常订单列表-->
-                <div class="relatedOrder hide">
-                    <div class="orderManage">
-                        <div class="orderTag">
-                            <div class="orderTit">异常订单列表</div>
-                            <div class="orderSearch">
-                                    <ul>
-                                        <li><input type="button" value="处理异常"  class="btn" onclick="handleException()"></li>
-                                        <li><input type="button" value="取消"  class="btn" id="proDel" onclick="exception_del()"></li>
-                                        <%--查看按钮  dfdgfg--%>
-                                        <li><input type="button" value="查看订单"  class="btn beta" disabled="disabled" id="exception_inbtn" onclick="exception_details()"></li>
-                                    </ul>
-                                    <input type="button" value="查询" class="submitBtn fr" id="search" onclick="GetnowPage(1)">
-                                    <input type="text" class="textArea fr" name="txtvalue" id="exception_text">
-                                    <select class="selectArea fr" name="exceptionToseachid" id="exceptionSelectid">
-                                        <option value="1" selected>订单号</option>
-                                        <option value="2">渠道订单号</option>
-                                        <option value="3">异常状态</option>
-                                    </select>
-                            </div>
-                        </div>
-                        <div class="orderMainCont revise">
-                            <div class="table revise" id="#exetable">
-                                    <table cellspacing="0" cellpadding="0" class="w1550" id="exetable">
-                                        <tr class="tableTit" height="20">
-                                            <th class="w50">序号</th>
-                                            <th class="w50">批量</th>
-                                            <th class="w200">订单号</th>
-                                            <th class="w200">渠道订单号</th>
-                                            <th class="w100">订单状态</th>
-                                            <th class="w100">订单来源</th>
-                                            <th class="w100">异常类型</th>
-                                            <th class="w350">异常原因</th>
-                                            <th class="w100">异常状态</th>
-                                            <th class="w100">创建时间</th>
-                                            <th class="w100">修改时间</th>
-                                            <th class="w100">修改人</th>
-                                        </tr>
-
-                                    </table>
-
-                            </div>
-                            <div id="exceptiondivpage" class="fr"></div>
-                            <%--显示加载的信息，该引用只能放在页面下面--%>
-                            <script type="text/javascript" src="${pageContext.request.contextPath}/js/exception.js" charset="utf-8"></script>
-                        </div>
-                    </div>
-                    <div class="orderDetails">
-                        <div class="tableDetails">
-                            <form>
-                                <table cellspacing="0" cellpadding="0" id="exception_table2">
-                                    <tr class="tableTit">
-                                        <th class="w50">批量</th>
-                                        <th class="w350">商品编码</th>
-                                        <th>商品名称</th>
-                                        <th>商品单价</th>
-                                        <th>商品个数</th>
-                                        <th>商品总价</th>
-                                    </tr>
-                                </table>
-                            </form>
-                        </div>
-                        <div id="exceptionsonpl" class="fr"></div>
-                    </div>
-                </div>
-
+                <jsp:include page="exception.jsp"></jsp:include>
                 <!--出库单列表-->
                 <jsp:include page="outbounder.jsp"></jsp:include>
-
                 <!--入库单列表-->
                 <jsp:include page="inboundorder.jsp"></jsp:include>
 
@@ -373,62 +308,7 @@
                         </div>
                 </div>
                 <!--退款单列表-->
-                <div class="relatedOrder hide">
-                    <div class="orderManage">
-                        <div class="orderTag">
-                            <div class="orderTit">退款单列表</div>
-                            <div class="orderSearch">
-                                    <ul>
-                                        <li><input type="button" value="退款"  class="btn" onclick="drawback()"></li>
-                                        <%--查看按钮  dfdgfg--%>
-                                        <li><input type="button" value="查看订单"  class="btn beta" disabled="disabled" id="refoundOrder_inbtn" onclick="refoundOrder_details()"></li>
-                                    </ul>
-                                    <input type="button" value="查询" class="submitBtn fr" id="refoundOrderSearch" onclick="refoundGetnowPage(1)">
-                                    <input type="text" class="textArea fr" name="refoundTxt" id="refoundOrderTxt">
-                                    <select class="selectArea fr" name="refoundToseachid" id="refoundOrderSelectid">
-                                        <option value="1" selected>退款单号</option>
-                                        <option value="2">退款状态</option>
-                                        <option value="3">退货单号</option>
-                                    </select>
-                            </div>
-                        </div>
-                        <div class="orderMainCont revise">
-                            <div class="table revise">
-                                    <table cellspacing="0" cellpadding="0" class="w1200" id="refoundOrdertable1">
-                                        <tr class="tableTit">
-                                            <th class="w50">序号</th>
-                                            <th class="w50">批量</th>
-                                            <th class="w200">退款单号</th>
-                                            <th class="w100">退款金额</th>
-                                            <th class="w100">退款状态</th>
-                                            <th class="w200">退货单号</th>
-                                            <th class="w200">创建时间</th>
-                                            <th class="w200">修改时间</th>
-                                            <th class="w100">修改人</th>
-                                        </tr>
-                                    </table>
-                            </div>
-                            <div id="relatedOrderDivpage" class="fr"></div>
-                            <%--显示加载的信息，该引用只能放在页面下面--%>
-                            <script type="text/javascript" src="${pageContext.request.contextPath}/js/refoundOrder.js" charset="utf-8"></script>
-                        </div>
-                    </div>
-                    <div class="orderDetails">
-                        <div class="tableDetails">
-                                <table cellspacing="0" cellpadding="0" id="refoundOrdertable2">
-                                    <tr class="tableTit">
-                                        <th class="w50">批量</th>
-                                        <th class="w350">商品编码</th>
-                                        <th>商品名称</th>
-                                        <th>商品单价</th>
-                                        <th>商品个数</th>
-                                        <th>商品总价</th>
-                                    </tr>
-                                </table>
-                        </div>
-                        <div id="refoundOrderSonpl" class="fr"></div>
-                    </div>
-                </div>
+                <jsp:include page="refoundOrder.jsp"></jsp:include>
             </div><!--orderMain结束-->
         </div><!--order结束-->
         <!--订单模块-->
