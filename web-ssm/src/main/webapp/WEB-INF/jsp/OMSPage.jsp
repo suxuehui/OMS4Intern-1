@@ -465,7 +465,7 @@
                                       <ul>
                                             <li><input type="button" value="创建退款单" class="btn"
                                                        id="returnedCreaterefoundOder"></li>
-                                            <li><input type="button" value="换货发货" class="btn"></li>
+                                            <li><input type="button" value="换货发货" class="btn" id="changeOutBound"></li>
                                             <li><input type="button" value="审核" class="btn" id="checkreturnedorder">
                                             </li>
                                             <li><input type="button" value="取消退货" class="btn" id="cancelReturnedOrder">
@@ -475,12 +475,13 @@
                                                        id="returnedDetailbut">
                                             </li>
                                         </ul>
-                                    <input type="button" value="查询" class="submitBtn fr">
-                                    <input type="text" class="textArea fr">
-                                    <select class="selectArea fr">
-                                        <option></option>
-                                        <option></option>
-                                        <option></option>
+                                    <input type="button" value="查询" class="submitBtn fr" id="serarchReturnedOrder">
+                                    <input type="text" class="textArea fr" id="returnValue">
+                                    <select class="selectArea fr" id="returnedselect">
+                                        <option>退货单号</option>
+                                        <option>订单号</option>
+                                        <option>退货状态</option>
+                                        <option>渠道订单号</option>
                                     </select>
                                 </form>
                             </div>
@@ -767,6 +768,7 @@
             <div class="mask"></div>
             <div class="loading-icon"><img src="${pageContext.request.contextPath}/images/loader.gif"></div>
         </div>
+    </div>
     </div>
 </body>
 </html>

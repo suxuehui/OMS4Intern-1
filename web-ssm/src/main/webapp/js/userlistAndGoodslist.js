@@ -107,31 +107,82 @@ function showReturnDetail(id) {
     window.open("/oms/returned/returnedDetail?id=" + id);
 }
 
-function getreturnedStatus(id) {
+function getreturnedStatus(returnIdArray, statusp) {
+
     var status;
-    $.ajax({
-        type: 'get',
-        url: '/oms/returned/getReturnedStatus',
-        data: {
-            id: id,
-        },
-        async: false,//同步
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (data) {
-            status = data.status
+    var countStatus = 0;
+    for (var i = 0; i < returnIdArray.length; i++) {
+        var id = returnIdArray[i];
 
-        },
-        error: function (data) {
-            alert("获取退货单状态失败");
-        }
+        $.ajax({
+            type: 'get',
+            url: '/oms/returned/getReturnedStatus',
+            data: {
+                id: id,
+            },
+            async: false,//同步
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data.status == statusp) {
+                    countStatus++;
+                }
+            },
+            error: function (data) {
+                alert("获取退货单状态失败");
+            }
+        });
+    }
+    if (countStatus == returnIdArray.length) {
+        return "yes";
+    } else {
 
-
-    });
-
-    return status;
+        return "no";
+    }
 
 }
+
+function getreturnedOrChange(returnIdArray) {
+    var returncount = 0;
+    for (var i = 0; i < returnIdArray.length; i++) {
+
+        var id = returnIdArray[i];
+
+        $.ajax({
+            type: 'get',
+            url: '/oms/returned/getReturnedOrChange',
+            data: {
+                id: id,
+            },
+            async: false,//同步
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+
+                if (data.returnOrChange == "return") {
+                    returncount++;
+                }
+
+            },
+            error: function (data) {
+                alert("获取退货单退换货状态失败");
+            }
+
+
+        });
+
+    }
+    if (returncount == returnIdArray.length) {
+        return "return";
+    } else if (returncount == 0) {
+        return "change";
+    } else {
+        return "error";
+    }
+
+
+}
+
 $(
     function () {
 
@@ -524,6 +575,39 @@ $(
                 });
             }
 
+            function selectReturnByvalue(pageNow, select,value) {
+                var page = pageNow;
+                var select = select;
+                var value = value;
+                $.ajax({
+                    type: 'get',
+                    url: '/oms/returned/getReturnedBySelect',
+                    data: {
+                        select: select,
+                        value:value,
+                        pageNow: page,
+                        pageSize: 5
+                    },
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        var returnedList =data.returnedModels;
+                        var totalPage = data.totalPage;
+                        $('#returnedBody').html("");
+                        for (var i in returnedList) {
+                            var id = i * 1 + 1 * 1;
+                            $('#returnedBody').append("<tr><td>" + id + "</td><td><input type='checkbox' onclick='checkboxreturneddis(this.id)' name='returnedcheck'  id='" + returnedList[i].id + "returned" + "'></td><td><a id='" + returnedList[i].returnedid + "' onclick='returnedGetGoods(this.id)' ondblclick='showReturnDetail(" + returnedList[i].id + ")' '>" + returnedList[i].returnedid + "</a></td> <td>&nbsp;" + returnedList[i].returnedorchange + "</td> <td>&nbsp;" + returnedList[i].returnedstatus + "</td> <td>&nbsp;" + returnedList[i].oid + "</td>  <td>&nbsp;" + returnedList[i].channeloid + "</td><td>&nbsp;" + returnedList[i].returnedmoney + "</td><td>&nbsp;" + returnedList[i].createtime + "</td><td>&nbsp;" + returnedList[i].modifytime + "</td><td>&nbsp;" + returnedList[i].modifyman + "</td></tr>");
+                            $('#totalReturnedPage').html(totalPage);
+
+                        }
+                    },
+                    error: function (data) {
+                        alert("查询失败");
+                    }
+
+                });
+            }
+
             $("#updateUserBut").click(
                 function () {
 
@@ -838,38 +922,44 @@ $(
 
         $('#checkreturnedorder').click(
             function () {
+                var successCount = 0;
                 var returnIdArray = new Array();
                 var i = 0;
                 $("input:checkbox[name='returnedcheck']:checked").each(function () {
                     returnIdArray[i++] = parseInt($(this).attr("id"));
                 });
-                var returnIds = returnIdArray.join("/");
-                for (var j = 0; j < returnIdArray.length; j++) {
-                    var id = returnIdArray[j];
-                    var a = getreturnedStatus(id);
-                    if (a == "待审核") {
-                        $.ajax({
-                            type: 'get',
-                            url: '/oms/returned/createInBoundOrder',
-                            data: {
-                                id: id,
-                            },
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            success: function (data) {
-                                alert(data.return);
-                            },
-                            error: function (data) {
-                                alert("审核异常");
-                                return false;
-                            }
+                if (returnIdArray.length == 0) {
+                    alert("请勾选订单");
+                    return false;
+                } else {
+                    var returnIds = returnIdArray.join("/");
+                    var a = getreturnedStatus(returnIdArray, "待审核");
 
-                        });
+                    if (a == "yes") {
+                        for (var j = 0; j < returnIdArray.length; j++) {
+                            var id = returnIdArray[j];
+                            $.ajax({
+                                type: 'get',
+                                url: '/oms/returned/createInBoundOrder',
+                                data: {
+                                    id: id,
+                                },
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (data) {
+
+                                    inGetReturnedNowPage(1);
+                                }
+                            });
+                        }
                     } else {
-                        alert("请选择待审核状态退货单信息");
+                        alert('请选择待审核订单');
                         return false;
                     }
+
                 }
+
+
             }
         );
         $("#cancelReturnedOrder").click(
@@ -879,31 +969,187 @@ $(
                 $("input:checkbox[name='returnedcheck']:checked").each(function () {
                     returnIdArray[i++] = parseInt($(this).attr("id"));
                 });
-                var returnIds = returnIdArray.join("/");
-                for (var j = 0; j < returnIdArray.length; j++) {
-                    var id = returnIdArray[j];
-                    var a = getreturnedStatus(id);
-                    if (a == "待审核") {
-                        $.ajax({
-                            type: 'get',
-                            url: '/oms/returned/cancelReturn',
-                            data: {
-                                id: id,
-                            },
-                            contentType: "application/json; charset=utf-8",
-                            dataType: "json",
-                            success: function (data) {
+                if (returnIdArray.length == 0) {
+                    alert("请勾选订单");
+                    return false;
+                } else {
+                    var returnIds = returnIdArray.join("/");
+                    var a = getreturnedStatus(returnIdArray, "待审核");
+                    if (a == "yes") {
+                        for (var j = 0; j < returnIdArray.length; j++) {
+                            var id = returnIdArray[j];
+                            $.ajax({
+                                type: 'get',
+                                url: '/oms/returned/cancelReturn',
+                                data: {
+                                    id: id,
+                                },
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (data) {
 
-                            },
-                            error: function (data) {
-                                alert("取消异常");
-                                return false;
-                            }
+                                    inGetReturnedNowPage(1);
+                                },
+                                error: function (data) {
+                                    alert("取消异常");
+                                    return false;
+                                }
 
-                        });
+                            });
+
+                        }
+                        alert("取消订单成功");
                     } else {
-                        alert("请选择待审核状态退货单信息");
+                        alert('请选择待审核订单');
                         return false;
+                    }
+
+                }
+            }
+        );
+
+        $("#returnedCreaterefoundOder").click(function () {
+            //创建退款单
+            var returnIdArray = new Array();
+            var i = 0;
+
+            $("input:checkbox[name='returnedcheck']:checked").each(function () {
+                returnIdArray[i++] = parseInt($(this).attr("id"));
+            });
+            if (returnIdArray.length == 0) {
+                alert("请勾选订单");
+                return false;
+            } else {
+                var returnIds = returnIdArray.join("/");
+                var a = getreturnedStatus(returnIdArray, "收货成功");
+                var returnOrChange = getreturnedOrChange(returnIdArray);
+                if (a == "yes") {
+                    if (returnOrChange == "return") {
+                        var successCount = 0;
+                        for (var j = 0; j < returnIdArray.length; j++) {
+
+                            var id = returnIdArray[j];
+
+                            $.ajax({
+                                type: 'get',
+                                url: '/oms/returned/createRefoundOrder',
+                                data: {
+                                    id: id,
+                                },
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (data) {
+                                    if (data.isSuccess > 0) {
+                                        successCount++;
+                                    } else if (data.isSuccess < 0) {
+                                        alert("已生成退款单，不要重复提交");
+
+                                    }
+                                },
+                                error: function (data) {
+                                    alert("生成退款单异常");
+                                    return false;
+                                }
+                            });
+                            inGetReturnedNowPage(1);
+                        }
+                        if (successCount > 0) {
+                            alert("创建完成,共" + returnIdArray.length + "条,成功" + successCount + "条");
+                        }
+
+                    } else {
+                        alert('请选择退换货状态为‘return’的退货单');
+                        return false;
+                    }
+
+                } else {
+                    alert('请选择收货成功订单');
+                    return false;
+                }
+
+
+            }
+
+
+        });
+
+
+        $("#changeOutBound").click(function () {
+            //换货发货
+
+            var returnIdArray = new Array();
+            var i = 0;
+
+            $("input:checkbox[name='returnedcheck']:checked").each(function () {
+                returnIdArray[i++] = parseInt($(this).attr("id"));
+            });
+            if (returnIdArray.length == 0) {
+                alert("请勾选订单");
+                return false;
+            } else {
+                var returnIds = returnIdArray.join("/");
+                var a = getreturnedStatus(returnIdArray, "收货成功");
+                var returnOrChange = getreturnedOrChange(returnIdArray);
+                if (a == "yes") {
+                    if (returnOrChange == "change") {
+                        var successCount = 0;
+                        for (var j = 0; j < returnIdArray.length; j++) {
+
+                            var id = returnIdArray[j];
+
+                            $.ajax({
+                                type: 'get',
+                                url: '/oms/returned/createOutBoundOrder',
+                                data: {
+                                    id: id,
+                                },
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function (data) {
+                                    if (data.data == "换货成功") {
+
+                                        successCount++;
+                                    }
+                                },
+                                error: function (data) {
+                                    alert("生成出库单异常");
+                                    return false;
+                                }
+                            });
+                            inGetReturnedNowPage(1);
+                        }
+                        alert("发货成功");
+
+                    } else {
+                        alert('请选择退换货状态为‘change’的退货单');
+                        return false;
+                    }
+
+                } else {
+                    alert('请选择收货成功订单');
+                    return false;
+                }
+
+
+            }
+
+
+        });
+
+        $("#serarchReturnedOrder").click(
+            function () {
+                var select = $('#returnedselect').val().trim();
+                var value = $('#returnValue').val().trim();
+                if (value.length == 0) {
+
+                    alert("请输入查询内容");
+                } else {
+                    var zzbds = /^([\u4E00-\u9FA5]|\w)*$/;
+                    if (!zzbds.test(value)) {
+                        alert("请不要输入特殊符号");
+                    } else {
+                        selectReturnByvalue(1,select,value);
+
                     }
                 }
             }

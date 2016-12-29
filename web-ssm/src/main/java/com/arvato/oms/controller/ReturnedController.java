@@ -97,7 +97,7 @@ public class ReturnedController
 
     @RequestMapping("/createRefoundOrder")
     @ResponseBody
-    public int createRefoundOrder()
+    public JSONObject createRefoundOrder(Integer id)
     {
         /**
          * @Author: 马潇霄
@@ -106,15 +106,13 @@ public class ReturnedController
          * @param
          * @Return:
          */
-        List<String> list = new ArrayList<String>();
-        list.add("123");
-        list.add("221");
-        return returnedModelService.createRefoundOrders(list);
+
+        return returnedModelService.createRefoundOrders(id);
     }
 
     @RequestMapping("/createOutBoundOrder")
     @ResponseBody
-    public String createOutBoundOrder()
+    public JSONObject createOutBoundOrder(Integer id)
     {
         /**
          * @Author: 马潇霄
@@ -123,9 +121,8 @@ public class ReturnedController
          * @param
          * @Return:
          */
-        List<String> list = new ArrayList<String>();
-        list.add("RT111111111111111");
-        return returnedModelService.createOutboundOrders("RT111111111111111");
+
+        return returnedModelService.createOutboundOrders(id);
     }
 
     @RequestMapping("/createInBoundOrder")
@@ -160,6 +157,15 @@ public class ReturnedController
     {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("status", returnedModelService.getStatus(id));
+        return jsonObject;
+    }
+
+    @RequestMapping("/getReturnedOrChange")
+    @ResponseBody
+    public JSONObject getReturnedOrChange(int id)
+    {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("returnOrChange", returnedModelService.getReturnOrChange(id));
         return jsonObject;
     }
 

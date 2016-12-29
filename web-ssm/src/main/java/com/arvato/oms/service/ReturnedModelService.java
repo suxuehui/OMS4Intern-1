@@ -22,11 +22,11 @@ public interface ReturnedModelService
     public JSONObject getReturnedListBySelect(String select, String value, int pageNow, int num);
     //条件分页模糊查询
 
-    public int createRefoundOrders(List<String> returnedIds);
+    public JSONObject createRefoundOrders(Integer id);
     //批量生成退款单
 
 
-    public String createOutboundOrders(String returnedId);
+    public JSONObject createOutboundOrders(Integer id);
     //换货发货，生成出库单
 
     public String checkInBound(Integer returnedId);
@@ -38,6 +38,9 @@ public interface ReturnedModelService
     //根据id查询退货单和商品信息（用于退货单详情页面）
 
     String getStatus(Integer id);
-    //根据查询退货单状态
+    //根据id查询退货单状态
+
+    String getReturnOrChange(Integer id);
+    //根据id查询退货单是退货还是换货
 
 }
