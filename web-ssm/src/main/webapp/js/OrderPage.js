@@ -4,7 +4,6 @@
 //导入订单
 $(function () {
     $("#importBtn").click(function () {
-        $(".loading").show();
         var formData=new FormData($("#importForm")[0]);
         var file=document.getElementById("orderfile").files[0];
         if(file==undefined)
@@ -18,6 +17,7 @@ $(function () {
             alert("文件过大");
             return;
         }
+        $(".loading").show();
         $.ajax({
             url:"../order/importOrder",
             type:"post",
