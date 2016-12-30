@@ -3,6 +3,7 @@ package com.arvato.oms.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.arvato.oms.dao.*;
 import com.arvato.oms.model.*;
 import com.arvato.oms.model.pojo.CodeRoot;
@@ -103,8 +104,9 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         json.put("totalPage", page.getTotalPageCount());
         json.put("size", returnedModels.size());
         json.put("getStartPos", page.getStartPos());
-
-        return json;
+        String s = JSON.toJSONString(json, SerializerFeature.WriteMapNullValue,SerializerFeature.WriteNullStringAsEmpty);
+        JSONObject jsonObj = JSON.parseObject(s);
+        return jsonObj;
     }
 
     public JSONObject getGoodsListByRid(String returnedId, int pageNow, int num)
@@ -149,7 +151,9 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         json.put("isHasNext", page.isHasNext());
         json.put("isHasPre", page.isHasPre());
         json.put("start", page.getStartPos());
-        return json;
+        String s = JSON.toJSONString(json, SerializerFeature.WriteMapNullValue,SerializerFeature.WriteNullStringAsEmpty);
+        JSONObject jsonObj = JSON.parseObject(s);
+        return jsonObj;
     }
 
     public JSONObject getReturnedListBySelect(String select, String value, int pageNow, int num)
@@ -180,8 +184,9 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
             returnedModels = returnedModelMapper.selectReturnedByChannelOid(page.getStartPos(), num, value);
         }
         JSONObject json = new JSONObject();
-        json.put("returnedModels", returnedModels);
-        return json;
+        String s = JSON.toJSONString(json, SerializerFeature.WriteMapNullValue,SerializerFeature.WriteNullStringAsEmpty);
+        JSONObject jsonObj = JSON.parseObject(s);
+        return jsonObj;
     }
 
     public JSONObject createRefoundOrders(Integer id)
@@ -569,7 +574,9 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         }
 
         json.put("returnedSonList", returnedSonList);
-        return json;
+        String s = JSON.toJSONString(json, SerializerFeature.WriteMapNullValue,SerializerFeature.WriteNullStringAsEmpty);
+        JSONObject jsonObj = JSON.parseObject(s);
+        return jsonObj;
     }
 
     public String getStatus(Integer id)

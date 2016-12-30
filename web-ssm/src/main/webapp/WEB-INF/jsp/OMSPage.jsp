@@ -154,7 +154,7 @@
                                 <form>
                                     <input type="button" value="查询" class="submitBtn fr" id="selectgoodsbut">
                                     <input type="text" class="textArea fr" id="goodsvaluetxt">
-                                      <select class="selectArea fr revise" id="selectGoodssle">
+                                      <select class="selectArea fr revise" id="selectGoodssle" value="1">
                                         <option id="selectGoodsByNameop">按名称查询</option>
                                         <option id="selectGoodsByIdop">按商品编码查询</option>
 

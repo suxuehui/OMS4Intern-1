@@ -1,4 +1,3 @@
-
 $.extend({
     getUrlVars: function () {
         var vars = [], hash;
@@ -35,10 +34,10 @@ function usercheckclick(userid) {
 
     if (count == 1) {
         document.getElementById("updateUserBut").disabled = false;
-    } else if (count==0){
+    } else if (count == 0) {
         document.getElementById("deleteUser").disabled = true;
         document.getElementById("updateUserBut").disabled = true;
-    }else {
+    } else {
         document.getElementById("deleteUser").disabled = false;
         document.getElementById("updateUserBut").disabled = true;
     }
@@ -75,7 +74,6 @@ function returnedGetGoods(returnedid) {
 
 
 }
-
 
 
 function returngetgoodsfromserver(returnedid, pageNow, pageSize) {
@@ -201,7 +199,6 @@ $(
     function () {
 
 
-
         $('#preUserPage').hide();
         $('#firstUserPage').hide();
         $('#endUserPage').hide();
@@ -257,7 +254,7 @@ $(
             $('#preUserPage').click(
                 function () {
 
-                    var userpage = parseInt($('#userPageNow').html()) ;
+                    var userpage = parseInt($('#userPageNow').html());
                     if (userpage > 1) {
                         if (userpage * 1 - 1 * 1 == 1) {
                             $('#preUserPage').hide();
@@ -625,7 +622,7 @@ $(
                 });
             }
 
-            function selectReturnByvalue(pageNow, select,value) {
+            function selectReturnByvalue(pageNow, select, value) {
                 var page = pageNow;
                 var select = select;
                 var value = value;
@@ -634,14 +631,14 @@ $(
                     url: '/oms/returned/getReturnedBySelect',
                     data: {
                         select: select,
-                        value:value,
+                        value: value,
                         pageNow: page,
                         pageSize: 10
                     },
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (data) {
-                        var returnedList =data.returnedModels;
+                        var returnedList = data.returnedModels;
                         var totalPage = data.totalPage;
                         $('#returnedBody').html("");
                         for (var i in returnedList) {
@@ -698,10 +695,10 @@ $(
         $('#nextGoodsPage').click(
             function () {
 
-                var goodspage =parseInt( $('#goodsPageNow').html().trim());
+                var goodspage = parseInt($('#goodsPageNow').html().trim());
                 var totalPage = parseInt($('#totalGoodPage').html().trim());
                 if (goodspage < totalPage) {
-                    if (goodspage * 1 + 1 * 1 == totalPage){
+                    if (goodspage * 1 + 1 * 1 == totalPage) {
                         $('#endGoodsPage').hide();
                         $('#nextGoodsPage').hide();
                     }
@@ -709,9 +706,9 @@ $(
                     $('#firstGoodsPage').show();
                     inGetGoodsNowPage(goodspage * 1 + 1 * 1);
                     $('#goodsPageNow').html(goodspage * 1 + 1 * 1);
-                } else if(goodspage==totalPage){
+                } else if (goodspage == totalPage) {
                     alert("已到最后一页");
-                }else if (goodspage>totalPage){
+                } else if (goodspage > totalPage) {
                     alert('1');
                 }
 
@@ -723,10 +720,10 @@ $(
         $('#preGoodsPage').click(
             function () {
 
-                var goodspage =parseInt( $('#goodsPageNow').html().trim());
+                var goodspage = parseInt($('#goodsPageNow').html().trim());
 
                 if (goodspage > 1) {
-                    if (goodspage==2) {
+                    if (goodspage == 2) {
                         $('#pregoodspage').hide();
                         $('#firstGoodsPage').hide();
                     }
@@ -762,7 +759,6 @@ $(
                 $('#goodsPageNow').html($('#totalGoodPage').html());
             }
         );
-
 
 
         function inGetGoodsNowPage(pageNow) {
@@ -846,9 +842,9 @@ $(
                 success: function (data) {
                     var goodsList = data.goodsAndStatus;
                     var totalPage = data.pageTotal;
-                    if(goodsList.length==0){
+                    if (goodsList.length == 0) {
                         alert("该商品不存在");
-                    }else {
+                    } else {
                         $('#goodsbody').html("");
                         for (var i in goodsList) {
                             var id = i * 1 + 1 * 1;
@@ -920,6 +916,8 @@ $(
                         $('#totalReturnedPage').html(totalPage);
 
                     }
+
+
                 },
                 error: function (data) {
                     alert("获取退货单列表失败");
@@ -1262,14 +1260,14 @@ $(
                     if (!zzbds.test(value)) {
                         alert("请不要输入特殊符号");
                     } else {
-                        selectReturnByvalue(1,select,value);
+                        selectReturnByvalue(1, select, value);
 
                     }
                 }
             }
         );
 
-        $("tbody").delegate("tr","click",function() {
+        $("tbody").delegate("tr", "click", function () {
             $(this).addClass('changeColor') //为选中项添加高亮
                 .siblings().removeClass('changeColor')//去除其他项的高亮形式
                 .end();
