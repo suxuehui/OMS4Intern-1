@@ -5,6 +5,7 @@ import com.arvato.oms.model.GoodsPojo;
 import com.arvato.oms.model.OrderModel;
 import com.arvato.oms.model.OutboundorderModel;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,6 +40,6 @@ public interface OrderService {
     public int returnGoods(String jsonStr);
     //检查订单是否可以退换货
     public int checkreturn(String oid);
-	//更新订单列表的订单状态
-	void updateOrder(String orderStatus,String oid );
+	//更新订单列表的订单状态，修改人，修改时间
+	void updateOrder(String orderStatus, Date time, String userName, String oid );
 }

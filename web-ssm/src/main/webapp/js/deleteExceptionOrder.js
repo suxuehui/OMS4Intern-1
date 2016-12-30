@@ -16,7 +16,7 @@ function exception_del() {
     var oid1 = getOid();
     var parm = {oid: oid1};//将参数传到后台
     $.post("../exceptionOrder/cancelException", parm, function () {
-        window.onload= GetnowPage(1);
+        GetnowPage(1);
     });
 }
 

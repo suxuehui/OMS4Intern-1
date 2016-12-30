@@ -9,6 +9,9 @@ function exceptionPage(pagenow){
         alert("查询无结果！")
     }
 }
+
+
+
 //使用ajax提交数据到后台
 function GetnowPage(pagenow){
     var myselect=document.getElementById("exceptionSelectid");
@@ -41,7 +44,7 @@ function GetnowPage(pagenow){
                 i++;
                 var  list=dataList[obj];
                 var html='<tr><td>'+i+'</td><td><input type="checkbox" value="'+list.oid+'" name="exceptionck" onclick="getOid()" ></td><td>';
-                html+= '<button id="'+list.oid+'" style="border-style:none;outline:none;" ' +
+                html+= '<button id="'+list.oid+'" style="border-style:none;outline:none;background-color:transparent" ' +
                     'ondblclick="exceptiondbClick(this.id)" onclick="exceptionsingleClick(this.id)">'+list.oid+'</button>'+
                     '</td>';
                 html+='<td>'+list.channeloid+'</td><td>'
@@ -76,9 +79,11 @@ function exceptiondbClick(oid) {
 //单击跳转子页面
 function  exceptionPostOid(oid)
 {
+    //$("#"+this.id).parent().css('background-color','#F4F5F3');
     //OOYYYYMMDD12345
     oid=oid.substring(2);//YYYYMMDD12345
     exceptionpageson(oid,1);
+
 }
 
 function exceptionpageson(oid,pagenow){
@@ -95,7 +100,7 @@ function exceptionpageson(oid,pagenow){
             var rglist=data.rglist;
             var gdlist=data.goods;
             var listtotalcount =rglist.length;//数据的总数
-            var pagesize=5;//每页展示行数
+            var pagesize=2;//每页展示行数
             var totalpages;
             var count=listtotalcount%pagesize;//判断奇偶数
             totalpages=parseInt(listtotalcount/pagesize);//共多少页数

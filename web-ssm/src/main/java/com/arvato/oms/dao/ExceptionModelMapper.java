@@ -32,8 +32,6 @@ public interface ExceptionModelMapper {
 
     int deleteByPrimaryKey(Integer id);
 
-    int insert(ExceptionModel record);
-
     int insertSelective(ExceptionModel record);
 
     ExceptionModel selectByPrimaryKey(Integer id);

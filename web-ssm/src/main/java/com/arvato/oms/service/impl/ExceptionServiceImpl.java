@@ -39,7 +39,7 @@ public class ExceptionServiceImpl implements ExceptionService {
         String pageNow = request.getParameter("currentpage");
         String txtvalue=request.getParameter("txtvalue"); //用户输入的值txtvalue
         int selectValue= Integer.parseInt(request.getParameter("toseachid"))  ;//下拉框的value
-        int pagesize=10;
+        int pagesize=2;
         Page pagelist;
         List<ExceptionModel> list;
         //获取对象总数量
@@ -164,4 +164,7 @@ public class ExceptionServiceImpl implements ExceptionService {
         return jsonstr;
     }
 
+    public int insertSelective(ExceptionModel exceptionModel) {
+        return exceptionModelMapper.insertSelective(exceptionModel);
+    }
 }

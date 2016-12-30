@@ -181,9 +181,9 @@ function drawback(){
                     if(msg==666){
                         alert("退款成功");
                     }else if(msg==777){
-                        alert("随机数退款失败");
-                    }else if(msg==123){
                         alert("退款失败");
+                    }else if(msg==123){
+                        alert("信息发送失败，请稍后再试");
                     }else {
                         alert("该退款单已退过款了");
                     }

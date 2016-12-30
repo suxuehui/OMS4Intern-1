@@ -4,13 +4,14 @@ import com.arvato.oms.model.OrderModel;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
 public interface OrderModelMapper
 {
     //更新订单列表的订单状态
-    void updateOrder(String orderStatus, String oid);
+    void updateOrder(String orderStatus, Date time, String userName, String oid );
 
     int selectCount();
 
