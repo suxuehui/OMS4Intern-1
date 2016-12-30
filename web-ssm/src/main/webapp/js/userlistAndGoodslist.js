@@ -148,6 +148,12 @@ function getreturnedStatus(returnIdArray, statusp) {
 
 }
 
+function getUserRole() {
+    var urole = $("#urole").html();
+    return urole;
+
+}
+
 function getreturnedOrChange(returnIdArray) {
     var returncount = 0;
     for (var i = 0; i < returnIdArray.length; i++) {
@@ -217,8 +223,9 @@ $(
         );
 
 
-        var urole = $.getUrlVar('urole');
-        if (urole == 1) {
+        var urole = getUserRole();
+
+        if (parseInt(urole) == 1) {
             window.onload = inGetUserNowPage($('#userPageNow').html());
 
             $('#nextUserPage').click(

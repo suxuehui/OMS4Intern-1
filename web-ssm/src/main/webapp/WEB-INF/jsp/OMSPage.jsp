@@ -33,6 +33,8 @@
 </head>
 
 <body>
+<span id="urole" hidden>${urole}</span>
+<span id="uname" hidden>${uname}</span>
 <div class="wrap">
     <div class="header clearFix">
         <div class="menu fl">

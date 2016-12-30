@@ -48,12 +48,12 @@
                                     if (data.check == 0) {
                                         alert("密码错误");
                                     } else if (data.check == 1) {
-                                        alert("管理员");
-                                        window.location.href="../oms/index?urole="+1;
+
+                                        window.location.href="../oms/index";
 
                                     } else if (data.check == 2) {
-                                        alert("普通用户");
-                                        window.location.href="../oms/index?urole="+2;
+
+                                        window.location.href="../oms/index";
                                     }else {
                                         alert("用户身份异常，此用户失效")
                                     }
