@@ -76,6 +76,8 @@ function returnedGetGoods(returnedid) {
 
 }
 
+
+
 function returngetgoodsfromserver(returnedid, pageNow, pageSize) {
     $.ajax({
         type: 'get',
@@ -94,7 +96,7 @@ function returngetgoodsfromserver(returnedid, pageNow, pageSize) {
             $('#returnedGoodsBody').html("");
             for (var i in returnedSonList) {
                 var id = i * 1 + 1 * 1;
-                $('#returnedGoodsBody').append("<tr><td><input type='checkbox'  name='returnedsoncheck'   id='" + returnedSonList[i].goodsno + "returnedson" + "'></td><td><a id='" + returnedSonList[i].goodsno + "'>" + returnedSonList[i].goodsno + "</a></td> <td>&nbsp;" + returnedSonList[i].goodsname + "</td> <td>&nbsp;" + returnedSonList[i].goodnum + "</td> <td>&nbsp;" + returnedSonList[i].goodsprice + "</td></tr>");
+                $('#returnedGoodsBody').append("<tr class='a'><td><input type='checkbox'  name='returnedsoncheck'   id='" + returnedSonList[i].goodsno + "returnedson" + "'></td><td><a id='" + returnedSonList[i].goodsno + "'>" + returnedSonList[i].goodsno + "</a></td> <td>&nbsp;" + returnedSonList[i].goodsname + "</td> <td>&nbsp;" + returnedSonList[i].goodnum + "</td> <td>&nbsp;" + returnedSonList[i].goodsprice + "</td></tr>");
                 $('#totalreturnedGoodsPage').html(totalPage);
 
             }
@@ -197,6 +199,8 @@ function getreturnedOrChange(returnIdArray) {
 
 $(
     function () {
+
+
 
         $('#preUserPage').hide();
         $('#firstUserPage').hide();
@@ -1252,7 +1256,7 @@ $(
                 var value = $('#returnValue').val().trim();
                 if (value.length == 0) {
 
-                    alert("请输入查询内容");
+                    inGetReturnedNowPage(1);
                 } else {
                     var zzbds = /^([\u4E00-\u9FA5]|\w)*$/;
                     if (!zzbds.test(value)) {
@@ -1264,6 +1268,12 @@ $(
                 }
             }
         );
+
+        $("tbody").delegate("tr","click",function() {
+            $(this).addClass('changeColor') //为选中项添加高亮
+                .siblings().removeClass('changeColor')//去除其他项的高亮形式
+                .end();
+        });
 
 
     });

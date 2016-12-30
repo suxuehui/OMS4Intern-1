@@ -16,7 +16,7 @@
     <script>
         $(function () {
 
-            $("#loginsubmit").click(function () {
+            $("#loginsubmit").click(function login() {
                 var userId = $("#userId");
                 var password = $("#password");
                 var msg = $("#msg");
@@ -89,7 +89,7 @@
                             <input type="password" name="" class="inputList ml20" id="password">
                         </li>
                         <label class="msg" id="msg"><br/><br/></label>
-                        <li><input type="submit" value="" class="submitBtn" align="center" id="loginsubmit"></li>
+                        <li><input type="submit" value="" class="submitBtn" align="center" id="loginsubmit" onkeypress="if (event.keyCode == 13) login();"></li>
                     </ul>
                 </div>
             </form>

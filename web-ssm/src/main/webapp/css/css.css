@@ -115,6 +115,5 @@ table.orderTable td{border:1px solid #CCC;height:25px}
 .loading .loading-icon{position:absolute;top:50%;left:50%;margin-left:-40px;margin-top:-40px}
 .goodNum{border:1px solid;text-align: center}
 .goodNum.edit{border: none;text-align: center}
-
-
+.changeColor{background-color: #f4f5f3}
 .hbg{width:100%;position:absolute;background:#000;z-index:998;top:0;left:0;filter:alpha(opacity=60);opacity:0.6;display:none;height:100%;position:fixed}
