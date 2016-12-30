@@ -51,7 +51,6 @@ public class LoginController
         session.setMaxInactiveInterval(30*60);
         JSONObject json = new JSONObject();
         json.put("check", i);
-
         return json;
     }
 
