@@ -125,6 +125,7 @@ public class OrderController
         {
             return null;
         }
+        data=data.trim();
         return orderService.selects(queryMode,pageNo,pageSize,"%"+data+"%");
     }
 

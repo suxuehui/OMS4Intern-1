@@ -271,29 +271,34 @@ $(function () {
 })
 //商品勾选框
 var goodsArray=new Array();
-function goodCheck(goodsno) {
+function orderGoodCheck(goodsno) {
     if(oidArray.length==0||oidArray.length>1)
     {
         return;
     }
-    if(oidArray.length==1&&document.getElementById(goodsno).checked){
+    if(oidArray.length==1){
         var oid=$("#goodsOid").text();
         if(oid!=oidArray[0])
         {
             return;
         }
-        goodsArray.push(goodsno);
-        $("#n"+goodsno).removeAttr("readonly");
-        $("#n"+goodsno).removeClass("edit");
-    }
-    else{
-        $("#n"+goodsno).attr("readonly","readonly");
-        $("#n"+goodsno).addClass("edit");
-        for(var i=0;i<oidArray.length;i++)
+        if(document.getElementById(goodsno).checked)
         {
-            if(goodsArray[i]==goodsno)
+            goodsArray.push(goodsno);
+            $("#n"+goodsno).removeAttr("readonly");
+            $("#n"+goodsno).removeClass("edit");
+        }
+        else
+        {
+            $("#n"+goodsno).attr("readonly","readonly");
+            $("#n"+goodsno).addClass("edit");
+            for(var i=0;i<goodsArray.length;i++)
             {
-                goodsArray.splice(i,1);
+                if(goodsArray[i]==goodsno)
+                {
+                    goodsArray.splice(i,1);
+                    break;
+                }
             }
         }
     }
@@ -312,6 +317,13 @@ function returnOrExchange(returnoid,returnedOrChange) {
         if(num==0||num=="")
         {
             alert("商品数目不能为0或为空");
+            return;
+        }
+        var Num=$("#temp"+goodsArray[i]).text();
+        if(num>Num)
+        {
+            alert("填写的商品数量大于订单中的商品数量");
+            return;
         }
         var fee=$("#f"+goodsArray[i]).text();
         var good={"goodsno":goodsArray[i],"goodNum":num,"divideorderfee":fee};
@@ -326,12 +338,13 @@ function returnOrExchange(returnoid,returnedOrChange) {
             if(data==1)
             {
                 alert("订单退换货成功，可以去退换货页面查看");
+                inGetReturnedNowPage(1);
+
             }
             else
             {
                 alert("退换货异常");
             }
-            refoundGetnowPage(1);
         }
     });
 }

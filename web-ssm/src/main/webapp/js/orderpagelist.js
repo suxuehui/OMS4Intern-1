@@ -4,7 +4,7 @@
 var queryMode=1;
 var queryData="";
 var orderPageSize=10;
-window.onload= queryOrder(1,orderPageSize);
+window.onload= queryOrder(1,10);
 function queryOrder(pageNo,pageSize) {
     $.ajax({
         url:"../order/queryByCondition",
@@ -147,12 +147,12 @@ function queryGoodsByOid(pageNo,pageSize,oid) {
             var html="";
             for(var i=0;i<goodsPojos.length;i++)
             {
-                html+='<tr><td><input type="checkbox" name="goodscheck" onclick="goodCheck(this.id)" id="'
+                html+='<tr><td><input type="checkbox" name="goodscheck" onclick="orderGoodCheck(this.id)" id="'
                     +goodsPojos[i].goodsno +'"></td><td>' +goodsPojos[i].goodsno
                     +'</td><td>'+goodsPojos[i].goodsname+'</td><td id="f'+goodsPojos[i].goodsno+'">'
                     +goodsPojos[i].divideorderfee+'</td><td><input type="text" readonly class="goodNum edit" id="n'
-                    +goodsPojos[i].goodsno+'"  value="'+goodsPojos[i].goodNum +'"></td><td>'+goodsPojos[i].totalfee
-                    +'</td></tr>'
+                    +goodsPojos[i].goodsno+'"  value="'+goodsPojos[i].goodNum +'"/> <span id="temp'+goodsPojos[i].goodsno
+                    +'" hidden>'+goodsPojos[i].goodNum +'</span></td><td>'+goodsPojos[i].totalfee +'</td></tr>'
             }
             $("#ogList").html(html);
             $("#goodsOid").text(oid);

@@ -36,7 +36,6 @@ import java.util.List;
  * Created by ZHAN545 on 2016/12/6.
  */
 @Service
-@Transactional(rollbackFor = Exception.class)
 public class OrderServiceImpl implements OrderService
 {
     @Resource
@@ -185,7 +184,7 @@ public class OrderServiceImpl implements OrderService
     }
     //预检订单
     @Transactional(rollbackFor = RuntimeException.class)
-    public int previewOrder(String oId, String exceptionType,String name)
+    public int previewOrder(String oId, String exceptionType,String name) throws RuntimeException
     {
         OrderModel orderModel=selectByOid(oId);
         List<String> exceptionList=Arrays.asList("商品异常","仓库库存异常","金额异常","备注异常",null);
@@ -327,7 +326,8 @@ public class OrderServiceImpl implements OrderService
         return exceptionModel;
     }
     //取消订单
-    public int cancleOrder(String oId,String uname)
+    @Transactional(rollbackFor = RuntimeException.class)
+    public int cancleOrder(String oId,String uname) throws RuntimeException
     {
         if(oId==null)
         {
@@ -393,21 +393,34 @@ public class OrderServiceImpl implements OrderService
             }
             catch (Exception e)
             {
-                return 3;//接口连接异常
+                return 4;//接口连接异常
             }
             if(code.equals("101"))
             {
-                return 4;//订单已发货或已取消
+                return 5;//出库单号为空
             }
             if(code.equals("102"))
             {
-                return 5;//无效的出库单号
+                return 6;//没有该出库单
+            }
+            if(code.equals("103"))
+            {
+                return 7;//订单已取消
+            }
+            if(code.equals("104"))
+            {
+                return 8;//订单已发货，无法取消
             }
         }
-        return createReturned(oId);
+        try {
+            return createReturned(oId);
+        }catch(Exception e)
+        {
+            throw new UpdateSqlException("数据库更新异常");
+        }
     }
     //根据订单号生成退款单
-    public int createReturned(String oId)
+    public int createReturned(String oId) throws RuntimeException
     {
         OrderModel orderModel=orderModelMapper.selectByOid(oId);
         RefoundOrderModel refoundOrderModel=new RefoundOrderModel();
@@ -443,7 +456,7 @@ public class OrderServiceImpl implements OrderService
     }
     //生成出库单
     @Transactional(rollbackFor = RuntimeException.class)
-    public int outboundOrder(String oId,String uname) {
+    public int outboundOrder(String oId,String uname) throws RuntimeException{
         OrderModel orderModel=orderModelMapper.selectByOid(oId);
         if(orderModel==null)
         {
@@ -507,13 +520,11 @@ public class OrderServiceImpl implements OrderService
         String response=httpClientDemo.postMethod(jsonObject.toString());
         System.out.println(jsonObject.toString());
         String code="";
-        int cause=0;
         try {
             code = JSON.parseObject(response).getString("code");
         }
         catch(Exception e)
         {
-            cause=4;//"接口连接异常";
             code="接口连接异常";
         }
         if(code.equals("100"))
@@ -539,13 +550,55 @@ public class OrderServiceImpl implements OrderService
         }
         if(code.equals("101"))
         {
-            cause=5;//"数据格式错误";
-            code="数据格式错误";
+            code="重复的出库单";
         }
         if(code.equals("102"))
         {
-            cause=6;//"重复的出库单";
-            code="重复的出库单";
+            code="订单号为空";
+        }
+        if(code.equals("103"))
+        {
+            code="订单号格式错误";
+        }
+        if(code.equals("104"))
+        {
+            code="出库单号为空";
+        }
+        if(code.equals("105"))
+        {
+            code="出库单号格式错误";
+        }
+        if(code.equals("106"))
+        {
+            code="渠道订单号为空";
+        }
+        if(code.equals("107"))
+        {
+            code="收货人信息为空";
+        }
+        if(code.equals("108"))
+        {
+            code="收货人电话为空";
+        }
+        if(code.equals("109"))
+        {
+            code="收货人电话格式不正确";
+        }
+        if(code.equals("110"))
+        {
+            code="收货人为空";
+        }
+        if(code.equals("111"))
+        {
+            code="收货地址为空";
+        }
+        if(code.equals("112"))
+        {
+            code="商品信息为空";
+        }
+        if(code.equals("113"))
+        {
+            code="商品信息不正确";
         }
         ExceptionModel exceptionModel=createException(orderModel);
         exceptionModel.setExceptiontype("出库异常");
@@ -563,10 +616,11 @@ public class OrderServiceImpl implements OrderService
         orderModel.setModifytime(new Date());
         orderModel.setModifyman(uname);
         orderModelMapper.updateByOidSelective(orderModel);
-        return cause;
+        return 5;
     }
     //导入订单
-    public int importOrder(String str) {
+    @Transactional(rollbackFor = Exception.class)
+    public int importOrder(String str) throws RuntimeException{
         JSONObject jsonObject=null;
         try {
             jsonObject = JSON.parseObject(str);
@@ -638,14 +692,15 @@ public class OrderServiceImpl implements OrderService
     }
 
     //退换货
-    public int returnGoods(String jsonStr)
+    @Transactional(rollbackFor = RuntimeException.class)
+    public int returnGoods(String jsonStr) throws RuntimeException
     {
         JSONObject jsonObject=JSON.parseObject(jsonStr);
         ArrayList<GoodsPojo> goodsList=JSON.parseObject(jsonObject.getString("goods"),new TypeReference<ArrayList<GoodsPojo>>(){});
         OrderModel orderModel=orderModelMapper.selectByOid(jsonObject.getString("oid"));
         RelationrgModel[] relationRgModels=new RelationrgModel[goodsList.size()];
         ReturnedModel returnedModel=returnedModelMapper.selectByOid(orderModel.getOid());
-        if(returnedModel!=null&&!returnedModel.getReturnedstatus().equals("0"))
+        if(returnedModel!=null&&!returnedModel.getReturnedstatus().equals("取消退货")&&!returnedModel.getReturnedstatus().equals("取消换货"))
         {
             return 0;//订单退货中
         }
@@ -697,11 +752,11 @@ public class OrderServiceImpl implements OrderService
     public int checkreturn(String oid)
     {
         ReturnedModel returnedModel=returnedModelMapper.selectByOid(oid);
-        if(returnedModel==null||returnedModel.getReturnedstatus().equals("0"))
+        if(returnedModel!=null&&!returnedModel.getReturnedstatus().equals("取消退货")&&!returnedModel.getReturnedstatus().equals("取消换货"))
         {
-            return 0;//可以退换货
+            return 1;//不可以退换货
         }
-        return 1;//不能退换货操作
+        return 0;//可以退换货操作
     }
 
     //更新订单列表的订单状态
