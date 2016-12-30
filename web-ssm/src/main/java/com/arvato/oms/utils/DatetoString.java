@@ -11,7 +11,7 @@ public class DatetoString {
 
     public String formmat(Date date)
     {
-        SimpleDateFormat sim=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat sim=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String str=sim.format(date);
         return str;
     }
