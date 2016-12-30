@@ -8,10 +8,64 @@ var outlistnull;
 //点击查询时无结果就显示提示
 function outGNPage(pagenow){
     outlistnull=0;//每次调用时初始化全局变量
-    outGetnowPage(pagenow)
-    if(outlistnull==0){//判断是否有订单
-        alert("查询无结果！")
-    }
+    //此处不可直接调用outGetnowPage(page)函数，否则第一次进入页面不查寻且无数据也会有提示信息
+    var  myselect=document.getElementById("outselectid");
+    var index=myselect.selectedIndex;
+    var optxt=myselect.options[index].value;//查询条件
+    var search_value=document.getElementById("outtxt").value;//查询值
+    var s1=pagenow;
+    //ajax调用后台方法获取数据并展示
+    $.ajax({
+        type : 'get',
+        url :'../outboundorder/listseach',
+        data : {
+            currentpage: s1,
+            toseachid: optxt,
+            txtvalue: search_value
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType:"json",
+        success:function(data) {
+            var datapage = data.pagelist;
+            var datalist = data.list;
+            //清除母页面信息
+            $("#outboundertab tbody tr").eq(0).nextAll().remove();
+            //清除子页面信息
+            $("#outboundertabson tbody tr").eq(0).nextAll().remove();
+            document.getElementById("outbtn").disabled=true;
+            outboundArray.length=0;//每次分页就将勾选数组初始化
+            //打开数据为空时设置全局变量以提示信息
+            outlistnull=datalist.length;
+            if(outlistnull==0){//判断是否有订单
+                alert("查询无结果！")
+            }
+            for(var obj in datalist) {
+                if(datalist.hasOwnProperty(obj)) {
+                    var list = datalist[obj];
+                    //将同步状态的显示格式进行修改
+                    booleantoString(list);
+                    var html = '<tr name="'+list.oid+'"><td><input type="checkbox" id="' + list.oid + '"' +
+                        'onclick="tooutcheck(this)"  name="outck"></td><td>';
+                    html += '<button id="' + list.oid + '"style=" border-style:none;outline:none;background: transparent;" ondblclick="outdblclick(this.id)" onclick="outsgclick(this.id)">' + list.oid + '</button></td><td>'
+                        + list.channeloid + '</td><td>'
+                        + list.orderstatus + '</td><td>' + list.warehouseobid + '</td><td>'
+                        + list.outboundid + '</td><td>' + list.outboundstate + '</td><td>'
+                        + list.synchrostate + '</td><td>' + list.receivername + '</td><td>'
+                        + list.expresscompany + '</td><td>' + list.expressid + '</td><td>'
+                        + list.receiveraddress + '</td><td>'
+                        + list.createdtime + '</td><td>' + list.modifytime + '</td><td>'
+                        + list.modifyman + '</td></tr>'
+                    $("#outboundertab tbody ").append(html);
+                }
+            }
+            //分页设置
+            outGetNavPage(datapage.totalPageCount,datapage.pageNow);
+        },
+        error:function(){
+            self.location="../login/login" ;
+            alert("登陆超时，请重新登陆！");
+        }
+    });
 }
 function outGetnowPage(pagenow){
     var  myselect=document.getElementById("outselectid");
@@ -39,16 +93,14 @@ function outGetnowPage(pagenow){
             $("#outboundertabson tbody tr").eq(0).nextAll().remove();
             document.getElementById("outbtn").disabled=true;
             outboundArray.length=0;//每次分页就将勾选数组初始化
-            //打开数据为空时设置全局变量以提示信息
-            outlistnull=datalist.length;
             for(var obj in datalist) {
                  if(datalist.hasOwnProperty(obj)) {
                      var list = datalist[obj];
                      //将同步状态的显示格式进行修改
                      booleantoString(list);
-                     var html = '<tr><td><input type="checkbox" id="' + list.oid + '"' +
+                     var html = '<tr name="'+list.oid+'"><td><input type="checkbox" id="' + list.oid + '"' +
                          'onclick="tooutcheck(this)"  name="outck"></td><td>';
-                     html += '<button id="' + list.oid + '" style="border-style:none;outline:none;" ondblclick="outdblclick(this.id)" onclick="outsgclick(this.id)">' + list.oid + '</button></td><td>'
+                     html += '<button id="' + list.oid + '"style=" border-style:none;outline:none;background: transparent;" ondblclick="outdblclick(this.id)" onclick="outsgclick(this.id)">' + list.oid + '</button></td><td>'
                          + list.channeloid + '</td><td>'
                          + list.orderstatus + '</td><td>' + list.warehouseobid + '</td><td>'
                          + list.outboundid + '</td><td>' + list.outboundstate + '</td><td>'
@@ -115,17 +167,23 @@ function booleantoString(list){
     var outisdb;
     function outsgclick(oid) {
         outisdb = false;
+
         window.setTimeout(cc, 250);
+
         function cc() {
             if (outisdb != false)
                 return;
+            //设置标记颜色
+            $("#outboundertab tbody tr").eq(0).nextAll().css('background-color','white')
+            $("tr[name="+oid+"]").css('background-color','#F4F5F3');
+
             outpostOid(oid);//单击跳转子页面
         }
     }
 
 //双击跳转详细页面
     function outdblclick(oid) {
-        outisdb = true;
+         outisdb = true;
         window.open("../outboundorder/details?oid=" + oid);
     }
 

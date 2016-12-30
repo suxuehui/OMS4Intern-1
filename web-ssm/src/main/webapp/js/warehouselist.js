@@ -8,11 +8,54 @@ var whidArray=new Array();
 var warelistnull;
 //点击查询时无结果就显示提示
 function WarehousegetPage(pagenow){
-    warelistnull=0;//每次调用时初始化全局变量
-    wareGetnowPage(pagenow)
-    if(warelistnull==0){//判断是否有订单
-        alert("查询无结果！")
-    }
+     warelistnull=0;//每次调用时初始化全局变量
+    var  myselect=document.getElementById("whselectid");
+    var index=myselect.selectedIndex;
+    var optxt=myselect.options[index].value;//查询条件
+    var search_value=document.getElementById("whtxt").value;//查询值
+    var s1=pagenow;
+    //在未勾选checkbox 置灰编辑和删除按钮
+    document.getElementById("wareupdate").disabled=true;
+    document.getElementById("waredelete").disabled=true;
+    //ajax调用后台方法获取数据并展示
+    $.ajax({
+        type : 'get',
+        url :'../warehouse/listsearch',
+        data : {
+            currentpage: s1,
+            toseachid: optxt,
+            txtvalue: search_value
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType:"json",
+        success:function(data) {
+            var datapage = data.pagelist;
+            var datalist = data.warelist;
+            //清空数组，防止操作下一页时，数组不为空导致删除失败
+            whidArray.length=0;
+            //打开数据为空时设置全局变量以提示信息
+            warelistnull=datalist.length;
+            if(warelistnull==0){//判断是否有订单
+                alert("查询无结果！")
+            }
+            //清除原先的数据
+            $("#warehousetab tbody tr").eq(0).nextAll().remove();
+            for(var listindex in datalist) {
+                if (datalist.hasOwnProperty(listindex)) {
+                    var list = datalist[listindex];
+                    var html = '<tr><td>' +(++listindex)+ '</td><td><input type="checkbox" id="'
+                        + list.id + '" onclick="towhcheck(this.id)"  name="whck"></td><td>'
+                        + list.warehousenum + ' </td><td>' + list.warehousename + '</td></tr>'
+                    $("#warehousetab tbody ").append(html);
+                }
+            }
+            WareGetNavPage(datapage.totalPageCount,datapage.pageNow);
+        },
+        error:function(){
+            self.location="../login/login" ;
+            alert("登陆超时，请重新登陆！");
+        }
+    });
 }
 function wareGetnowPage(pagenow){
     var  myselect=document.getElementById("whselectid");
@@ -40,8 +83,6 @@ function wareGetnowPage(pagenow){
             var datalist = data.warelist;
             //清空数组，防止操作下一页时，数组不为空导致删除失败
             whidArray.length=0;
-            //打开数据为空时设置全局变量以提示信息
-            warelistnull=datalist.length;
             //清除原先的数据
             $("#warehousetab tbody tr").eq(0).nextAll().remove();
             for(var listindex in datalist) {
@@ -53,7 +94,6 @@ function wareGetnowPage(pagenow){
                     $("#warehousetab tbody ").append(html);
                 }
             }
-
             WareGetNavPage(datapage.totalPageCount,datapage.pageNow);
         },
         error:function(){

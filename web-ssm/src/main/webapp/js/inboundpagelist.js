@@ -7,12 +7,7 @@ var inlistnull;
 //点击查询时无结果就显示提示
 function inGNPage(pagenow){
     inlistnull=0;//每次调用时初始化全局变量
-    inGetnowPage(pagenow)
-    if(inlistnull==0){//判断是否有订单
-        alert("查询无结果！")
-    }
-}
-function inGetnowPage(pagenow){
+    //此处不可直接调用inGetnowPage(page)函数，否则第一次进入页面不查寻且无数据也会有提示信息
     var  myselect=document.getElementById("inselectid");
     var index=myselect.selectedIndex ;
     var optxt=myselect.options[index].value;//查询条件
@@ -40,14 +35,69 @@ function inGetnowPage(pagenow){
             inboundArray.length=0;//每次分页就将勾选数组初始化
             //打开数据为空时设置全局变量以提示信息
             inlistnull=datalist.length;
+            if(inlistnull==0){//判断是否有订单
+                alert("查询无结果！")
+            }
+            for(var obj in datalist){
+                if(datalist.hasOwnProperty(obj)){
+                    var  list=datalist[obj];
+                    //将同步状态的显示格式进行修改
+                    bytetoString(list)
+                    var html='<tr name="'+list.oid+'"><td><input type="checkbox"  id="'+list.oid+'" ' +
+                        'onclick="toincheck(this)"  name="inck"></td><td>';
+                    html+= '<button id="'+list.oid+'" style=" border-style:none;outline:none;background: transparent;"  ondblclick="indblclick(this.id)" onclick="insgclick(this.id)">'+list.oid+'</button> </td><td>'
+                        +list.channeloid+'</td><td>'
+                        +list.returnedid+'</td><td>'+list.inboundid+'</td><td>'
+                        +list.inboundstate+'</td><td>'+list.synchrostate+'</td><td>'
+                        +list.warehouse+'</td><td>' +list.createdtime+'</td><td>'
+                        +list.modifytime+'</td><td>' +list.modifyman +'</td></tr>'
+                    $("#inboundertab tbody ").append(html);
+                }}
+
+            //分页设置
+            inGetNavPage(datapage.totalPageCount,datapage.pageNow);
+        },
+        error:function(){
+            self.location="../login/login" ;
+            alert("登陆超时，请重新登陆！");
+        }
+    });
+
+}
+function inGetnowPage(pagenow){
+    var  myselect=document.getElementById("inselectid");
+    var index=myselect.selectedIndex ;
+    var optxt=myselect.options[index].value;//查询条件
+    var search_value=document.getElementById("intxt").value;//查询值
+    var s1=pagenow;
+    //ajax调用后台方法获取数据并展示
+    $.ajax({
+        type : 'get',
+        url :'../inboundorder/listseach',
+        data : {
+            currentpage: s1,
+            toseachid: optxt,
+            txtvalue: search_value
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType:"json",
+        success : function(data) {
+            var datapage = data.pagelist;
+            var datalist =  data.list ;
+            //清除母页面信息
+            $("#inboundertab tbody tr").eq(0).nextAll().remove();
+            //清除子页面信息
+            $("#inboundertabson tbody tr").eq(0).nextAll().remove();
+            document.getElementById("inbtn").disabled=true;
+            inboundArray.length=0;//每次分页就将勾选数组初始化
             for(var obj in datalist){
                 if(datalist.hasOwnProperty(obj)){
                 var  list=datalist[obj];
                    //将同步状态的显示格式进行修改
                     bytetoString(list)
-                var html='<tr><td><input type="checkbox"  id="'+list.oid+'" ' +
+                var html='<tr name="'+list.oid+'"><td><input type="checkbox"  id="'+list.oid+'" ' +
                     'onclick="toincheck(this)"  name="inck"></td><td>';
-                    html+= '<button id="'+list.oid+'" style="border-style:none;outline:none;"  ondblclick="indblclick(this.id)" onclick="insgclick(this.id)">'+list.oid+'</button> </td><td>'
+                    html+= '<button id="'+list.oid+'"style=" border-style:none;outline:none;background: transparent;" ondblclick="indblclick(this.id)" onclick="insgclick(this.id)">'+list.oid+'</button> </td><td>'
                         +list.channeloid+'</td><td>'
                     +list.returnedid+'</td><td>'+list.inboundid+'</td><td>'
                     +list.inboundstate+'</td><td>'+list.synchrostate+'</td><td>'
@@ -105,7 +155,6 @@ function toinOrderdetail(){
 
 }
 
-
 /*单、双击事件跳转*/
  var inisdb;
  function insgclick(oid) {
@@ -115,7 +164,11 @@ function toinOrderdetail(){
    {
     if (inisdb != false)
         return;
-    inpostOid(oid);
+       //设置标记颜色
+       $("#inboundertab tbody tr").eq(0).nextAll().css('background-color','white')
+       $("tr[name="+oid+"]").css('background-color','#F4F5F3');
+
+       inpostOid(oid);
    }
  }
 
