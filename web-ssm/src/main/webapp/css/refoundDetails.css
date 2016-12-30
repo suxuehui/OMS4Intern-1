@@ -1,0 +1,34 @@
+@charset "utf-8";
+/* CSS Document */
+.ml15{margin-left:15px}
+.ml20{margin-left:20px}
+.mr20{margin-right:20px}
+.ml30{margin-left:30px}
+.mr30{margin-right:30px}
+.mt5{margin-top:5px}
+.w214{width:214px}
+.fl{float:left}
+.fr{float:right}
+body{background:#FFF;margin:0;padding:0;font-family:"幼圆",sans-serif;height:100%}
+p{margin:0;padding:0}
+ul{list-style:none;margin:0;padding:0}
+.wrap{width:1360px;height:100%;margin:0 auto;height:100%}
+.header{min-height:50px;height:8%;width:1360px;background:#0CF;border-bottom:2px solid #efefef}
+.headerTit{font-size:30px;font-weight:bold;height:50px;line-height:50px}
+.details{width:1360px;min-height:586px;height:92%;background:#e9eef0}
+.detailsBox{width:1360px;min-height:552px;height:94%;overflow-y:auto}
+.detailsMenu{width:1360px;min-height:34px;height:6%;line-height:30px;font-size:20px;font-weight:bold;background:#0CF}
+.contTit{width:600px;height:50px;background:#0CF;font-size:20px;line-height:50px}
+table{margin:0;padding:0;word-break:break-all;word-wrap:break-all;width:100%}
+.content{border-left:1px solid #999;border-right:1px solid #999;border-bottom:1px solid #999;width:598px;background:#FFF}
+.content.revise table tr{display:block;margin-left:20px;margin-top:20px;margin-bottom:20px}
+.content.revise table tr td:first-child{width:150px}
+.detailsCont{width:600px;margin-top:40px;margin-bottom:10px}
+.detailsCont.fl{margin-left:25px}
+.detailsCont.fr{margin-right:25px}
+.seller{width:200px;height:100px}
+.borderBottom{border-bottom:2px solid #CCC}
+.product{border-bottom:2px solid #CCC;width:100%}
+.content.extra{height:343px;overflow-y:auto}
+.product tr{height:30px;line-height:30px}
+.product tr td:last-child{width:400px;float:right}
