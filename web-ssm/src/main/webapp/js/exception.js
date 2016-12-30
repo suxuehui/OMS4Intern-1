@@ -34,8 +34,7 @@ function GetnowPage(pagenow){
                 html+='<td>'+list.channeloid+'</td><td>'
                     +list.orderstatus+'</td><td>'+list.orderfrom+'</td><td>'
                     +list.exceptiontype+'</td><td>'+list.expceptioncause+'</td><td>'
-                    +list.exceptionstatus+'</td><td>' +list.createtime+'</td><td>'
-                    +list.modifytime+'</td><td>' +list.modifyman+'</td></tr>'
+                    +list.exceptionstatus+'</td><td>' +list.createtime+'</td></tr>'
                 $("#exetable tbody ").append(html);
             }
             exGetNavPage(dataPage.totalPageCount,dataPage.pageNow);
