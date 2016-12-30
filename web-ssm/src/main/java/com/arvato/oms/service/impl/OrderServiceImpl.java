@@ -619,11 +619,11 @@ public class OrderServiceImpl implements OrderService
                 divideorderfee=new BigDecimal((totalfee.doubleValue())/(order.getNum()));
             }
             orderModel.setDiscountprice(discountPrice);
-            orderModelMapper.insertSelective(orderModel);
             relationogModel.setDivideorderfee(divideorderfee);
             relationogModel.setTotalfee(totalfee);
             relationogModelMapper.insertSelective(relationogModel);
         }
+        orderModelMapper.insertSelective(orderModel);
         return 1;
     }
 
