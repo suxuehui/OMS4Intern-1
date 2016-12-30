@@ -1,5 +1,14 @@
 window.onload= refoundGetnowPage(1);//加载页面时就执行函数进入后台
 
+var reflistnull;
+//点击查询时无结果就显示提示
+function refoundPage(pagenow){
+    reflistnull=0;//每次调用时初始化全局变量
+    GetnowPage(pagenow)
+    if(reflistnull==0){//判断是否有订单
+        alert("查询无结果！")
+    }
+}
 //使用ajax提交数据到后台
 
 function refoundGetnowPage(pagenow){
@@ -22,7 +31,12 @@ function refoundGetnowPage(pagenow){
         success : function(data) {
             var dataPage = data.pagelist;
             var dataList = eval(data.list);
+            //清除母页面信息
             $("#refoundOrdertable1 tbody tr").eq(0).nextAll().remove();
+            //清除子页面信息
+            $("#refoundOrdertable2 tbody tr").eq(0).nextAll().remove();
+            //打开数据为空时设置全局变量以提示信息
+            reflistnull=dataList.length;
             var i=0;
             for(var obj in dataList){
                 i++;
@@ -37,6 +51,10 @@ function refoundGetnowPage(pagenow){
                 $("#refoundOrdertable1 tbody ").append(html);
             }
             refoundGetPage(dataPage.totalPageCount,dataPage.pageNow);
+        },
+        error:function(){
+            self.location="../login/login" ;
+            alert("登陆超时，请重新登陆！");
         }
     });
 }
@@ -101,6 +119,10 @@ function refoundpageson(returnedId,pagenow){
                 }
             }
             refoundpagelistson(totalpages, pagenow,returnedId);
+        },
+        error:function(){
+            self.location="../login/login" ;
+            alert("登陆超时，请重新登陆！");
         }
     });
 }

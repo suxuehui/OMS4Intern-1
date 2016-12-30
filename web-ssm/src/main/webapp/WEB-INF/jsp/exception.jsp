@@ -22,7 +22,7 @@
                     <%--查看按钮  dfdgfg--%>
                     <li><input type="button" value="查看订单"  class="btn beta" disabled="disabled" id="exception_inbtn" onclick="exception_details()"></li>
                 </ul>
-                <input type="button" value="查询" class="submitBtn fr" id="search" onclick="GetnowPage(1)">
+                <input type="button" value="查询" class="submitBtn fr" id="search" onclick="exceptionPage(1)">
                 <input type="text" class="textArea fr" name="txtvalue" id="exception_text">
                 <select class="selectArea fr" name="exceptionToseachid" id="exceptionSelectid">
                     <option value="1" selected>订单号</option>
