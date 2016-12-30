@@ -4,8 +4,10 @@
 window.onload= inGetnowPage(1);
 var inboundArray=new Array();
 var inlistnull;
+
 //点击查询时无结果就显示提示
 function inGNPage(pagenow){
+    ifsession()
     inlistnull=0;//每次调用时初始化全局变量
     //此处不可直接调用inGetnowPage(page)函数，否则第一次进入页面不查寻且无数据也会有提示信息
     var  myselect=document.getElementById("inselectid");
@@ -64,7 +66,20 @@ function inGNPage(pagenow){
     });
 
 }
+function ifsession(){
+    if(session.getAttribute("urole")=="1"){
+
+    }
+    if(session.getAttribute("uname")=="2"){
+
+    }
+    else{
+        alert("hahahhahah用户超时，请重新登陆")
+        self.location("../login/login")
+    }
+}
 function inGetnowPage(pagenow){
+    ifsession()
     var  myselect=document.getElementById("inselectid");
     var index=myselect.selectedIndex ;
     var optxt=myselect.options[index].value;//查询条件
@@ -167,7 +182,6 @@ function toinOrderdetail(){
        //设置标记颜色
        $("#inboundertab tbody tr").eq(0).nextAll().css('background-color','white')
        $("tr[name="+oid+"]").css('background-color','#F4F5F3');
-
        inpostOid(oid);
    }
  }

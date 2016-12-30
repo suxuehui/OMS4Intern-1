@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -19,8 +20,10 @@ import java.io.UnsupportedEncodingException;
 public class WarehouseController {
     private Logger log = Logger.getLogger(WarehouseController.class);
 
+
     @Resource
-private WarehouseService warehouseService ;
+    private WarehouseService warehouseService ;
+
 
     //罗列所有的仓库
     @RequestMapping("listsearch")
@@ -34,7 +37,7 @@ private WarehouseService warehouseService ;
     //添加仓库
     @RequestMapping("addwarehouse")
     @ResponseBody
-    public String addWarehouse(String warehousenum, String warehousename) throws Exception {
+    public String addWarehouse(HttpSession session,String warehousenum, String warehousename) throws Exception {
         log.info("添加仓库");
         int add=warehouseService.addWarehouse(warehousenum,warehousename);
         String str=String.valueOf(add);

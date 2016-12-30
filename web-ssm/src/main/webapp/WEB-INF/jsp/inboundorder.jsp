@@ -24,7 +24,8 @@
                 <input type="button" id="insearch" onclick="inGNPage(1)" value="查询" class="submitBtn fr">
                 <input type="text" name="intxtvalue" id="intxt" class="textArea fr">
                 <select class="selectArea fr" name="inselect" id="inselectid">
-                    <option value="1" selected>订单号</option>
+                    <option value="0" selected>请选择查询条件</option>
+                    <option value="1" >订单号</option>
                     <option value="2">渠道订单号</option>
                     <option value="3">入库单号</option>
                     <option value="4">退货单号</option>

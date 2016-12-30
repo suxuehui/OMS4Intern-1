@@ -8,6 +8,7 @@ var whidArray=new Array();
 var warelistnull;
 //点击查询时无结果就显示提示
 function WarehousegetPage(pagenow){
+
      warelistnull=0;//每次调用时初始化全局变量
     var  myselect=document.getElementById("whselectid");
     var index=myselect.selectedIndex;

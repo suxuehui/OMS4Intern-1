@@ -1,11 +1,13 @@
 package com.arvato.oms.service.impl;
 
+import com.arvato.oms.controller.WarehouseController;
 import com.arvato.oms.dao.WarehouseModelMapper;
 import com.arvato.oms.model.WarehouseModel;
 import com.arvato.oms.service.WarehouseService;
 import com.arvato.oms.utils.Page;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -124,8 +126,8 @@ public class WarehouseServiceImpl implements WarehouseService {
           }
       } catch (Exception e){
           add=3;
-         /* Logger logger=
-          logger.info("日志打印");*/
+          Logger logger = Logger.getLogger(WarehouseController.class);
+          logger.info("添加失败");
       }
         return add;
     }

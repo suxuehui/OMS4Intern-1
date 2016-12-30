@@ -7,6 +7,7 @@ var outboundArray=new Array();//定义全局数组，记录已点击的checkbox
 var outlistnull;
 //点击查询时无结果就显示提示
 function outGNPage(pagenow){
+
     outlistnull=0;//每次调用时初始化全局变量
     //此处不可直接调用outGetnowPage(page)函数，否则第一次进入页面不查寻且无数据也会有提示信息
     var  myselect=document.getElementById("outselectid");
@@ -68,6 +69,7 @@ function outGNPage(pagenow){
     });
 }
 function outGetnowPage(pagenow){
+
     var  myselect=document.getElementById("outselectid");
     var index=myselect.selectedIndex;
     var optxt=myselect.options[index].value;//查询条件

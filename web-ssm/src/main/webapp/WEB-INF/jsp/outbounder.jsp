@@ -24,7 +24,8 @@
                 <input type="button" id="outsearch" onclick="outGNPage(1)"  value="查询" class="submitBtn fr">
                 <input type="text" class="textArea fr" name="outtxtvalue" id="outtxt">
                 <select class="selectArea fr" name="outselect" id="outselectid">
-                    <option value="1" selected>订单号</option>
+                    <option value="0" selected>请选择查询条件</option>
+                    <option value="1" >订单号</option>
                     <option value="2">渠道订单号</option>
                     <option value="3">出库单号</option>
                 </select>
