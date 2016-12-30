@@ -212,6 +212,7 @@ $(
         $('#closeUpdateUser').click(
             function () {
                 $(".hbg").hide();
+                document.getElementById("updateUserBut").disabled = true;
             }
         );
 
@@ -457,7 +458,7 @@ $(
                                                     $("#updateUserBound").hide();
                                                     $('#updateUserName').val("");
                                                     $('#updateUserPassword').val("");
-
+                                                    document.getElementById("updateUserBut").disabled = true;
                                                     inGetUserNowPage(1);
 
                                                 } else if (data == -1) {
@@ -484,6 +485,7 @@ $(
                                                 $(".loading").hide();
                                                 $(".hbg").hide();
                                                 $("#updateUserBound").hide();
+                                                document.getElementById("updateUserBut").disabled = true;
                                             }
 
                                         });
