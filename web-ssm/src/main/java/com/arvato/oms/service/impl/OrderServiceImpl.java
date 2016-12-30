@@ -3,6 +3,7 @@ package com.arvato.oms.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.arvato.oms.ExceptionModel.UpdateSqlException;
 import com.arvato.oms.ImportTradeModel.Order;
 import com.arvato.oms.ImportTradeModel.Promotion_detail;
 import com.arvato.oms.dao.*;
@@ -16,6 +17,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -182,6 +184,7 @@ public class OrderServiceImpl implements OrderService
         return orderModelMapper.updateByOidSelective(record);
     }
     //预检订单
+    @Transactional(rollbackFor = RuntimeException.class)
     public int previewOrder(String oId, String exceptionType,String name)
     {
         OrderModel orderModel=selectByOid(oId);
@@ -439,6 +442,7 @@ public class OrderServiceImpl implements OrderService
         return 1;
     }
     //生成出库单
+    @Transactional(rollbackFor = RuntimeException.class)
     public int outboundOrder(String oId,String uname) {
         OrderModel orderModel=orderModelMapper.selectByOid(oId);
         if(orderModel==null)
@@ -463,10 +467,16 @@ public class OrderServiceImpl implements OrderService
         outboundorderModel.setReceiveraddress(orderModel.getReceiverprovince()+orderModel.getReceivercity()+orderModel.getReceiverarea()+orderModel.getDetailaddress());
         outboundorderModel.setCreatedtime(new Date());
         outboundorderModelMapper.insert(outboundorderModel);
-        return sendOutboundOrder(orderModel,outboundorderModel,uname);
+        try
+        {
+            return sendOutboundOrder(orderModel,outboundorderModel,uname);
+        }catch(RuntimeException e)
+        {
+            throw new UpdateSqlException("更新数据库异常");
+        }
     }
     //调用WMS接口发送出库单
-    public int sendOutboundOrder(OrderModel orderModel,OutboundorderModel outboundorderModel,String uname)
+    public int sendOutboundOrder (OrderModel orderModel,OutboundorderModel outboundorderModel,String uname) throws RuntimeException
     {
         List<GoodsPojo> goodsPojoList=goodsModelMapper.selectAllByOid(orderModel.getOid());
         List<WMSOutBoundGoods> outBoundGoodsList=new ArrayList<WMSOutBoundGoods>();
@@ -659,7 +669,8 @@ public class OrderServiceImpl implements OrderService
             return 0;
         }
         returnedModel.setChanneloid(orderModel.getChanneloid());
-        returnedModel.setReturnedid("RT"+jsonObject.getString("oid")+(int)(Math.random()*90000+10000));
+        String returnedid="RT"+jsonObject.getString("oid")+(int)(Math.random()*90000+10000);
+        returnedModel.setReturnedid(returnedid);
         returnedModel.setReturnedorchange(jsonObject.getString("returnedOrChange"));
         returnedModel.setBuyeralipayno(orderModel.getBuyeralipayno());
         double returnedMoney=0.00;
@@ -667,7 +678,7 @@ public class OrderServiceImpl implements OrderService
         {
             returnedMoney+=goodsList.get(i).getGoodNum()*(goodsList.get(i).getDivideorderfee()).doubleValue();
             relationRgModels[i]=new RelationrgModel();
-            relationRgModels[i].setReturnedid("RT"+jsonObject.getString("oid"));
+            relationRgModels[i].setReturnedid(returnedid);
             relationRgModels[i].setGoodsno(goodsList.get(i).getGoodsno());
             relationRgModels[i].setGoodnum(goodsList.get(i).getGoodNum());
         }

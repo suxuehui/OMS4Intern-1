@@ -30,7 +30,7 @@ public interface OrderService {
     //生成出库单
     public int outboundOrder(String oId,String uname);
     //调用WMS接口发送出库单
-    public int sendOutboundOrder(OrderModel orderModel, OutboundorderModel outboundorderModel, String uname);
+    public int sendOutboundOrder(OrderModel orderModel, OutboundorderModel outboundorderModel, String uname) throws RuntimeException;
     //导入订单
     public int importOrder(String str);
     //解析excel
