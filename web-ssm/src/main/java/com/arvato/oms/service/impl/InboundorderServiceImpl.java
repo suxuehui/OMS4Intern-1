@@ -241,8 +241,8 @@ public class InboundorderServiceImpl implements InboundorderService {
         return list;
     }
     //更新入库单列表
-    public int updateByInboundId(String inboundid, String inboundstate,Date modifytime) {
-        int s=ibodao.updateByInboundId(inboundid,inboundstate,modifytime);
+    public int updateByInboundId(String inboundid, String inboundstate,Date modifytime,String modifyman) {
+        int s=ibodao.updateByInboundId(inboundid,inboundstate,modifytime,modifyman);
         return s;
     }
 }

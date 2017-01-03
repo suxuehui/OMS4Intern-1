@@ -38,7 +38,7 @@ public interface InboundorderModelMapper
     InboundorderModel selectByOid(String oid);
 
     //更新入库单列表
-    int updateByInboundId(@Param("inboundid") String inboundid, @Param("inboundstate") String inboundstate,@Param("modifytime") Date modifytime);
+    int updateByInboundId(@Param("inboundid") String inboundid, @Param("inboundstate") String inboundstate,@Param("modifytime") Date modifytime,@Param("modifyman") String modifyman);
 
 
     int insertSelective(InboundorderModel record);

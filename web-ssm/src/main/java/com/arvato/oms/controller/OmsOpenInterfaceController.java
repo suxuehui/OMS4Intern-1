@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -234,9 +232,11 @@ public class OmsOpenInterfaceController {
     //接受wms传来的数据，更新入库单
     @RequestMapping(value = "updateInboundOrder")
     @ResponseBody
-    public String updateInboundOrder(@RequestBody String message) {
+    public String updateInboundOrder(@RequestBody String message,HttpSession session) {
         int s = 0;
         Date modifytime=null;
+        String modifyman = (String)session.getAttribute("uname");
+       System.out.print ("----------------------"+modifyman);
         try {
             JSONObject object = JSONObject.fromObject(message);//获得从client传来的json对象
             String status_codes = object.getJSONObject("inbound_update_message").getString("status_codes"); //获得状态码
@@ -250,10 +250,7 @@ public class OmsOpenInterfaceController {
                     String inboundId = inbound.getJSONObject(i).getString("inboundId");
                     String inboundState = inbound.getJSONObject(i).getString("inboundState");
                     Date date=new Date();
-                    DateFormat format=new SimpleDateFormat ("yyyy-MM-dd HH:mm:ss");
-                    String q=format.format(date);
-                    modifytime=format.parse (q);
-                    s = inboundorderserviceimpl.updateByInboundId(inboundId, inboundState,modifytime);
+                    s = inboundorderserviceimpl.updateByInboundId(inboundId, inboundState,date,modifyman);
                     if (s == 0) {
                         return "{\"status_codes\":000,\"msg\":\"参数的数据格式有误\",\"body\":\"入库单更新失败\"}";
                     }

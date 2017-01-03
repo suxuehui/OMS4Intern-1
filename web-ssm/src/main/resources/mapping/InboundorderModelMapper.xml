@@ -247,10 +247,13 @@
     update inboundorder
     <set >
       <if test="inboundstate != null" >
-        inboundState = #{inboundstate,jdbcType=VARCHAR}
+        inboundState = #{inboundstate,jdbcType=VARCHAR},
       </if>
       <if test="modifytime != null" >
         modifyTime = #{modifytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyman != null" >
+        modifyMan = #{modifyman,jdbcType=VARCHAR}
       </if>
     </set>
     where
