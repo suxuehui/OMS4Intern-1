@@ -23,16 +23,17 @@ function GetnowPage(pagenow){
         success : function(data) {
             var dataPage = data.pagelist;
             var dataList = data.list;
-            //清除母页面信息
-            $("#exetable tbody tr").eq(0).nextAll().remove();
-            //清除子页面信息
-            $("#exception_table2 tbody tr").eq(0).nextAll().remove();
+
             //打开数据为空时设置全局变量以提示信息
             exclistnull=dataList.length;
             if(exclistnull==0){//判断是否有异常订单
                 alert("查询无结果！")
                 return;
             }
+                //清除母页面信息
+                $("#exetable tbody tr").eq(0).nextAll().remove();
+                //清除子页面信息
+               $("#exception_table2 tbody tr").eq(0).nextAll().remove();
             var i=0;
             for(var obj in dataList){
                 i++;

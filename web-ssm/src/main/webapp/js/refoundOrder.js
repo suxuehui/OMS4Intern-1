@@ -23,15 +23,17 @@ function refoundGetnowPage(pagenow){
         success : function(data) {
             var dataPage = data.pagelist;
             var dataList = eval(data.list);
-            //清除母页面信息
-            $("#refoundOrdertable1 tbody tr").eq(0).nextAll().remove();
-            //清除子页面信息
-            $("#refoundOrdertable2 tbody tr").eq(0).nextAll().remove();
+
             //打开数据为空时设置全局变量以提示信息
             reflistnull=dataList.length;
             if(reflistnull==0){//判断是否有退款单
                 alert("查询无结果！")
+                return;
             }
+            //清除母页面信息
+            $("#refoundOrdertable1 tbody tr").eq(0).nextAll().remove();
+            //清除子页面信息
+            $("#refoundOrdertable2 tbody tr").eq(0).nextAll().remove();
             var i=0;
             for(var obj in dataList){
                 i++;

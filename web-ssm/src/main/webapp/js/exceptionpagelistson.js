@@ -11,19 +11,11 @@ function pagelistson(totalpages,currentPage,oid){
             //处理上一页的连接
             output += "<a class='pageLink' href='javascript:void(0)' onclick='exceptionpageson("+oid+","+lastpage+")'>上一页</a> ";
         }
-        else
-        {
-
-        }
         output += " ";
         if (currentPage < totalpages) {
             var nextpage = currentPage + 1;
             //处理下一页的链接
             output += "<a class='pageLink' href='javascript:void(0)' onclick='exceptionpageson("+oid+","+ nextpage + ")'>下一页</a> ";
-        }
-        else
-        {
-
         }
         output += " ";
         if (currentPage != totalpages) {
