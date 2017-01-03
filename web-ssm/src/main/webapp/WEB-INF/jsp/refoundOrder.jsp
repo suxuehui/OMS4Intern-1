@@ -17,14 +17,15 @@
             <div class="orderTit">退款单列表</div>
             <div class="orderSearch">
                 <ul>
-                    <li><input type="button" value="退款"  class="btn" onclick="drawback()"></li>
+                    <li><input type="button" value="退款" disabled="disabled" class="btn" id="drawback_inbtn" onclick="drawback()"></li>
                     <%--查看按钮  dfdgfg--%>
                     <li><input type="button" value="查看订单"  class="btn beta" disabled="disabled" id="refoundOrder_inbtn" onclick="refoundOrder_details()"></li>
                 </ul>
-                <input type="button" value="查询" class="submitBtn fr" id="refoundOrderSearch" onclick="refoundPage(1)">
+                <input type="button" value="查询" class="submitBtn fr" id="refoundOrderSearch" onclick="refoundGetnowPage(1)">
                 <input type="text" class="textArea fr" name="refoundTxt" id="refoundOrderTxt">
                 <select class="selectArea fr" name="refoundToseachid" id="refoundOrderSelectid">
-                    <option value="1" selected>退款单号</option>
+                    <option value="0" selected>请选择查询条件</option>
+                    <option value="1">退款单号</option>
                     <option value="2">退款状态</option>
                     <option value="3">退货单号</option>
                 </select>
