@@ -18,6 +18,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -240,8 +241,8 @@ public class InboundorderServiceImpl implements InboundorderService {
         return list;
     }
     //更新入库单列表
-    public int updateByInboundId(String inboundid, String inboundstate) {
-        int s=ibodao.updateByInboundId(inboundid,inboundstate);
+    public int updateByInboundId(String inboundid, String inboundstate,Date modifytime) {
+        int s=ibodao.updateByInboundId(inboundid,inboundstate,modifytime);
         return s;
     }
 }

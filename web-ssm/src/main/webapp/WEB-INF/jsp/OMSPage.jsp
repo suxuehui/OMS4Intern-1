@@ -218,7 +218,7 @@
                     <!--异常订单列表-->
                     <jsp:include page="exception.jsp"></jsp:include>
                     <!--出库单列表-->
-                    <jsp:include page="outbounder.jsp"></jsp:include>
+                    <jsp:include page="outboundorder.jsp"></jsp:include>
                     <!--入库单列表-->
                     <jsp:include page="inboundorder.jsp"></jsp:include>
 
@@ -410,18 +410,19 @@
                     <ul>
                         <li>
                             <label class="listName mt20">仓库编号：</label>
-                            <input type="text" class="inputList" id="warenum">
+                            <input type="text" class="inputList" id="warenum"  onblur="idendifywhnum(this.id)">
                         </li>
 
                         <li>
                             <label class="listName mt20">仓库名：</label>
-                            <input type="text" class="inputList" id="warename">
+                            <input type="text" class="inputList" id="warename" onblur="idendifywhname(this.id)">
+                        </li>
+                        <%--添加仓库时信息成功与否显示--%>
+                        <li class="warn">
+                            <span id="whnumdiv" class="lixx" style="font-size:10px;color: red" ></span>
                         </li>
                         <li class="warn">
-                            <span id="whnumdiv" class="lixx" style="font-size:10px;color: red"></span>
-                        </li>
-                        <li class="warn">
-                            <span id="whnamediv" class="lixx" style="font-size:10px;color: red"></span>
+                            <span id="whnamediv" class="lixx" style="font-size:10px;color: red" ></span>
                         </li>
                         <li>
                             <input type="button" value="保存" onclick="addwarehouse()" class="save mt50">
@@ -438,11 +439,11 @@
                     <ul>
                         <li>
                             <label class="listName mt20">仓库编号：</label>
-                            <input type="text" class="inputList" id="updatewhnum">
+                            <input type="text" class="inputList" id="updatewhnum"  onblur="idendifywhnum(this.id)">
                         </li>
                         <li>
                             <label class="listName mt20">仓库名：</label>
-                            <input type="text" class="inputList" id="updatewhname">
+                            <input type="text" class="inputList" id="updatewhname"  onblur="idendifywhname(this.id)">
                         </li>
                         <li class="warn">
                             <span id="whupnumdiv" class="lixx" style="font-size:10px;color: red"></span>

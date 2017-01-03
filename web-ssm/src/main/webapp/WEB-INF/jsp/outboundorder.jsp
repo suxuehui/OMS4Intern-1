@@ -18,13 +18,12 @@
             <div class="orderTit">出库单列表</div>
             <div class="orderSearch">
                 <ul>
-
                     <li><input type="button" value="查看订单" id="outbtn" name="outorderbtn" onclick="tooutOrderdetail(this.name)" class="btn" disabled="disabled"></li>
                 </ul>
                 <input type="button" id="outsearch" onclick="outGNPage(1)"  value="查询" class="submitBtn fr">
                 <input type="text" class="textArea fr" name="outtxtvalue" id="outtxt">
                 <select class="selectArea fr" name="outselect" id="outselectid">
-                    <option value="0" selected>请选择查询条件</option>
+                    <option value="0" class="select_hide">请选择查询条件</option>
                     <option value="1" >订单号</option>
                     <option value="2">渠道订单号</option>
                     <option value="3">出库单号</option>

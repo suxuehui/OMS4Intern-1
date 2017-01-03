@@ -35,7 +35,7 @@
                     <input type="button" value="查询" onclick="WarehousegetPage(1)"  class="submitBtn fr">
                     <input type="text"  id="whtxt" value="" class="textArea fr" >
                     <select id="whselectid" class="selectArea fr">
-                        <option value="0" selected>请选择查询条件</option>
+                        <option value="0" class="select_hide">请选择查询条件</option>
                         <option value="1" >仓库编号</option>
                         <option value="2" >名称</option>
                     </select>
@@ -52,6 +52,7 @@
                         <th>名称</th>
                     </tr>
                 </table>
+
                </div>
             <%--分页列出仓库列表只能放在后面--%>
             <script src="${pageContext.request.contextPath}/js/warehouselist.js"></script>

@@ -4,6 +4,7 @@ import com.arvato.oms.model.InboundorderModel;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -37,7 +38,7 @@ public interface InboundorderModelMapper
     InboundorderModel selectByOid(String oid);
 
     //更新入库单列表
-    int updateByInboundId(@Param("inboundid") String inboundid, @Param("inboundstate") String inboundstate);
+    int updateByInboundId(@Param("inboundid") String inboundid, @Param("inboundstate") String inboundstate,@Param("modifytime") Date modifytime);
 
 
     int insertSelective(InboundorderModel record);

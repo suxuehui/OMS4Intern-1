@@ -64,10 +64,8 @@ function inGNPage(pagenow){
             alert("登陆超时，请重新登陆！");
         }
     });
-
 }
 function inGetnowPage(pagenow){
-
     var  myselect=document.getElementById("inselectid");
     var index=myselect.selectedIndex ;
     var optxt=myselect.options[index].value;//查询条件

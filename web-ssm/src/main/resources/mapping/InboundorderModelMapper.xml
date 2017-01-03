@@ -243,11 +243,14 @@
     </select>
 
   <!--从wms那获取数据更新入库单列表-->
-  <update id="updateByInboundId"  parameterType="java.lang.String" >
+  <update id="updateByInboundId"  >
     update inboundorder
     <set >
       <if test="inboundstate != null" >
         inboundState = #{inboundstate,jdbcType=VARCHAR}
+      </if>
+      <if test="modifytime != null" >
+        modifyTime = #{modifytime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where

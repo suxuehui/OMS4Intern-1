@@ -131,6 +131,60 @@ function  WareGetNavPage(totalpages,currentPage){
     var div = document.getElementById("whdivpage");
     div.innerHTML = output;
 }
+
+
+//验证格式warehousenum
+function  idendifywhnum(id)
+{
+    var divname;
+    if(id=="warenum"){
+        divname="whnumdiv";
+    }
+    else{
+        divname="whupnumdiv";
+    }
+    ifwhnum(id,divname)
+}
+//验证格式warehousename 参数为该标签的id属性值
+function  idendifywhname(id)
+{
+    var divname;
+    if(id=="warename"){
+        divname="whnamediv";
+    }
+    else{
+        divname="whupnamediv";
+    }
+    ifwhname(id,divname)
+}
+//验证格式warehousenum
+function  ifwhnum(id,divname)
+{
+    var warenum=document.getElementById(id).value;
+    var regex1=/^[A-Za-z0-9]{4}$/;
+    if (!regex1.test(warenum))
+    {
+        document.getElementById(divname).innerHTML="请输入4位有效仓库编号";
+        return false;
+    }
+    else{
+        document.getElementById(divname).innerHTML=" ";
+    }
+}
+function ifwhname(id,divname){
+    var warename=document.getElementById(id).value;
+    var regex1=/^[\u4E00-\u9FA5A-Za-z0-9_]{1,}$/;
+    if (!regex1.test(warename))
+    {
+        document.getElementById(divname).innerHTML="请输入有效仓库名";
+        return false;
+    }
+    else{
+        document.getElementById(divname).innerHTML=" ";
+    }
+
+}
+
 //验证格式
 function ifden(warenum,warename){
     var regex1=/^[A-Za-z0-9]{4}$/;
@@ -146,15 +200,13 @@ function ifden(warenum,warename){
             alert("请输入有效仓库名")
              return false;
         }
-
     }
-
 }
 
 //当仓库添加成功后就关闭弹窗进入列表页
 function cleartext(){
     $(".popupAll .storeShow > div").hide();//关闭弹窗
-   //将其他页面隐藏
+   //阴影层将其他页面隐藏
     $(".hbg").hide();
     wareGetnowPage(1);
 }
@@ -165,6 +217,7 @@ function cleartext(){
      var warename=document.getElementById("warename").value ;
      //清除上一次的显示数据
      $(".inputList").val("");
+     $(".lixx").html("")
      //显示loading图标
      $(".loading").show();
      //回调函数处理数据
@@ -187,13 +240,13 @@ function cleartext(){
                  break;
              case 2 :
                  //验证格式
-                 ifden(warenum,warename)
+                // ifden(warenum,warename)
                  break;
              case 3 :
                  alert("仓库编号已存在");
                  break;
              case 4 :
-                 alert("请输入仓库编号,请输入仓库名");
+                // alert("请输入仓库编号,请输入仓库名");
                  break;
              default:
         }
@@ -275,6 +328,7 @@ function updateware(wareid){
     var warename=document.getElementById("updatewhname").value;
     //显示loading图标
     $(".loading").show();
+
     $.ajax({
         type:'get',
         url:'../warehouse/toupdatewh',
@@ -295,13 +349,13 @@ function updateware(wareid){
                     break;
                 case 2 :
                     //验证格式
-                    ifden(warenum,warename)
+                    //ifden(warenum,warename)
                     break;
                 case 3 :
                     alert("仓库编号已存在");
                     break;
                 case 4 :
-                    alert("请输入仓库编号,请输入仓库名");
+                   // alert("请输入仓库编号,请输入仓库名");
                     break;
                 default:
 
