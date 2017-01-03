@@ -169,23 +169,42 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
          * @Return: JSONObject
          */
         List<ReturnedModel> returnedModels = new ArrayList<ReturnedModel>();
-        Page page = new Page(pageNow, num);
+        JSONObject json = new JSONObject();
+
         if (select.equals("退货单号"))
         {
+            int count = returnedModelMapper.countReturnedbyId(value);
+            Page page = new Page(count,pageNow, num);
             returnedModels = returnedModelMapper.selectReturnedById(page.getStartPos(), num, value);
+            json.put("totalPage",page.getTotalPageCount());
+            json.put("returnedModels",returnedModels);
+
         } else if (select.equals("订单号"))
         {
+            int count = returnedModelMapper.countReturnedbyOId(value);
+            Page page = new Page(count,pageNow, num);
             returnedModels = returnedModelMapper.selectReturnedByOId(page.getStartPos(), num, value);
+            json.put("totalPage",page.getTotalPageCount());
+            json.put("returnedModels",returnedModels);
         } else if (select.equals("退货状态"))
         {
+            int count = returnedModelMapper.countReturnedbyStatus(value);
+            Page page = new Page(count,pageNow, num);
             returnedModels = returnedModelMapper.selectReturnedByStatus(page.getStartPos(), num, value);
+            json.put("totalPage",page.getTotalPageCount());
+            json.put("returnedModels",returnedModels);
         } else if (select.equals("渠道订单号"))
         {
+            int count = returnedModelMapper.countReturnedbyChannelOid(value);
+            Page page = new Page(count,pageNow, num);
             returnedModels = returnedModelMapper.selectReturnedByChannelOid(page.getStartPos(), num, value);
+            json.put("totalPage",page.getTotalPageCount());
+            json.put("returnedModels",returnedModels);
         }
-        JSONObject json = new JSONObject();
+
         String s = JSON.toJSONString(json, SerializerFeature.WriteMapNullValue,SerializerFeature.WriteNullStringAsEmpty);
         JSONObject jsonObj = JSON.parseObject(s);
+
         return jsonObj;
     }
 
@@ -362,7 +381,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
             inboundorderModel.setOid(returnedModel.getOid());
             inboundorderModel.setChanneloid(returnedModel.getChanneloid());
             inboundorderModel.setReturnedid(returnedModel.getReturnedid());
-            inboundorderModel.setInboundstate("未入库");
+            inboundorderModel.setInboundstate("等待收货");
             inboundorderModel.setInboundid("SI" + returnedModel.getOid() + generateRandomNumber(5));
             Byte synchrostate = new Byte("1");//同步状态
             inboundorderModel.setSynchrostate(synchrostate);//初始同步状态0为未同步
@@ -425,7 +444,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
                     {//推送成功
                         log.info("推送入库单" + inboundorderModel.getInboundid() + "成功");
                         //int i2 = inboundorderModelMapper.updateInboundSynchrostate(inboundorderModel.getInboundid());
-                        returnedModelMapper.updateReturnedStatus(returnedModel.getReturnedid(), "审核通过");
+                        returnedModelMapper.updateReturnedStatus(returnedModel.getReturnedid(), "等待收货");
 
 //                        //更新入库单同步状态为已同步
 //                        if (i2 > 0)

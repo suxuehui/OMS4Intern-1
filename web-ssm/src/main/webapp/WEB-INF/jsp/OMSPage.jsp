@@ -82,13 +82,14 @@
                                     <li><input type="button" value="新增用户" class="btn" id="adduserbutindex"></li>
                                     <li><input type="button" value="修改用户" class="btn" id="updateUserBut"
                                                disabled="disabled"></li>
- <span id="updateusernamehidden" hidden></span>
+                                    <span id="updateusernamehidden" hidden></span>
                                     <span id="updateupasshidden" hidden></span>
-                                    <li><input type="button" value="删除用户" class="btn" id="deleteUser" disabled="disabled"></li>
+                                    <li><input type="button" value="删除用户" class="btn" id="deleteUser"
+                                               disabled="disabled"></li>
                                 </ul>
                                 <form>
                                     <input type="button" value="查询" class="submitBtn fr" id="userselectbutton">
-                                    <input type="text"  class="textArea fr" id="userselectvalue"
+                                    <input type="text" class="textArea fr" id="userselectvalue"
                                            onFocus="if(value==defaultValue){value='';}">
                                 </form>
                             </div>
@@ -154,7 +155,7 @@
                                 <form>
                                     <input type="button" value="查询" class="submitBtn fr" id="selectgoodsbut">
                                     <input type="text" class="textArea fr" id="goodsvaluetxt">
-                                      <select class="selectArea fr revise" id="selectGoodssle" value="1">
+                                    <select class="selectArea fr revise" id="selectGoodssle" value="1">
                                         <option id="selectGoodsByNameop">按名称查询</option>
                                         <option id="selectGoodsByIdop">按商品编码查询</option>
 
@@ -185,122 +186,123 @@
                             </form>
                         </div>
                         <div class="page"><span id="goodsPageNow" hidden>1</span> <span id="totalGoodPage"
-                                                                                       hidden>0</span><a
+                                                                                        hidden>0</span><a
                                 id="endGoodsPage">尾页</a><a id="nextGoodsPage">下一页</a><a id="preGoodsPage">上一页</a><a
                                 id="firstGoodsPage">首页</a></div>
                     </div>
                 </div>
-            <!--orderMain结束-->
-        </div>
-        <!--order结束-->
-        <!--商品模块-->
-        <!--仓库模块-->
-                <jsp:include page="warehouse.jsp"></jsp:include>
-        <!--订单模块-->
-        <div class="order hide">
-            <div class="orderList fl">
-                <ul class="orderListCent">
-                    <li class="listTit"><p class="listContTit">订单管理</p></li>
-                    <li class="on"><a id="0">订单列表</a></li>
-                    <li><a id="1">异常订单列表</a></li>
-                    <li class="listTit"><p class="listContTit">出入库单管理</p></li>
-                    <li><a id="2">出库单列表</a></li>
-                    <li><a id="3">入库单列表</a></li>
-                    <li class="listTit"><p class="listContTit">退货单管理</p></li>
-                    <li><a id="4">退货单列表</a></li>
-                    <li><a id="5">退款单列表</a></li>
-                </ul>
-            </div><!--orderList结束-->
-            <div class="orderMain fl">
-                <!--订单列表-->
-                <jsp:include page="order.jsp"></jsp:include>
-                <!--异常订单列表-->
-                <jsp:include page="exception.jsp"></jsp:include>
-                <!--出库单列表-->
-                <jsp:include page="outbounder.jsp"></jsp:include>
-                <!--入库单列表-->
-                <jsp:include page="inboundorder.jsp"></jsp:include>
+                <!--orderMain结束-->
+            </div>
+            <!--order结束-->
+            <!--商品模块-->
+            <!--仓库模块-->
+            <jsp:include page="warehouse.jsp"></jsp:include>
+            <!--订单模块-->
+            <div class="order hide">
+                <div class="orderList fl">
+                    <ul class="orderListCent">
+                        <li class="listTit"><p class="listContTit">订单管理</p></li>
+                        <li class="on"><a id="0">订单列表</a></li>
+                        <li><a id="1">异常订单列表</a></li>
+                        <li class="listTit"><p class="listContTit">出入库单管理</p></li>
+                        <li><a id="2">出库单列表</a></li>
+                        <li><a id="3">入库单列表</a></li>
+                        <li class="listTit"><p class="listContTit">退货单管理</p></li>
+                        <li><a id="4">退货单列表</a></li>
+                        <li><a id="5">退款单列表</a></li>
+                    </ul>
+                </div><!--orderList结束-->
+                <div class="orderMain fl">
+                    <!--订单列表-->
+                    <jsp:include page="order.jsp"></jsp:include>
+                    <!--异常订单列表-->
+                    <jsp:include page="exception.jsp"></jsp:include>
+                    <!--出库单列表-->
+                    <jsp:include page="outbounder.jsp"></jsp:include>
+                    <!--入库单列表-->
+                    <jsp:include page="inboundorder.jsp"></jsp:include>
 
-                <!--退货单列表-->
-                <div class="relatedOrder hide">
-                    <div class="orderManage">
-                        <div class="orderTag">
-                            <div class="orderTit">退货单列表</div>
-                            <div class="orderSearch">
-                                <form>
-                                      <ul>
+                    <!--退货单列表-->
+                    <div class="relatedOrder hide">
+                        <div class="orderManage">
+                            <div class="orderTag">
+                                <div class="orderTit">退货单列表</div>
+                                <span id="returnedCheck"></span>
+                                <div class="orderSearch">
+                                    <form>
+                                        <ul>
                                             <li><input type="button" value="创建退款单" class="btn"
-                                                       id="returnedCreaterefoundOder"></li>
-                                            <li><input type="button" value="换货发货" class="btn" id="changeOutBound"></li>
-                                            <li><input type="button" value="审核" class="btn" id="checkreturnedorder">
+                                                       id="returnedCreaterefoundOder" disabled="disabled"></li>
+                                            <li><input type="button" value="换货发货" class="btn" id="changeOutBound" disabled="disabled"></li>
+                                            <li><input type="button" value="审核" class="btn" id="checkreturnedorder" disabled="disabled">
                                             </li>
-                                            <li><input type="button" value="取消退货" class="btn" id="cancelReturnedOrder">
+                                            <li><input type="button" value="取消退货" class="btn" id="cancelReturnedOrder" disabled="disabled">
                                             </li>
                                             <%--查看按钮  dfdgfg--%>
                                             <li><input type="button" value="查看订单" class="btn beta" disabled="disabled"
                                                        id="returnedDetailbut">
                                             </li>
                                         </ul>
-                                    <input type="button" value="查询" class="submitBtn fr" id="serarchReturnedOrder">
-                                    <input type="text" class="textArea fr" id="returnValue">
-                                    <select class="selectArea fr" id="returnedselect">
-                                        <option>退货单号</option>
-                                        <option>订单号</option>
-                                        <option>退货状态</option>
-                                        <option>渠道订单号</option>
-                                    </select>
-                                </form>
+                                        <input type="button" value="查询" class="submitBtn fr" id="serarchReturnedOrder">
+                                        <input type="text" class="textArea fr" id="returnValue">
+                                        <select class="selectArea fr" id="returnedselect">
+                                            <option>退货单号</option>
+                                            <option>订单号</option>
+                                            <option>退货状态</option>
+                                            <option>渠道订单号</option>
+                                        </select>
+                                    </form>
+                                </div>
                             </div>
-                        </div>
-                        <div class="orderMainCont revise">
-                            <div class="table revise">
-                                <form>
-                                    <table cellspacing="0" cellpadding="0" class="w1500">
-                                        <tr class="tableTit" height="20">
-                                            <th class="w50">序号</th>
-                                            <th class="w50">批量</th>
-                                            <th class="w200">退货单号</th>
-                                            <th class="w100">退货/换货</th>
-                                            <th class="w100">退货状态</th>
-                                            <th class="w200">订单号</th>
-                                            <th class="w200">渠道订单号</th>
-                                            <th class="w100">退货金额</th>
-                                            <th class="w200">创建时间</th>
-                                            <th class="w200">修改时间</th>
-                                            <th class="w100">修改人</th>
-                                        </tr>
-                                      <tbody id="returnedBody">
+                            <div class="orderMainCont revise">
+                                <div class="table revise">
+                                    <form>
+                                        <table cellspacing="0" cellpadding="0" class="w1500">
+                                            <tr class="tableTit" height="20">
+                                                <th class="w50">序号</th>
+                                                <th class="w50">批量</th>
+                                                <th class="w200">退货单号</th>
+                                                <th class="w100">退货/换货</th>
+                                                <th class="w100">退货状态</th>
+                                                <th class="w200">订单号</th>
+                                                <th class="w200">渠道订单号</th>
+                                                <th class="w100">退货金额</th>
+                                                <th class="w200">创建时间</th>
+                                                <th class="w200">修改时间</th>
+                                                <th class="w100">修改人</th>
+                                            </tr>
+                                            <tbody id="returnedBody">
 
 
                                             </tbody>
-                                    </table>
-                                </form>
-                            </div>
-                            <div class="page"><span id="returnedPageNow" hidden>1</span> <span
+                                        </table>
+                                    </form>
+                                </div>
+                                <div class="page"><span id="returnedPageNow" hidden>1</span> <span
                                         id="totalReturnedPage" hidden>0</span><a
                                         id="endReturnedPage">尾页</a><a id="nextReturnedPage">下一页</a><a
                                         id="preReturnedPage">上一页</a><a
                                         id="firstReturnedPage">首页</a></div>
                             </div>
-                    </div>
-                    <div class="orderDetails">
-                        <div class="tableDetails">
-                            <form>
-                                <table cellspacing="0" cellpadding="0">
-                                    <tr class="tableTit">
-                                        <th class="w50">批量</th>
-                                        <th class="w350">商品编码</th>
-                                        <th>商品名称</th>
-                                        <th>退货数量</th>
-                                        <th>退货金额</th>
-                                     </tr>
+                        </div>
+                        <div class="orderDetails">
+                            <div class="tableDetails">
+                                <form>
+                                    <table cellspacing="0" cellpadding="0">
+                                        <tr class="tableTit">
+                                            <th class="w50">批量</th>
+                                            <th class="w350">商品编码</th>
+                                            <th>商品名称</th>
+                                            <th>退货数量</th>
+                                            <th>退货金额</th>
+                                        </tr>
                                         <tbody id="returnedGoodsBody">
 
 
                                         </tbody>
-                                        </table>
-                            </form>
-                        </div>
+                                    </table>
+                                </form>
+                          </div>
                         <div class="page"><span id="returnedidongoods" hidden>null</span> <span
                                     id="returnedGoodsPageNow" hidden>1</span> <span
                                     id="totalreturnedGoodsPage" hidden>0</span><a
@@ -317,55 +319,55 @@
         <!--订单模块-->
     </div><!--content结束-->
     <!--弹窗模块-->
-        <div class="popupAll">
-            <div class="customShow">
-                 <div id="addUserwindows">
-                    <div class="popupTop">
-                        <span class="iconClose fr" id="closeAddUser"></span>
-                        <p class="popupTopTit">新增用户</p>
-                    </div>
-                    <div class="popupCont">
-                        <form>
-                            <ul>
-                                <li>
-                                    <label class="listName mt20">用户名：</label>
-                                    <input type="text" class="inputList" id="addUserName">
-                                </li>
-                                <li>
-                                    <label class="listName mt20">密码：</label>
-                                    <input type="text" class="inputList" id="addUserPassword">
-                                </li>
-                                <li>
-                                    <input type="button" value="保存" class="save mt50" id="addUser">
-                                </li>
-                            </ul>
-                        </form>
-                    </div>
+    <div class="popupAll">
+        <div class="customShow">
+            <div id="addUserwindows">
+                <div class="popupTop">
+                    <span class="iconClose fr" id="closeAddUser"></span>
+                    <p class="popupTopTit">新增用户</p>
                 </div>
-                <div id="updateUserBound">
-                    <div class="popupTop">
-                        <span class="iconClose fr" id="closeUpdateUser"></span>
-                        <p class="popupTopTit">修改用户</p>
-                    </div>
-                    <div class="popupCont">
-                        <form>
-                            <ul>
-                                <li>
-                                    <label class="listName mt20">新用户名：</label>
-                                    <input type="text" class="inputList" id="updateUserName">
-                                </li>
-                                <li>
-                                    <label class="listName mt20">新密码：</label>
-                                    <input type="text" class="inputList" id="updateUserPassword">
-                                </li>
-                                <li>
-                                    <input type="button" value="保存" class="save mt50" id="updateUser">
-                                </li>
-                            </ul>
-                        </form>
-                    </div>
+                <div class="popupCont">
+                    <form>
+                        <ul>
+                            <li>
+                                <label class="listName mt20">用户名：</label>
+                                <input type="text" class="inputList" id="addUserName">
+                            </li>
+                            <li>
+                                <label class="listName mt20">密码：</label>
+                                <input type="text" class="inputList" id="addUserPassword">
+                            </li>
+                            <li>
+                                <input type="button" value="保存" class="save mt50" id="addUser">
+                            </li>
+                        </ul>
+                    </form>
                 </div>
             </div>
+            <div id="updateUserBound">
+                <div class="popupTop">
+                    <span class="iconClose fr" id="closeUpdateUser"></span>
+                    <p class="popupTopTit">修改用户</p>
+                </div>
+                <div class="popupCont">
+                    <form>
+                        <ul>
+                            <li>
+                                <label class="listName mt20">新用户名：</label>
+                                <input type="text" class="inputList" id="updateUserName">
+                            </li>
+                            <li>
+                                <label class="listName mt20">新密码：</label>
+                                <input type="text" class="inputList" id="updateUserPassword">
+                            </li>
+                            <li>
+                                <input type="button" value="保存" class="save mt50" id="updateUser">
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+        </div>
         <!--customShow结束-->
         <div class="productShow revise">
             <div class="popupTop">
@@ -374,27 +376,27 @@
             </div>
             <div class="popupCont revise">
 
-                    <ul>
-                        <li>
-                            <label class="listName">商品编号：</label>
-                            <input type="text" class="inputList">
-                        </li>
-                        <li>
-                            <label class="listName">商品名称：</label>
-                            <input type="text" class="inputList">
-                        </li>
-                        <li>
-                            <label class="listName">总库存：</label>
-                            <input type="text" class="inputList">
-                        </li>
-                        <li>
-                            <label class="listName">价格：</label>
-                            <input type="text" class="inputList">
-                        </li>
-                        <li>
-                            <input type="button" value="保存" class="save">
-                        </li>
-                    </ul>
+                <ul>
+                    <li>
+                        <label class="listName">商品编号：</label>
+                        <input type="text" class="inputList">
+                    </li>
+                    <li>
+                        <label class="listName">商品名称：</label>
+                        <input type="text" class="inputList">
+                    </li>
+                    <li>
+                        <label class="listName">总库存：</label>
+                        <input type="text" class="inputList">
+                    </li>
+                    <li>
+                        <label class="listName">价格：</label>
+                        <input type="text" class="inputList">
+                    </li>
+                    <li>
+                        <input type="button" value="保存" class="save">
+                    </li>
+                </ul>
             </div>
         </div>
         <!--productShow结束-->
@@ -408,12 +410,12 @@
                     <ul>
                         <li>
                             <label class="listName mt20">仓库编号：</label>
-                            <input type="text" class="inputList"   id="warenum"   >
+                            <input type="text" class="inputList" id="warenum">
                         </li>
 
                         <li>
                             <label class="listName mt20">仓库名：</label>
-                            <input type="text" class="inputList"   id="warename"  >
+                            <input type="text" class="inputList" id="warename">
                         </li>
                         <li class="warn">
                             <span id="whnumdiv" class="lixx" style="font-size:10px;color: red"></span>
@@ -427,7 +429,7 @@
                     </ul>
                 </div>
             </div>
-            <div >
+            <div>
                 <div class="popupTop">
                     <span class="iconClose fr"></span>
                     <p class="popupTopTit">编辑仓库</p>
@@ -436,11 +438,11 @@
                     <ul>
                         <li>
                             <label class="listName mt20">仓库编号：</label>
-                            <input type="text" class="inputList"  id="updatewhnum"  >
+                            <input type="text" class="inputList" id="updatewhnum">
                         </li>
                         <li>
                             <label class="listName mt20">仓库名：</label>
-                            <input type="text" class="inputList"   id="updatewhname"  >
+                            <input type="text" class="inputList" id="updatewhname">
                         </li>
                         <li class="warn">
                             <span id="whupnumdiv" class="lixx" style="font-size:10px;color: red"></span>
@@ -449,7 +451,8 @@
                             <span id="whupnamediv" class="lixx" style="font-size:10px;color: red"></span>
                         </li>
                         <li>
-                            <input type="button" id="saveupdatewh"   value="保存" onclick="updateware(this.name)" class="save mt50">
+                            <input type="button" id="saveupdatewh" value="保存" onclick="updateware(this.name)"
+                                   class="save mt50">
                         </li>
                     </ul>
                 </div>
@@ -474,10 +477,10 @@
         </div>
         <!--导入弹框结束-->
     </div>
-            <%--阴影层--%>
-            <div class="hbg"></div>
+    <%--阴影层--%>
+    <div class="hbg"></div>
     <div>
-        <div class="loading"  >
+        <div class="loading">
             <div class="mask"></div>
             <div class="loading-icon"><img src="${pageContext.request.contextPath}/images/loader.gif"></div>
         </div>

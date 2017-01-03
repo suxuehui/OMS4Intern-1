@@ -47,14 +47,18 @@ function usercheckclick(userid) {
 
 
 function checkboxreturneddis(id) {
+
     var count = 0;
     var checkArry = document.getElementsByName("returnedcheck");
+
     for (var i = 0; i < checkArry.length; i++) {
 
         if (checkArry[i].checked == true) {
             ++count;
+
         }
     }
+
     if (count == 1) {
         $('#returnedDetailbut').removeAttr("disabled");
     } else {
@@ -88,9 +92,47 @@ function returngetgoodsfromserver(returnedid, pageNow, pageSize) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
-            //alert(data.userList[0].uid);
             var returnedSonList = data.returnedSonList;
             var totalPage = data.totalPageCount;
+            if (pageNow == 1) {
+                if (totalPage == 0 || totalPage == 1) {
+                    $('#prereturnedGoodsPage').hide();
+                    $('#firstreturnedGoodsPage').hide();
+                    $('#endreturnedGoodsPage').hide();
+                    $('#nextreturnedGoodsPage').hide();
+
+                } else {
+
+                    $('#prereturnedGoodsPage').hide();
+                    $('#firstreturnedGoodsPage').hide();
+                    $('#endreturnedGoodsPage').show();
+                    $('#nextreturnedGoodsPage').show();
+
+                }
+            } else if (pageNow < totalPage) {
+                if (totalPage == 0 || totalPage == 1) {
+                    $('#prereturnedGoodsPage').hide();
+                    $('#firstreturnedGoodsPage').hide();
+                    $('#endreturnedGoodsPage').hide();
+                    $('#nextreturnedGoodsPage').hide();
+
+                } else {
+                    $('#prereturnedGoodsPage').show();
+                    $('#firstreturnedGoodsPage').show();
+                    $('#endreturnedGoodsPage').show();
+                    $('#nextreturnedGoodsPage').show();
+
+
+                }
+            } else if (pageNow = totalPage) {
+
+                $('#prereturnedGoodsPage').show();
+                $('#firstreturnedGoodsPage').show();
+                $('#endreturnedGoodsPage').hide();
+                $('#nextreturnedGoodsPage').hide();
+
+            }
+
             $('#returnedGoodsBody').html("");
             for (var i in returnedSonList) {
                 var id = i * 1 + 1 * 1;
@@ -172,6 +214,7 @@ function getreturnedOrChange(returnIdArray) {
             success: function (data) {
 
                 if (data.returnOrChange == "return") {
+
                     returncount++;
                 }
 
@@ -198,6 +241,11 @@ function getreturnedOrChange(returnIdArray) {
 $(
     function () {
 
+        var returnIdArray = new Array();
+        $("input:checkbox[name='returnedcheck']:checked").each(function () {
+            returnIdArray[i++] = parseInt($(this).attr("id"));
+        });
+
 
         $('#preUserPage').hide();
         $('#firstUserPage').hide();
@@ -208,6 +256,17 @@ $(
         $('#firstGoodsPage').hide();
         $('#endGoodsPage').hide();
         $('#nextGoodsPage').hide();
+
+        $('#preReturnedPage').hide();
+        $('#firstReturnedPage').hide();
+        $('#endReturnedPage').hide();
+        $('#nextReturnedPage').hide();
+
+
+        $('#prereturnedGoodsPage').hide();
+        $('#firstreturnedGoodsPage').hide();
+        $('#endreturnedGoodsPage').hide();
+        $('#nextreturnedGoodsPage').hide();
 
 
         $('#closeAddUser').click(
@@ -527,7 +586,7 @@ $(
 
             function inGetUserNowPage(pageNow) {
                 var page = pageNow;
-                var pageSize = 20;
+                var pageSize = 15;
                 $.ajax({
                     type: 'get',
                     url: '/oms/user/getAllUsers',
@@ -640,6 +699,9 @@ $(
                     success: function (data) {
                         var returnedList = data.returnedModels;
                         var totalPage = data.totalPage;
+                        if (totalPage==0){
+                            alert("查询无结果");
+                        }
                         $('#returnedBody').html("");
                         for (var i in returnedList) {
                             var id = i * 1 + 1 * 1;
@@ -763,7 +825,7 @@ $(
 
         function inGetGoodsNowPage(pageNow) {
             var page = pageNow;
-            var pageSize = 20;
+            var pageSize = 15;
             $.ajax({
                 type: 'get',
                 url: '/oms/goods/getAllGoods',
@@ -906,14 +968,50 @@ $(
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    //alert(data.userList[0].uid);
+
                     var returnedList = data.returnedModels;
                     var totalPage = data.totalPage;
+                    if (pageNow == 1) {
+                        if (totalPage == 0 || totalPage == 1) {
+
+                            $('#preReturnedPage').hide();
+                            $('#firstReturnedPage').hide();
+                            $('#endReturnedPage').hide();
+                            $('#nextReturnedPage').hide();
+                        } else {
+
+                            $('#preReturnedPage').hide();
+                            $('#firstReturnedPage').hide();
+                            $('#endReturnedPage').show();
+                            $('#nextReturnedPage').show();
+                        }
+                    } else if (pageNow < totalPage) {
+                        if (totalPage == 0 || totalPage == 1) {
+                            $('#preReturnedPage').hide();
+                            $('#firstReturnedPage').hide();
+                            $('#endReturnedPage').hide();
+                            $('#nextReturnedPage').hide();
+                        } else {
+                            $('#preReturnedPage').show();
+                            $('#firstReturnedPage').show();
+                            $('#endReturnedPage').show();
+                            $('#nextReturnedPage').show();
+
+                        }
+                    } else if (pageNow = totalPage) {
+
+                        $('#preReturnedPage').show();
+                        $('#firstReturnedPage').show();
+                        $('#endReturnedPage').hide();
+                        $('#nextReturnedPage').hide();
+                    }
+
                     $('#returnedBody').html("");
                     for (var i in returnedList) {
                         var id = i * 1 + 1 * 1;
-                        $('#returnedBody').append("<tr><td>" + id + "</td><td><input type='checkbox' onclick='checkboxreturneddis(this.id)' name='returnedcheck'  id='" + returnedList[i].id + "returned" + "'></td><td><a id='" + returnedList[i].returnedid + "' onclick='returnedGetGoods(this.id)' ondblclick='showReturnDetail(" + returnedList[i].id + ")' '>" + returnedList[i].returnedid + "</a></td> <td>&nbsp;" + returnedList[i].returnedorchange + "</td> <td>&nbsp;" + returnedList[i].returnedstatus + "</td> <td>&nbsp;" + returnedList[i].oid + "</td>  <td>&nbsp;" + returnedList[i].channeloid + "</td><td>&nbsp;" + returnedList[i].returnedmoney + "</td><td>&nbsp;" + returnedList[i].createtime + "</td><td>&nbsp;" + returnedList[i].modifytime + "</td><td>&nbsp;" + returnedList[i].modifyman + "</td></tr>");
+                        $('#returnedBody').append("<tr><td>" + id + "</td><td><input type='checkbox'  name='returnedcheck'  onclick='checkboxreturneddis(this.id)' id='" + returnedList[i].id + "returned" + "'></td><td><a id='" + returnedList[i].returnedid + "' onclick='returnedGetGoods(this.id)' ondblclick='showReturnDetail(" + returnedList[i].id + ")' '>" + returnedList[i].returnedid + "</a></td> <td>&nbsp;" + returnedList[i].returnedorchange + "</td> <td>&nbsp;" + returnedList[i].returnedstatus + "</td> <td>&nbsp;" + returnedList[i].oid + "</td>  <td>&nbsp;" + returnedList[i].channeloid + "</td><td>&nbsp;" + returnedList[i].returnedmoney + "</td><td>&nbsp;" + returnedList[i].createtime + "</td><td>&nbsp;" + returnedList[i].modifytime + "</td><td>&nbsp;" + returnedList[i].modifyman + "</td></tr>");
                         $('#totalReturnedPage').html(totalPage);
+                        //
 
                     }
 
@@ -934,8 +1032,15 @@ $(
                 var returnedpage = $('#returnedPageNow').html();
                 var totalPage = $('#totalReturnedPage').html();
                 if (returnedpage < totalPage) {
+                    if (returnedpage * 1 + 1 * 1 == totalPage){
+                        $("#endReturnedPage").hide();
+                        $("#nextReturnedPage").hide();
+                    }
+                    $("#preReturnedPage").show();
+                    $("#firstReturnedPage").show();
                     inGetReturnedNowPage(returnedpage * 1 + 1 * 1);
                     $('#returnedPageNow').html(returnedpage * 1 + 1 * 1);
+
                 } else {
                     alert("已到最后一页");
                 }
@@ -948,8 +1053,16 @@ $(
 
                 var returnedpage = $('#returnedPageNow').html();
                 if (returnedpage > 1) {
+
+                    if (returnedpage ==2){
+                        $("#preReturnedPage").hide();
+                        $("#firstReturnedPage").hide();
+                    }
+                    $("#endReturnedPage").show();
+                    $("#nextReturnedPage").show();
                     $('#returnedPageNow').html(returnedpage * 1 - 1 * 1);
                     inGetReturnedNowPage(returnedpage * 1 - 1 * 1);
+
                 } else {
                     alert("已到第一页");
                 }
@@ -959,9 +1072,14 @@ $(
 
         $('#firstReturnedPage').click(
             function () {
-
-                $('#returnedPageNow').html(1);
                 inGetReturnedNowPage(1);
+                $('#returnedPageNow').html(1);
+                $("#preReturnedPage").hide();
+                $("#firstReturnedPage").hide();
+                $("#endReturnedPage").show();
+                $("#nextReturnedPage").show();
+
+
 
             }
         );
@@ -970,9 +1088,14 @@ $(
             function () {
 
                 inGetReturnedNowPage($('#totalReturnedPage').html());
+                $("#preReturnedPage").show();
+                $("#firstReturnedPage").show();
+                $("#endReturnedPage").hide();
+                $("#nextReturnedPage").hide();
                 $('#returnedPageNow').html($('#totalReturnedPage').html());
             }
         );
+
 
 
         $('#nextreturnedGoodsPage').click(
@@ -982,6 +1105,12 @@ $(
                 var totalPage = $('#totalreturnedGoodsPage').html();
                 var returnedid = $('#returnedidongoods').html();
                 if (returnedGoodspage < totalPage) {
+                    if (returnedGoodspage * 1 + 1 * 1 == totalPage){
+                        $('#endreturnedGoodsPage').hide();
+                        $('#nextreturnedGoodsPage').hide();
+                    }
+                    $('#prereturnedGoodsPage').show();
+                    $('#firstreturnedGoodsPage').show();
                     $('#returnedGoodsPageNow').html(returnedGoodspage * 1 + 1 * 1);
                     returngetgoodsfromserver(returnedid, returnedGoodspage * 1 + 1 * 1, 5);
                 } else {
@@ -995,8 +1124,15 @@ $(
                 var returnedid = $('#returnedidongoods').html();
                 var returnedGoodsPageNow = $('#returnedGoodsPageNow').html();
                 if (returnedGoodsPageNow > 1) {
+                    if (returnedGoodsPageNow ==2){
+                        $('#prereturnedGoodsPage').hide();
+                        $('#firstreturnedGoodsPage').hide();
+                    }
+                    $('#endreturnedGoodsPage').show();
+                    $('#nextreturnedGoodsPage').show();
                     $('#returnedGoodsPageNow').html(returnedGoodsPageNow * 1 - 1 * 1);
                     returngetgoodsfromserver(returnedid, returnedGoodsPageNow * 1 - 1 * 1, 5);
+
                 } else {
                     alert("已到第一页");
                 }
@@ -1007,6 +1143,10 @@ $(
         $('#firstreturnedGoodsPage').click(
             function () {
                 var returnedid = $('#returnedidongoods').html();
+                $('#prereturnedGoodsPage').hide();
+                $('#firstreturnedGoodsPage').hide();
+                $('#endreturnedGoodsPage').show();
+                $('#nextreturnedGoodsPage').show();
                 returngetgoodsfromserver(returnedid, 1, 5);
                 $('#returnedGoodsPageNow').html(1);
             }
@@ -1014,6 +1154,10 @@ $(
 
         $('#endreturnedGoodsPage').click(
             function () {
+                $('#prereturnedGoodsPage').show();
+                $('#firstreturnedGoodsPage').show();
+                $('#endreturnedGoodsPage').hide();
+                $('#nextreturnedGoodsPage').hide();
                 var returnedid = $('#returnedidongoods').html();
                 returngetgoodsfromserver(returnedid, $('#totalreturnedGoodsPage').html(), 5);
                 $('#returnedGoodsPageNow').html($('#totalreturnedGoodsPage').html());
@@ -1274,4 +1418,43 @@ $(
         });
 
 
+        $("tbody").on("click", "input[name='returnedcheck']",function () {
+            var returnIdArray = new Array();
+            var i = 0;
+
+            $("input:checkbox[name='returnedcheck']:checked").each(function () {
+                returnIdArray[i++] = parseInt($(this).attr("id"));
+            });
+
+            if (returnIdArray.length == 0){
+                $('#checkreturnedorder').attr('disabled', "true");
+                $('#cancelReturnedOrder').attr('disabled', "true");
+                $('#returnedCreaterefoundOder').attr('disabled', "true");
+                $('#changeOutBound').attr('disabled', "true");
+            }else {
+                var daishenghe = getreturnedStatus(returnIdArray,"待审核");
+                var shouhuowancheng = getreturnedStatus(returnIdArray,"收货成功");
+                var returnOrChange = getreturnedOrChange(returnIdArray);
+                if (daishenghe == "yes"){
+
+                    $('#checkreturnedorder').removeAttr("disabled");
+                    $('#cancelReturnedOrder').removeAttr("disabled");
+                } else {
+                    $('#checkreturnedorder').attr('disabled', "true");
+                    $('#cancelReturnedOrder').attr('disabled', "true");
+                }
+                if (shouhuowancheng == "yes"){
+                    if (returnOrChange == "return"){
+                        $('#returnedCreaterefoundOder').removeAttr("disabled");
+                    }else if(returnOrChange =="change"){
+                        $('#changeOutBound').removeAttr("disabled");
+                    }
+                }else {
+                    $('#returnedCreaterefoundOder').attr('disabled', "true");
+                    $('#changeOutBound').attr('disabled', "true");
+                }
+            }
+
+
+        });
     });
