@@ -60,14 +60,6 @@
                                 <td>创建时间:</td>
                                 <td>&nbsp;${exceptionList.createtime}</td>
                             </tr>
-                            <tr>
-                                <td>修改时间:</td>
-                                <td>&nbsp;${exceptionList.modifytime}</td>
-                            </tr>
-                            <tr>
-                                <td>修改人:</td>
-                                <td>&nbsp;${exceptionList.modifyman}</td>
-                            </tr>
                         </table>
                     </form>
                 </div>
@@ -91,7 +83,7 @@
                                             </tr>
                                             <tr>
                                                 <td>商品单价:</td>
-                                                <td>&nbsp;${gd.goodsprice}</td>
+                                                <td>&nbsp;${gd.divideorderfee}</td>
                                             </tr>
                                             <tr>
                                                 <td>商品个数:</td>
@@ -99,7 +91,7 @@
                                             </tr>
                                             <tr>
                                                 <td>商品总价:</td>
-                                                <td>&nbsp;${gd.goodsnum*gd.goodsprice}</td>
+                                                <td>&nbsp;${gd.goodsnum*gd.divideorderfee}</td>
                                             </tr>
                                         </table>
                                     </td>

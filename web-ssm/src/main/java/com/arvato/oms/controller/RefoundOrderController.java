@@ -13,6 +13,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -69,9 +70,9 @@ public class RefoundOrderController {
         //查询退款单列表
         RefoundOrderModel refoundOrderList = refoundOrderServiceImpl.selectByDrawbackId(drawbackId);
         String returnedId = refoundOrderList.getReturnedid();
+        String oid = drawbackId.substring(2,17);
+        List<RelationogModel> rogList2= relationogServiceImpl.selectALLByOid(oid);
         if(returnedId==null||"".equals(returnedId)){
-            String oid = drawbackId.substring(2,17);
-            List<RelationogModel> rogList2= relationogServiceImpl.selectALLByOid(oid);
             //获取商品实体 查询商品表
             List<Object> godsList2=new ArrayList<Object>();
             for(int i=0;i<rogList2.size();i++){
@@ -80,11 +81,14 @@ public class RefoundOrderController {
                 String sno= rogList2.get(i).getGoodsno();
                 //获取商品数量
                 int snum= rogList2.get(i).getGoodnum() ;
+                //获取单个商品折扣后的价格
+                BigDecimal divideorderfee = rogList2.get(i).getDivideorderfee();
                 GoodsModel gm= goodsModelServiceImpl.selectByGoodsNo(sno);
                 gp.setGoodsnum(snum);
                 gp.setGoodsname(gm.getGoodsname());
                 gp.setGoodsno(gm.getGoodsno());
                 gp.setGoodsprice(gm.getGoodsprice());
+                gp.setDivideorderfee(divideorderfee);
                 godsList2.add(gp);
             }
             model.addAttribute("gods",godsList2);
@@ -103,11 +107,14 @@ public class RefoundOrderController {
             String sno= rogList.get(i).getGoodsno();
             //获取商品数量
             int snum= rogList.get(i).getGoodnum() ;
+            //获取单个商品折扣后的价格
+            BigDecimal divideorderfee = rogList2.get(i).getDivideorderfee();
             GoodsModel gm= goodsModelServiceImpl.selectByGoodsNo(sno);
             gp.setGoodsnum(snum);
             gp.setGoodsname(gm.getGoodsname());
             gp.setGoodsno(gm.getGoodsno());
             gp.setGoodsprice(gm.getGoodsprice());
+            gp.setDivideorderfee(divideorderfee);
             godsList.add(gp);
         }
         model.addAttribute("gods",godsList);

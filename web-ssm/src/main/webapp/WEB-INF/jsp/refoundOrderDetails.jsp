@@ -79,7 +79,7 @@
                                             </tr>
                                             <tr>
                                                 <td>商品单价:</td>
-                                                <td>&nbsp;${gd.goodsprice}</td>
+                                                <td>&nbsp;${gd.divideorderfee}</td>
                                             </tr>
                                             <tr>
                                                 <td>商品个数:</td>
@@ -87,7 +87,7 @@
                                             </tr>
                                             <tr>
                                                 <td>商品总价:</td>
-                                                <td>&nbsp;${gd.goodsnum*gd.goodsprice}</td>
+                                                <td>&nbsp;${gd.goodsnum*gd.divideorderfee}</td>
                                             </tr>
                                         </table>
                                     </td>

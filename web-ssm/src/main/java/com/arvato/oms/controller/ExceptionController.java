@@ -13,6 +13,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -220,11 +221,14 @@ public class ExceptionController {
             String sno= rogList.get(i).getGoodsno();
             //获取商品数量
             int snum= rogList.get(i).getGoodnum() ;
+            //获取单个商品折扣后的价格
+            BigDecimal divideorderfee = rogList.get(i).getDivideorderfee();
             GoodsModel gm=goodsServiceImpl.selectByGoodsNo(sno);
             gp.setGoodsnum(snum);
             gp.setGoodsname(gm.getGoodsname());
             gp.setGoodsno(gm.getGoodsno());
             gp.setGoodsprice(gm.getGoodsprice());
+            gp.setDivideorderfee(divideorderfee);
             godsList.add(gp);
         }
         model.addAttribute("gods",godsList);

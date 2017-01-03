@@ -15,6 +15,7 @@ import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -139,7 +140,7 @@ public class ExceptionServiceImpl implements ExceptionService {
     public String listExceptionSon(HttpServletRequest request)
     {
         String oid = request.getParameter("oid3");//获取订单oid
-        //查询出库单列表
+        //查询异常订单列表
         ExceptionModel exceptionList = exceptionModelMapper.selectByExceptionOid(oid);
         //获取商品编码  查询关系表
         List<RelationogModel> roglist = relationogModelMapper.selectMessageByOid(oid);

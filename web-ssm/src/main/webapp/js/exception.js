@@ -108,11 +108,12 @@ function exceptionpageson(oid,pagenow){
                 //显示第几页数据
                 if( pagesize*(pagenow-1)<=i && i< pagesize*pagenow) //？？？？？？？
                 {
+                    //god.divideorderfee
                     var obj=rglist[i] ;//获取关系表的一个对象
                     var god=gdlist[i];//获取商品表的一个对象
-                    var totalPrice=god.goodsprice*obj.goodnum;//商品总价
+                    var totalPrice=rglist[i].divideorderfee*obj.goodnum;//商品总价
                     var html='<tr><td><input type="checkbox" value="" name="" onclick="" ></td><td>' + god.goodsno+'</td><td>'
-                        + god.goodsname+'</td><td>'+god.goodsprice +'</td><td>'
+                        + god.goodsname+'</td><td>'+rglist[i].divideorderfee +'</td><td>'
                         + obj.goodnum+'</td><td>'
                         + totalPrice +'</td></tr>'
                     $("#exception_table2 tbody  ").append(html);

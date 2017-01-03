@@ -25,7 +25,7 @@
                 <input type="button" value="查询" class="submitBtn fr" id="search" onclick="return GetnowPage(1)">
                 <input type="text" class="textArea fr" name="txtvalue" id="exception_text">
                 <select class="selectArea fr" name="exceptionToseachid" id="exceptionSelectid">
-                    <option value="0" selected>请选择查询条件</option>
+                    <option value="0" class="select_hide">请选择查询条件</option>
                     <option value="1">订单号</option>
                     <option value="2">渠道订单号</option>
                     <option value="3">异常状态</option>

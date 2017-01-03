@@ -107,9 +107,9 @@ function refoundpageson(drawbackId,pagenow){
                 {
                     var obj=rglist[i] ;//获取关系表的一个对象
                     var god=gdlist[i];//获取商品表的一个对象
-                    var totalPrice=god.goodsprice*obj.goodnum;//商品总价
+                    var totalPrice=rglist[i].divideorderfee*obj.goodnum;//商品总价
                     var html='<tr><td><input type="checkbox" value="" name="" onclick="" ></td><td>' + god.goodsno+'</td><td>'
-                        + god.goodsname+'</td><td>'+god.goodsprice +'</td><td>'
+                        + god.goodsname+'</td><td>'+rglist[i].divideorderfee +'</td><td>'
                         + obj.goodnum+'</td><td>'
                         + totalPrice +'</td></tr>'
                     $("#refoundOrdertable2 tbody  ").append(html);
