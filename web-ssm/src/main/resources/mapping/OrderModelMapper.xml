@@ -51,8 +51,10 @@
   <!--更新订单列表的订单状态-->
   <update id="updateOrder" >
     update `order`
-    set orderStatus = #{0,jdbcType=VARCHAR}
-    where oid = #{1,jdbcType=VARCHAR}
+    set orderStatus = #{0,jdbcType=VARCHAR},
+      modifytime = #{1,jdbcType=TIMESTAMP},
+     modifyman = #{2,jdbcType=VARCHAR}
+    where oid = #{3,jdbcType=VARCHAR}
   </update>
 
   <!--通过oid选出所有信息-->

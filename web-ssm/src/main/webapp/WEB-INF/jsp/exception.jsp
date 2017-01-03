@@ -17,15 +17,16 @@
             <div class="orderTit">异常订单列表</div>
             <div class="orderSearch">
                 <ul>
-                    <li><input type="button" value="处理异常"  class="btn" onclick="handleException()"></li>
-                    <li><input type="button" value="取消"  class="btn" id="proDel" onclick="exception_del()"></li>
+                    <li><input type="button" value="处理异常"  class="btn" disabled="disabled" id="handle_inbtn" onclick="handleException()"></li>
+                    <li><input type="button" value="取消"  class="btn" disabled="disabled" id="proDel_inbtn" onclick="exception_del()"></li>
                     <%--查看按钮  dfdgfg--%>
                     <li><input type="button" value="查看订单"  class="btn beta" disabled="disabled" id="exception_inbtn" onclick="exception_details()"></li>
                 </ul>
-                <input type="button" value="查询" class="submitBtn fr" id="search" onclick="exceptionPage(1)">
+                <input type="button" value="查询" class="submitBtn fr" id="search" onclick="return GetnowPage(1)">
                 <input type="text" class="textArea fr" name="txtvalue" id="exception_text">
                 <select class="selectArea fr" name="exceptionToseachid" id="exceptionSelectid">
-                    <option value="1" selected>订单号</option>
+                    <option value="0" selected>请选择查询条件</option>
+                    <option value="1">订单号</option>
                     <option value="2">渠道订单号</option>
                     <option value="3">异常状态</option>
                 </select>

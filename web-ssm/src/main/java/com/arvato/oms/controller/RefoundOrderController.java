@@ -36,6 +36,8 @@ public class RefoundOrderController {
     private ReturnedModelService returnedModelServiceImpl;
     @Resource
     private OrderService orderServiceImpl;
+    @Resource
+    private RelationogService relationogServiceImpl;
 
     //进入页面
     @RequestMapping(value="indexRefoundOrderList")
@@ -63,10 +65,35 @@ public class RefoundOrderController {
     //退款单详细页面展示
     @RequestMapping(value="details")
     public String  details(HttpServletRequest request,Model model){
-        String returnedId=request.getParameter("returnedId");
+        String drawbackId=request.getParameter("drawbackId");
         //查询退款单列表
-        RefoundOrderModel refoundOrderList = refoundOrderServiceImpl.selectByReturnedId(returnedId);
-        /* 获取商品编码  查询关系表 */
+        RefoundOrderModel refoundOrderList = refoundOrderServiceImpl.selectByDrawbackId(drawbackId);
+        String returnedId = refoundOrderList.getReturnedid();
+        if(returnedId==null||"".equals(returnedId)){
+            String oid = drawbackId.substring(2,17);
+            List<RelationogModel> rogList2= relationogServiceImpl.selectALLByOid(oid);
+            //获取商品实体 查询商品表
+            List<Object> godsList2=new ArrayList<Object>();
+            for(int i=0;i<rogList2.size();i++){
+                GoodsPojo gp=new GoodsPojo();
+                //获取商品编号
+                String sno= rogList2.get(i).getGoodsno();
+                //获取商品数量
+                int snum= rogList2.get(i).getGoodnum() ;
+                GoodsModel gm= goodsModelServiceImpl.selectByGoodsNo(sno);
+                gp.setGoodsnum(snum);
+                gp.setGoodsname(gm.getGoodsname());
+                gp.setGoodsno(gm.getGoodsno());
+                gp.setGoodsprice(gm.getGoodsprice());
+                godsList2.add(gp);
+            }
+            model.addAttribute("gods",godsList2);
+            model.addAttribute("refoundOrderList",refoundOrderList);
+            model.addAttribute("rog",rogList2);
+            model.addAttribute("oid",oid);
+            return "refoundOrderDetails";
+        }{
+        /* 获取商品编码  查询关系表*/
         List<RelationrgModel> rogList = relationrgServiceImpl.selectALLByReturnedId(returnedId);
         //获取商品实体 查询商品表
         List<Object> godsList=new ArrayList<Object>();
@@ -87,16 +114,16 @@ public class RefoundOrderController {
         model.addAttribute("refoundOrderList",refoundOrderList);
         model.addAttribute("rog",rogList);
         model.addAttribute("oid",returnedId);
-
         return "refoundOrderDetails";
+        }
     }
 
     //调退款接口
     @RequestMapping(value="drawback")
     @ResponseBody
     public String refoundInterface(HttpServletRequest request, HttpSession session) {
-        String returnedId3=request.getParameter("returnedId3");
-        RefoundOrderModel refoundOrderModel = refoundOrderServiceImpl.selectByReturnedId(returnedId3);
+        String drawbackId3=request.getParameter("drawbackId3");
+        RefoundOrderModel refoundOrderModel = refoundOrderServiceImpl.selectByDrawbackId(drawbackId3);
         //判断该退款单是否已经退过款了
         String drawbackstatus=refoundOrderModel.getDrawbackstatus();
         if("已退款".equals(drawbackstatus)){
@@ -107,16 +134,15 @@ public class RefoundOrderController {
         //退款金额
         String drawbackMoney = refoundOrderModel.getDrawbackmoney().toString();
         log.info("-----------------------------------drawbackMoney:"+drawbackMoney);
-        ReturnedModel returnedModel = returnedModelServiceImpl.selectByReturnedId(returnedId3);
         //订单号
-        String returnedoId = returnedModel.getOid();
-        OrderModel orderModel = orderServiceImpl.selectByOid(returnedoId);
+        String oid2 = drawbackId.substring(2,17);
+        OrderModel orderModel = orderServiceImpl.selectByOid(oid2);
         //渠道订单号
         String channelOid=orderModel.getChanneloid();
         //退款账号
         String buyerAlipayNo=orderModel.getBuyeralipayno();
         JSONObject object = new JSONObject();
-        object.put("orderNumbers",returnedoId);//订单号
+        object.put("orderNumbers",oid2);//订单号
         object.put("refundNumbers",drawbackId);//退款单号
         object.put("originNumbers",channelOid);//渠道订单号
         object.put("refundment",drawbackMoney);//退款金额

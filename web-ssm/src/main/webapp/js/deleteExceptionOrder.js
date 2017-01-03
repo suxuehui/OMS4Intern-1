@@ -2,11 +2,21 @@
 function getOid() {
     var a = document.getElementsByName("exceptionck");
     var info = "";
+    var k=0;
     for(var i=0;i<a.length;i++)
     {
         if(a[i].checked){
+            k++;
             var info = (info + a[i].value) + (((i + 1)== a.length) ? '':',');
+            $("#handle_inbtn").attr("disabled",false);
+            $("#proDel_inbtn").attr("disabled",false);
             $("#exception_inbtn").attr("disabled",false);
+
+        }
+        if(k==0){
+            $("#handle_inbtn").attr("disabled",true);
+            $("#proDel_inbtn").attr("disabled",true);
+            $("#exception_inbtn").attr("disabled",true);
         }
     }
     return info;
@@ -15,9 +25,16 @@ function getOid() {
 function exception_del() {
     var oid1 = getOid();
     var parm = {oid: oid1};//将参数传到后台
-    $.post("../exceptionOrder/cancelException", parm, function () {
-        window.onload= GetnowPage(1);
-    });
+    $.post("../exceptionOrder/cancelException", parm, function (data) {
+        var msg=data.msg;
+        if(msg==2){
+            GetnowPage(1);
+            $("#handle_inbtn").attr("disabled",true);
+            $("#proDel_inbtn").attr("disabled",true);
+            $("#exception_inbtn").attr("disabled",true);
+        }
+    },"json"
+    );
 }
 
 //点击查看出库订单进入详情页
@@ -34,6 +51,8 @@ function exception_details(){
             for(var i=0;i<excheck .length;i++)
             {
                 excheck[i].checked=false;
+                $("#handle_inbtn").attr("disabled",true);
+                $("#proDel_inbtn").attr("disabled",true);
                 $("#exception_inbtn").attr("disabled",true);
             }
         }
@@ -55,10 +74,30 @@ function handleException(){
         if(msg==1){
             alert("异常类型不完全相同");
             GetnowPage(1);
+            $("#handle_inbtn").attr("disabled",true);
+            $("#proDel_inbtn").attr("disabled",true);
+            $("#exception_inbtn").attr("disabled",true);
         }
         if(msg==2){
             GetnowPage(1);
             queryOrder(1,10);
+            $("#handle_inbtn").attr("disabled",true);
+            $("#proDel_inbtn").attr("disabled",true);
+            $("#exception_inbtn").attr("disabled",true);
+        }
+        if(msg==3){
+            alert("处理成功");
+            GetnowPage(1);
+            queryOrder(1,10);
+            $("#handle_inbtn").attr("disabled",true);
+            $("#proDel_inbtn").attr("disabled",true);
+            $("#exception_inbtn").attr("disabled",true);
+        }
+        if(msg==4){
+            alert("处理失败，请检查接口");
+            $("#handle_inbtn").attr("disabled",true);
+            $("#proDel_inbtn").attr("disabled",true);
+            $("#exception_inbtn").attr("disabled",true);
         }
     },"json"
     );

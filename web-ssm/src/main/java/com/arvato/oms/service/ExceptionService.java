@@ -25,5 +25,6 @@ public interface ExceptionService {
     //根据订单号查询该条订单的异常类型
     String selectTypeByOid(String oId);
 
+    int insertSelective(ExceptionModel exceptionModel);
 
 }

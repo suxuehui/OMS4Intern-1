@@ -86,12 +86,12 @@
                 </table>
             </div>
             <div class="page">
-                <a id="lastorder">尾页</a>
-                <a id="nextorder">下一页</a>
+                <a id="lastorder" style="display: none">尾页</a>
+                <a id="nextorder" style="display: none">下一页</a>
                 <a id="orderPageNo" style="display: none"></a>
-                <a id="preorder">上一页</a>
+                <a id="preorder" style="display: none">上一页</a>
                 <a id="orderPageTotal" style="display: none"></a>
-                <a id="firstorder">首页</a>
+                <a id="firstorder" style="display: none">首页</a>
             </div>
         </div>
     </div>
@@ -115,8 +115,8 @@
         <div class="page">
             <a id="ogPageNo" style="display: none"></a>
             <a id="ogPageTotal" style="display: none"></a>
-            <a id="ogLastpage">尾页</a><a id="ogNextpage">下一页</a>
-            <a id="ogPrepage">上一页</a><a id="ogFirstpage">首页</a></div>
+            <a id="ogLastpage" style="display: none">尾页</a><a id="ogNextpage" style="display: none">下一页</a>
+            <a id="ogPrepage" style="display: none">上一页</a><a id="ogFirstpage" style="display: none">首页</a></div>
     </div>
 </div>
 </body>

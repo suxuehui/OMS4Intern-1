@@ -108,13 +108,13 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.arvato.oms.model.ExceptionModel" >
-    insert into exception (id, oId, channelOid, 
+    insert into exception (id, oId, channelOid,
       orderStatus, orderFrom, exceptionType, 
-      expceptionCause, exceptionStatus, createTime, 
+      expceptionCause, exceptionStatus, createTime,
       modifyTime, modifyMan)
-    values (#{id,jdbcType=INTEGER}, #{oid,jdbcType=VARCHAR}, #{channeloid,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{oid,jdbcType=VARCHAR}, #{channeloid,jdbcType=VARCHAR},
       #{orderstatus,jdbcType=VARCHAR}, #{orderfrom,jdbcType=VARCHAR}, #{exceptiontype,jdbcType=VARCHAR}, 
-      #{expceptioncause,jdbcType=VARCHAR}, #{exceptionstatus,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{expceptioncause,jdbcType=VARCHAR}, #{exceptionstatus,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP},
       #{modifytime,jdbcType=TIMESTAMP}, #{modifyman,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.arvato.oms.model.ExceptionModel" >

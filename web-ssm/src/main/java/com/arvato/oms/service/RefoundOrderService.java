@@ -16,7 +16,7 @@ public interface RefoundOrderService {
     String showRefoundOrderList(HttpServletRequest request);
 
     //根据退款单号查询该条退款单记录
-    RefoundOrderModel selectByReturnedId(String returnedId);
+    RefoundOrderModel selectByDrawbackId(String drawbackId);
 
     //子页面显示
     String listRefoundOrderSon(HttpServletRequest request);

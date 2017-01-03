@@ -2,9 +2,30 @@
  * Created by ZHAN545 on 2016/12/15.
  */
 var queryMode=1;
+var queryModeTemp=1;
 var queryData="";
+var queryDateTemp="";
 var orderPageSize=10;
-window.onload= queryOrder(1,10);
+window.onload=onloadqueryOrder();
+//页面加载时查询
+function  onloadqueryOrder() {
+    $.ajax({
+        url:"../order/queryByCondition",
+        type:"get",
+        data: {
+            queryMode: queryMode,
+            pageNo: 1,
+            pageSize: orderPageSize,
+            data: queryData
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType:"json",
+        success:function (data) {
+            translationOrder(data);
+        }
+    })
+}
+//条件查询
 function queryOrder(pageNo,pageSize) {
     $.ajax({
         url:"../order/queryByCondition",
@@ -18,65 +39,78 @@ function queryOrder(pageNo,pageSize) {
         contentType: "application/json; charset=utf-8",
         dataType:"json",
         success:function (data) {
-            var pageTotal=data.pageTotal;
-            $("#orderPageNo").text(data.pageNo);
-            $("#orderPageTotal").text(data.pageTotal);
             var orderModels=data.orderModels;
             if(orderModels=="")
             {
                 alert("查询无结果");
+                queryMode=queryModeTemp;
+                queryData=queryDateTemp;
                 return;
             }
-            var html="";
-            for(var i=0;i<orderModels.length;i++)
-            {
-                html+='<tr><td>'+(i+1)+'</td><td><input type="checkbox" id="'+orderModels[i].oid
-                    +'" onclick="ordercheck(this.id)" name="orderck"></td><td id="'+orderModels[i].oid
-                    +'" onclick="ordersgclick(this.id)" ondblclick="orderdbclick(this.id)">'+orderModels[i].oid
-                    +'</td><td>'+orderModels[i].channeloid+'</td><td id="S'+orderModels[i].oid+'">'+orderModels[i].orderstatus+'</td><td>'
-                    +orderModels[i].orderform+'</td><td>'+orderModels[i].buyerid+'</td><td>'
-                    +orderModels[i].ordertime+'</td><td>'+orderModels[i].basestatus+'</td><td>'
-                    +orderModels[i].paystatus+'</td><td>'+orderModels[i].paystyle+'</td><td>'
-                    +orderModels[i].paytime+'</td><td>'+orderModels[i].goodstolprice+'</td><td>'
-                    +orderModels[i].discountprice+'</td><td>'+orderModels[i].ordertolprice+'</td><td>'
-                    +changeNull(orderModels[i].goodswarehouse)+'</td><td>'+changeNull(orderModels[i].logisticscompany)+'</td><td>'
-                    +changeNull(orderModels[i].logisticsid)+'</td><td>'+changeNull(orderModels[i].sendtime)+'</td><td>'
-                    +changeNull(orderModels[i].remark)+'</td><td>'+orderModels[i].receivername+'</td><td>'
-                    +orderModels[i].receivermobel+'</td><td>'+changeNull(orderModels[i].receivertelnum)+'</td><td>'
-                    +orderModels[i].receiverprovince+'</td><td>'+orderModels[i].receivercity+'</td><td>'
-                    +orderModels[i].receiverarea+'</td><td>'+orderModels[i].detailaddress+'</td><td>'
-                    +orderModels[i].zipcode+'</td><td>'+changeNull(orderModels[i].modifytime)+'</td><td>'
-                    +changeNull(orderModels[i].modifyman)+'</td></tr>'
-            }
-            oidArray=[];
-            for(var i=0;i<document.getElementsByName("orderBtn").length;i++)
-            {
-                document.getElementsByName("orderBtn")[i].disabled=true;
-            }
-            $("#order").html(html);
-            if(pageNo==1)
-            {
-                $("#firstorder").hide();
-                $("#preorder").hide();
-            }
-            else
-            {
-                $("#firstorder").show();
-                $("#preorder").show();
-            }
-            if(pageNo==pageTotal)
-            {
-                $("#nextorder").hide();
-                $("#lastorder").hide();
-            }
-            else
-            {
-                $("#nextorder").show();
-                $("#lastorder").show();
-            }
+            queryModeTemp=queryMode;
+            queryDateTemp=queryData;
+            translationOrder(data);
         }
     })
 }
+//将订单list数组转成页面的table
+function translationOrder(data)
+{
+    var pageTotal=data.pageTotal;
+    var pageNo=data.pageNo;
+    var pageTotal=data.pageTotal
+    $("#orderPageNo").text(pageNo);
+    $("#orderPageTotal").text(pageTotal);
+    var orderModels=data.orderModels;
+    var html="";
+    for(var i=0;i<orderModels.length;i++)
+    {
+        html+='<tr><td>'+(i+1)+'</td><td><input type="checkbox" id="'+orderModels[i].oid
+            +'" onclick="ordercheck(this.id)" name="orderck"></td><td id="'+orderModels[i].oid
+            +'" onclick="ordersgclick(this.id)" ondblclick="orderdbclick(this.id)">'+orderModels[i].oid
+            +'</td><td>'+orderModels[i].channeloid+'</td><td id="S'+orderModels[i].oid+'">'+orderModels[i].orderstatus+'</td><td>'
+            +orderModels[i].orderform+'</td><td>'+orderModels[i].buyerid+'</td><td>'
+            +orderModels[i].ordertime+'</td><td>'+orderModels[i].basestatus+'</td><td>'
+            +orderModels[i].paystatus+'</td><td>'+orderModels[i].paystyle+'</td><td>'
+            +orderModels[i].paytime+'</td><td>'+orderModels[i].goodstolprice+'</td><td>'
+            +orderModels[i].discountprice+'</td><td>'+orderModels[i].ordertolprice+'</td><td>'
+            +changeNull(orderModels[i].goodswarehouse)+'</td><td>'+changeNull(orderModels[i].logisticscompany)+'</td><td>'
+            +changeNull(orderModels[i].logisticsid)+'</td><td>'+changeNull(orderModels[i].sendtime)+'</td><td>'
+            +changeNull(orderModels[i].remark)+'</td><td>'+orderModels[i].receivername+'</td><td>'
+            +orderModels[i].receivermobel+'</td><td>'+changeNull(orderModels[i].receivertelnum)+'</td><td>'
+            +orderModels[i].receiverprovince+'</td><td>'+orderModels[i].receivercity+'</td><td>'
+            +orderModels[i].receiverarea+'</td><td>'+orderModels[i].detailaddress+'</td><td>'
+            +orderModels[i].zipcode+'</td><td>'+changeNull(orderModels[i].modifytime)+'</td><td>'
+            +changeNull(orderModels[i].modifyman)+'</td></tr>'
+    }
+    oidArray=[];
+    for(var i=0;i<document.getElementsByName("orderBtn").length;i++)
+    {
+        document.getElementsByName("orderBtn")[i].disabled=true;
+    }
+    $("#order").html(html);
+    if(pageNo==1)
+    {
+        $("#firstorder").hide();
+        $("#preorder").hide();
+    }
+    else
+    {
+        $("#firstorder").show();
+        $("#preorder").show();
+    }
+    if(pageNo==pageTotal)
+    {
+        $("#nextorder").hide();
+        $("#lastorder").hide();
+    }
+    else
+    {
+        $("#nextorder").show();
+        $("#lastorder").show();
+    }
+}
+
 $(function () {
     $("#queryOrderBtn").click(function () {
         queryMode=$("#queryMode option:selected").val();

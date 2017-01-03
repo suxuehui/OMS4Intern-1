@@ -1,17 +1,9 @@
 window.onload= refoundGetnowPage(1);//加载页面时就执行函数进入后台
 
 var reflistnull;
-//点击查询时无结果就显示提示
-function refoundPage(pagenow){
-    reflistnull=0;//每次调用时初始化全局变量
-    GetnowPage(pagenow)
-    if(reflistnull==0){//判断是否有订单
-        alert("查询无结果！")
-    }
-}
 //使用ajax提交数据到后台
-
 function refoundGetnowPage(pagenow){
+    reflistnull=0;//每次调用时初始化全局变量
     var myselect=document.getElementById("refoundOrderSelectid");
     var index=myselect.selectedIndex;
     var optxt=myselect.options[index].value;//查询条件
@@ -37,12 +29,15 @@ function refoundGetnowPage(pagenow){
             $("#refoundOrdertable2 tbody tr").eq(0).nextAll().remove();
             //打开数据为空时设置全局变量以提示信息
             reflistnull=dataList.length;
+            if(reflistnull==0){//判断是否有退款单
+                alert("查询无结果！")
+            }
             var i=0;
             for(var obj in dataList){
                 i++;
                 var  list=dataList[obj];
-                var html='<tr><td>'+i+'</td><td><input type="checkbox" value="'+list.returnedid+'" name="refoundOrder_ck" onclick="refoundOrder_getReturnedId()" ></td><td>';
-                html+= '<button id="'+list.returnedid+'" style="border-style:none;outline:none;" ' +
+                var html='<tr><td>'+i+'</td><td><input type="checkbox" value="'+list.drawbackid+'" name="refoundOrder_ck" onclick="refoundOrder_getDrawbackid()" ></td><td>';
+                html+= '<button id="'+list.drawbackid+'" style="border-style:none;outline:none;background-color:transparent" ' +
                     'ondblclick="refounddbClick(this.id)" onclick="refoundsingleClick(this.id)">'+list.drawbackid+'</button>'+
                     '</td>';
                 html+='<td>'+list.drawbackmoney+'</td><td>'
@@ -53,7 +48,7 @@ function refoundGetnowPage(pagenow){
             refoundGetPage(dataPage.totalPageCount,dataPage.pageNow);
         },
         error:function(){
-            self.location="../login/login" ;
+            //self.location="../login/login" ;
             alert("登陆超时，请重新登陆！");
         }
     });
@@ -61,33 +56,33 @@ function refoundGetnowPage(pagenow){
 
 /*单、双击事件跳转*/
 var exceptionDb;
-function refoundsingleClick(returnedId) {
+function refoundsingleClick(drawbackId) {
     window.setTimeout(cc, 250)
     function cc() {
-        refoundpostReturnedId(returnedId);
+        refoundpostDrawbackId(drawbackId);
     }
 }
 
-function refounddbClick(returnedId) {
-    window.open("../refoundOrder/details?returnedId="+returnedId);
+function refounddbClick(drawbackId) {
+    window.open("../refoundOrder/details?drawbackId="+drawbackId);
 }
 
 
 //单击跳转子页面
-function  refoundpostReturnedId(returnedId)
+function  refoundpostDrawbackId(drawbackId)
 {
     //RTOOYYYYMMDD12341
-    returnedId=returnedId.substring(2);//12341
-    refoundpageson(returnedId,1);
+    drawbackId=drawbackId.substring(2);//12341
+    refoundpageson(drawbackId,1);
 }
 
-function refoundpageson(returnedId,pagenow){
-    returnedId="RT"+returnedId;
+function refoundpageson(drawbackId,pagenow){
+    drawbackId="RF"+drawbackId;
     $.ajax({
         type : 'get',
         url :'../refoundOrder/listRefoundOrderSon',
         data : {
-            returnedId:returnedId,
+            drawbackId:drawbackId,
         },
         contentType: "application/json; charset=utf-8",
         dataType:"json",
@@ -118,24 +113,27 @@ function refoundpageson(returnedId,pagenow){
                     $("#refoundOrdertable2 tbody  ").append(html);
                 }
             }
-            refoundpagelistson(totalpages, pagenow,returnedId);
-        },
-        error:function(){
-            self.location="../login/login" ;
-            alert("登陆超时，请重新登陆！");
+            refoundpagelistson(totalpages, pagenow,drawbackId);
         }
+
     });
 }
-
 //获得退款单号
-function refoundOrder_getReturnedId() {
+function refoundOrder_getDrawbackid() {
     var a = document.getElementsByName("refoundOrder_ck");
     var info = "";
+    var j=0;
     for(var i=0;i<a.length;i++)
     {
         if(a[i].checked){
+            j++;
             var info = (info + a[i].value) + (((i + 1)== a.length) ? '':',');
             $("#refoundOrder_inbtn").attr("disabled",false);
+            $("#drawback_inbtn").attr("disabled",false);
+        }
+        if(j==0){
+            $("#refoundOrder_inbtn").attr("disabled",true);
+            $("#drawback_inbtn").attr("disabled",true);
         }
     }
     return info;
@@ -143,12 +141,12 @@ function refoundOrder_getReturnedId() {
 
 //点击查看出库订单进入详情页
 function refoundOrder_details(){
-    var returnedId2 = refoundOrder_getReturnedId();
-    var Array = returnedId2.split(",");
+    var drawbackId2 = refoundOrder_getDrawbackid();
+    var Array = drawbackId2.split(",");
     if(Array.length>1){
         if(Array[1]==[]){//选中第一条数据时，其后会有一个逗号，需将其判断出来
-            var returnedId3 = Array[0];
-            window.open("../refoundOrder/details?returnedId="+returnedId3);
+            var drawbackId3 = Array[0];
+            window.open("../refoundOrder/details?drawbackId="+drawbackId3);
         }else{
             alert("一次只能查看一条订单的信息");
             var excheck = document.getElementsByName("refoundOrder_ck");
@@ -156,36 +154,45 @@ function refoundOrder_details(){
             {
                 excheck[i].checked=false;
                 $("#refoundOrder_inbtn").attr("disabled",true);
+                $("#drawback_inbtn").attr("disabled",true);
             }
         }
     }
     else
     {
         for(var i=0;i<Array.length;i++){
-            returnedId2 = Array[i];
-            window.open("../refoundOrder/details?returnedId="+returnedId2);
+            drawbackId2 = Array[i];
+            window.open("../refoundOrder/details?drawbackId="+drawbackId2);
         }
     }
 }
 
 //退款操作
 function drawback(){
-    var returnedId3 = refoundOrder_getReturnedId();
-    var Array = returnedId3.split(",");
+    var drawbackId3 = refoundOrder_getDrawbackid();
+    var Array = drawbackId3.split(",");
     if(Array.length>1){
         if(Array[1]==[]){//选中第一条数据时，其后会有一个逗号，需将其判断出来
-            returnedId3 = Array[0];
-            var parm = {returnedId3: returnedId3};//将参数传到后台
+            drawbackId3 = Array[0];
+            var parm = {drawbackId3: drawbackId3};//将参数传到后台
             $.post("../refoundOrder/drawback", parm, function (data) {
                     var msg=data.msg;
                     if(msg==666){
                         alert("退款成功");
+                        $("#refoundOrder_inbtn").attr("disabled",true);
+                        $("#drawback_inbtn").attr("disabled",true);
                     }else if(msg==777){
-                        alert("随机数退款失败");
-                    }else if(msg==123){
                         alert("退款失败");
+                        $("#refoundOrder_inbtn").attr("disabled",true);
+                        $("#drawback_inbtn").attr("disabled",true);
+                    }else if(msg==123){
+                        alert("信息发送失败，请稍后再试");
+                        $("#refoundOrder_inbtn").attr("disabled",true);
+                        $("#drawback_inbtn").attr("disabled",true);
                     }else {
                         alert("该退款单已退过款了");
+                        $("#refoundOrder_inbtn").attr("disabled",true);
+                        $("#drawback_inbtn").attr("disabled",true);
                     }
                     refoundGetnowPage(1);
                 },"json"
@@ -197,23 +204,30 @@ function drawback(){
             {
                 excheck[i].checked=false;
                 $("#refoundOrder_inbtn").attr("disabled",true);
+                $("#drawback_inbtn").attr("disabled",true);
             }
         }
     }
     else
     {
         for(var i=0;i<Array.length;i++){
-            returnedId3 = Array[i];
-            var parm2 = {returnedId3: returnedId3};//将参数传到后台
+            drawbackId3 = Array[i];
+            var parm2 = {drawbackId3: drawbackId3};//将参数传到后台
             $.post("../refoundOrder/drawback", parm2, function (data) {
                     window.onload= refoundGetnowPage(1);
                     var msg=data.msg;
                     if(msg==666){
                         alert("退款成功");
+                        $("#refoundOrder_inbtn").attr("disabled",true);
+                        $("#drawback_inbtn").attr("disabled",true);
                     }else if(msg==777){
-                        alert("随机数退款失败");
-                    }else if(msg==123){
                         alert("退款失败");
+                        $("#refoundOrder_inbtn").attr("disabled",true);
+                        $("#drawback_inbtn").attr("disabled",true);
+                    }else if(msg==123){
+                        alert("信息发送失败，请稍后再试");
+                        $("#refoundOrder_inbtn").attr("disabled",true);
+                        $("#drawback_inbtn").attr("disabled",true);
                     }
                 },"json"
             );

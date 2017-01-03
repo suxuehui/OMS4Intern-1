@@ -224,8 +224,8 @@ public class GoodsModelServiceImpl implements GoodsModelService
     }
 
     //将商品状态改为"已下架"
-    public void updateGoodsState(String goodsState2,String goodsNo2) {
-        goodsModelMapper.updateGoodsState(goodsState2,goodsNo2);
+    public void updateGoodsState(String goodsState2,String goodsTolnum2,String goodsNo2) {
+        goodsModelMapper.updateGoodsState(goodsState2,goodsTolnum2,goodsNo2);
     }
 
     public boolean goodsNoIsExist(String goodsNo)

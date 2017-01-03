@@ -17,7 +17,7 @@ public interface GoodsModelMapper {
     void addGoods(String goodsNo,String goodsName,String goodsVnum,String goodsPrice,String goodsTolnum,String goodState);
 
     //将商品状态改为"已下架"
-    void updateGoodsState(String goodsState2,String goodsNo2);
+    void updateGoodsState(String goodsState2,String goodsTolnum2,String goodsNo2);
 
     int deleteByPrimaryKey(String goodsno);
 

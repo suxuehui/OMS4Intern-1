@@ -164,4 +164,7 @@ public class ExceptionServiceImpl implements ExceptionService {
         return jsonstr;
     }
 
+    public int insertSelective(ExceptionModel exceptionModel) {
+        return exceptionModelMapper.insertSelective(exceptionModel);
+    }
 }

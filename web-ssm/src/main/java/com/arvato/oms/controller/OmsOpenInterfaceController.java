@@ -1,9 +1,8 @@
 package com.arvato.oms.controller;
 
-import com.arvato.oms.service.GoodsModelService;
-import com.arvato.oms.service.InboundorderService;
-import com.arvato.oms.service.OrderService;
-import com.arvato.oms.service.OutboundorderService;
+import com.arvato.oms.model.ExceptionModel;
+import com.arvato.oms.model.OrderModel;
+import com.arvato.oms.service.*;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Controller;
@@ -13,6 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -32,17 +34,20 @@ public class OmsOpenInterfaceController {
     private GoodsModelService goodsServiceImpl;
     @Resource
     private InboundorderService inboundorderserviceimpl;
+    @Resource
+    private ExceptionService exceptionServiceImpl;
 
     //接受wms传来的数据，更新出库单
     @RequestMapping(value = "updateOutboundOrder")
     @ResponseBody
-    public String updateOutboundOrder(@RequestBody String updateOutboundOrder_message, HttpServletRequest request){
+    public String updateOutboundOrder(@RequestBody String updateOutboundOrder_message, HttpSession session){
+        String userName = (String)session.getAttribute("uname");
         //获得从client传来的json对象
         JSONObject object = JSONObject.fromObject(updateOutboundOrder_message);
         if(object==null){//未获得从client传来的json对象
             return "{\"msg\":\"200\"}";
         }
-        JSONObject outbound_message = object.getJSONObject("outbound_message");
+        JSONObject  outbound_message= object.getJSONObject("outbound_message");
         if(outbound_message==null){//未获得outbound_message对象
             return "{\"msg\":\"201\"}";
         }
@@ -90,16 +95,31 @@ public class OmsOpenInterfaceController {
             outboundServiceImpl.updateOutboundorder(orderStatus,outboundState,warehouseObid,expressCompany,expressId,outboundId);
             //先从出库表获取订单号，然后更新订单列表的订单状态
             String oid = outboundServiceImpl.selectOidByOutboundId(outboundId);
-            orderServiceImpl.updateOrder(orderStatus,oid);
+            orderServiceImpl.updateOrder(orderStatus,new Date(),userName,oid);
         }else if("缺货".equals(outboundState)){
-            String orderStatus="缺货";
+            String orderStatus="缺货异常";
+            String outboundState2="仓库库存异常";
             String expressCompany2="";
             String expressId2="";
             //向出库表中添加快递公司，快递单号,仓库出库单号的信息,以及修改出库单状态，订单状态
-            outboundServiceImpl.updateOutboundorder(orderStatus,outboundState,warehouseObid,expressCompany2,expressId2,outboundId);
+            outboundServiceImpl.updateOutboundorder(orderStatus,outboundState2,warehouseObid,expressCompany2,expressId2,outboundId);
             //先从出库表获取订单号，然后更新订单列表的订单状态
             String oid = outboundServiceImpl.selectOidByOutboundId(outboundId);
-            orderServiceImpl.updateOrder(orderStatus,oid);
+            orderServiceImpl.updateOrder(orderStatus,new Date(),userName,oid);
+            //获取该条订单
+            OrderModel orderModel = orderServiceImpl.selectByOid(oid);
+            //将该异常订单推到异常订单列表
+            ExceptionModel exceptionModel = new ExceptionModel();
+            exceptionModel.setOid(orderModel.getOid());
+            exceptionModel.setChanneloid(orderModel.getChanneloid());
+            exceptionModel.setOrderstatus(orderModel.getOrderstatus());
+            exceptionModel.setOrderfrom(orderModel.getOrderform());
+            exceptionModel.setExceptiontype("仓库库存异常");
+            exceptionModel.setExpceptioncause("库存不足");
+            exceptionModel.setExceptionstatus("待处理");
+            exceptionModel.setCreatetime(new Date());
+            exceptionServiceImpl.insertSelective(exceptionModel);
+
         }else if("已取消".equals(outboundState)){
             String orderStatus="已取消";
             String expressCompany3="";
@@ -108,7 +128,28 @@ public class OmsOpenInterfaceController {
             outboundServiceImpl.updateOutboundorder(orderStatus,outboundState,warehouseObid,expressCompany3,expressId3,outboundId);
             //先从出库表获取订单号，然后更新订单列表的订单状态
             String oid = outboundServiceImpl.selectOidByOutboundId(outboundId);
-            orderServiceImpl.updateOrder(orderStatus,oid);
+            orderServiceImpl.updateOrder(orderStatus,new Date(),userName,oid);
+        }else if ("补货成功".equals(outboundState)){
+            String orderStatus="补货成功";
+            //快递公司
+            String expressCompany4 =outbound_message.getString("expressCompany");
+            if(expressCompany4==null){
+                return "{\"msg\":\"306\"}";//快递公司不能为空
+            }
+            //快递单号
+            String expressId4 = outbound_message.getString("expressId");
+            if(expressId4==null){
+                return "{\"msg\":\"307\"}";//快递单号不能为空
+            }
+            //向出库表中添加快递公司，快递单号,仓库出库单号的信息,以及修改出库单状态，订单状态
+            outboundServiceImpl.updateOutboundorder(orderStatus,outboundState,warehouseObid,expressCompany4,expressId4,outboundId);
+            //先从出库表获取订单号，然后更新订单列表的订单状态
+            String oid2 = outboundServiceImpl.selectOidByOutboundId(outboundId);
+            //更新订单列表订单状态
+            orderServiceImpl.updateOrder(orderStatus,new Date(),userName,oid2);
+            //在异常列表中删除改异常订单
+            exceptionServiceImpl.deleteByOid(oid2);
+
         }else{
             return "{\"msg\":\"308\"}";//出库单状态错误
         }
@@ -162,7 +203,7 @@ public class OmsOpenInterfaceController {
                 //添加一条商品信息
                 goodsServiceImpl.addGoods(goodsNo,goodsName,goodsVnum,goodsPrice,goodsTolnum,goodsState);
 
-            }else{
+            }else if(operation.equals("edit")){
                 JSONObject goods = object.getJSONObject("goods");
                 //商品编号
                 String goodsNo2 = goods.getString("goodsNo");
@@ -174,8 +215,13 @@ public class OmsOpenInterfaceController {
                 if(goodsState2==null){
                     return "{\"msg\":\"106\"}";//未获得商品状态
                 }
-                //已下架直接将其商品状态改为"已下架"
-                goodsServiceImpl.updateGoodsState(goodsState2,goodsNo2);
+                //商品总库存
+                String goodsTolnum2 = goods.getString("goodsTolnum");
+                if(goodsTolnum2==null){
+                    return "{\"msg\":\"105\"}";//未获得商品总库存
+                }
+                //修改其商品状态,库存
+                goodsServiceImpl.updateGoodsState(goodsState2,goodsTolnum2,goodsNo2);
             }
 
         }
@@ -212,6 +258,5 @@ public class OmsOpenInterfaceController {
         }
         return "{\"status_codes\":222,\"msg\":\"入库单状态更新成功\",\"body\":\"入库单状态更新成功\"}";
     }
-
 
 }

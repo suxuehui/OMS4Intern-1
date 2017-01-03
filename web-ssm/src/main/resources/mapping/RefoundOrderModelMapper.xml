@@ -75,6 +75,14 @@
     limit #{startPos},#{pageSize}
   </select>
 
+  <!--通过drawbackId选出所有信息-->
+  <select id="selectByDrawbackId" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from refoundorder
+    where drawbackId = #{drawbackid,jdbcType=VARCHAR}
+  </select>
+
   <!--通过returned选出所有信息-->
   <select id="selectByReturnedId" resultMap="BaseResultMap" parameterType="java.lang.String">
     select

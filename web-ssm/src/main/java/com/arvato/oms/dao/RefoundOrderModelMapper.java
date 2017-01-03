@@ -22,8 +22,8 @@ public interface RefoundOrderModelMapper {
     List<RefoundOrderModel> selectAllByDrawbackStatus(@Param(value = "drawbackStatus") String channeloid, @Param(value = "startPos") Integer startPos, @Param(value = "pageSize") Integer pageSize);
     List<RefoundOrderModel> selectAllByReturnedId(@Param(value = "returnedId") String exceptionType, @Param(value = "startPos") Integer startPos, @Param(value = "pageSize") Integer pageSize);
 
-    //精确匹配 通过returnedId选出所有信息
-    RefoundOrderModel  selectByReturnedId(String returnedId);
+    //精确匹配 通过drawbackId选出所有信息
+    RefoundOrderModel  selectByDrawbackId(String drawbackId);
 
     //精确匹配 通过退款单号选出所有信息
     RefoundOrderModel  selectByRefoundId(String refoundId);
