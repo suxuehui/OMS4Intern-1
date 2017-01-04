@@ -237,7 +237,8 @@ function getreturnedOrChange(returnIdArray) {
 
 
 }
-
+var userselectValue = "";
+var userselectValuetemp = "";
 $(
     function () {
 
@@ -286,8 +287,8 @@ $(
         var urole = getUserRole();
 
         if (parseInt(urole) == 1) {
-            window.onload = inGetUserNowPage($('#userPageNow').html());
-
+            //window.onload = inGetUserNowPage($('#userPageNow').html());
+            window.onload = selectByUserName(1);
             $('#nextUserPage').click(
                 function () {
 
@@ -302,7 +303,9 @@ $(
                         $('#preUserPage').show();
                         $('#firstUserPage').show();
                         $('#userPageNow').html(userpage * 1 + 1 * 1);
-                        inGetUserNowPage(userpage * 1 + 1 * 1);
+                        //inGetUserNowPage();
+                        selectByUserName(userpage * 1 + 1 * 1);
+
                     } else {
 
                         alert("已到最后一页");
@@ -320,7 +323,8 @@ $(
                             $('#firstUserPage').hide();
                         }
                         $('#userPageNow').html(userpage * 1 - 1 * 1);
-                        inGetUserNowPage(userpage * 1 - 1 * 1);
+                        //inGetUserNowPage(userpage * 1 - 1 * 1);
+                        selectByUserName(userpage * 1 - 1 * 1);
                     } else {
 
                         alert("已到第一页");
@@ -331,7 +335,8 @@ $(
 
             $('#firstUserPage').click(
                 function () {
-                    inGetUserNowPage(1);
+                    //inGetUserNowPage(1);
+                    selectByUserName(1);
                     $('#userPageNow').html(1);
                     $('#preUserPage').hide();
                     $('#firstUserPage').hide();
@@ -347,7 +352,8 @@ $(
                     $('#firstUserPage').show();
                     $('#endUserPage').hide();
                     $('#nextUserPage').hide();
-                    inGetUserNowPage($('#totalUserPage').html());
+                    //inGetUserNowPage($('#totalUserPage').html());
+                    selectByUserName($('#totalUserPage').html());
                     $('#userPageNow').html($('#totalUserPage').html());
                 }
             );
@@ -375,7 +381,8 @@ $(
                             dataType: "json",
                             success: function (data) {
                                 if (data > 0) {
-                                    inGetUserNowPage(1);
+                                    //inGetUserNowPage(1);
+                                    selectByUserName(1);
                                     alert("删除成功");
                                 } else if (data = 0) {
                                     alert("删除失败");
@@ -385,7 +392,8 @@ $(
                             },
                             error: function (data) {
                                 alert("删除失败");
-                                inGetUserNowPage(1);
+                                //inGetUserNowPage(1);
+                                selectByUserName(1);
                             }
 
                         });
@@ -436,7 +444,8 @@ $(
 
                                                 $('#addUserName').val("");
                                                 $('#addUserPassword').val("");
-                                                inGetUserNowPage(1);
+                                                //inGetUserNowPage(1);
+                                                selectByUserName(1);
 
                                             } else {
 
@@ -526,13 +535,15 @@ $(
                                                     $('#updateUserName').val("");
                                                     $('#updateUserPassword').val("");
                                                     document.getElementById("updateUserBut").disabled = true;
-                                                    inGetUserNowPage(1);
+                                                    //inGetUserNowPage(1);
+                                                    selectByUserName(1);
 
                                                 } else if (data == -1) {
                                                     alert("修改成功请重新登陆");
                                                     $('#updateUserName').val("");
                                                     $('#updateUserPassword').val("");
-                                                    inGetUserNowPage(1);
+                                                    //inGetUserNowPage(1);
+                                                    selectByUserName(1);
                                                     $(".loading").hide();
                                                     window.location.href = "../login/login";
                                                 } else {
@@ -567,93 +578,85 @@ $(
             });
 
             $('#userselectbutton').click(function () {
-
-                var select = $('#userselectvalue').val().trim();
-                if (select.length == 0) {
-
-                    inGetUserNowPage(1);
+                userselectValue = $("#userselectvalue").val();
+                var zzbds = /^([\u4E00-\u9FA5]|\w)*$/;
+                if (!zzbds.test(userselectValue)) {
+                    alert("请不要输入特殊符号");
                 } else {
-                    var zzbds = /^([\u4E00-\u9FA5]|\w)*$/;
-                    if (!zzbds.test(select)) {
-                        alert("请不要输入特殊符号");
-                    } else {
-                        selectByUserName(1, select);
+                    selectByUserName(1);
 
-                    }
                 }
-
             });
 
-            function inGetUserNowPage(pageNow) {
+            // function inGetUserNowPage(pageNow) {
+            //     var page = pageNow;
+            //     var pageSize = 15;
+            //     $.ajax({
+            //         type: 'get',
+            //         url: '/oms/user/getAllUsers',
+            //         data: {
+            //             nowPage: page,
+            //             pageSize: pageSize
+            //         },
+            //         contentType: "application/json; charset=utf-8",
+            //         dataType: "json",
+            //         success: function (data) {
+            //             //alert(data.userList[0].uid);
+            //
+            //             var userList = data.userList;
+            //             var totalPage = data.totalPage;
+            //             if (pageNow == 1) {
+            //                 if (totalPage == 0 || totalPage == 1) {
+            //                     $('#preUserPage').hide();
+            //                     $('#firstUserPage').hide();
+            //                     $('#endUserPage').hide();
+            //                     $('#nextUserPage').hide();
+            //                 } else {
+            //                     $('#nextUserPage').show();
+            //                     $('#endUserPage').show();
+            //                 }
+            //             } else if (pageNow < totalPage) {
+            //                 if (totalPage == 0 || totalPage == 1) {
+            //                     $('#preUserPage').hide();
+            //                     $('#firstUserPage').hide();
+            //                     $('#endUserPage').hide();
+            //                     $('#nextUserPage').hide();
+            //                 } else {
+            //                     $('#nextUserPage').show();
+            //                     $('#endUserPage').show();
+            //                     $('#preUserPage').show();
+            //                     $('#firstUserPage').show();
+            //
+            //                 }
+            //             } else if (pageNow = totalPage) {
+            //                 $('#endUserPage').hide();
+            //                 $('#nextUserPage').hide();
+            //             }
+            //
+            //             $('#usertbody').html("");
+            //             for (var i in userList) {
+            //                 var id = i * 1 + 1 * 1;
+            //                 $('#usertbody').append("<tr><td>" + id + "</td><td><input type='checkbox' id='" + userList[i].uid + "user" + "' name='usercheck' onclick='usercheckclick(this.id)'></td><td id='" + userList[i].uid + "uname" + "'>" + userList[i].uname + "</td> <td id='" + userList[i].uid + "upass" + "'>&nbsp;" + userList[i].upassword + "</td> <td>&nbsp;" + userList[i].urole + "</td> </tr>");
+            //                 $('#totalUserPage').html(totalPage);
+            //             }
+            //
+            //
+            //         },
+            //         error: function (data) {
+            //             alert("获取用户列表失败");
+            //         }
+            //
+            //     });
+            // }
+
+            function selectByUserName(pageNow) {
                 var page = pageNow;
-                var pageSize = 15;
-                $.ajax({
-                    type: 'get',
-                    url: '/oms/user/getAllUsers',
-                    data: {
-                        nowPage: page,
-                        pageSize: pageSize
-                    },
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (data) {
-                        //alert(data.userList[0].uid);
-
-                        var userList = data.userList;
-                        var totalPage = data.totalPage;
-                        if (pageNow == 1) {
-                            if (totalPage == 0 || totalPage == 1) {
-                                $('#preUserPage').hide();
-                                $('#firstUserPage').hide();
-                                $('#endUserPage').hide();
-                                $('#nextUserPage').hide();
-                            } else {
-                                $('#nextUserPage').show();
-                                $('#endUserPage').show();
-                            }
-                        } else if (pageNow < totalPage) {
-                            if (totalPage == 0 || totalPage == 1) {
-                                $('#preUserPage').hide();
-                                $('#firstUserPage').hide();
-                                $('#endUserPage').hide();
-                                $('#nextUserPage').hide();
-                            } else {
-                                $('#nextUserPage').show();
-                                $('#endUserPage').show();
-                                $('#preUserPage').show();
-                                $('#firstUserPage').show();
-
-                            }
-                        } else if (pageNow = totalPage) {
-                            $('#endUserPage').hide();
-                            $('#nextUserPage').hide();
-                        }
-
-                        $('#usertbody').html("");
-                        for (var i in userList) {
-                            var id = i * 1 + 1 * 1;
-                            $('#usertbody').append("<tr><td>" + id + "</td><td><input type='checkbox' id='" + userList[i].uid + "user" + "' name='usercheck' onclick='usercheckclick(this.id)'></td><td id='" + userList[i].uid + "uname" + "'>" + userList[i].uname + "</td> <td id='" + userList[i].uid + "upass" + "'>&nbsp;" + userList[i].upassword + "</td> <td>&nbsp;" + userList[i].urole + "</td> </tr>");
-                            $('#totalUserPage').html(totalPage);
-                        }
-
-
-                    },
-                    error: function (data) {
-                        alert("获取用户列表失败");
-                    }
-
-                });
-            }
-
-            function selectByUserName(pageNow, userName) {
-                var page = pageNow;
-                var username = userName;
-                var pageSize = 20;
+                var pageSize = 3;
                 $.ajax({
                     type: 'get',
                     url: '/oms/user/selectUserByName',
                     data: {
-                        username: username,
+                        username: userselectValue,
                         nowPage: page,
                         pageSize: pageSize
                     },
@@ -662,17 +665,50 @@ $(
                     success: function (data) {
                         var userList = data.userList;
                         var totalPage = data.totalPage;
+
                         if (userList.length == 0) {
                             alert("该用户不存在");
-                            $('#userselectvalue').val("")
+                            $('#userselectvalue').val("");
+                            userselectValue = userselectValuetemp;
+
                             return false;
+                        } else {
+                            if (pageNow == 1) {
+                                if (totalPage == 0 || totalPage == 1) {
+                                    $('#preUserPage').hide();
+                                    $('#firstUserPage').hide();
+                                    $('#endUserPage').hide();
+                                    $('#nextUserPage').hide();
+                                } else {
+                                    $('#nextUserPage').show();
+                                    $('#endUserPage').show();
+                                }
+                            } else if (pageNow < totalPage) {
+                                if (totalPage == 0 || totalPage == 1) {
+                                    $('#preUserPage').hide();
+                                    $('#firstUserPage').hide();
+                                    $('#endUserPage').hide();
+                                    $('#nextUserPage').hide();
+                                } else {
+                                    $('#nextUserPage').show();
+                                    $('#endUserPage').show();
+                                    $('#preUserPage').show();
+                                    $('#firstUserPage').show();
+
+                                }
+                            } else if (pageNow = totalPage) {
+                                $('#endUserPage').hide();
+                                $('#nextUserPage').hide();
+                            }
+                            userselectValuetemp = userselectValue;
+                            $('#usertbody').html("");
+                            for (var i in userList) {
+                                var id = i * 1 + 1 * 1;
+                                $('#usertbody').append("<tr><td>" + id + "</td><td><input type='checkbox' id='" + userList[i].uid + "user" + "' name='usercheck' onclick='usercheckclick(this.id)'></td><td id='" + userList[i].uid + "uname" + "'>" + userList[i].uname + "</td> <td id='" + userList[i].uid + "upass" + "'>&nbsp;" + userList[i].upassword + "</td> <td>&nbsp;" + userList[i].urole + "</td> </tr>");
+                                $('#totalUserPage').html(totalPage);
+                            }
                         }
-                        $('#usertbody').html("");
-                        for (var i in userList) {
-                            var id = i * 1 + 1 * 1;
-                            $('#usertbody').append("<tr><td>" + id + "</td><td><input type='checkbox' id='" + userList[i].uid + "user" + "' name='usercheck' onclick='usercheckclick(this.id)'></td><td id='" + userList[i].uid + "uname" + "'>" + userList[i].uname + "</td> <td id='" + userList[i].uid + "upass" + "'>&nbsp;" + userList[i].upassword + "</td> <td>&nbsp;" + userList[i].urole + "</td> </tr>");
-                            $('#totalUserPage').html(totalPage);
-                        }
+
                     },
                     error: function (data) {
                         alert("查询失败");
@@ -699,7 +735,7 @@ $(
                     success: function (data) {
                         var returnedList = data.returnedModels;
                         var totalPage = data.totalPage;
-                        if (totalPage==0){
+                        if (totalPage == 0) {
                             alert("查询无结果");
                         }
                         $('#returnedBody').html("");
@@ -929,9 +965,9 @@ $(
             function () {
                 var select = $('#selectGoodssle').val();
                 var value = $('#goodsvaluetxt').val();
-                if(select=="请选择查询条件"){
+                if (select == "请选择查询条件") {
                     alert("请选择查询条件");
-                }else {
+                } else {
                     if (value.length == 0) {
                         inGetGoodsNowPage(1);
                     } else {
@@ -1037,7 +1073,7 @@ $(
                 var returnedpage = $('#returnedPageNow').html();
                 var totalPage = $('#totalReturnedPage').html();
                 if (returnedpage < totalPage) {
-                    if (returnedpage * 1 + 1 * 1 == totalPage){
+                    if (returnedpage * 1 + 1 * 1 == totalPage) {
                         $("#endReturnedPage").hide();
                         $("#nextReturnedPage").hide();
                     }
@@ -1059,7 +1095,7 @@ $(
                 var returnedpage = $('#returnedPageNow').html();
                 if (returnedpage > 1) {
 
-                    if (returnedpage ==2){
+                    if (returnedpage == 2) {
                         $("#preReturnedPage").hide();
                         $("#firstReturnedPage").hide();
                     }
@@ -1085,7 +1121,6 @@ $(
                 $("#nextReturnedPage").show();
 
 
-
             }
         );
 
@@ -1102,7 +1137,6 @@ $(
         );
 
 
-
         $('#nextreturnedGoodsPage').click(
             function () {
 
@@ -1110,7 +1144,7 @@ $(
                 var totalPage = $('#totalreturnedGoodsPage').html();
                 var returnedid = $('#returnedidongoods').html();
                 if (returnedGoodspage < totalPage) {
-                    if (returnedGoodspage * 1 + 1 * 1 == totalPage){
+                    if (returnedGoodspage * 1 + 1 * 1 == totalPage) {
                         $('#endreturnedGoodsPage').hide();
                         $('#nextreturnedGoodsPage').hide();
                     }
@@ -1129,7 +1163,7 @@ $(
                 var returnedid = $('#returnedidongoods').html();
                 var returnedGoodsPageNow = $('#returnedGoodsPageNow').html();
                 if (returnedGoodsPageNow > 1) {
-                    if (returnedGoodsPageNow ==2){
+                    if (returnedGoodsPageNow == 2) {
                         $('#prereturnedGoodsPage').hide();
                         $('#firstreturnedGoodsPage').hide();
                     }
@@ -1300,7 +1334,7 @@ $(
                                 },
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
-                                async :false,
+                                async: false,
                                 success: function (data) {
                                     if (data.isSuccess > 0) {
                                         successCount++;
@@ -1317,9 +1351,9 @@ $(
                             });
                             inGetReturnedNowPage(1);
                         }
-                        if (errorcount>0){
+                        if (errorcount > 0) {
                             alert("退款单已创建，请不要重复提交，共" + returnIdArray.length + "条,成功" + successCount + "条");
-                        }else if (successCount > 0) {
+                        } else if (successCount > 0) {
                             alert("创建完成,共" + returnIdArray.length + "条,成功" + successCount + "条");
                         }
 
@@ -1373,11 +1407,11 @@ $(
                                 },
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
-                                async :false,
+                                async: false,
                                 success: function (data) {
                                     if (data.data == "换货成功") {
-                                        changesuccessCount =parseInt(changesuccessCount)+1;
-                                    }else if (data.data == "-1"){
+                                        changesuccessCount = parseInt(changesuccessCount) + 1;
+                                    } else if (data.data == "-1") {
                                         changeErrorCount++;
                                     }
                                 },
@@ -1389,9 +1423,9 @@ $(
 
                             inGetReturnedNowPage(1);
                         }
-                        if (changeErrorCount>0){
+                        if (changeErrorCount > 0) {
                             alert("订单已换货，请不要重复提交，共" + returnIdArray.length + "条,成功" + changesuccessCount + "条");
-                        }else if(changesuccessCount>0){
+                        } else if (changesuccessCount > 0) {
                             //if
                             alert("发货完成,共" + returnIdArray.length + "条,成功" + changesuccessCount + "条");
                         }
@@ -1417,9 +1451,9 @@ $(
             function () {
                 var select = $('#returnedselect').val().trim();
                 var value = $('#returnValue').val().trim();
-                if(select=="请选择查询条件"){
+                if (select == "请选择查询条件") {
                     alert("请选择查询条件");
-                }else{
+                } else {
                     if (value.length == 0) {
 
                         inGetReturnedNowPage(1);
@@ -1445,7 +1479,7 @@ $(
         });
 
 
-        $("tbody").on("click", "input[name='returnedcheck']",function () {
+        $("tbody").on("click", "input[name='returnedcheck']", function () {
             var returnIdArray = new Array();
             var i = 0;
 
@@ -1453,16 +1487,16 @@ $(
                 returnIdArray[i++] = parseInt($(this).attr("id"));
             });
 
-            if (returnIdArray.length == 0){
+            if (returnIdArray.length == 0) {
                 $('#checkreturnedorder').attr('disabled', "true");
                 $('#cancelReturnedOrder').attr('disabled', "true");
                 $('#returnedCreaterefoundOder').attr('disabled', "true");
                 $('#changeOutBound').attr('disabled', "true");
-            }else {
-                var daishenghe = getreturnedStatus(returnIdArray,"待审核");
-                var shouhuowancheng = getreturnedStatus(returnIdArray,"收货成功");
+            } else {
+                var daishenghe = getreturnedStatus(returnIdArray, "待审核");
+                var shouhuowancheng = getreturnedStatus(returnIdArray, "收货成功");
                 var returnOrChange = getreturnedOrChange(returnIdArray);
-                if (daishenghe == "yes"){
+                if (daishenghe == "yes") {
 
                     $('#checkreturnedorder').removeAttr("disabled");
                     $('#cancelReturnedOrder').removeAttr("disabled");
@@ -1470,13 +1504,13 @@ $(
                     $('#checkreturnedorder').attr('disabled', "true");
                     $('#cancelReturnedOrder').attr('disabled', "true");
                 }
-                if (shouhuowancheng == "yes"){
-                    if (returnOrChange == "return"){
+                if (shouhuowancheng == "yes") {
+                    if (returnOrChange == "return") {
                         $('#returnedCreaterefoundOder').removeAttr("disabled");
-                    }else if(returnOrChange =="change"){
+                    } else if (returnOrChange == "change") {
                         $('#changeOutBound').removeAttr("disabled");
                     }
-                }else {
+                } else {
                     $('#returnedCreaterefoundOder').attr('disabled', "true");
                     $('#changeOutBound').attr('disabled', "true");
                 }
