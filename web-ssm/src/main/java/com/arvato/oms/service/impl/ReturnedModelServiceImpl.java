@@ -257,107 +257,113 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
          * @Return:
          *
          */
+
         JSONObject json = new JSONObject();
         ReturnedModel returnedModel = returnedModelMapper.selectByPrimaryKey(id);
-
-        String returnedstatus = returnedModel.getReturnedstatus();
-        if (returnedstatus.equals("收货成功"))
-        {
-            OutboundorderModel outboundorderModel = new OutboundorderModel();
-            log.info(returnedModel.toString());
-            OrderModel orderModel = orderModelMapper.selectOrderByOidM(returnedModel.getOid());
-            outboundorderModel.setChanneloid(returnedModel.getChanneloid());//渠道单号
-            Date date = new Date();
-            DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            outboundorderModel.setCreatedtime(date);//创建时间
-            outboundorderModel.setModifytime(date);//修改时间
-            outboundorderModel.setOid(returnedModel.getOid());
-            outboundorderModel.setOrderstatus(orderModel.getOrderstatus());//订单状态
-            //List<OutboundorderModel> outboundorderModels = outboundorderModelMapper.selectOutboundorders(returnedModel.getOid());
-            outboundorderModel.setOutboundid("SO" + returnedModel.getOid() + generateRandomNumber(5));//出库单号
-            outboundorderModel.setOutboundstate("待出库");
-
-            outboundorderModel.setSynchrostate(true);//未同步
-            outboundorderModel.setReceivername(orderModel.getReceivername());
-            outboundorderModel.setReceiveraddress(orderModel.getReceiverprovince() + orderModel.getReceivercity() + orderModel.getReceiverarea() + orderModel.getDetailaddress());
-            int i = outboundorderModelMapper.insertSelective(outboundorderModel);
-            //将出库单插入数据库
-
-            if (i > 0)
+        long countoid = outboundorderModelMapper.Countoid(returnedModel.getOid());
+        if (countoid>0){
+            json.put("data", "-1");
+        }else {
+            String returnedstatus = returnedModel.getReturnedstatus();
+            if (returnedstatus.equals("收货成功"))
             {
-                //拼接传入WMS信息
-                DeliveryOrder deliveryOrder = new DeliveryOrder();
-                deliveryOrder.setReceiveraddress(outboundorderModel.getReceiveraddress());
-                deliveryOrder.setReceiver(outboundorderModel.getReceivername());
-                deliveryOrder.setReceivertel(orderModel.getReceivermobel());
+                OutboundorderModel outboundorderModel = new OutboundorderModel();
+                log.info(returnedModel.toString());
+                OrderModel orderModel = orderModelMapper.selectOrderByOidM(returnedModel.getOid());
+                outboundorderModel.setChanneloid(returnedModel.getChanneloid());//渠道单号
+                Date date = new Date();
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                outboundorderModel.setCreatedtime(date);//创建时间
+                //outboundorderModel.setModifytime(date);//修改时间
+                outboundorderModel.setOid(returnedModel.getOid());
+                outboundorderModel.setOrderstatus(orderModel.getOrderstatus());//订单状态
+                //List<OutboundorderModel> outboundorderModels = outboundorderModelMapper.selectOutboundorders(returnedModel.getOid());
+                outboundorderModel.setOutboundid("SO" + returnedModel.getOid() + generateRandomNumber(5));//出库单号
+                outboundorderModel.setOutboundstate("待出库");
 
+                outboundorderModel.setSynchrostate(true);//未同步
+                outboundorderModel.setReceivername(orderModel.getReceivername());
+                outboundorderModel.setReceiveraddress(orderModel.getReceiverprovince() + orderModel.getReceivercity() + orderModel.getReceiverarea() + orderModel.getDetailaddress());
+                int i = outboundorderModelMapper.insertSelective(outboundorderModel);
+                //将出库单插入数据库
 
-                List<RelationrgModel> relationrgModels = relationrgModelMapper.selectAllGoodsByRid(returnedModel.getReturnedid());
-                List<Outboundordergoods> outboundordergoodss = new ArrayList<Outboundordergoods>();
-                for (int j = 0; j < relationrgModels.size(); j++)
+                if (i > 0)
                 {
-                    RelationrgModel relationrgModel = relationrgModels.get(j);
-                    GoodsModel goodsModel = goodsModelMapper.selectOneGoodsByNo(relationrgModel.getGoodsno());
-                    Outboundordergoods outboundordergoods = new Outboundordergoods();
-                    outboundordergoods.setName(goodsModel.getGoodsname());
-                    outboundordergoods.setNum(relationrgModel.getGoodnum());
-                    outboundordergoods.setOutboundnum(relationrgModel.getGoodnum());
-                    outboundordergoods.setPrice(goodsModel.getGoodsprice());
-                    outboundordergoods.setSku(relationrgModel.getGoodsno());
-                    outboundordergoods.setTotalprice(goodsModel.getGoodsprice().multiply(new BigDecimal(relationrgModel.getGoodnum())));//商品总价
-                    outboundordergoodss.add(outboundordergoods);
-                }
-                OutBoundRoot outBoundRoot = new OutBoundRoot();
-                outBoundRoot.setChannelorderid(returnedModel.getChanneloid());
-                outBoundRoot.setDeliveryOrder(deliveryOrder);
-                outBoundRoot.setMessage("");
-                outBoundRoot.setOrderid(returnedModel.getOid());
-                outBoundRoot.setOutboundordergoods(outboundordergoodss);
-                outBoundRoot.setOutboundorderid(outboundorderModel.getOutboundid());
+                    //拼接传入WMS信息
+                    DeliveryOrder deliveryOrder = new DeliveryOrder();
+                    deliveryOrder.setReceiveraddress(outboundorderModel.getReceiveraddress());
+                    deliveryOrder.setReceiver(outboundorderModel.getReceivername());
+                    deliveryOrder.setReceivertel(orderModel.getReceivermobel());
 
-                Boolean synchrostate1 = outboundorderModel.getSynchrostate();
-                if (synchrostate1)
-                {
-                    String s = sendOutBoundToWMS(outBoundRoot);
-                    if (s.equals("100"))
-                    {//推送成功
 
-                        log.info("推送出库单" + outboundorderModel.getOutboundid() + "成功");
-                       // outboundorderModelMapper.updateOutboundSynchrostate(outboundorderModel.getOutboundid());
+                    List<RelationrgModel> relationrgModels = relationrgModelMapper.selectAllGoodsByRid(returnedModel.getReturnedid());
+                    List<Outboundordergoods> outboundordergoodss = new ArrayList<Outboundordergoods>();
+                    for (int j = 0; j < relationrgModels.size(); j++)
+                    {
+                        RelationrgModel relationrgModel = relationrgModels.get(j);
+                        GoodsModel goodsModel = goodsModelMapper.selectOneGoodsByNo(relationrgModel.getGoodsno());
+                        Outboundordergoods outboundordergoods = new Outboundordergoods();
+                        outboundordergoods.setName(goodsModel.getGoodsname());
+                        outboundordergoods.setNum(relationrgModel.getGoodnum());
+                        outboundordergoods.setOutboundnum(relationrgModel.getGoodnum());
+                        outboundordergoods.setPrice(goodsModel.getGoodsprice());
+                        outboundordergoods.setSku(relationrgModel.getGoodsno());
+                        outboundordergoods.setTotalprice(goodsModel.getGoodsprice().multiply(new BigDecimal(relationrgModel.getGoodnum())));//商品总价
+                        outboundordergoodss.add(outboundordergoods);
+                    }
+                    OutBoundRoot outBoundRoot = new OutBoundRoot();
+                    outBoundRoot.setChannelorderid(returnedModel.getChanneloid());
+                    outBoundRoot.setDeliveryOrder(deliveryOrder);
+                    outBoundRoot.setMessage("");
+                    outBoundRoot.setOrderid(returnedModel.getOid());
+                    outBoundRoot.setOutboundordergoods(outboundordergoodss);
+                    outBoundRoot.setOutboundorderid(outboundorderModel.getOutboundid());
 
-                        json.put("data", "换货成功");
-                    } else if (s.equals("0"))
-                    {//链接接口异常
-                        log.info("推送出库单" + outboundorderModel.getOutboundid() + "链接接口异常");
-                        json.put("data", "链接接口异常");
-                    } else if (s.equals("101"))
-                    {//数据格式错误
-                        log.info("推送出库单" + outboundorderModel.getOutboundid() + "数据格式错误");
-                        json.put("data", "数据格式错误");
-                    } else if (s.equals("102"))
-                    {//重复的入库单
-                        log.info("推送出库单" + outboundorderModel.getOutboundid() + "重复的出库单");
-                        json.put("data", "重复的出库单");
+                    Boolean synchrostate1 = outboundorderModel.getSynchrostate();
+                    if (synchrostate1)
+                    {
+                        String s = sendOutBoundToWMS(outBoundRoot);
+                        if (s.equals("100"))
+                        {//推送成功
+
+                            log.info("推送出库单" + outboundorderModel.getOutboundid() + "成功");
+                            // outboundorderModelMapper.updateOutboundSynchrostate(outboundorderModel.getOutboundid());
+
+                            json.put("data", "换货成功");
+                        } else if (s.equals("0"))
+                        {//链接接口异常
+                            log.info("推送出库单" + outboundorderModel.getOutboundid() + "链接接口异常");
+                            json.put("data", "链接接口异常");
+                        } else if (s.equals("101"))
+                        {//数据格式错误
+                            log.info("推送出库单" + outboundorderModel.getOutboundid() + "数据格式错误");
+                            json.put("data", "数据格式错误");
+                        } else if (s.equals("102"))
+                        {//重复的入库单
+                            log.info("推送出库单" + outboundorderModel.getOutboundid() + "重复的出库单");
+                            json.put("data", "重复的出库单");
+
+                        } else
+                        {//链接失败
+                            json.put("data", "链接失败");
+                        }
 
                     } else
-                    {//链接失败
-                        json.put("data", "链接失败");
+                    {
+                        json.put("data", "创建出库单失败");
                     }
-
                 } else
                 {
-                    json.put("data", "创建出库单失败");
+                    json.put("data", "此订单已同步");
+
                 }
             } else
             {
-                json.put("data", "此订单已同步");
+                json.put("data", "退货单不是收货成功状态");
 
             }
-        } else
-        {
-            json.put("data", "退货单不是收货成功状态");
-
         }
+
         return json;
     }
 
