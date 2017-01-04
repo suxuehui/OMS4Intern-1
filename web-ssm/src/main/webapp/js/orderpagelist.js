@@ -118,23 +118,27 @@ $(function () {
         queryOrder(1,orderPageSize);
     })
 })
+//首页
 $(function () {
     $("#firstorder").click(function () {
         queryOrder(1,orderPageSize);
     });
 })
+//上一页
 $(function () {
     $("#preorder").click(function () {
         var pageNo=$("#orderPageNo").text()-1;
         queryOrder(pageNo,orderPageSize);
     })
 })
+//下一页
 $(function () {
     $("#nextorder").click(function () {
         var pageNo=$("#orderPageNo").text();
         queryOrder(++pageNo,orderPageSize);
     })
 })
+//尾页
 $(function () {
     $("#lastorder").click(function () {
         var pageNo=$("#orderPageTotal").text();

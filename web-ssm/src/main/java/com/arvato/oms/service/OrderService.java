@@ -26,6 +26,8 @@ public interface OrderService {
     public int previewOrder(String oId,String exceptionType,String name);
     //取消订单
     public int cancleOrder(String oId,String uname);
+    //根据订单号生成退款单
+    public int createReturned(String oId);
     //路由
     public int routeOrder(String oId,String uname);
     //生成出库单

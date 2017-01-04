@@ -662,10 +662,10 @@ public class OrderServiceImpl implements OrderService
         orderModel.setDetailaddress(tradeJson.getString("receiver_address"));
         orderModel.setZipcode(tradeJson.getString("receiver_zip"));
         orderModel.setBuyeralipayno(tradeJson.getString("buyer_alipay_no"));
-        double discountPrice=0.00;
+        double discountPrice=Double.parseDouble(tradeJson.getString("total_fee"))-Double.parseDouble(tradeJson.getString("payment"));
+        orderModel.setDiscountprice(discountPrice);
         for(Order order:orderList)
         {
-            discountPrice+=Double.parseDouble(order.getDiscount_fee());
             relationogModel.setOid(oId);
             relationogModel.setGoodsno(order.getNum_iid());
             relationogModel.setGoodnum(order.getNum());
@@ -680,7 +680,6 @@ public class OrderServiceImpl implements OrderService
             {
                 divideorderfee=new BigDecimal((totalfee.doubleValue())/(order.getNum()));
             }
-            orderModel.setDiscountprice(discountPrice);
             relationogModel.setDivideorderfee(divideorderfee);
             relationogModel.setTotalfee(totalfee);
             relationogModelMapper.insertSelective(relationogModel);
