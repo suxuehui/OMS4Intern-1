@@ -761,6 +761,9 @@ public class OrderServiceImpl implements OrderService
         orderModelMapper.updateOrder(orderStatus,time,userName,expressCompany,expressId,oid);
     }
 
+    public void updateOrder2(String orderStatus,Date time,String userName,String oid) {
+        orderModelMapper.updateOrder2(orderStatus,time,userName,oid);
+    }
     //解析excel文件
     public int analysisExcel(String filePath)
     {

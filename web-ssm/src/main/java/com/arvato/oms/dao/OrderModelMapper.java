@@ -13,6 +13,8 @@ public interface OrderModelMapper
     //更新订单列表的订单状态
     void updateOrder(String orderStatus, Date time, String userName,String expressCompany,String expressId, String oid );
 
+    void updateOrder2(String orderStatus, Date time, String userName,String oid );
+
     int selectCount();
 
     int deleteByPrimaryKey(Integer id);

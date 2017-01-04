@@ -44,4 +44,6 @@ public interface OrderService {
     public int checkreturn(String oid);
 	//更新订单列表的订单状态，修改人，修改时间
 	void updateOrder(String orderStatus, Date time, String userName,String expressCompany,String expressId, String oid );
+    //更新订单列表的订单状态，修改人，修改时间
+    void updateOrder2(String orderStatus, Date time, String userName,String oid );
 }
