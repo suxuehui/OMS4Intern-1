@@ -93,7 +93,7 @@ public class OmsOpenInterfaceController {
             }
             String orderStatus="已发货";
             //向出库表中添加快递公司，快递单号,仓库出库单号的信息,以及修改出库单状态，订单状态
-            outboundServiceImpl.updateOutboundorder(orderStatus,outboundState,warehouseObid,expressCompany,expressId,outboundId);
+            outboundServiceImpl.updateOutboundorder(orderStatus,outboundState,warehouseObid,expressCompany,expressId,new Date(),userName,outboundId);
             //先从出库表获取订单号，然后更新订单列表的订单状态
             String oid = outboundServiceImpl.selectOidByOutboundId(outboundId);
             orderServiceImpl.updateOrder(orderStatus,new Date(),userName,expressCompany,expressId,oid);
@@ -103,7 +103,7 @@ public class OmsOpenInterfaceController {
             String expressCompany2="";
             String expressId2="";
             //向出库表中添加快递公司，快递单号,仓库出库单号的信息,以及修改出库单状态，订单状态
-            outboundServiceImpl.updateOutboundorder(orderStatus,outboundState2,warehouseObid,expressCompany2,expressId2,outboundId);
+            outboundServiceImpl.updateOutboundorder(orderStatus,outboundState2,warehouseObid,expressCompany2,expressId2,new Date(),userName,outboundId);
             //先从出库表获取订单号，然后更新订单列表的订单状态
             String oid = outboundServiceImpl.selectOidByOutboundId(outboundId);
             orderServiceImpl.updateOrder(orderStatus,new Date(),userName,expressCompany2,expressId2,oid);
@@ -126,7 +126,7 @@ public class OmsOpenInterfaceController {
             String expressCompany3="";
             String expressId3="";
             //向出库表中添加快递公司，快递单号,仓库出库单号的信息,以及修改出库单状态，订单状态
-            outboundServiceImpl.updateOutboundorder(orderStatus,outboundState,warehouseObid,expressCompany3,expressId3,outboundId);
+            outboundServiceImpl.updateOutboundorder(orderStatus,outboundState,warehouseObid,expressCompany3,expressId3,new Date(),userName,outboundId);
             //先从出库表获取订单号，然后更新订单列表的订单状态
             String oid = outboundServiceImpl.selectOidByOutboundId(outboundId);
             orderServiceImpl.updateOrder(orderStatus,new Date(),userName,expressCompany3,expressId3,oid);
@@ -145,7 +145,7 @@ public class OmsOpenInterfaceController {
                 return "{\"msg\":\"307\"}";//快递单号不能为空
             }
             //向出库表中添加快递公司，快递单号,仓库出库单号的信息,以及修改出库单状态，订单状态
-            outboundServiceImpl.updateOutboundorder(orderStatus,outboundState,warehouseObid,expressCompany4,expressId4,outboundId);
+            outboundServiceImpl.updateOutboundorder(orderStatus,outboundState,warehouseObid,expressCompany4,expressId4,new Date(),userName,outboundId);
             //先从出库表获取订单号，然后更新订单列表的订单状态
             String oid2 = outboundServiceImpl.selectOidByOutboundId(outboundId);
             //更新订单列表订单状态

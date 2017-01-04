@@ -167,6 +167,10 @@ public class ExceptionController {
                             String orderStatus5 ="待出库";
                             //先将订单状态改为“待出库”,然后才能进行订单的修改操作
                             orderServiceImpl.updateOrder2(orderStatus5,new Date(),userName,exOid[j]);
+                            //出库单列表中，该订单的同步状态改为“已接收”，出库单状态为“处理中”
+                            String orderStatus = "已接收";
+                            String outboundState="处理中";
+                            outboundorderServiceImpl.updateOutbound2(orderStatus,outboundState,new Date(),userName,exOid[j]);
                             //再删除异常页面的异常订单
                             exceptionServiceImpl.deleteByOid(exOid[j]);
                             return "{\"msg\":\"3\"}";
