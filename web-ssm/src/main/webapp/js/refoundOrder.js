@@ -38,10 +38,8 @@ function refoundGetnowPage(pagenow){
             for(var obj in dataList){
                 i++;
                 var  list=dataList[obj];
-                var html='<tr><td>'+i+'</td><td><input type="checkbox" value="'+list.drawbackid+'" name="refoundOrder_ck" onclick="refoundOrder_getDrawbackid()" ></td><td>';
-                html+= '<button id="'+list.drawbackid+'" style="border-style:none;outline:none;background-color:transparent" ' +
-                    'ondblclick="refounddbClick(this.id)" onclick="refoundsingleClick(this.id)">'+list.drawbackid+'</button>'+
-                    '</td>';
+                var html='<tr><td>'+i+'</td><td><input type="checkbox" value="'+list.drawbackid+'" name="refoundOrder_ck" onclick="refoundOrder_getDrawbackid()" ></td><td id="'+list.drawbackid+'" ' +
+                    'ondblclick="refounddbClick(this.id)" onclick="refoundsingleClick(this.id)">'+list.drawbackid+'</td>';
                 html+='<td>'+list.drawbackmoney+'</td><td>'
                     +list.drawbackstatus+'</td><td>'+list.returnedid+'</td><td>' +list.createtime+'</td><td>'
                     +list.modifytime+'</td><td>' +list.modifyman+'</td></tr>'
@@ -130,13 +128,26 @@ function refoundOrder_getDrawbackid() {
         if(a[i].checked){
             j++;
             var info = (info + a[i].value) + (((i + 1)== a.length) ? '':',');
+            var drawback = a[i].value;
+            var parm = {drawbackId3: drawback};//将参数传到后台
+            $.post("../refoundOrder/drawback", parm, function (data) {
+                var msg=data.msg;
+                if(msg==111)
+                {
+                    $("#drawback_inbtn").attr("disabled",true);
+                }else
+                {
+                    $("#drawback_inbtn").attr("disabled",false);
+                }
+            },"json"
+            );
             $("#refoundOrder_inbtn").attr("disabled",false);
-            $("#drawback_inbtn").attr("disabled",false);
         }
         if(j==0){
             $("#refoundOrder_inbtn").attr("disabled",true);
             $("#drawback_inbtn").attr("disabled",true);
         }
+
     }
     return info;
 }
@@ -189,10 +200,6 @@ function drawback(){
                         $("#drawback_inbtn").attr("disabled",true);
                     }else if(msg==123){
                         alert("信息发送失败，请稍后再试");
-                        $("#refoundOrder_inbtn").attr("disabled",true);
-                        $("#drawback_inbtn").attr("disabled",true);
-                    }else {
-                        alert("该退款单已退过款了");
                         $("#refoundOrder_inbtn").attr("disabled",true);
                         $("#drawback_inbtn").attr("disabled",true);
                     }
