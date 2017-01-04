@@ -73,4 +73,32 @@
 
     <!-- (事务管理)transaction manager, use JtaTransactionManager for global tx -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <bean id="orderTimer" class="com.arvato.oms.job.OrderTimer"></bean>
+
+    <bean id="orderDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="orderTimer"/>
+        <property name="targetMethod" value="updateOrder"/>
+        <property name="concurrent" value="false" />
+    </bean>
+
+    <bean id="dotime" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail">
+            <ref bean="orderDetail"/>
+        </property>
+        <!-- cron表达式 此处定义为一直触发执行任务-->
+        <property name="cronExpression">
+            <value>0 0 0 * * ?</value>
+        </property>
+    </bean>
+
+    <!-- 总调度用于启动Spring定时器-->
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false">
+        <property name="triggers">
+            <list>
+                <ref bean="dotime"/>
+            </list>
+        </property>
+    </bean>
+
 </beans>

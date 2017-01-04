@@ -110,7 +110,7 @@
     select
     <include refid="Base_Column_List" />
     from returnedorder
-    where oId = #{oId,jdbcType=INTEGER}
+    where oId = #{oId,jdbcType=INTEGER} GROUP BY id desc limit 1
   </select>
 
 

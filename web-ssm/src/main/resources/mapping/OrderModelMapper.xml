@@ -48,6 +48,12 @@
     select count(1)
     from oms_schema.order
   </select>
+  <!--根据订单状态查询所有订单-->
+  <select id="selectAllByStatus" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from oms_schema.order where orderstatus = #{status,jdbcType=VARCHAR}
+  </select>
   <!--更新订单列表的订单状态-->
   <update id="updateOrder" >
     update `order`

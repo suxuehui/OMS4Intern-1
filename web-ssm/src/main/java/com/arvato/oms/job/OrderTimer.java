@@ -1,0 +1,42 @@
+package com.arvato.oms.job;
+
+import com.arvato.oms.dao.OrderModelMapper;
+import com.arvato.oms.model.OrderModel;
+
+import javax.annotation.Resource;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+/**
+ * Created by ZHAN545 on 2017/1/4.
+ */
+public class OrderTimer {
+    @Resource
+    OrderModelMapper orderModelMapper;
+    public void updateOrder()
+    {
+        List<OrderModel> orderModels=orderModelMapper.selectAllByStatus("已发货");
+        for(int i=0;i<orderModels.size();i++)
+        {
+            SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date beforeTime=null;
+            try
+            {
+                beforeTime=sdf.parse(orderModels.get(i).getModifytime());
+            }
+            catch (ParseException e)
+            {
+                e.printStackTrace();
+            }
+            Date nowTime=new Date();
+            Long intervalTime=nowTime.getTime()-beforeTime.getTime();
+            if(intervalTime>=48*3600*1000)
+            {
+                orderModels.get(i).setOrderstatus("已完成");
+                orderModelMapper.updateByOidSelective(orderModels.get(i));
+            }
+        }
+    }
+}

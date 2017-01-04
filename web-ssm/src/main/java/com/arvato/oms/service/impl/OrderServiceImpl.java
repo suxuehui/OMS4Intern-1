@@ -709,16 +709,11 @@ public class OrderServiceImpl implements OrderService
         }
         if(!orderModel.getOrderstatus().equals("已完成"))
         {
-            return 0;//订单未完成
+            return 2;//订单未完成
         }
         if(goodsList.size()==0)
         {
-            return 0;//没有选择商品
-        }
-        ReturnedModel returnedModel1=returnedModelMapper.selectByOid(jsonObject.getString("oid"));
-        if(returnedModel1!=null)
-        {
-            return 0;
+            return 3;//没有选择商品
         }
         returnedModel.setChanneloid(orderModel.getChanneloid());
         String returnedid="RT"+jsonObject.getString("oid")+(int)(Math.random()*90000+10000);

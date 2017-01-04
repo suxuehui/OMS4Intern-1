@@ -103,7 +103,8 @@ table.orderTable td{border:1px solid #CCC;height:25px}
 }
 .textArea{width:200px;height:24px;margin-top:5px;margin-left:10px}
 .selectArea{width:150px;height:30px;margin-top:5px;}
-.selectArea.revise{width:150px}
+.selectArea.revise{width:200px}
+
 .orderSearch.beta ul li .btn.beta{width:50px}
 .orderSearch.beta ul li{float:left;width:50px;height:30px;margin-left:10px}
 .inputList{background:#f4f6f7;height:25px}

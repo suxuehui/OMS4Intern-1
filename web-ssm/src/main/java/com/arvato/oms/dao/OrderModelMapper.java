@@ -23,6 +23,9 @@ public interface OrderModelMapper
 
     int insertSelective(OrderModel record);
 
+    //根据订单状态查询全部订单
+    List<OrderModel> selectAllByStatus(String status);
+
     //根据订单号查询订单
     OrderModel selectByOid(String oId);
 

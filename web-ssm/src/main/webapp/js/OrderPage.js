@@ -339,7 +339,6 @@ function returnOrExchange(returnoid,returnedOrChange) {
             {
                 alert("订单退换货成功，可以去退换货页面查看");
                 inGetReturnedNowPage(1);
-
             }
             else
             {
