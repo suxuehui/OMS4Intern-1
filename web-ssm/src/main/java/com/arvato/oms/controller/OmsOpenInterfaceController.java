@@ -130,6 +130,8 @@ public class OmsOpenInterfaceController {
             //先从出库表获取订单号，然后更新订单列表的订单状态
             String oid = outboundServiceImpl.selectOidByOutboundId(outboundId);
             orderServiceImpl.updateOrder(orderStatus,new Date(),userName,expressCompany3,expressId3,oid);
+            //生成退款单
+            orderServiceImpl.createReturned(oid);
         }else if ("补货成功".equals(outboundState)){
             String orderStatus="补货成功";
             //快递公司
