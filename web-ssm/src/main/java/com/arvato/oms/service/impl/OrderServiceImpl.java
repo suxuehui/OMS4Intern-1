@@ -639,7 +639,7 @@ public class OrderServiceImpl implements OrderService
         OrderModel orderModel1=orderModelMapper.selectByChannelOid(tradeJson.getString("tid"));
         if(orderModel1!=null)
         {
-            return 2;//订单存在
+            return 6;//订单存在
         }
         orderModel.setChanneloid(tradeJson.getString("tid"));
         orderModel.setOrderstatus("待预检");
@@ -773,7 +773,7 @@ public class OrderServiceImpl implements OrderService
             }
             catch(Exception e)
             {
-                return 2;
+                return 2;//文件格式不正确
             }
             is.close();
             XSSFSheet hssfSheet = hssfWorkbook.getSheetAt(0);
