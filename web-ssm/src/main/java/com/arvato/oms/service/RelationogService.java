@@ -17,7 +17,10 @@ public interface RelationogService {
     //分页取得商品列
     List<RelationogModel> selectByOid(Integer pageNo,Integer pageSize,String oId);
 */
-     Integer selectGoodsRnum(String oId);
+
+    Integer selectGoodsRnum(String oId);
+
+
 }
 
 

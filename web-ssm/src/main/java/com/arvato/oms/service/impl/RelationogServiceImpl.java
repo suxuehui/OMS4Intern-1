@@ -20,9 +20,10 @@ public class RelationogServiceImpl implements RelationogService {
     public List<RelationogModel> selectALLByOid(String oid) {
         return relationogModelMapper.selectMessageByOid(oid);
     }
-
     public Integer selectGoodsRnum(String oId) {
         return relationogModelMapper.selectGoodsRnum(oId);
     }
+
+
 }
 
