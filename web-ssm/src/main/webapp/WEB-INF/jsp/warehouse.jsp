@@ -33,7 +33,7 @@
                         <li><input type="button" value="删除"  id="waredelete" onclick="deleteware()" class="btn"></li>
                     </ul>
                     <input type="button" value="查询" onclick="WarehousegetPage(1)"  class="submitBtn fr">
-                    <input type="text"  id="whtxt" value="" class="textArea fr" >
+                    <input type="text"  id="whtxt" value="" class="textArea fr" onblur="ifselect()">
                     <select id="whselectid" class="selectArea fr">
                         <option value="0" class="select_hide">请选择查询条件</option>
                         <option value="1" >仓库编号</option>

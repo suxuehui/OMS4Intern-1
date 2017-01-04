@@ -40,6 +40,9 @@ function outGNPage(pagenow){
             if(outlistnull==0){//判断是否有订单
                 alert("查询无结果！")
             }
+            if(optxt==0){
+                alert("请选择查询条件")
+            }
             for(var obj in datalist) {
                 if(datalist.hasOwnProperty(obj)) {
                     var list = datalist[obj];

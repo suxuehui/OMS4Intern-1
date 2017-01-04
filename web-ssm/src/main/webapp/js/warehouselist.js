@@ -39,6 +39,9 @@ function WarehousegetPage(pagenow){
             if(warelistnull==0){//判断是否有订单
                 alert("查询无结果！")
             }
+            if(optxt==0){
+                alert("请选择查询条件")
+            }
             //清除原先的数据
             $("#warehousetab tbody tr").eq(0).nextAll().remove();
             for(var listindex in datalist) {
@@ -184,6 +187,18 @@ function ifwhname(id,divname){
     }
 
 }
+
+//yanzhenselect
+/*
+function ifselect(){
+    var  myselect=document.getElementById("whselectid");
+    var index=myselect.selectedIndex;
+    var optxt=myselect.options[index].value;//查询条件
+    if(optxt==0){
+        alert("请选择查询条件")
+    }
+}
+*/
 
 //验证格式
 function ifden(warenum,warename){

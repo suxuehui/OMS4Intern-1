@@ -234,9 +234,7 @@ public class OmsOpenInterfaceController {
         }
         return "{\"msg\":\"100\"}";//成功
     }
-
-
-
+    
     //接受wms传来的数据，更新入库单
     @RequestMapping(value = "updateInboundOrder")
     @ResponseBody
