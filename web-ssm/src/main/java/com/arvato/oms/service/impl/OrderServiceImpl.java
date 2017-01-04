@@ -758,8 +758,8 @@ public class OrderServiceImpl implements OrderService
     }
 
     //更新订单列表的订单状态
-    public void updateOrder(String orderStatus,Date time,String userName,String oid) {
-        orderModelMapper.updateOrder(orderStatus,time,userName,oid);
+    public void updateOrder(String orderStatus,Date time,String userName,String expressCompany,String expressId,String oid) {
+        orderModelMapper.updateOrder(orderStatus,time,userName,expressCompany,expressId,oid);
     }
 
     //解析excel文件

@@ -35,6 +35,8 @@ public class OmsOpenInterfaceController {
     private InboundorderService inboundorderserviceimpl;
     @Resource
     private ExceptionService exceptionServiceImpl;
+    @Resource
+    private RelationogService relationogServiceImpl;
 
     //接受wms传来的数据，更新出库单
     @RequestMapping(value = "updateOutboundOrder")
@@ -94,7 +96,7 @@ public class OmsOpenInterfaceController {
             outboundServiceImpl.updateOutboundorder(orderStatus,outboundState,warehouseObid,expressCompany,expressId,outboundId);
             //先从出库表获取订单号，然后更新订单列表的订单状态
             String oid = outboundServiceImpl.selectOidByOutboundId(outboundId);
-            orderServiceImpl.updateOrder(orderStatus,new Date(),userName,oid);
+            orderServiceImpl.updateOrder(orderStatus,new Date(),userName,expressCompany,expressId,oid);
         }else if("缺货".equals(outboundState)){
             String orderStatus="缺货异常";
             String outboundState2="仓库库存异常";
@@ -104,7 +106,7 @@ public class OmsOpenInterfaceController {
             outboundServiceImpl.updateOutboundorder(orderStatus,outboundState2,warehouseObid,expressCompany2,expressId2,outboundId);
             //先从出库表获取订单号，然后更新订单列表的订单状态
             String oid = outboundServiceImpl.selectOidByOutboundId(outboundId);
-            orderServiceImpl.updateOrder(orderStatus,new Date(),userName,oid);
+            orderServiceImpl.updateOrder(orderStatus,new Date(),userName,expressCompany2,expressId2,oid);
             //获取该条订单
             OrderModel orderModel = orderServiceImpl.selectByOid(oid);
             //将该异常订单推到异常订单列表
@@ -127,7 +129,7 @@ public class OmsOpenInterfaceController {
             outboundServiceImpl.updateOutboundorder(orderStatus,outboundState,warehouseObid,expressCompany3,expressId3,outboundId);
             //先从出库表获取订单号，然后更新订单列表的订单状态
             String oid = outboundServiceImpl.selectOidByOutboundId(outboundId);
-            orderServiceImpl.updateOrder(orderStatus,new Date(),userName,oid);
+            orderServiceImpl.updateOrder(orderStatus,new Date(),userName,expressCompany3,expressId3,oid);
         }else if ("补货成功".equals(outboundState)){
             String orderStatus="补货成功";
             //快递公司
@@ -145,7 +147,7 @@ public class OmsOpenInterfaceController {
             //先从出库表获取订单号，然后更新订单列表的订单状态
             String oid2 = outboundServiceImpl.selectOidByOutboundId(outboundId);
             //更新订单列表订单状态
-            orderServiceImpl.updateOrder(orderStatus,new Date(),userName,oid2);
+            orderServiceImpl.updateOrder(orderStatus,new Date(),userName,expressCompany4,expressId4,oid2);
             //在异常列表中删除改异常订单
             exceptionServiceImpl.deleteByOid(oid2);
 
@@ -219,8 +221,12 @@ public class OmsOpenInterfaceController {
                 if(goodsTolnum2==null){
                     return "{\"msg\":\"105\"}";//未获得商品总库存
                 }
-                //修改其商品状态,库存
-                goodsServiceImpl.updateGoodsState(goodsState2,goodsTolnum2,goodsNo2);
+                //计算锁定库存
+                Integer lockSum = relationogServiceImpl.selectGoodsRnum(goodsNo2);
+                //计算可用库存
+                int goodsvnum =  Integer.parseInt(goodsTolnum2)-lockSum.intValue();
+                //修改其商品状态,库存,可用库存
+                goodsServiceImpl.updateGoodsState(goodsState2,goodsTolnum2,goodsvnum,goodsNo2);
             }
 
         }

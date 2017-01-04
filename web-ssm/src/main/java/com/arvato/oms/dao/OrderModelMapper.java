@@ -11,7 +11,7 @@ import java.util.List;
 public interface OrderModelMapper
 {
     //更新订单列表的订单状态
-    void updateOrder(String orderStatus, Date time, String userName, String oid );
+    void updateOrder(String orderStatus, Date time, String userName,String expressCompany,String expressId, String oid );
 
     int selectCount();
 

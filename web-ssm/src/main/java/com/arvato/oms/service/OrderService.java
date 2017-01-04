@@ -41,5 +41,5 @@ public interface OrderService {
     //检查订单是否可以退换货
     public int checkreturn(String oid);
 	//更新订单列表的订单状态，修改人，修改时间
-	void updateOrder(String orderStatus, Date time, String userName, String oid );
+	void updateOrder(String orderStatus, Date time, String userName,String expressCompany,String expressId, String oid );
 }

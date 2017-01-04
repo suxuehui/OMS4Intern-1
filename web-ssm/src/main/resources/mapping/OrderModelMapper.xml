@@ -53,8 +53,10 @@
     update `order`
     set orderStatus = #{0,jdbcType=VARCHAR},
       modifytime = #{1,jdbcType=TIMESTAMP},
-     modifyman = #{2,jdbcType=VARCHAR}
-    where oid = #{3,jdbcType=VARCHAR}
+     modifyman = #{2,jdbcType=VARCHAR},
+     logisticscompany=#{3,jdbcType=VARCHAR},
+     logisticsid= #{4,jdbcType=VARCHAR}
+    where oid = #{5,jdbcType=VARCHAR}
   </update>
 
   <!--通过oid选出所有信息-->

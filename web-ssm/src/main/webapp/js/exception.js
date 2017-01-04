@@ -38,10 +38,8 @@ function GetnowPage(pagenow){
             for(var obj in dataList){
                 i++;
                 var  list=dataList[obj];
-                var html='<tr><td>'+i+'</td><td><input type="checkbox" value="'+list.oid+'" name="exceptionck" onclick="getOid()" ></td><td>';
-                html+= '<button id="'+list.oid+'" style="border-style:none;outline:none;background-color:transparent" ' +
-                    'ondblclick="exceptiondbClick(this.id)" onclick="exceptionsingleClick(this.id)">'+list.oid+'</button>'+
-                    '</td>';
+                var html='<tr><td>'+i+'</td><td><input type="checkbox" value="'+list.oid+'" name="exceptionck" onclick="getOid()" ></td><td id="'+list.oid+'" ' +
+                    'ondblclick="exceptiondbClick(this.id)" onclick="exceptionsingleClick(this.id)">'+list.oid+'</td>';
                 html+='<td>'+list.channeloid+'</td><td>'
                     +list.orderstatus+'</td><td>'+list.orderfrom+'</td><td>'
                     +list.exceptiontype+'</td><td>'+list.expceptioncause+'</td><td>'
