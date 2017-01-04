@@ -207,11 +207,11 @@ public class OrderServiceImpl implements OrderService
             for(RelationogModel re:relationogModelList)
             {
                 GoodsModel goodsModel=goodsModelMapper.selectByPrimaryKey(re.getGoodsno());
-                if(goodsModel==null)
+                if(goodsModel==null||goodsModel.getGoodsstate().equals("已下架"))
                 {
                     exceptionModel=createException(orderModel);
                     exceptionModel.setExceptiontype("商品异常");
-                    exceptionModel.setExpceptioncause("暂时缺货");
+                    exceptionModel.setExpceptioncause("该订单包含不存在或已下架的商品");
                     exceptionModel.setOrderstatus("订单异常");
                     exceptionModel.setOrderfrom("预检");
                     orderModel.setOrderstatus("订单异常");
@@ -230,19 +230,17 @@ public class OrderServiceImpl implements OrderService
         {
             for(RelationogModel re:relationogModelList)
             {
-                System.out.println(re.getGoodsno());
                 GoodsModel goodsModel=goodsModelMapper.selectByPrimaryKey(re.getGoodsno());
-                int goodsRnum=0;
+                int goodsRnum;
                 if(relationogModelMapper.selectGoodsRnum(oId)==null)
                 {
-                    goodsRnum=5;
+                    goodsRnum=0;
                 }
                 else
                 {
                     goodsRnum =relationogModelMapper.selectGoodsRnum(oId);
                 }
                 int goodsVnum=goodsModel.getGoodstolnum()-goodsRnum;
-                System.out.println(goodsModel.toString());
                 if(re.getGoodnum()>goodsVnum)
                 {
                     exceptionModel=createException(orderModel);

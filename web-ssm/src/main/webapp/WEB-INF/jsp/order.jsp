@@ -31,7 +31,7 @@
                 <input type="button" value="查询" class="submitBtn fr" id="queryOrderBtn">
                 <input type="text" class="textArea fr" id="queryOrderCon">
                 <select class="selectArea fr" id="queryMode">
-                    <option value="0">请选择查询条件</option>
+                    <option value="0" class="select_hide">请选择查询条件</option>
                     <option value="1">订单号</option>
                     <option value="2">渠道订单号</option>
                     <option value="3">订单状态</option>
