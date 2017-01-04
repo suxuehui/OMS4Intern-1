@@ -48,7 +48,7 @@ function outGNPage(pagenow){
                     var list = datalist[obj];
                     //将同步状态的显示格式进行修改
                     booleantoString(list);
-                    var html = '<tr name="'+list.oid+'"><td><input type="checkbox" id="' + list.oid + '"' +
+                    var html = '<tr name="'+list.oid+'"><td>'+(++obj)+'</td><td><input type="checkbox" id="' + list.oid + '"' +
                         'onclick="tooutcheck(this)"  name="outck"></td><td>';
                     html += '<button id="' + list.oid + '"style=" border-style:none;outline:none;background: transparent;" ondblclick="outdblclick(this.id)" onclick="outsgclick(this.id)">' + list.oid + '</button></td><td>'
                         + list.channeloid + '</td><td>'
@@ -103,7 +103,7 @@ function outGetnowPage(pagenow){
                      var list = datalist[obj];
                      //将同步状态的显示格式进行修改
                      booleantoString(list);
-                     var html = '<tr name="'+list.oid+'"><td><input type="checkbox" id="' + list.oid + '"' +
+                     var html = '<tr name="'+list.oid+'"><td>'+(++obj)+'</td><td><input type="checkbox" id="' + list.oid + '"' +
                          'onclick="tooutcheck(this)"  name="outck"></td><td>';
                      html += '<button id="' + list.oid + '"style=" border-style:none;outline:none;background: transparent;" ondblclick="outdblclick(this.id)" onclick="outsgclick(this.id)">' + list.oid + '</button></td><td>'
                          + list.channeloid + '</td><td>'
@@ -221,11 +221,14 @@ function booleantoString(list){
                     if (rglist.hasOwnProperty(i)) {
                         var obj = rglist[i];//获取关系表的一个对象
                         var god = gdlist[i];//获取商品表的一个对象
-                        var html = '<tr><td>' + outboindid + '</td><td>'
-                            + warehouseobid + '</td><td>' + god.goodsno + '</td><td>'
-                            + god.goodsname + '</td><td>' + obj.goodnum + '</td><td>'
-                            + obj.goodnum + '</td></tr>'
-                        $("#outboundertabson tbody  ").append(html);
+                        //只显示已上架的商品
+                        if(god.goodsstate=="已上架") {
+                            var html = '<tr><td><input type="checkbox"/></td><td>' + outboindid + '</td><td>'
+                                + warehouseobid + '</td><td>' + god.goodsno + '</td><td>'
+                                + god.goodsname + '</td><td>' + obj.goodnum + '</td><td>'
+                                + obj.goodnum + '</td></tr>'
+                            $("#outboundertabson tbody  ").append(html);
+                        }
                     }}
                 outpagelistson(datapage.totalPageCount,datapage.pageNow , oid);
             },

@@ -48,7 +48,7 @@ function inGNPage(pagenow){
                     var  list=datalist[obj];
                     //将同步状态的显示格式进行修改
                     bytetoString(list)
-                    var html='<tr name="'+list.oid+'"><td><input type="checkbox"  id="'+list.oid+'" ' +
+                    var html='<tr name="'+list.oid+'"><td>'+(++obj)+'</td><td><input type="checkbox"  id="'+list.oid+'" ' +
                         'onclick="toincheck(this)"  name="inck"></td><td>';
                     html+= '<button id="'+list.oid+'" style=" border-style:none;outline:none;background: transparent;"  ondblclick="indblclick(this.id)" onclick="insgclick(this.id)">'+list.oid+'</button> </td><td>'
                         +list.channeloid+'</td><td>'
@@ -99,7 +99,7 @@ function inGetnowPage(pagenow){
                 var  list=datalist[obj];
                    //将同步状态的显示格式进行修改
                     bytetoString(list)
-                var html='<tr name="'+list.oid+'"><td><input type="checkbox"  id="'+list.oid+'" ' +
+                var html='<tr name="'+list.oid+'"><td>'+(++obj)+'</td><td><input type="checkbox"  id="'+list.oid+'" ' +
                     'onclick="toincheck(this)"  name="inck"></td><td>';
                     html+= '<button id="'+list.oid+'"style=" border-style:none;outline:none;background: transparent;" ondblclick="indblclick(this.id)" onclick="insgclick(this.id)">'+list.oid+'</button> </td><td>'
                         +list.channeloid+'</td><td>'
@@ -208,12 +208,16 @@ function inpageson(oid,pagenow){
             $("#inboundertabson tbody tr").eq(0).nextAll().remove();
             for(var i in rglist)
             {
-                    var obj=rglist[i] ;//获取关系表的一个对象
-                    var god=gdlist[i];//获取商品表的一个对象
-                    var html='<tr><td>' + god.goodsno+'</td><td>'
+                var god=gdlist[i];//获取商品表的一个对象
+                var obj=rglist[i] ;//获取关系表的一个对象
+                //只显示已上架的商品
+                if(god.goodsstate=="已上架")
+                {
+                    var html='<tr><td><input type="checkbox"/></td><td>' + god.goodsno+'</td><td>'
                         + god.goodsname+'</td><td>'+obj.goodnum +'</td><td>'
                         + obj.goodnum+'</td></tr>'
                     $("#inboundertabson tbody  ").append(html);
+                }
             }
 
 

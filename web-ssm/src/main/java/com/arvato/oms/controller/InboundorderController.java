@@ -73,15 +73,19 @@ public class InboundorderController {
             //获取商品数量  xiugai---->---------->
             int snum= roglist.get(i).getGoodnum() ;
             GoodsModel gm=godserviceimpl.selectByGoodsNo(sno);
-            gp.setGoodNum(snum);
-            gp.setGoodsname(gm.getGoodsname());
-            gp.setGoodsno(gm.getGoodsno());
-            gp.setGoodsprice(gm.getGoodsprice());
-            godslist.add(gp);
+            //只显示已上架的商品
+            String goodsstate=gm.getGoodsstate();
+            if(goodsstate.equals ("已上架"))
+            {
+                gp.setGoodNum(snum);
+                gp.setGoodsname(gm.getGoodsname());
+                gp.setGoodsno(gm.getGoodsno());
+                gp.setGoodsprice(gm.getGoodsprice());
+                godslist.add(gp);
+            }
         }
         model.addAttribute("gods",godslist);
         model.addAttribute("obol",iodlist);
-
         return "InbounderDetail";
     }
 

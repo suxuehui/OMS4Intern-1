@@ -51,7 +51,6 @@ public class OutboundorderController {
     {
         log.info("出库子页面显示");
         String str=oboserciveimpl.listSonPage(request);
-
         return str;
     }
     //详情页面展示
@@ -69,15 +68,19 @@ public class OutboundorderController {
             GoodsPojo gp=new GoodsPojo();
             //获取商品编号
             String sno= roglist.get(i).getGoodsno();
-            //获取商品数量  xiugai---->---------->
+            //获取商品数量  ---------->
             int snum= roglist.get(i).getGoodnum() ;
             GoodsModel gm=  this.godserviceimpl.selectByGoodsNo(sno);
-            gp.setGoodNum(snum);
-            gp.setGoodsname(gm.getGoodsname());
-            gp.setGoodsno(gm.getGoodsno());
-            gp.setGoodsprice(gm.getGoodsprice());
-            godslist.add(gp);
-
+            //只显示已上架的商品
+            String goodsstate=gm.getGoodsstate();
+            if(goodsstate.equals ("已上架"))
+            {
+              gp.setGoodNum(snum);
+              gp.setGoodsname(gm.getGoodsname());
+              gp.setGoodsno(gm.getGoodsno());
+              gp.setGoodsprice(gm.getGoodsprice());
+              godslist.add(gp);
+            }
         }
         model.addAttribute("gods",godslist);
         model.addAttribute("obol",obolist);

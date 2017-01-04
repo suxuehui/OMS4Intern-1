@@ -34,7 +34,7 @@
             <div class="table revise">
                 <table id="outboundertab" cellspacing="0" cellpadding="0" class="w2250">
                     <tr class="tableTit" height="20">
-                        <%--<th class="w50">序号</th>--%>
+                        <th class="w50">序号</th>
                         <th class="w50">批量</th>
                         <th class="w200">订单号</th>
                         <th class="w200">渠道订单号</th>
@@ -64,7 +64,7 @@
         <div class="tableDetails">
             <table  id="outboundertabson"  cellspacing="0" cellpadding="0">
                 <tr class="tableTit">
-                    <%-- <th class="w50">批量</th>--%>
+                    <th class="w50">批量</th>
                     <th>出库单号</th>
                     <th>仓库出库单号</th>
                     <th>商品编码</th>
