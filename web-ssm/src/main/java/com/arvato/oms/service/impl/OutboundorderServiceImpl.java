@@ -18,6 +18,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -211,8 +212,12 @@ public class OutboundorderServiceImpl implements OutboundorderService
     }
 
     //向出库表中添加快递公司，快递单号,仓库出库单号的信息,以及修改出库单状态，订单状态
-    public void updateOutboundorder(String orderStatus,String outboundState,String warehouseObid,String expressCompany,String expressId,String outboundId ) {
-        outboundorderModelMapper.updateOutboundorder(orderStatus,outboundState,warehouseObid,expressCompany,expressId,outboundId);
+    public void updateOutboundorder(String orderStatus,String outboundState,String warehouseObid,String expressCompany,String expressId,Date time, String userName,String outboundId ) {
+        outboundorderModelMapper.updateOutboundorder(orderStatus,outboundState,warehouseObid,expressCompany,expressId,time,userName,outboundId);
+    }
+
+    public void updateOutbound2(String orderStatus,String outboundState, Date time, String userName, String oId) {
+        outboundorderModelMapper.updateOutbound2(orderStatus,outboundState,time,userName,oId);
     }
 
     //从出库表获取订单号
