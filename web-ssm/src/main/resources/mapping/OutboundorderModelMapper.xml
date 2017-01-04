@@ -258,8 +258,6 @@
     select  count(1) from outboundorder where oId like '%${oid}%'
   </select>
 
-
-
   <!--通过oid选出所有信息-->
   <select id="selectAllByOid" resultMap="BaseResultMap">
     select

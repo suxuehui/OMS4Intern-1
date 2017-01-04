@@ -929,31 +929,26 @@ $(
             function () {
                 var select = $('#selectGoodssle').val();
                 var value = $('#goodsvaluetxt').val();
-                if(select=="请选择查询条件"){
-                    alert("请选择查询条件");
-                }else {
-                    if (value.length == 0) {
-                        inGetGoodsNowPage(1);
+                if (value.length == 0) {
+                    inGetGoodsNowPage(1);
+                } else {
+                    var zzbds2 = /^([\u4E00-\u9FA5]|\w)*$/;
+                    if (!zzbds2.test(value)) {
+                        alert("请不要输入特殊符号");
                     } else {
-                        var zzbds2 = /^([\u4E00-\u9FA5]|\w)*$/;
-                        if (!zzbds2.test(value)) {
-                            alert("请不要输入特殊符号");
-                        } else {
 
-                            if (select == "按名称查询") {
-                                selectGoodsByValue(1, value, "name");
+                        if (select == "按名称查询") {
+                            selectGoodsByValue(1, value, "name");
 
 
-                            } else if (select == "按商品编码查询") {
-                                selectGoodsByValue(1, value, "id");
-                            }
-                            $('#preGoodsPage').hide();
-                            $('#nextGoodsPage').hide();
-                            $('#endGoodsPage').hide();
+                        } else if (select == "按商品编码查询") {
+                            selectGoodsByValue(1, value, "id");
                         }
+                        $('#preGoodsPage').hide();
+                        $('#nextGoodsPage').hide();
+                        $('#endGoodsPage').hide();
                     }
                 }
-
 
             }
         );
@@ -1273,8 +1268,7 @@ $(
             //创建退款单
             var returnIdArray = new Array();
             var i = 0;
-            var successCount = 0;
-            var errorcount = 0;
+
             $("input:checkbox[name='returnedcheck']:checked").each(function () {
                 returnIdArray[i++] = parseInt($(this).attr("id"));
             });
@@ -1287,7 +1281,7 @@ $(
                 var returnOrChange = getreturnedOrChange(returnIdArray);
                 if (a == "yes") {
                     if (returnOrChange == "return") {
-
+                        var successCount = 0;
                         for (var j = 0; j < returnIdArray.length; j++) {
 
                             var id = returnIdArray[j];
@@ -1300,13 +1294,11 @@ $(
                                 },
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
-                                async :false,
                                 success: function (data) {
                                     if (data.isSuccess > 0) {
                                         successCount++;
-
                                     } else if (data.isSuccess < 0) {
-                                        errorcount++;
+                                        alert("已生成退款单，不要重复提交");
 
                                     }
                                 },
@@ -1317,9 +1309,7 @@ $(
                             });
                             inGetReturnedNowPage(1);
                         }
-                        if (errorcount>0){
-                            alert("退款单已创建，请不要重复提交，共" + returnIdArray.length + "条,成功" + successCount + "条");
-                        }else if (successCount > 0) {
+                        if (successCount > 0) {
                             alert("创建完成,共" + returnIdArray.length + "条,成功" + successCount + "条");
                         }
 
@@ -1339,12 +1329,10 @@ $(
 
         });
 
-        var changesuccessCount = 0;
-        var changeErrorCount = 0;
+
         $("#changeOutBound").click(function () {
             //换货发货
-            var changesuccessCount = 0;
-            var changeErrorCount = 0;
+
             var returnIdArray = new Array();
             var i = 0;
 
@@ -1360,7 +1348,7 @@ $(
                 var returnOrChange = getreturnedOrChange(returnIdArray);
                 if (a == "yes") {
                     if (returnOrChange == "change") {
-
+                        var successCount = 0;
                         for (var j = 0; j < returnIdArray.length; j++) {
 
                             var id = returnIdArray[j];
@@ -1373,29 +1361,20 @@ $(
                                 },
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
-                                async :false,
                                 success: function (data) {
                                     if (data.data == "换货成功") {
-                                        changesuccessCount =parseInt(changesuccessCount)+1;
-                                    }else if (data.data == "-1"){
-                                        changeErrorCount++;
+
+                                        successCount++;
                                     }
                                 },
                                 error: function (data) {
-
+                                    alert("生成出库单异常");
                                     return false;
                                 }
                             });
-
                             inGetReturnedNowPage(1);
                         }
-                        if (changeErrorCount>0){
-                            alert("订单已换货，请不要重复提交，共" + returnIdArray.length + "条,成功" + changesuccessCount + "条");
-                        }else if(changesuccessCount>0){
-                            //if
-                            alert("发货完成,共" + returnIdArray.length + "条,成功" + changesuccessCount + "条");
-                        }
-
+                        alert("发货成功");
 
                     } else {
                         alert('请选择退换货状态为‘change’的退货单');
@@ -1417,24 +1396,18 @@ $(
             function () {
                 var select = $('#returnedselect').val().trim();
                 var value = $('#returnValue').val().trim();
-                if(select=="请选择查询条件"){
-                    alert("请选择查询条件");
-                }else{
-                    if (value.length == 0) {
+                if (value.length == 0) {
 
-                        inGetReturnedNowPage(1);
+                    inGetReturnedNowPage(1);
+                } else {
+                    var zzbds = /^([\u4E00-\u9FA5]|\w)*$/;
+                    if (!zzbds.test(value)) {
+                        alert("请不要输入特殊符号");
                     } else {
-                        var zzbds = /^([\u4E00-\u9FA5]|\w)*$/;
-                        if (!zzbds.test(value)) {
-                            alert("请不要输入特殊符号");
-                        } else {
-                            selectReturnByvalue(1, select, value);
+                        selectReturnByvalue(1, select, value);
 
-                        }
                     }
                 }
-
-
             }
         );
 
