@@ -156,6 +156,7 @@
                                     <input type="button" value="查询" class="submitBtn fr" id="selectgoodsbut">
                                     <input type="text" class="textArea fr" id="goodsvaluetxt">
                                     <select class="selectArea fr revise" id="selectGoodssle" value="1">
+                                        <option class="select_hide">请选择查询条件</option>
                                         <option id="selectGoodsByNameop">按名称查询</option>
                                         <option id="selectGoodsByIdop">按商品编码查询</option>
 
@@ -245,7 +246,8 @@
                                         </ul>
                                         <input type="button" value="查询" class="submitBtn fr" id="serarchReturnedOrder">
                                         <input type="text" class="textArea fr" id="returnValue">
-                                        <select class="selectArea fr" id="returnedselect">
+                                        <select class="selectArea fr revise" id="returnedselect">
+                                            <option class="select_hide">请选择查询条件</option>
                                             <option>退货单号</option>
                                             <option>订单号</option>
                                             <option>退货状态</option>
@@ -337,6 +339,7 @@
                                 <label class="listName mt20">密码：</label>
                                 <input type="text" class="inputList" id="addUserPassword">
                             </li>
+                            <li class="warn"></li>
                             <li>
                                 <input type="button" value="保存" class="save mt50" id="addUser">
                             </li>

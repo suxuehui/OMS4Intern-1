@@ -7,7 +7,6 @@ var inlistnull;
 
 //点击查询时无结果就显示提示
 function inGNPage(pagenow){
-
     inlistnull=0;//每次调用时初始化全局变量
     //此处不可直接调用inGetnowPage(page)函数，否则第一次进入页面不查寻且无数据也会有提示信息
     var  myselect=document.getElementById("inselectid");
