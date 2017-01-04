@@ -156,7 +156,7 @@
                                     <input type="button" value="查询" class="submitBtn fr" id="selectgoodsbut">
                                     <input type="text" class="textArea fr" id="goodsvaluetxt">
                                     <select class="selectArea fr revise" id="selectGoodssle" value="1">
-                                        <option >请选择查询条件</option>
+                                        <option class="select_hide">请选择查询条件</option>
                                         <option id="selectGoodsByNameop">按名称查询</option>
                                         <option id="selectGoodsByIdop">按商品编码查询</option>
 
@@ -247,7 +247,7 @@
                                         <input type="button" value="查询" class="submitBtn fr" id="serarchReturnedOrder">
                                         <input type="text" class="textArea fr" id="returnValue">
                                         <select class="selectArea fr revise" id="returnedselect">
-                                            <option >请选择查询条件</option>
+                                            <option class="select_hide">请选择查询条件</option>
                                             <option>退货单号</option>
                                             <option>订单号</option>
                                             <option>退货状态</option>
