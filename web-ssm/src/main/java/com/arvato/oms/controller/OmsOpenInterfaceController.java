@@ -35,6 +35,8 @@ public class OmsOpenInterfaceController {
     private InboundorderService inboundorderserviceimpl;
     @Resource
     private ExceptionService exceptionServiceImpl;
+    @Resource
+    private RelationogService relationogServiceImpl;
 
     //接受wms传来的数据，更新出库单
     @RequestMapping(value = "updateOutboundOrder")
@@ -219,8 +221,12 @@ public class OmsOpenInterfaceController {
                 if(goodsTolnum2==null){
                     return "{\"msg\":\"105\"}";//未获得商品总库存
                 }
-                //修改其商品状态,库存
-                goodsServiceImpl.updateGoodsState(goodsState2,goodsTolnum2,goodsNo2);
+                //计算锁定库存
+                Integer lockSum = relationogServiceImpl.selectGoodsRnum(goodsNo2);
+                //计算可用库存
+                int goodsvnum =  Integer.parseInt(goodsTolnum2)-lockSum.intValue();
+                //修改其商品状态,库存,可用库存
+                goodsServiceImpl.updateGoodsState(goodsState2,goodsTolnum2,goodsvnum,goodsNo2);
             }
 
         }

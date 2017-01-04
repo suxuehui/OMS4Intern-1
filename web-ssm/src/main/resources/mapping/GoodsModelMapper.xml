@@ -48,8 +48,9 @@
   <update id="updateGoodsState" >
     update goods
     set goodsState = #{0,jdbcType=VARCHAR},
-        goodstolnum =#{1,jdbcType=INTEGER}
-    where goodsNo = #{2,jdbcType=VARCHAR}
+        goodstolnum =#{1,jdbcType=INTEGER},
+        goodsvnum = #{2,jdbcType=INTEGER},
+    where goodsNo = #{3,jdbcType=VARCHAR}
   </update>
 
   <!--按订单号分页查询商品信息-->

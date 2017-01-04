@@ -38,10 +38,8 @@ function refoundGetnowPage(pagenow){
             for(var obj in dataList){
                 i++;
                 var  list=dataList[obj];
-                var html='<tr><td>'+i+'</td><td><input type="checkbox" value="'+list.drawbackid+'" name="refoundOrder_ck" onclick="refoundOrder_getDrawbackid()" ></td><td>';
-                html+= '<button id="'+list.drawbackid+'" style="border-style:none;outline:none;background-color:transparent" ' +
-                    'ondblclick="refounddbClick(this.id)" onclick="refoundsingleClick(this.id)">'+list.drawbackid+'</button>'+
-                    '</td>';
+                var html='<tr><td>'+i+'</td><td><input type="checkbox" value="'+list.drawbackid+'" name="refoundOrder_ck" onclick="refoundOrder_getDrawbackid()" ></td><td id="'+list.drawbackid+'" ' +
+                    'ondblclick="refounddbClick(this.id)" onclick="refoundsingleClick(this.id)">'+list.drawbackid+'</td>';
                 html+='<td>'+list.drawbackmoney+'</td><td>'
                     +list.drawbackstatus+'</td><td>'+list.returnedid+'</td><td>' +list.createtime+'</td><td>'
                     +list.modifytime+'</td><td>' +list.modifyman+'</td></tr>'
