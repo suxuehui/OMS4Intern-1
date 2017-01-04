@@ -185,11 +185,11 @@ public class ExceptionController {
                     for(int j=0;j<exOid.length;j++){
                         //先删除异常页面的异常订单
                         exceptionServiceImpl.deleteByOid(exOid[j]);
-                        String orderStatus6 ="待预检";
+                        String orderStatus6 ="缺货等待";
+                        String outboundState = "缺货";
                         //先将订单状态改为“待预检”,然后才能进行订单的修改操作
                         orderServiceImpl.updateOrder2(orderStatus6,new Date(),userName,exOid[j]);
-                        //再删除订单页面的订单信息
-                        orderServiceImpl.cancleOrder(exOid[j],userName);
+                        outboundorderServiceImpl.updateOutbound2(orderStatus6,outboundState,new Date(),userName,exOid[j]);
                         return "{\"msg\":\"2\"}";
                     }
                 }

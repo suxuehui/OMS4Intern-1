@@ -100,8 +100,8 @@ public class OmsOpenInterfaceController {
         }else if("缺货".equals(outboundState)){
             String orderStatus="缺货异常";
             String outboundState2="仓库库存异常";
-            String expressCompany2="";
-            String expressId2="";
+            String expressCompany2=null;
+            String expressId2=null;
             //向出库表中添加快递公司，快递单号,仓库出库单号的信息,以及修改出库单状态，订单状态
             outboundServiceImpl.updateOutboundorder(orderStatus,outboundState2,warehouseObid,expressCompany2,expressId2,new Date(),userName,outboundId);
             //先从出库表获取订单号，然后更新订单列表的订单状态
@@ -123,8 +123,8 @@ public class OmsOpenInterfaceController {
 
         }else if("已取消".equals(outboundState)){
             String orderStatus="已取消";
-            String expressCompany3="";
-            String expressId3="";
+            String expressCompany3=null;
+            String expressId3=null;
             //向出库表中添加快递公司，快递单号,仓库出库单号的信息,以及修改出库单状态，订单状态
             outboundServiceImpl.updateOutboundorder(orderStatus,outboundState,warehouseObid,expressCompany3,expressId3,new Date(),userName,outboundId);
             //先从出库表获取订单号，然后更新订单列表的订单状态
