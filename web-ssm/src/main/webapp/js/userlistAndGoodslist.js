@@ -1086,6 +1086,7 @@ $(
             }
         );
 
+        
         $('#endreturnedGoodsPage').click(
             function () {
                 $('#prereturnedGoodsPage').show();
@@ -1098,6 +1099,7 @@ $(
             }
         );
 
+        //退款单详细页面
         $('#returnedDetailbut').click(
             function () {
                 var returnIdArray = new Array();
@@ -1110,6 +1112,7 @@ $(
             }
         );
 
+        //审核
         $('#checkreturnedorder').click(
             function () {
                 var successCount = 0;
@@ -1152,6 +1155,8 @@ $(
 
             }
         );
+
+        //取消订单
         $("#cancelReturnedOrder").click(
             function () {
                 var returnIdArray = new Array();
@@ -1199,8 +1204,9 @@ $(
             }
         );
 
+        //创建退款单
         $("#returnedCreaterefoundOder").click(function () {
-            //创建退款单
+
             var returnIdArray = new Array();
             var i = 0;
             var successCount = 0;
@@ -1270,10 +1276,9 @@ $(
 
         });
 
-        var changesuccessCount = 0;
-        var changeErrorCount = 0;
+        //换货发货
         $("#changeOutBound").click(function () {
-            //换货发货
+
             var changesuccessCount = 0;
             var changeErrorCount = 0;
             var returnIdArray = new Array();
@@ -1345,6 +1350,7 @@ $(
 
         });
 
+        //退款单查询按钮点击事件
         $("#serarchReturnedOrder").click(
             function () {
                 $("#returnedPageNow").html(1);
@@ -1368,13 +1374,14 @@ $(
             }
         );
 
+        //选择高亮
         $("tbody").delegate("tr", "click", function () {
             $(this).addClass('changeColor') //为选中项添加高亮
                 .siblings().removeClass('changeColor')//去除其他项的高亮形式
                 .end();
         });
 
-
+        //退货单按钮控制
         $("tbody").on("click", "input[name='returnedcheck']", function () {
             var returnIdArray = new Array();
             var i = 0;
@@ -1419,4 +1426,35 @@ $(
 
 
         });
+
+
+        $("#returnListBut").click(
+            function () {
+                selectReturnByvalue(1);
+            }
+        );
+
+        $("#userListbut").click(
+            function(){
+                selectByUserName(1);
+            }
+        );
+
+        $("#userListSonbut").click(
+            function(){
+                selectByUserName(1);
+            }
+        );
+        
+        $("#goodsListbut").click(
+            function () {
+                selectGoodsByValue(1);
+        });
+
+        $("#goodListSonBut").click(
+            function () {
+                selectGoodsByValue(1);
+            }
+        );
+
     });

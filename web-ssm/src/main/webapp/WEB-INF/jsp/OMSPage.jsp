@@ -41,15 +41,15 @@
             <div class="menuTit">OMS</div>
             <ul>
                 <c:if test="${urole == 1}">
-                    <li class="on">用户</li>
-                    <li>商品</li>
+                    <li class="on" id="userListbut">用户</li>
+                    <li id="goodsListbut">商品</li>
                     <li>仓库</li>
                     <li>订单</li>
                 </c:if>
 
                 <c:if test="${urole == 2}">
                     <li></li>
-                    <li class="on">商品</li>
+                    <li class="on" id="goodsListbut">商品</li>
                     <li>仓库</li>
                     <li>订单</li>
                 </c:if>
@@ -67,7 +67,7 @@
                         <li>
                             <ul class="orderListCent">
                                 <li class="listTit"><p class="listContTit">用户管理</p></li>
-                                <li class="on"><a>用户列表</a></li>
+                                <li class="on" id="userListSonbut"><a>用户列表</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -142,7 +142,7 @@
                         <li>
                             <ul class="orderListCent">
                                 <li class="listTit"><p class="listContTit">商品管理</p></li>
-                                <li class="on"><a>商品列表</a></li>
+                                <li class="on" id="goodListSonBut"><a>商品列表</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -208,8 +208,8 @@
                         <li class="listTit"><p class="listContTit">出入库单管理</p></li>
                         <li><a id="2">出库单列表</a></li>
                         <li><a id="3">入库单列表</a></li>
-                        <li class="listTit"><p class="listContTit">退货单管理</p></li>
-                        <li><a id="4">退货单列表</a></li>
+                        <li  class="listTit"><p class="listContTit">退货单管理</p></li>
+                        <li id="returnListBut"><a id="4">退货单列表</a></li>
                         <li><a id="5">退款单列表</a></li>
                     </ul>
                 </div><!--orderList结束-->
@@ -308,9 +308,9 @@
                         <div class="page"><span id="returnedidongoods" hidden>null</span> <span
                                     id="returnedGoodsPageNow" hidden>1</span> <span
                                     id="totalreturnedGoodsPage" hidden>0</span><a
-                                    id="endreturnedGoodsPage">尾页</a><a id="nextreturnedGoodsPage">下一页</a><a
-                                    id="prereturnedGoodsPage">上一页</a><a
-                                    id="firstreturnedGoodsPage">首页</a></div>
+                                    id="endreturnedGoodsPage" hidden>尾页</a><a id="nextreturnedGoodsPage" hidden>下一页</a><a
+                                    id="prereturnedGoodsPage" hidden>上一页</a><a
+                                    id="firstreturnedGoodsPage" hidden>首页</a></div>
                         </div>
                 </div>
                 <!--退款单列表-->
@@ -372,39 +372,7 @@
                 </div>
             </div>
         </div>
-        <!--customShow结束-->
-        <%--<div class="productShow revise">--%>
-            <%--<div class="popupTop">--%>
-                <%--<span class="iconClose fr" id="closeoodsicon"></span>--%>
-                <%--<p class="popupTopTit">添加商品</p>--%>
-            <%--</div>--%>
-            <%--<div class="popupCont revise">--%>
 
-                <%--<ul>--%>
-                    <%--<li>--%>
-                        <%--<label class="listName">商品编号：</label>--%>
-                        <%--<input type="text" class="inputList">--%>
-                    <%--</li>--%>
-                    <%--<li>--%>
-                        <%--<label class="listName">商品名称：</label>--%>
-                        <%--<input type="text" class="inputList">--%>
-                    <%--</li>--%>
-                    <%--<li>--%>
-                        <%--<label class="listName">总库存：</label>--%>
-                        <%--<input type="text" class="inputList">--%>
-                    <%--</li>--%>
-                    <%--<li>--%>
-                        <%--<label class="listName">价格：</label>--%>
-                        <%--<input type="text" class="inputList">--%>
-                    <%--</li>--%>
-                 <%----%>
-                    <%--<li>--%>
-                        <%--<input type="button" value="保存" class="save">--%>
-                    <%--</li>--%>
-                <%--</ul>--%>
-            <%--</div>--%>
-        <%--</div>--%>
-        <!--productShow结束-->
         <div class="storeShow">
             <div>
                 <div class="popupTop">
