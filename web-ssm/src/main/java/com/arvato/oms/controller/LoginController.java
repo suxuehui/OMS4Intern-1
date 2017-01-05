@@ -19,8 +19,6 @@ public class LoginController
 {
 
     private Logger log = Logger.getLogger(LoginController.class);
-//    @Resource
-//    private UserService userService;
 
     @Resource
     private UserModelService userModelService;

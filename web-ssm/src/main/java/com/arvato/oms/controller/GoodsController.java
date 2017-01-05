@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("/goods")
 public class GoodsController
 {
-    private Logger log = Logger.getLogger(GoodsController.class);
+
 
     @Resource
     GoodsModelService goodsModelService;
