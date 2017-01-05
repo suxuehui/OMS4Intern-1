@@ -112,9 +112,9 @@
                             </form>
                         </div>
                         <div class="page"><span id="userPageNow" hidden>1</span> <span id="totalUserPage"
-                                                                                       hidden>0</span><a
-                                id="endUserPage">尾页</a><a id="nextUserPage">下一页</a><a id="preUserPage">上一页</a><a
-                                id="firstUserPage">首页</a></div>
+                                                                                      hidden>0</span><a
+                                id="endUserPage" hidden>尾页</a><a id="nextUserPage" hidden>下一页</a><a id="preUserPage" hidden>上一页</a><a
+                                id="firstUserPage" hidden>首页</a></div>
                     </div>
                 </div><!--orderMain结束-->
             </div>
@@ -187,9 +187,9 @@
                             </form>
                         </div>
                         <div class="page"><span id="goodsPageNow" hidden>1</span> <span id="totalGoodPage"
-                                                                                        hidden>0</span><a
-                                id="endGoodsPage">尾页</a><a id="nextGoodsPage">下一页</a><a id="preGoodsPage">上一页</a><a
-                                id="firstGoodsPage">首页</a></div>
+                                                                                       >0</span><a
+                                id="endGoodsPage" hidden>尾页</a><a id="nextGoodsPage" hidden>下一页</a><a id="preGoodsPage" hidden>上一页</a><a
+                                id="firstGoodsPage" hidden>首页</a></div>
                     </div>
                 </div>
                 <!--orderMain结束-->
@@ -282,9 +282,9 @@
                                 </div>
                                 <div class="page"><span id="returnedPageNow" hidden>1</span> <span
                                         id="totalReturnedPage" hidden>0</span><a
-                                        id="endReturnedPage">尾页</a><a id="nextReturnedPage">下一页</a><a
-                                        id="preReturnedPage">上一页</a><a
-                                        id="firstReturnedPage">首页</a></div>
+                                        id="endReturnedPage" hidden>尾页</a><a id="nextReturnedPage" hidden>下一页</a><a
+                                        id="preReturnedPage" hidden>上一页</a><a
+                                        id="firstReturnedPage" hidden>首页</a></div>
                             </div>
                         </div>
                         <div class="orderDetails">
@@ -339,7 +339,7 @@
                                 <label class="listName mt20">密码：</label>
                                 <input type="text" class="inputList" id="addUserPassword">
                             </li>
-                            <li class="warn"></li>
+                            <li class="warn" id="addUserMsg"></li>
                             <li>
                                 <input type="button" value="保存" class="save mt50" id="addUser">
                             </li>
@@ -363,6 +363,7 @@
                                 <label class="listName mt20">新密码：</label>
                                 <input type="text" class="inputList" id="updateUserPassword">
                             </li>
+                            <li class="warn" id="updateUserMsg"></li>
                             <li>
                                 <input type="button" value="保存" class="save mt50" id="updateUser">
                             </li>
@@ -372,36 +373,37 @@
             </div>
         </div>
         <!--customShow结束-->
-        <div class="productShow revise">
-            <div class="popupTop">
-                <span class="iconClose fr" id="closeoodsicon"></span>
-                <p class="popupTopTit">添加商品</p>
-            </div>
-            <div class="popupCont revise">
+        <%--<div class="productShow revise">--%>
+            <%--<div class="popupTop">--%>
+                <%--<span class="iconClose fr" id="closeoodsicon"></span>--%>
+                <%--<p class="popupTopTit">添加商品</p>--%>
+            <%--</div>--%>
+            <%--<div class="popupCont revise">--%>
 
-                <ul>
-                    <li>
-                        <label class="listName">商品编号：</label>
-                        <input type="text" class="inputList">
-                    </li>
-                    <li>
-                        <label class="listName">商品名称：</label>
-                        <input type="text" class="inputList">
-                    </li>
-                    <li>
-                        <label class="listName">总库存：</label>
-                        <input type="text" class="inputList">
-                    </li>
-                    <li>
-                        <label class="listName">价格：</label>
-                        <input type="text" class="inputList">
-                    </li>
-                    <li>
-                        <input type="button" value="保存" class="save">
-                    </li>
-                </ul>
-            </div>
-        </div>
+                <%--<ul>--%>
+                    <%--<li>--%>
+                        <%--<label class="listName">商品编号：</label>--%>
+                        <%--<input type="text" class="inputList">--%>
+                    <%--</li>--%>
+                    <%--<li>--%>
+                        <%--<label class="listName">商品名称：</label>--%>
+                        <%--<input type="text" class="inputList">--%>
+                    <%--</li>--%>
+                    <%--<li>--%>
+                        <%--<label class="listName">总库存：</label>--%>
+                        <%--<input type="text" class="inputList">--%>
+                    <%--</li>--%>
+                    <%--<li>--%>
+                        <%--<label class="listName">价格：</label>--%>
+                        <%--<input type="text" class="inputList">--%>
+                    <%--</li>--%>
+                 <%----%>
+                    <%--<li>--%>
+                        <%--<input type="button" value="保存" class="save">--%>
+                    <%--</li>--%>
+                <%--</ul>--%>
+            <%--</div>--%>
+        <%--</div>--%>
         <!--productShow结束-->
         <div class="storeShow">
             <div>

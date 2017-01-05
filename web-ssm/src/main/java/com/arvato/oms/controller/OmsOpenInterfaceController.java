@@ -240,6 +240,8 @@ public class OmsOpenInterfaceController {
     @ResponseBody
     public String updateInboundOrder(@RequestBody String message,HttpSession session) {
         int s = 0;
+        int updateReturnedOrderSign = 0;
+
         Date modifytime=null;
         String modifyman = (String)session.getAttribute("uname");
        System.out.print ("----------------------"+modifyman);
@@ -257,6 +259,7 @@ public class OmsOpenInterfaceController {
                     String inboundState = inbound.getJSONObject(i).getString("inboundState");
                     Date date=new Date();
                     s = inboundorderserviceimpl.updateByInboundId(inboundId, inboundState,date,modifyman);
+
                     if (s == 0) {
                         return "{\"status_codes\":000,\"msg\":\"参数的数据格式有误\",\"body\":\"入库单更新失败\"}";
                     }
