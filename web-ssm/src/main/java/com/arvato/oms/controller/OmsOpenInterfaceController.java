@@ -57,7 +57,7 @@ public class OmsOpenInterfaceController {
         }
         //仓库出库单号
         String warehouseObid=outbound_message.getString("warehouseObid");
-        if(warehouseObid==null){
+        if(warehouseObid==null||"".equals(warehouseObid)){
             return "{\"msg\":\"301\"}";//仓库出库单号不能为空
         }
         if (warehouseObid.length()!=22||!"WO".equals(warehouseObid.substring(0,2))){
@@ -66,7 +66,7 @@ public class OmsOpenInterfaceController {
         }
         //出库单号
         String outboundId =outbound_message.getString("outboundId");
-        if(outboundId==null){
+        if(outboundId==null||"".equals(outboundId)){
             return "{\"msg\":\"303\"}";//出库单号不能为空
         }
         if(outboundId.length()!=22||!"SO".equals(outboundId.substring(0,2))){
@@ -75,23 +75,26 @@ public class OmsOpenInterfaceController {
         }
         //出库单状态
         String outboundState = outbound_message.getString("outboundState");
-        if(outboundState==null){
+        if(outboundState==null||"".equals(outboundState)){
             return "{\"msg\":\"305\"}";//出库单状态不能为空
         }
         if("已发货".equals(outboundState)){
             //快递公司
             String expressCompany =outbound_message.getString("expressCompany");
-            if(expressCompany==null){
+            if(expressCompany==null||"".equals(expressCompany)){
                 return "{\"msg\":\"306\"}";//快递公司不能为空
             }
             //快递单号
             String expressId = outbound_message.getString("expressId");
-            if(expressId==null){
+            if(expressId==null||"".equals(expressId)){
                 return "{\"msg\":\"307\"}";//快递单号不能为空
             }
             Pattern pattern = Pattern.compile("[0-9]*");
             Matcher isNum = pattern.matcher(expressId);
             if( !isNum.matches() ){
+                return "{\"msg\":\"309\"}";//快递单号格式错误
+            }
+            if(expressId.length()<10||expressId.length()>16){
                 return "{\"msg\":\"309\"}";//快递单号格式错误
             }
             String orderStatus="已发货";
@@ -139,13 +142,16 @@ public class OmsOpenInterfaceController {
             String orderStatus="补货成功";
             //快递公司
             String expressCompany4 =outbound_message.getString("expressCompany");
-            if(expressCompany4==null){
+            if(expressCompany4==null||"".equals(expressCompany4)){
                 return "{\"msg\":\"306\"}";//快递公司不能为空
             }
             //快递单号
             String expressId4 = outbound_message.getString("expressId");
-            if(expressId4==null){
+            if(expressId4==null||"".equals(expressId4)){
                 return "{\"msg\":\"307\"}";//快递单号不能为空
+            }
+            if(expressId4.length()<10||expressId4.length()>16){
+                return "{\"msg\":\"309\"}";//快递单号格式错误
             }
             //向出库表中添加快递公司，快递单号,仓库出库单号的信息,以及修改出库单状态，订单状态
             outboundServiceImpl.updateOutboundorder(orderStatus,outboundState,warehouseObid,expressCompany4,expressId4,new Date(),userName,outboundId);
@@ -227,20 +233,17 @@ public class OmsOpenInterfaceController {
                     return "{\"msg\":\"105\"}";//未获得商品总库存
                 }
                 Integer GoodsNum = relationogServiceImpl.countGoodsNum(goodsNo2);
-                System.out.println("ssssssssssssssssssssssssssssssssGoodsNum:"+GoodsNum);
                 if(GoodsNum>0)
                 {
                     //计算锁定库存
                     Integer lockSum = relationogServiceImpl.selectGoodsRnum(goodsNo2);
                     //计算可用库存
                     Integer goodsvnum =  Integer.parseInt(goodsTolnum2)-lockSum.intValue();
-
                     //修改其商品状态,库存,可用库存
                     goodsServiceImpl.updateGoodsState(goodsState2,goodsTolnum2,Integer.toString(goodsvnum),goodsNo2);
                 }
                 else
                 {
-                    System.out.println("here:================================================");
                     //修改其商品状态,库存,可用库存
                     goodsServiceImpl.updateGoodsState(goodsState2,goodsTolnum2,goodsTolnum2,goodsNo2);
                 }
