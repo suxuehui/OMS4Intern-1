@@ -2,6 +2,7 @@ package com.arvato.oms.job;
 
 import com.arvato.oms.dao.OrderModelMapper;
 import com.arvato.oms.model.OrderModel;
+import org.apache.log4j.Logger;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
@@ -13,6 +14,7 @@ import java.util.List;
  * Created by ZHAN545 on 2017/1/4.
  */
 public class OrderTimer {
+    private Logger log = Logger.getLogger(OrderTimer.class);
     @Resource
     OrderModelMapper orderModelMapper;
     public void updateOrder()
@@ -28,7 +30,10 @@ public class OrderTimer {
             }
             catch (ParseException e)
             {
-                e.printStackTrace();
+                log.info(e);
+            }
+            if(beforeTime==null){
+                return;
             }
             Date nowTime=new Date();
             Long intervalTime=nowTime.getTime()-beforeTime.getTime();

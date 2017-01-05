@@ -125,8 +125,8 @@ public class OrderController
         {
             return null;
         }
-        data=data.trim();
-        return orderService.selects(queryMode,pageNo,pageSize,"%"+data+"%");
+        String str=data.trim();
+        return orderService.selects(queryMode,pageNo,pageSize,"%"+str+"%");
     }
 
     //检查订单是否可以退换货

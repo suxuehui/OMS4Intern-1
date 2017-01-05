@@ -57,7 +57,6 @@ $(function () {
     })
 })
 /*点击checkbox */
-var oidArray=new Array();
 $(function () {
     if(oidArray.length==0)
     {
@@ -84,9 +83,9 @@ function ordercheck(oid) {
     //查看订单按钮状态控制
     if(oidArray.length==0)
     {
-        for(var i=0;i<document.getElementsByName("orderBtn").length;i++)
+        for(var j=0;j<document.getElementsByName("orderBtn").length;j++)
         {
-            document.getElementsByName("orderBtn")[i].disabled=true;
+            document.getElementsByName("orderBtn")[j].disabled=true;
         }
         goodsArray=[];
         return;
@@ -270,7 +269,6 @@ $(function () {
     })
 })
 //商品勾选框
-var goodsArray=new Array();
 function orderGoodCheck(goodsno) {
     if(oidArray.length==0||oidArray.length>1)
     {
@@ -287,18 +285,16 @@ function orderGoodCheck(goodsno) {
             goodsArray.push(goodsno);
             $("#n"+goodsno).removeAttr("readonly");
             $("#n"+goodsno).removeClass("edit");
+            return;
         }
-        else
+        $("#n"+goodsno).attr("readonly","readonly");
+        $("#n"+goodsno).addClass("edit");
+        for(var i=0;i<goodsArray.length;i++)
         {
-            $("#n"+goodsno).attr("readonly","readonly");
-            $("#n"+goodsno).addClass("edit");
-            for(var i=0;i<goodsArray.length;i++)
+            if(goodsArray[i]==goodsno)
             {
-                if(goodsArray[i]==goodsno)
-                {
-                    goodsArray.splice(i,1);
-                    break;
-                }
+                goodsArray.splice(i,1);
+                break;
             }
         }
     }

@@ -3,21 +3,21 @@ package com.arvato.oms.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
-import com.arvato.oms.ExceptionModel.UpdateSqlException;
+import com.arvato.oms.ExceptionModel.NewRunException;
 import com.arvato.oms.ImportTradeModel.Order;
-import com.arvato.oms.ImportTradeModel.Promotion_detail;
 import com.arvato.oms.dao.*;
 import com.arvato.oms.model.*;
 import com.arvato.oms.service.OrderService;
 import com.arvato.oms.utils.HTTPClientDemo;
 import com.arvato.oms.utils.Page;
+import com.arvato.oms.utils.ReadProperties;
+import org.apache.log4j.Logger;
 import org.apache.poi.poifs.filesystem.OfficeXmlFileException;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -27,10 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by ZHAN545 on 2016/12/6.
@@ -54,6 +51,8 @@ public class OrderServiceImpl implements OrderService
     RelationrgModelMapper relationrgModelMapper;
     @Resource
     RefoundOrderModelMapper refoundOrderModelMapper;
+    ReadProperties rp = new ReadProperties();
+    private Logger log = Logger.getLogger(OrderServiceImpl.class);
     //根据订单号分页查询商品信息
     public JSONObject selectByOid(int pageNo,int pageSize,String oId)
     {
@@ -63,10 +62,6 @@ public class OrderServiceImpl implements OrderService
         int count=page.getStartPos();
         int pageTotal=page.getTotalPageCount();
         List<GoodsPojo> goodsPojos=goodsModelMapper.selectByOid(count,pageSize,oId);
-        for(GoodsPojo d:goodsPojos)
-        {
-            System.out.println(d.toString());
-        }
         jObj.put("pageTotal",pageTotal);
         jObj.put("goodsPojos",goodsPojos);
         jObj.put("pageNo",pageNo);
@@ -201,7 +196,7 @@ public class OrderServiceImpl implements OrderService
             return 4;//异常类型有错
         }
         List<RelationogModel> relationogModelList=relationogModelMapper.selectAllByOid(oId);
-        ExceptionModel exceptionModel=null;
+        ExceptionModel exceptionModel;
         if(exceptionType==null||exceptionType.equals("商品异常"))
         {
             for(RelationogModel re:relationogModelList)
@@ -363,7 +358,16 @@ public class OrderServiceImpl implements OrderService
         if(orderModel.getOrderstatus().equals("已出库"))
         {
             OutboundorderModel outboundorderModel=outboundorderModelMapper.selectByOid(oId);
-            HTTPClientDemo httpClientDemo=new HTTPClientDemo("http://114.215.252.146:8080/wms/outboundOrder/cancelOrder");
+            Properties p=null;
+            try {
+                p = rp.readProperties("url.properties");
+            }catch (IOException e)
+            {
+                log.info(e);
+                throw new NewRunException("找不到url.properties文件");
+            }
+            String cancelOrderUrl=(String)p.get("cancleOrderUrl");
+            HTTPClientDemo httpClientDemo=new HTTPClientDemo(cancelOrderUrl);
             String str=httpClientDemo.getMethod("outboundorderid",outboundorderModel.getOutboundid());
             String code="";
             try
@@ -391,6 +395,7 @@ public class OrderServiceImpl implements OrderService
             }
             catch (Exception e)
             {
+                log.info(e);
                 return 4;//接口连接异常
             }
             if(code.equals("101"))
@@ -414,7 +419,8 @@ public class OrderServiceImpl implements OrderService
             return createReturned(oId);
         }catch(Exception e)
         {
-            throw new UpdateSqlException("数据库更新异常");
+            log.info(e);
+            throw new NewRunException("数据库更新异常");
         }
     }
     //根据订单号生成退款单
@@ -483,7 +489,8 @@ public class OrderServiceImpl implements OrderService
             return sendOutboundOrder(orderModel,outboundorderModel,uname);
         }catch(RuntimeException e)
         {
-            throw new UpdateSqlException("更新数据库异常");
+            log.info(e);
+            throw new NewRunException("更新数据库异常");
         }
     }
     //调用WMS接口发送出库单
@@ -499,7 +506,7 @@ public class OrderServiceImpl implements OrderService
             wmsGoods.setName(goods.getGoodsname());
             wmsGoods.setNum(goods.getGoodNum());
             wmsGoods.setPrice(goods.getGoodsprice());
-            wmsGoods.setTotalprice(new BigDecimal(goods.getGoodNum()*(goods.getGoodsprice().doubleValue())));
+            wmsGoods.setTotalprice(BigDecimal.valueOf(goods.getGoodNum()*(goods.getGoodsprice().doubleValue())));
             wmsGoods.setOutboundnum(goods.getGoodNum());
             outBoundGoodsList.add(wmsGoods);
         }
@@ -514,15 +521,24 @@ public class OrderServiceImpl implements OrderService
         deliveryOrder.put("receiveraddress",outboundorderModel.getReceiveraddress());
         jsonObject.put("outboundordergoods",outBoundGoodsList);
         jsonObject.put("deliveryOrder",deliveryOrder);
-        HTTPClientDemo httpClientDemo=new HTTPClientDemo("http://114.215.252.146:8080/wms/outboundOrder/receiveOrder");
+        Properties p;
+        try {
+            p = rp.readProperties("url.properties");
+        }catch (IOException e)
+        {
+            log.info(e);
+            throw new NewRunException("找不到url.properties文件");
+        }
+        String sendOutboundOrderUrl=(String)p.get("sendOutboundOrderUrl");
+        HTTPClientDemo httpClientDemo=new HTTPClientDemo(sendOutboundOrderUrl);
         String response=httpClientDemo.postMethod(jsonObject.toString());
-        System.out.println(jsonObject.toString());
         String code="";
         try {
             code = JSON.parseObject(response).getString("code");
         }
         catch(Exception e)
         {
+            log.info(e);
             code="接口连接异常";
         }
         if(code.equals("100"))
@@ -625,6 +641,7 @@ public class OrderServiceImpl implements OrderService
         }
         catch(Exception e)
         {
+            log.info(e);
             return 4;//excel内容错误
         }
         JSONObject tradeJson=jsonObject.getJSONObject("trade_fullinfo_get_response").getJSONObject("trade");
@@ -678,7 +695,7 @@ public class OrderServiceImpl implements OrderService
             }
             else
             {
-                divideorderfee=new BigDecimal((totalfee.doubleValue())/(order.getNum()));
+                divideorderfee=BigDecimal.valueOf((totalfee.doubleValue())/(order.getNum()));
             }
             relationogModel.setDivideorderfee(divideorderfee);
             relationogModel.setTotalfee(totalfee);
@@ -729,7 +746,7 @@ public class OrderServiceImpl implements OrderService
             relationRgModels[i].setGoodsno(goodsList.get(i).getGoodsno());
             relationRgModels[i].setGoodnum(goodsList.get(i).getGoodNum());
         }
-        returnedModel.setReturnedmoney(new BigDecimal(returnedMoney));
+        returnedModel.setReturnedmoney(BigDecimal.valueOf(returnedMoney));
         returnedModel.setReturnedstatus("待审核");
         Date date=new Date();
         returnedModel.setCreatetime(date);
@@ -770,6 +787,7 @@ public class OrderServiceImpl implements OrderService
             }
             catch(Exception e)
             {
+                log.info(e);
                 return 2;//文件格式不正确
             }
             is.close();
@@ -789,14 +807,14 @@ public class OrderServiceImpl implements OrderService
             }
         }catch(FileNotFoundException e)
         {
-            e.printStackTrace();
+            log.info(e);
         }
         catch (OfficeXmlFileException e)
         {
-            e.printStackTrace();
+            log.info(e);
         }
         catch (IOException e) {
-            e.printStackTrace();
+            log.info(e);
         }
         return 1;
     }

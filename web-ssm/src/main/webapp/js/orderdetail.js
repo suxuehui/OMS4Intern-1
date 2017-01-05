@@ -1,9 +1,3 @@
-// JavaScript Document
-// $(document).ready(function() {
-//     $(".borderBottom .contentBtn:last-child").click(function(){
-// 	  $(".loading").show();
-// 	});
-// });
 
 $(document).ready(function(){
     $(".borderBottom .contentBtn:first-child").click(function(){
@@ -83,7 +77,6 @@ $(function () {
 $(function () {
     $("#cancleOrderBtn,#save").attr("disabled",true);
     var status=$("#orderStatus").text();
-    var statusArray=["已发货","已完成","已取消"];
     if(status=="已发货"||status=="已完成"||status=="已取消")
     {
         $("#editOrder").attr('disabled',true);

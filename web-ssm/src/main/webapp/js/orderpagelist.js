@@ -6,6 +6,9 @@ var queryModeTemp=1;
 var queryData="";
 var queryDateTemp="";
 var orderPageSize=10;
+var orderGoodsPageSize=5;
+var oidArray=[];
+var goodsArray=[];
 window.onload=onloadqueryOrder();
 //页面加载时查询
 function  onloadqueryOrder() {
@@ -58,7 +61,6 @@ function translationOrder(data)
 {
     var pageTotal=data.pageTotal;
     var pageNo=data.pageNo;
-    var pageTotal=data.pageTotal
     $("#orderPageNo").text(pageNo);
     $("#orderPageTotal").text(pageTotal);
     var orderModels=data.orderModels;
@@ -83,10 +85,10 @@ function translationOrder(data)
             +orderModels[i].zipcode+'</td><td>'+changeNull(orderModels[i].modifytime)+'</td><td>'
             +changeNull(orderModels[i].modifyman)+'</td></tr>'
     }
-     oidArray=[];
-    for(var i=0;i<document.getElementsByName("orderBtn").length;i++)
+    oidArray=[];
+    for(var j=0;j<document.getElementsByName("orderBtn").length;j++)
     {
-        document.getElementsByName("orderBtn")[i].disabled=true;
+        document.getElementsByName("orderBtn")[j].disabled=true;
     }
     $("#order").html(html);
     if(pageNo==1)
@@ -156,7 +158,7 @@ function ordersgclick(oid) {
     //执行延时
     time = setTimeout(function(){
         oId=oid;
-        queryGoodsByOid(1,orderPageSize,oid);
+        queryGoodsByOid(1,orderGoodsPageSize,oid);
     },300);
 
 }
@@ -221,19 +223,19 @@ function queryGoodsByOid(pageNo,pageSize,oid) {
 //商品跳页
 $(function () {
     $("#ogFirstpage").click(function () {
-        queryGoodsByOid(1,orderPageSize,oId);
+        queryGoodsByOid(1,orderGoodsPageSize,oId);
     });
     $("#ogPrepage").click(function () {
         var pageNo=$("#ogPageNo").text()-1;
-        queryGoodsByOid(pageNo,orderPageSize,oId);
+        queryGoodsByOid(pageNo,orderGoodsPageSize,oId);
     });
     $("#ogNextpage").click(function () {
         var pageNo=$("#ogPageNo").text();
-        queryGoodsByOid(++pageNo,orderPageSize,oId);
+        queryGoodsByOid(++pageNo,orderGoodsPageSize,oId);
     });
     $("#ogLastpage").click(function () {
         var pageNo=$("#ogPageTotal").text();
-        queryGoodsByOid(pageNo,orderPageSize,oId);
+        queryGoodsByOid(pageNo,orderGoodsPageSize,oId);
 
     });
 })
