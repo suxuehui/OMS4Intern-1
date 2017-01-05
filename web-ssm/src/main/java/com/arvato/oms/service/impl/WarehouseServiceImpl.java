@@ -127,7 +127,7 @@ public class WarehouseServiceImpl implements WarehouseService {
       } catch (Exception e){
           add=3;
           Logger logger = Logger.getLogger(WarehouseController.class);
-          logger.info("添加失败");
+          logger.info("仓库添加失败"+e);
       }
         return add;
     }
@@ -152,30 +152,44 @@ public class WarehouseServiceImpl implements WarehouseService {
         boolean name = Pattern.matches("[\\u4E00-\\u9FA5A-Za-z0-9_]{1,}", warehousename);
         boolean updatebl = num && name;
         int update=3;//仓库已存在
-        List<String> listnum = warehouseModelModel.selectBywhIdandNum(wareid, warehousenum);
-        if (listnum.size() == 0) {
-            if (updatebl) { //向数据库编辑仓库
+        try{
+            List<String> listnum = warehouseModelModel.selectBywhIdandNum(wareid, warehousenum);
+            if (listnum.size() == 0) {
+              if (updatebl) { //向数据库编辑仓库
                 update = this.warehouseModelModel.updateWarehouse(wareid, warehousenum, warehousename);
-            }
-            else {
+               }
+               else {
                 update = 2;//用户输入信息格式有误
+               }
             }
-        }
-        return update;
+              return update;
+     }catch(Exception e){
+            Logger logger = Logger.getLogger(WarehouseController.class);
+            logger.info("仓库编辑失败"+e);
+            return update;
+     }
     }
 
 
     //删除仓库
     public int deleteWarehouseById(String[] id) {
         int delete=0;
-        for(int i=0;i<id.length; i++){
-            int wareid=Integer.parseInt (id[i]);
-             delete=warehouseModelModel.deleteByPrimaryKey(wareid);
-            if(delete==0){
-                break;
-            }
-        }
-        return delete;
+       try{
+           for(int i=0;i<id.length; i++){
+               int wareid=Integer.parseInt (id[i]);
+               delete=warehouseModelModel.deleteByPrimaryKey(wareid);
+               if(delete==0){
+                   break;
+               }
+           }
+           return delete;
+       }catch(Exception e){
+           Logger logger = Logger.getLogger(WarehouseController.class);
+           logger.info("仓库删除失败"+e);
+           return delete;
+       }
+
+
     }
 
 

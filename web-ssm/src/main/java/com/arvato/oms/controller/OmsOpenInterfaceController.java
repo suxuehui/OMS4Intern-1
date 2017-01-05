@@ -5,6 +5,7 @@ import com.arvato.oms.model.OrderModel;
 import com.arvato.oms.service.*;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,8 +15,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -259,39 +258,42 @@ public class OmsOpenInterfaceController {
     public String updateInboundOrder(@RequestBody String message,HttpSession session) {
         int s = 0;
         int updateReturnedOrderSign = 0;
-
-        Date modifytime=null;
         String modifyman = (String)session.getAttribute("uname");
-       System.out.print ("----------------------"+modifyman);
         try {
-            JSONObject object = JSONObject.fromObject(message);//获得从client传来的json对象
-            String status_codes = object.getJSONObject("inbound_update_message").getString("status_codes"); //获得状态码
-            JSONObject inbounds = object.getJSONObject("inbound_update_message").getJSONObject("inbounds"); //获得入库更新信息数组
-            JSONArray inbound = inbounds.getJSONArray("inbound");
-            Map<String, Object> map = new HashMap<String, Object> ();
-            int code = Integer.parseInt(status_codes);
-            if (code == 1) {
-                //向数据库写入数据
-                for (int i = 0; i < inbound.size(); i++) {
-                    String inboundId = inbound.getJSONObject(i).getString("inboundId");
-                    String inboundState = inbound.getJSONObject(i).getString("inboundState");
-                    Date date=new Date();
-                    s = inboundorderserviceimpl.updateByInboundId(inboundId, inboundState,date,modifyman);
-                    updateReturnedOrderSign = returnedModelService.updateReturnedStateByIid(inboundId,inboundState,date,modifyman);
-
-                    if (s == 0 || updateReturnedOrderSign==0) {
-                        return "{\"status_codes\":000,\"msg\":\"参数的数据格式有误\",\"body\":\"入库单更新失败\"}";
-                    }
-                }
-                return "{\"status_codes\":222,\"msg\":\"入库单状态更新成功\",\"body\":\"入库单状态更新成功\"}";
-            }
-            else{
-                return "{\"status_codes\":111,\"msg\":\"json字符串格式有误\",\"body\":\"入库单数据参数接收失败\"}";
-            }
-
+            String str=telldata( s, updateReturnedOrderSign, message, modifyman);
+            return str;
         } catch (Exception e) {//异常的捕获
+            Logger logger = Logger.getLogger(OmsOpenInterfaceController.class);
+            logger.info("入库单更新失败"+e);
             return "{\"status_codes\":111,\"msg\":\"json字符串格式有误\",\"body\":\"入库单数据参数接收失败\"}";
         }
     }
 
+//将入库单的数据更新的方法
+    public String  telldata(int s, int updateReturnedOrderSign,String message,String modifyman){
+        JSONObject object = JSONObject.fromObject(message);//获得从client传来的json对象
+        String status_codes = object.getJSONObject("inbound_update_message").getString("status_codes"); //获得状态码
+        JSONObject inbounds = object.getJSONObject("inbound_update_message").getJSONObject("inbounds"); //获得入库更新信息数组
+        JSONArray inbound = inbounds.getJSONArray("inbound");
+        int code = Integer.parseInt(status_codes);
+        if (code == 1) {
+            //向数据库写入数据
+            for (int i = 0; i < inbound.size(); i++) {
+                String inboundId = inbound.getJSONObject(i).getString("inboundId");
+                String inboundState = inbound.getJSONObject(i).getString("inboundState");
+                Date date=new Date();
+                s = inboundorderserviceimpl.updateByInboundId(inboundId, inboundState,date,modifyman);
+                updateReturnedOrderSign = returnedModelService.updateReturnedStateByIid(inboundId,inboundState,date,modifyman);
+                //判断传来的数据是否不合法
+                if (s == 0 || updateReturnedOrderSign==0) {
+                    return "{\"status_codes\":000,\"msg\":\"参数的数据格式有误\",\"body\":\"入库单更新失败\"}";
+                }
+
+            }
+            return "{\"status_codes\":222,\"msg\":\"入库单状态更新成功\",\"body\":\"入库单状态更新成功\"}";
+        }
+        else{
+            return "{\"status_codes\":111,\"msg\":\"json字符串格式有误\",\"body\":\"入库单数据参数接收失败\"}";
+        }
+    }
 }

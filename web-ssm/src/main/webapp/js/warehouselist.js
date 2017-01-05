@@ -78,6 +78,7 @@ function ware(data){
                 + list.warehousenum + ' </td><td>' + list.warehousename + '</td></tr>'
             $("#warehousetab tbody ").append(html);
         }
+
     }
     WareGetNavPage(datapage.totalPageCount,datapage.pageNow);
 }
