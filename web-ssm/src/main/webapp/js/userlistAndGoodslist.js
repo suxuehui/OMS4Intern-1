@@ -1086,7 +1086,7 @@ $(
             }
         );
 
-        
+
         $('#endreturnedGoodsPage').click(
             function () {
                 $('#prereturnedGoodsPage').show();
