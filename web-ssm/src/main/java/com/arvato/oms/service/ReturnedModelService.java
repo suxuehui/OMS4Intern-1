@@ -3,6 +3,7 @@ package com.arvato.oms.service;
 import com.alibaba.fastjson.JSONObject;
 import com.arvato.oms.model.ReturnedModel;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,4 +45,5 @@ public interface ReturnedModelService
     String getReturnOrChange(Integer id);
     //根据id查询退货单是退货还是换货
 
+    int updateReturnedStateByIid(String inboundId,String state,Date date,String modifyman);
 }

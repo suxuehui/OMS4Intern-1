@@ -1403,8 +1403,13 @@ $(
                 if (shouhuowancheng == "yes") {
                     if (returnOrChange == "return") {
                         $('#returnedCreaterefoundOder').removeAttr("disabled");
+                        $('#changeOutBound').attr('disabled', "true");
                     } else if (returnOrChange == "change") {
                         $('#changeOutBound').removeAttr("disabled");
+                        $('#returnedCreaterefoundOder').attr('disabled', "true");
+                    }else if (returnOrChange="error"){
+                        $('#returnedCreaterefoundOder').attr('disabled', "true");
+                        $('#changeOutBound').attr('disabled', "true");
                     }
                 } else {
                     $('#returnedCreaterefoundOder').attr('disabled', "true");

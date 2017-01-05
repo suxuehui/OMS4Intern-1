@@ -104,7 +104,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         json.put("totalPage", page.getTotalPageCount());
         json.put("size", returnedModels.size());
         json.put("getStartPos", page.getStartPos());
-        String s = JSON.toJSONString(json, SerializerFeature.WriteMapNullValue,SerializerFeature.WriteNullStringAsEmpty);
+        String s = JSON.toJSONString(json, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullStringAsEmpty);
         JSONObject jsonObj = JSON.parseObject(s);
         return jsonObj;
     }
@@ -151,7 +151,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         json.put("isHasNext", page.isHasNext());
         json.put("isHasPre", page.isHasPre());
         json.put("start", page.getStartPos());
-        String s = JSON.toJSONString(json, SerializerFeature.WriteMapNullValue,SerializerFeature.WriteNullStringAsEmpty);
+        String s = JSON.toJSONString(json, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullStringAsEmpty);
         JSONObject jsonObj = JSON.parseObject(s);
         return jsonObj;
     }
@@ -174,35 +174,35 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         if (select.equals("退货单号"))
         {
             int count = returnedModelMapper.countReturnedbyId(value);
-            Page page = new Page(count,pageNow, num);
+            Page page = new Page(count, pageNow, num);
             returnedModels = returnedModelMapper.selectReturnedById(page.getStartPos(), num, value);
-            json.put("totalPage",page.getTotalPageCount());
-            json.put("returnedModels",returnedModels);
+            json.put("totalPage", page.getTotalPageCount());
+            json.put("returnedModels", returnedModels);
 
         } else if (select.equals("订单号"))
         {
             int count = returnedModelMapper.countReturnedbyOId(value);
-            Page page = new Page(count,pageNow, num);
+            Page page = new Page(count, pageNow, num);
             returnedModels = returnedModelMapper.selectReturnedByOId(page.getStartPos(), num, value);
-            json.put("totalPage",page.getTotalPageCount());
-            json.put("returnedModels",returnedModels);
+            json.put("totalPage", page.getTotalPageCount());
+            json.put("returnedModels", returnedModels);
         } else if (select.equals("退货状态"))
         {
             int count = returnedModelMapper.countReturnedbyStatus(value);
-            Page page = new Page(count,pageNow, num);
+            Page page = new Page(count, pageNow, num);
             returnedModels = returnedModelMapper.selectReturnedByStatus(page.getStartPos(), num, value);
-            json.put("totalPage",page.getTotalPageCount());
-            json.put("returnedModels",returnedModels);
+            json.put("totalPage", page.getTotalPageCount());
+            json.put("returnedModels", returnedModels);
         } else if (select.equals("渠道订单号"))
         {
             int count = returnedModelMapper.countReturnedbyChannelOid(value);
-            Page page = new Page(count,pageNow, num);
+            Page page = new Page(count, pageNow, num);
             returnedModels = returnedModelMapper.selectReturnedByChannelOid(page.getStartPos(), num, value);
-            json.put("totalPage",page.getTotalPageCount());
-            json.put("returnedModels",returnedModels);
+            json.put("totalPage", page.getTotalPageCount());
+            json.put("returnedModels", returnedModels);
         }
 
-        String s = JSON.toJSONString(json, SerializerFeature.WriteMapNullValue,SerializerFeature.WriteNullStringAsEmpty);
+        String s = JSON.toJSONString(json, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullStringAsEmpty);
         JSONObject jsonObj = JSON.parseObject(s);
 
         return jsonObj;
@@ -261,9 +261,11 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         JSONObject json = new JSONObject();
         ReturnedModel returnedModel = returnedModelMapper.selectByPrimaryKey(id);
         long countoid = outboundorderModelMapper.Countoid(returnedModel.getOid());
-        if (countoid>0){
+        if (countoid > 0)
+        {
             json.put("data", "-1");
-        }else {
+        } else
+        {
             String returnedstatus = returnedModel.getReturnedstatus();
             if (returnedstatus.equals("收货成功"))
             {
@@ -599,7 +601,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         }
 
         json.put("returnedSonList", returnedSonList);
-        String s = JSON.toJSONString(json, SerializerFeature.WriteMapNullValue,SerializerFeature.WriteNullStringAsEmpty);
+        String s = JSON.toJSONString(json, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullStringAsEmpty);
         JSONObject jsonObj = JSON.parseObject(s);
         return jsonObj;
     }
@@ -614,5 +616,27 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
     {
         ReturnedModel returnedModel = returnedModelMapper.selectByPrimaryKey(id);
         return returnedModel.getReturnedorchange();
+    }
+
+    public int updateReturnedStateByIid(String inboundId, String state, Date date, String modifyman)
+    {
+        char[] chars = inboundId.toCharArray();
+
+        String oid = "";
+        for (int i = 2; i < 17; i++)
+        {
+            oid += chars[i];
+        }
+        ReturnedModel returnedModel = returnedModelMapper.selectByOid(oid);
+        returnedModel.setReturnedstatus(state);
+        returnedModel.setModifyman(modifyman);
+        returnedModel.setModifytime(date);
+        int i = returnedModelMapper.updateByPrimaryKeySelective(returnedModel);
+        if (i>0){
+            return i;
+        }else {
+            return 0;
+        }
+
     }
 }
