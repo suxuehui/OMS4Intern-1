@@ -223,12 +223,24 @@ public class OmsOpenInterfaceController {
                 if(goodsTolnum2==null){
                     return "{\"msg\":\"105\"}";//未获得商品总库存
                 }
-                //计算锁定库存
-                Integer lockSum = relationogServiceImpl.selectGoodsRnum(goodsNo2);
-                //计算可用库存
-                int goodsvnum =  Integer.parseInt(goodsTolnum2)-lockSum.intValue();
-                //修改其商品状态,库存,可用库存
-                goodsServiceImpl.updateGoodsState(goodsState2,goodsTolnum2,goodsvnum,goodsNo2);
+                Integer GoodsNum = relationogServiceImpl.countGoodsNum(goodsNo2);
+                System.out.println("ssssssssssssssssssssssssssssssssGoodsNum:"+GoodsNum);
+                if(GoodsNum>0)
+                {
+                    //计算锁定库存
+                    Integer lockSum = relationogServiceImpl.selectGoodsRnum(goodsNo2);
+                    //计算可用库存
+                    Integer goodsvnum =  Integer.parseInt(goodsTolnum2)-lockSum.intValue();
+
+                    //修改其商品状态,库存,可用库存
+                    goodsServiceImpl.updateGoodsState(goodsState2,goodsTolnum2,Integer.toString(goodsvnum),goodsNo2);
+                }
+                else
+                {
+                    System.out.println("here:================================================");
+                    //修改其商品状态,库存,可用库存
+                    goodsServiceImpl.updateGoodsState(goodsState2,goodsTolnum2,goodsTolnum2,goodsNo2);
+                }
             }
 
         }

@@ -17,7 +17,7 @@ public interface GoodsModelService
     void addGoods(String goodsNo,String goodsName,String goodsVnum,String goodsPrice,String goodsTolnum,String goodsState);
 
     //将商品状态改为"已下架"
-    void updateGoodsState(String goodsState2,String goodsTolnum2,Integer goodsvnum,String goodsNo2);
+    void updateGoodsState(String goodsState2,String goodsTolnum2,String goodsvnum,String goodsNo2);
 
     public JSONObject getAllGoods(int pageNow, int num);
 

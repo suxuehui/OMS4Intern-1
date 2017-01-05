@@ -49,7 +49,7 @@
     update goods
     set goodsState = #{0,jdbcType=VARCHAR},
         goodstolnum =#{1,jdbcType=INTEGER},
-        goodsvnum = #{2,jdbcType=INTEGER},
+        goodsvnum = #{2,jdbcType=INTEGER}
     where goodsNo = #{3,jdbcType=VARCHAR}
   </update>
 

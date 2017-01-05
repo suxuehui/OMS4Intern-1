@@ -20,6 +20,16 @@
     from relationog
     where  oId = #{oid,jdbcType=VARCHAR}
   </select>
+
+  <!--计算relationog表中的商品条数-->
+  <select id="countGoodsNum" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select
+    count(1)
+    from relationog
+    where goodsNo=#{goodsNo,jdbcType=VARCHAR}
+  </select>
+
+
   <!--计算锁定库存-->
   <select id="selectGoodsRnum" parameterType="java.lang.String" resultType="java.lang.Integer">
     select

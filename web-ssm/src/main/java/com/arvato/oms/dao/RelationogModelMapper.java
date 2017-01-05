@@ -35,4 +35,6 @@ public interface RelationogModelMapper {
 	int updateByPrimaryKey(RelationogModel record);
 
     int countBookGoods(@Param("goodsNo")String goodsNo);
+
+    Integer countGoodsNum(String goodsNo);
 }

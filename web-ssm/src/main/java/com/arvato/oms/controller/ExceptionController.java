@@ -3,6 +3,7 @@ package com.arvato.oms.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.arvato.oms.model.*;
 import com.arvato.oms.service.*;
+import com.arvato.oms.utils.HTTPClientDemo;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -63,6 +64,24 @@ public class ExceptionController {
         String[] sq=oid.split(",");
         String userName2 = (String)session.getAttribute("uname");
         for (int i = 0; i < sq.length; i++) {
+            //如果是仓库库存异常，取消时需通知wms更新出库单状态
+            String  outboundId= outboundorderServiceImpl.selectByOid(sq[i]).getOutboundid();
+            if("仓库库存异常".equals(outboundId)) {
+                JSONObject object = new JSONObject();
+                object.put("outboundOrdId", outboundId);
+                object.put("cancelOrd", "1");
+                HTTPClientDemo httpClientDemo = new HTTPClientDemo("http://114.215.252.146:8080/wms/outboundException/cancelObeOrd");
+                //得到返回信息
+                String returnInformation = httpClientDemo.postMethod(object.toString());
+                String code = null;
+                try {
+                    net.sf.json.JSONObject returnObject = net.sf.json.JSONObject.fromObject(returnInformation);
+                    code = returnObject.getString("code");
+                    log.info("--------------------------code:" + code);
+                } catch (Exception e) {
+                    log.info(e);
+                }
+            }
             exceptionServiceImpl.deleteByOid(sq[i]);
             String orderStatus1 ="待预检";
             //先将订单状态改为“待预检”,然后才能进行订单的修改操作
@@ -71,6 +90,7 @@ public class ExceptionController {
             orderServiceImpl.cancleOrder(sq[i],userName2);
             return "{\"msg\":\"2\"}";
         }
+
         return PAGE;
     }
 
@@ -190,9 +210,25 @@ public class ExceptionController {
                         //先将订单状态改为“待预检”,然后才能进行订单的修改操作
                         orderServiceImpl.updateOrder2(orderStatus6,new Date(),userName,exOid[j]);
                         outboundorderServiceImpl.updateOutbound2(orderStatus6,outboundState,new Date(),userName,exOid[j]);
+                        String  outboundId= outboundorderServiceImpl.selectByOid(exOid[j]).getOutboundid();
+                        JSONObject object2 = new JSONObject();
+                        object2.put("outboundOrdId", outboundId);
+                        object2.put("cancelOrd", "0");
+                        HTTPClientDemo httpClientDemo = new HTTPClientDemo("http://114.215.252.146:8080/wms/outboundException/cancelObeOrd");
+                        //得到返回信息
+                        String returnInformation2 = httpClientDemo.postMethod(object2.toString());
+                        String code2 = null;
+                        try {
+                            net.sf.json.JSONObject returnObject = net.sf.json.JSONObject.fromObject(returnInformation2);
+                            code2 = returnObject.getString("code");
+                            log.info("--------------------------code:" + code2);
+                        } catch (Exception e) {
+                            log.info(e);
+                        }
                         return "{\"msg\":\"2\"}";
                     }
                 }
+
             }
         }else{
             log.info("异常类型不完全相同");

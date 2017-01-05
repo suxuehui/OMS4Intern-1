@@ -24,6 +24,8 @@ public class RelationogServiceImpl implements RelationogService {
         return relationogModelMapper.selectGoodsRnum(oId);
     }
 
-
+    public Integer countGoodsNum(String goodsNo) {
+        return relationogModelMapper.countGoodsNum(goodsNo);
+    }
 }
 
