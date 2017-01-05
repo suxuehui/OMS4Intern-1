@@ -160,7 +160,8 @@ function returngetgoodsfromserver(returnedid, pageNow, pageSize) {
             $("#returnedidongoods").html(returnedid);
         },
         error: function (data) {
-            alert("获取退货单商品失败");
+            alert("登录超时，请重新登录");
+            window.location.href = "/oms/login/logout";
         }
 
 
@@ -196,7 +197,8 @@ function getreturnedStatus(returnIdArray, statusp) {
                 }
             },
             error: function (data) {
-                alert("获取退货单状态失败");
+                alert("登录超时，请重新登录");
+                window.location.href = "/oms/login/logout";
             }
         });
     }
@@ -240,7 +242,8 @@ function getreturnedOrChange(returnIdArray) {
 
             },
             error: function (data) {
-                alert("获取退货单退换货状态失败");
+                alert("登录超时，请重新登录");
+                window.location.href = "/oms/login/logout";
             }
 
 
@@ -328,7 +331,8 @@ function selectByUserName(pageNow) {
 
         },
         error: function (data) {
-            alert("查询失败");
+            alert("登录超时，请重新登录");
+            window.location.href = "/oms/login/logout";
         }
 
     });
@@ -405,8 +409,8 @@ function selectGoodsByValue(pageNow) {
 
         },
         error: function (data) {
-
-            alert("查询商品失败");
+            alert("登录超时，请重新登录");
+            window.location.href = "/oms/login/logout";
         }
 
     });
@@ -480,7 +484,8 @@ function selectReturnByvalue(pageNow) {
             }
         },
         error: function (data) {
-            alert("查询失败");
+            alert("登录超时，请重新登录");
+            window.location.href = "/oms/login/logout";
         }
 
     });
@@ -616,8 +621,8 @@ $(
                                 }
                             },
                             error: function (data) {
-                                alert("删除失败");
-                                //inGetUserNowPage(1);
+                                alert("登录超时，请重新登录");
+                                window.location.href = "/oms/login/logout";
                                 selectByUserName(1);
                             }
 
@@ -684,7 +689,8 @@ $(
                                         },
                                         error: function (data) {
 
-                                            alert("添加用户失败");
+                                            alert("登录超时，请重新登录");
+                                            window.location.href = "/oms/login/logout";
                                             $("#addUserwindows").hide();
                                             $(".loading").hide();
                                             $(".hbg").hide();
@@ -1175,7 +1181,8 @@ $(
                                     selectReturnByvalue(1);
                                 },
                                 error: function (data) {
-                                    alert("取消异常");
+                                    alert("登录超时，请重新登录");
+                                    window.location.href = "/oms/login/logout";
                                     return false;
                                 }
 
@@ -1234,7 +1241,8 @@ $(
                                     }
                                 },
                                 error: function (data) {
-                                    alert("生成退款单异常");
+                                    alert("登录超时，请重新登录");
+                                    window.location.href = "/oms/login/logout";
                                     return false;
                                 }
                             });
@@ -1305,7 +1313,8 @@ $(
                                     }
                                 },
                                 error: function (data) {
-
+                                    alert("登录超时，请重新登录");
+                                    window.location.href = "/oms/login/logout";
                                     return false;
                                 }
                             });
