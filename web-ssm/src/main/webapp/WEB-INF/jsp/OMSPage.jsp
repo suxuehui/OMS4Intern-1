@@ -187,7 +187,7 @@
                             </form>
                         </div>
                         <div class="page"><span id="goodsPageNow" hidden>1</span> <span id="totalGoodPage"
-                                                                                       >0</span><a
+                                                                                       hidden>0</span><a
                                 id="endGoodsPage" hidden>尾页</a><a id="nextGoodsPage" hidden>下一页</a><a id="preGoodsPage" hidden>上一页</a><a
                                 id="firstGoodsPage" hidden>首页</a></div>
                     </div>

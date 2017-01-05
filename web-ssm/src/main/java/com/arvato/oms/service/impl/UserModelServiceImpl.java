@@ -1,7 +1,6 @@
 package com.arvato.oms.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.arvato.oms.controller.UserController;
 import com.arvato.oms.dao.UserModelMapper;
 import com.arvato.oms.model.UsersModel;
 import com.arvato.oms.service.UserModelService;
@@ -149,16 +148,6 @@ public class UserModelServiceImpl implements UserModelService
         return jsonObject;
     }
 
-    public List<UsersModel> getAllUserFirstPage(int num)
-    {//暂不用
-        List<UsersModel> usersModels = userModelMapper.selectAllUser(0, num);
-        return usersModels;
-    }
-
-    public List<UsersModel> getAllUserEndPage(int num)
-    {//暂不用
-        return null;
-    }
 
     public int deleteUserByIds(List<Integer> uIds)
     {

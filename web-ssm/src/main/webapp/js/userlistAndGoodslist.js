@@ -6,6 +6,12 @@ var goodselectValueTemp = "";
 
 var goodselect = "id";
 var goodselectTemp = "id";
+
+var returnSelectValue = "";
+var returnSelectValueTemp = "";
+
+var returnSelect = "订单号";
+var returnSelectTemp = "订单号";
 $.extend({
 
     getUrlVars: function () {
@@ -162,80 +168,12 @@ function returngetgoodsfromserver(returnedid, pageNow, pageSize) {
 
 }
 
-function inGetReturnedNowPage(pageNow) {
-    var page = pageNow;
-    var pageSizeR = 10;
-
-    $.ajax({
-        type: 'get',
-        url: '/oms/returned/getAllReturned',
-        data: {
-            pageNow: page,
-            pageSizeR: pageSizeR
-        },
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (data) {
-
-            var returnedList = data.returnedModels;
-            var totalPage = data.totalPage;
-            if (pageNow == 1) {
-                if (totalPage == 0 || totalPage == 1) {
-
-                    $('#preReturnedPage').hide();
-                    $('#firstReturnedPage').hide();
-                    $('#endReturnedPage').hide();
-                    $('#nextReturnedPage').hide();
-                } else {
-
-                    $('#preReturnedPage').hide();
-                    $('#firstReturnedPage').hide();
-                    $('#endReturnedPage').show();
-                    $('#nextReturnedPage').show();
-                }
-            } else if (pageNow < totalPage) {
-                if (totalPage == 0 || totalPage == 1) {
-                    $('#preReturnedPage').hide();
-                    $('#firstReturnedPage').hide();
-                    $('#endReturnedPage').hide();
-                    $('#nextReturnedPage').hide();
-                } else {
-                    $('#preReturnedPage').show();
-                    $('#firstReturnedPage').show();
-                    $('#endReturnedPage').show();
-                    $('#nextReturnedPage').show();
-
-                }
-            } else if (pageNow = totalPage) {
-
-                $('#preReturnedPage').show();
-                $('#firstReturnedPage').show();
-                $('#endReturnedPage').hide();
-                $('#nextReturnedPage').hide();
-            }
-
-            $('#returnedBody').html("");
-            for (var i in returnedList) {
-                var id = i * 1 + 1 * 1;
-                $('#returnedBody').append("<tr><td>" + id + "</td><td><input type='checkbox'  name='returnedcheck'  onclick='checkboxreturneddis(this.id)' id='" + returnedList[i].id + "returned" + "'></td><td><a id='" + returnedList[i].returnedid + "' onclick='returnedGetGoods(this.id)' ondblclick='showReturnDetail(" + returnedList[i].id + ")' '>" + returnedList[i].returnedid + "</a></td> <td>&nbsp;" + returnedList[i].returnedorchange + "</td> <td>&nbsp;" + returnedList[i].returnedstatus + "</td> <td>&nbsp;" + returnedList[i].oid + "</td>  <td>&nbsp;" + returnedList[i].channeloid + "</td><td>&nbsp;" + returnedList[i].returnedmoney + "</td><td>&nbsp;" + returnedList[i].createtime + "</td><td>&nbsp;" + returnedList[i].modifytime + "</td><td>&nbsp;" + returnedList[i].modifyman + "</td></tr>");
-                $('#totalReturnedPage').html(totalPage);
-                //
-
-            }
-
-
-        },
-        error: function (data) {
-            alert("获取退货单列表失败");
-        }
-
-    });
-}
-
+//退货单详情
 function showReturnDetail(id) {
     window.open("/oms/returned/returnedDetail?id=" + id);
 }
 
+//获得退货单状态
 function getreturnedStatus(returnIdArray, statusp) {
 
     var status;
@@ -271,6 +209,7 @@ function getreturnedStatus(returnIdArray, statusp) {
 
 }
 
+//获取用户角色
 function getUserRole() {
     var urole = $("#urole").html();
     return urole;
@@ -321,7 +260,7 @@ function getreturnedOrChange(returnIdArray) {
 
 function selectByUserName(pageNow) {
     var page = pageNow;
-    var pageSize = 15;
+    var pageSize = 20;
     $.ajax({
         type: 'get',
         url: '/oms/user/selectUserByName',
@@ -398,7 +337,7 @@ function selectByUserName(pageNow) {
 //查询商品
 function selectGoodsByValue(pageNow) {
     var page = pageNow;
-    var pageSize = 3;
+    var pageSize = 20;
     $.ajax({
         type: 'get',
         url: '/oms/goods/selectGoods',
@@ -473,16 +412,15 @@ function selectGoodsByValue(pageNow) {
     });
 }
 
-function selectReturnByvalue(pageNow, select, value) {
+function selectReturnByvalue(pageNow) {
     var page = pageNow;
-    var select = select;
-    var value = value;
+
     $.ajax({
         type: 'get',
         url: '/oms/returned/getReturnedBySelect',
         data: {
-            select: select,
-            value: value,
+            select: returnSelect,
+            value: returnSelectValue,
             pageNow: page,
             pageSize: 10
         },
@@ -491,9 +429,48 @@ function selectReturnByvalue(pageNow, select, value) {
         success: function (data) {
             var returnedList = data.returnedModels;
             var totalPage = data.totalPage;
+            if (pageNow == 1) {
+                if (totalPage == 0 || totalPage == 1) {
+
+                    $('#preReturnedPage').hide();
+                    $('#firstReturnedPage').hide();
+                    $('#endReturnedPage').hide();
+                    $('#nextReturnedPage').hide();
+                } else {
+
+                    $('#preReturnedPage').hide();
+                    $('#firstReturnedPage').hide();
+                    $('#endReturnedPage').show();
+                    $('#nextReturnedPage').show();
+                }
+            } else if (pageNow < totalPage) {
+                if (totalPage == 0 || totalPage == 1) {
+                    $('#preReturnedPage').hide();
+                    $('#firstReturnedPage').hide();
+                    $('#endReturnedPage').hide();
+                    $('#nextReturnedPage').hide();
+                } else {
+                    $('#preReturnedPage').show();
+                    $('#firstReturnedPage').show();
+                    $('#endReturnedPage').show();
+                    $('#nextReturnedPage').show();
+
+                }
+            } else if (pageNow = totalPage) {
+
+                $('#preReturnedPage').show();
+                $('#firstReturnedPage').show();
+                $('#endReturnedPage').hide();
+                $('#nextReturnedPage').hide();
+            }
             if (totalPage == 0) {
                 alert("查询无结果");
+                returnSelect = returnSelectTemp;
+                returnSelectValue = returnSelectValueTemp;
+                return false;
             }
+            returnSelectValueTemp = returnSelectValue;
+            returnSelectTemp = returnSelect;
             $('#returnedBody').html("");
             for (var i in returnedList) {
                 var id = i * 1 + 1 * 1;
@@ -508,7 +485,6 @@ function selectReturnByvalue(pageNow, select, value) {
 
     });
 }
-
 
 
 $(
@@ -840,7 +816,6 @@ $(
             });
 
 
-
             $("#updateUserBut").click(
                 function () {
                     $(".hbg").show();
@@ -945,14 +920,12 @@ $(
         );
 
 
-
-
         $('#selectgoodsbut').click(
             function () {
                 $("#goodsPageNow").html(1);
                 var select = $('#selectGoodssle').val();
                 goodselectValue = $('#goodsvaluetxt').val();
-                if (select== "请选择查询条件") {
+                if (select == "请选择查询条件") {
                     alert("请选择查询条件");
                 } else {
 
@@ -962,13 +935,13 @@ $(
                     } else {
 
                         if (select == "按名称查询") {
-                            goodselect="name";
+                            goodselect = "name";
 
                             selectGoodsByValue(1);
 
 
                         } else if (select == "按商品编码查询") {
-                            goodselect="id";
+                            goodselect = "id";
                             selectGoodsByValue(1);
                         }
 
@@ -981,8 +954,7 @@ $(
         );
 
 
-
-        window.onload = inGetReturnedNowPage($('#returnedPageNow').html());
+        window.onload = selectReturnByvalue($('#returnedPageNow').html());
 
         $('#nextReturnedPage').click(
             function () {
@@ -996,7 +968,7 @@ $(
                     }
                     $("#preReturnedPage").show();
                     $("#firstReturnedPage").show();
-                    inGetReturnedNowPage(returnedpage * 1 + 1 * 1);
+                    selectReturnByvalue(returnedpage * 1 + 1 * 1);
                     $('#returnedPageNow').html(returnedpage * 1 + 1 * 1);
 
                 } else {
@@ -1019,7 +991,7 @@ $(
                     $("#endReturnedPage").show();
                     $("#nextReturnedPage").show();
                     $('#returnedPageNow').html(returnedpage * 1 - 1 * 1);
-                    inGetReturnedNowPage(returnedpage * 1 - 1 * 1);
+                    selectReturnByvalue(returnedpage * 1 - 1 * 1);
 
                 } else {
                     alert("已到第一页");
@@ -1030,7 +1002,7 @@ $(
 
         $('#firstReturnedPage').click(
             function () {
-                inGetReturnedNowPage(1);
+                selectReturnByvalue(1);
                 $('#returnedPageNow').html(1);
                 $("#preReturnedPage").hide();
                 $("#firstReturnedPage").hide();
@@ -1044,7 +1016,7 @@ $(
         $('#endReturnedPage').click(
             function () {
 
-                inGetReturnedNowPage($('#totalReturnedPage').html());
+                selectReturnByvalue($('#totalReturnedPage').html());
                 $("#preReturnedPage").show();
                 $("#firstReturnedPage").show();
                 $("#endReturnedPage").hide();
@@ -1160,7 +1132,7 @@ $(
                                 dataType: "json",
                                 success: function (data) {
 
-                                    inGetReturnedNowPage(1);
+                                    selectReturnByvalue(1);
                                 }
                             });
                         }
@@ -1200,7 +1172,7 @@ $(
                                 dataType: "json",
                                 success: function (data) {
 
-                                    inGetReturnedNowPage(1);
+                                    selectReturnByvalue(1);
                                 },
                                 error: function (data) {
                                     alert("取消异常");
@@ -1266,7 +1238,7 @@ $(
                                     return false;
                                 }
                             });
-                            inGetReturnedNowPage(1);
+                            selectReturnByvalue(1);
                         }
                         if (errorcount > 0) {
                             alert("退款单已创建，请不要重复提交，共" + returnIdArray.length + "条,成功" + successCount + "条");
@@ -1338,7 +1310,7 @@ $(
                                 }
                             });
 
-                            inGetReturnedNowPage(1);
+                            selectReturnByvalue(1);
                         }
                         if (changeErrorCount > 0) {
                             alert("订单已换货，请不要重复提交，共" + returnIdArray.length + "条,成功" + changesuccessCount + "条");
@@ -1366,23 +1338,21 @@ $(
 
         $("#serarchReturnedOrder").click(
             function () {
-                var select = $('#returnedselect').val().trim();
-                var value = $('#returnValue').val().trim();
-                if (select == "请选择查询条件") {
+                $("#returnedPageNow").html(1);
+                returnSelect = $('#returnedselect').val().trim();
+                returnSelectValue = $('#returnValue').val().trim();
+                if (returnSelect == "请选择查询条件") {
                     alert("请选择查询条件");
                 } else {
-                    if (value.length == 0) {
 
-                        inGetReturnedNowPage(1);
+                    var zzbds = /^([\u4E00-\u9FA5]|\w)*$/;
+                    if (!zzbds.test(returnSelectValue)) {
+                        alert("请不要输入特殊符号");
                     } else {
-                        var zzbds = /^([\u4E00-\u9FA5]|\w)*$/;
-                        if (!zzbds.test(value)) {
-                            alert("请不要输入特殊符号");
-                        } else {
-                            selectReturnByvalue(1, select, value);
+                        selectReturnByvalue(1);
 
-                        }
                     }
+
                 }
 
 

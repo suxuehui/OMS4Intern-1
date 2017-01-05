@@ -1,8 +1,6 @@
 package com.arvato.oms.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.arvato.oms.model.UsersModel;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -31,11 +29,6 @@ public interface UserModelService
     public JSONObject getAllUser(int num, int pageNow);
     //分页查询全部用户信息
 
-    public List<UsersModel> getAllUserFirstPage(int num);
-    //暂不用
-
-    public List<UsersModel> getAllUserEndPage(int num);
-    //暂不用
 
     public int deleteUserByIds(List<Integer> uIds);
     //根据id删除用户信息
