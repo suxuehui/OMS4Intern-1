@@ -20,6 +20,7 @@ public interface RelationogService {
 
     Integer selectGoodsRnum(String oId);
 
+    Integer countGoodsNum(String goodsNo);
 
 }
 

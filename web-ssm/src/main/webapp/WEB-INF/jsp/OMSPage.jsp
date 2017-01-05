@@ -415,20 +415,19 @@
                     <ul>
                         <li>
                             <label class="listName mt20">仓库编号：</label>
-                            <input type="text" class="inputList" id="warenum"  onblur="idendifywhnum(this.id)">
+                            <input type="text" class="inputList" id="warenum"   >
                         </li>
 
                         <li>
                             <label class="listName mt20">仓库名：</label>
-                            <input type="text" class="inputList" id="warename" onblur="idendifywhname(this.id)">
+                            <input type="text" class="inputList" id="warename" >
                         </li>
                         <%--添加仓库时信息成功与否显示--%>
+
                         <li class="warn">
-                            <span id="whnumdiv" class="lixx" style="font-size:10px;color: red" ></span>
+                            <span id="addwarnli" class="lixx"  ></span>
                         </li>
-                        <li class="warn">
-                            <span id="whnamediv" class="lixx" style="font-size:10px;color: red" ></span>
-                        </li>
+
                         <li>
                             <input type="button" value="保存" onclick="addwarehouse()" class="save mt50">
                         </li>
@@ -444,17 +443,15 @@
                     <ul>
                         <li>
                             <label class="listName mt20">仓库编号：</label>
-                            <input type="text" class="inputList" id="updatewhnum"  onblur="idendifywhnum(this.id)">
+                            <input type="text" class="inputList" id="updatewhnum"   >
                         </li>
                         <li>
                             <label class="listName mt20">仓库名：</label>
-                            <input type="text" class="inputList" id="updatewhname"  onblur="idendifywhname(this.id)">
+                            <input type="text" class="inputList" id="updatewhname"  >
                         </li>
+
                         <li class="warn">
-                            <span id="whupnumdiv" class="lixx" style="font-size:10px;color: red"></span>
-                        </li>
-                        <li class="warn">
-                            <span id="whupnamediv" class="lixx" style="font-size:10px;color: red"></span>
+                            <span id="updatewarnli" class="lixx"  ></span>
                         </li>
                         <li>
                             <input type="button" id="saveupdatewh" value="保存" onclick="updateware(this.name)"
