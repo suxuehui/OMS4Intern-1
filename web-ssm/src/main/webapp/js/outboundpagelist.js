@@ -14,7 +14,7 @@ var outboundArray=new Array();//定义全局数组，记录已点击的checkbox
 
 //点击查询时无结果就显示提示
 function outGNPage(pagenow){
-   /* outlistnull=0;//每次调用时初始化全局变量*/
+
     //此处不可直接调用outGetnowPage(page)函数，否则第一次进入页面不查寻且无数据也会有提示信息
     outpagenow=pagenow;
     outselectmode =$("#outselectid option:selected").val();//查询条件

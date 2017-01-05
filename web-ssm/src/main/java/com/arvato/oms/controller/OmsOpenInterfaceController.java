@@ -271,16 +271,18 @@ public class OmsOpenInterfaceController {
                     String inboundState = inbound.getJSONObject(i).getString("inboundState");
                     Date date=new Date();
                     s = inboundorderserviceimpl.updateByInboundId(inboundId, inboundState,date,modifyman);
-
                     if (s == 0) {
                         return "{\"status_codes\":000,\"msg\":\"参数的数据格式有误\",\"body\":\"入库单更新失败\"}";
                     }
                 }
+                return "{\"status_codes\":222,\"msg\":\"入库单状态更新成功\",\"body\":\"入库单状态更新成功\"}";
+            }
+            else{
+                return "{\"status_codes\":000,\"msg\":\"参数的数据格式有误\",\"body\":\"入库单更新失败\"}";
             }
         } catch (Exception e) {//异常的捕获
             return "{\"status_codes\":111,\"msg\":\"json字符串格式有误\",\"body\":\"入库单数据参数接收失败\"}";
         }
-        return "{\"status_codes\":222,\"msg\":\"入库单状态更新成功\",\"body\":\"入库单状态更新成功\"}";
     }
 
 }
