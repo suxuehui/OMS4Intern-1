@@ -206,8 +206,8 @@
                         <li class="on"><a id="0">订单列表</a></li>
                         <li><a id="1">异常订单列表</a></li>
                         <li class="listTit"><p class="listContTit">出入库单管理</p></li>
-                        <li><a id="2">出库单列表</a></li>
-                        <li><a id="3">入库单列表</a></li>
+                        <li onclick="outGetnowPage(1)"><a id="2">出库单列表</a></li>
+                        <li onclick="inGetnowPage(1)"><a id="3">入库单列表</a></li>
                         <li class="listTit"><p class="listContTit">退货单管理</p></li>
                         <li><a id="4">退货单列表</a></li>
                         <li><a id="5">退款单列表</a></li>
