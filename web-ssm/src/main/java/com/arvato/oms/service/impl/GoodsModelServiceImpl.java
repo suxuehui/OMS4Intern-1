@@ -73,7 +73,7 @@ public class GoodsModelServiceImpl implements GoodsModelService
             goodsAndStatus.add(goods);
         }
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("goodsAndStatus", goodsAndStatus);
+        jsonObject.put("goodsAndStatus1", goodsAndStatus);
         jsonObject.put("pageNow", pageNow);
         jsonObject.put("pageTotal", page.getTotalPageCount());
         log.info("StartPos:" + page.getStartPos());
