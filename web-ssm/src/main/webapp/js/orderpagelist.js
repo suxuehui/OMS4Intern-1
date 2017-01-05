@@ -9,15 +9,14 @@ var orderPageSize=10;
 var orderGoodsPageSize=5;
 var oidArray=[];
 var goodsArray=[];
-window.onload=onloadqueryOrder();
 //页面加载时查询
-function  onloadqueryOrder() {
+function  queryAllOrder(pageNo) {
     $.ajax({
         url:"../order/queryByCondition",
         type:"get",
         data: {
             queryMode: queryMode,
-            pageNo: 1,
+            pageNo: pageNo,
             pageSize: orderPageSize,
             data: queryData
         },
@@ -28,6 +27,17 @@ function  onloadqueryOrder() {
         }
     })
 }
+
+//点击导航栏刷新页面
+$(function () {
+    $(".orderClick").click(function () {
+        queryAllOrder(1);
+    })
+    $("#0").click(function () {
+        queryAllOrder(1);
+    })
+})
+
 //条件查询
 function queryOrder(pageNo,pageSize) {
     $.ajax({

@@ -12,6 +12,7 @@ import com.arvato.oms.utils.HTTPClientDemo;
 import com.arvato.oms.utils.Page;
 import com.arvato.oms.utils.ReadProperties;
 import org.apache.log4j.Logger;
+import org.apache.poi.POIXMLException;
 import org.apache.poi.poifs.filesystem.OfficeXmlFileException;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -182,7 +183,7 @@ public class OrderServiceImpl implements OrderService
     public int previewOrder(String oId, String exceptionType,String name) throws RuntimeException
     {
         OrderModel orderModel=selectByOid(oId);
-        List<String> exceptionList=Arrays.asList("商品异常","仓库库存异常","金额异常","备注异常",null);
+        List<String> exceptionList=Arrays.asList("商品异常","库存异常","金额异常","备注异常",null);
         if(orderModel==null)
         {
             return 3;//订单号不存在
@@ -221,7 +222,7 @@ public class OrderServiceImpl implements OrderService
                 }
             }
         }
-        if(exceptionType==null||exceptionType.equals("仓库库存异常"))
+        if(exceptionType==null||exceptionType.equals("库存异常"))
         {
             for(RelationogModel re:relationogModelList)
             {
@@ -239,7 +240,7 @@ public class OrderServiceImpl implements OrderService
                 if(re.getGoodnum()>goodsVnum)
                 {
                     exceptionModel=createException(orderModel);
-                    exceptionModel.setExceptiontype("仓库库存异常");
+                    exceptionModel.setExceptiontype("库存异常");
                     exceptionModel.setExpceptioncause("库存不足");
                     exceptionModel.setOrderstatus("订单异常");
                     exceptionModel.setOrderfrom("预检");
@@ -253,41 +254,35 @@ public class OrderServiceImpl implements OrderService
                 }
             }
         }
-        if(exceptionType==null||exceptionType.equals("金额异常"))
+        if((exceptionType==null||exceptionType.equals("金额异常"))&&orderModel.getOrdertolprice().doubleValue()>=10000)
         {
-            if(orderModel.getOrdertolprice().doubleValue()>=10000)
+            exceptionModel=createException(orderModel);
+            exceptionModel.setExceptiontype("金额异常");
+            exceptionModel.setExpceptioncause("金额大于10000");
+            exceptionModel.setOrderstatus("订单异常");
+            exceptionModel.setOrderfrom("预检");
+            orderModel.setOrderstatus("订单异常");
+            orderModelMapper.updateByOidSelective(orderModel);
+            if(checkException(oId))
             {
-                exceptionModel=createException(orderModel);
-                exceptionModel.setExceptiontype("金额异常");
-                exceptionModel.setExpceptioncause("金额大于10000");
-                exceptionModel.setOrderstatus("订单异常");
-                exceptionModel.setOrderfrom("预检");
-                orderModel.setOrderstatus("订单异常");
-                orderModelMapper.updateByOidSelective(orderModel);
-                if(checkException(oId))
-                {
-                    exceptionModelMapper.insertSelective(exceptionModel);
-                }
-                return 5;
+                exceptionModelMapper.insertSelective(exceptionModel);
             }
+            return 5;
         }
-        if(exceptionType==null||exceptionType.equals("备注异常"))
+        if((exceptionType==null||exceptionType.equals("备注异常"))&&orderModel.getRemark()!=null)
         {
-            if(orderModel.getRemark()!=null)
+            exceptionModel=createException(orderModel);
+            exceptionModel.setExceptiontype("备注异常");
+            exceptionModel.setExpceptioncause("订单有备注内容");
+            exceptionModel.setOrderstatus("订单异常");
+            exceptionModel.setOrderfrom("预检");
+            orderModel.setOrderstatus("订单异常");
+            orderModelMapper.updateByOidSelective(orderModel);
+            if(checkException(oId))
             {
-                exceptionModel=createException(orderModel);
-                exceptionModel.setExceptiontype("备注异常");
-                exceptionModel.setExpceptioncause("订单有备注内容");
-                exceptionModel.setOrderstatus("订单异常");
-                exceptionModel.setOrderfrom("预检");
-                orderModel.setOrderstatus("订单异常");
-                orderModelMapper.updateByOidSelective(orderModel);
-                if(checkException(oId))
-                {
-                    exceptionModelMapper.insertSelective(exceptionModel);
-                }
-                return 5;
+                exceptionModelMapper.insertSelective(exceptionModel);
             }
+            return 5;
         }
         //book库存
         for(RelationogModel re:relationogModelList)
@@ -782,14 +777,7 @@ public class OrderServiceImpl implements OrderService
         XSSFWorkbook hssfWorkbook=null;
         try {
             InputStream is = new FileInputStream(filePath);
-            try {
-                hssfWorkbook = new XSSFWorkbook(is);
-            }
-            catch(Exception e)
-            {
-                log.info(e);
-                return 2;//文件格式不正确
-            }
+            hssfWorkbook = new XSSFWorkbook(is);
             is.close();
             XSSFSheet hssfSheet = hssfWorkbook.getSheetAt(0);
             // 循环行Row
@@ -812,6 +800,11 @@ public class OrderServiceImpl implements OrderService
         catch (OfficeXmlFileException e)
         {
             log.info(e);
+        }
+        catch (POIXMLException e)
+        {
+            log.info(e);
+            return 2;//文件格式不正确
         }
         catch (IOException e) {
             log.info(e);

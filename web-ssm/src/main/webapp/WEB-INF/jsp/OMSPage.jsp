@@ -44,14 +44,14 @@
                     <li class="on">用户</li>
                     <li>商品</li>
                     <li>仓库</li>
-                    <li>订单</li>
+                    <li class="orderClick">订单</li>
                 </c:if>
 
                 <c:if test="${urole == 2}">
                     <li></li>
                     <li class="on">商品</li>
                     <li>仓库</li>
-                    <li>订单</li>
+                    <li class="orderClick">订单</li>
                 </c:if>
             </ul>
         </div>
