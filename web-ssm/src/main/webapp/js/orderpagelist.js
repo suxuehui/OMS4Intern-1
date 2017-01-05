@@ -83,7 +83,7 @@ function translationOrder(data)
             +orderModels[i].zipcode+'</td><td>'+changeNull(orderModels[i].modifytime)+'</td><td>'
             +changeNull(orderModels[i].modifyman)+'</td></tr>'
     }
-    oidArray=[];
+     oidArray=[];
     for(var i=0;i<document.getElementsByName("orderBtn").length;i++)
     {
         document.getElementsByName("orderBtn")[i].disabled=true;

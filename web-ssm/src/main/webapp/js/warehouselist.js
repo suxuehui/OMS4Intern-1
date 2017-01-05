@@ -1,20 +1,25 @@
 /**
  * Created by GONG036 on 2016/12/20.
  */
-
-window.onload= wareGetnowPage(1);
 //定义全局变量 checkbox勾选的Array
 var whidArray=new Array();
 var warelistnull;
+var wareselectmode;
+var warequerydata="";
+var wareselectModeTemp;
+var warequeryDateTemp="";
+var warepagenow
+var warepagenowTem
+window.onload= wareGetnowPage(1);
+
 //点击查询时无结果就显示提示
 function WarehousegetPage(pagenow){
-
-     warelistnull=0;//每次调用时初始化全局变量
+    warepagenow=pagenow;
+    warelistnull=0;//每次调用时初始化全局变量
     var  myselect=document.getElementById("whselectid");
     var index=myselect.selectedIndex;
-    var optxt=myselect.options[index].value;//查询条件
-    var search_value=document.getElementById("whtxt").value;//查询值
-    var s1=pagenow;
+    wareselectmode=myselect.options[index].value;//查询条件
+    warequerydata=document.getElementById("whtxt").value;//查询值
     //在未勾选checkbox 置灰编辑和删除按钮
     document.getElementById("wareupdate").disabled=true;
     document.getElementById("waredelete").disabled=true;
@@ -23,9 +28,9 @@ function WarehousegetPage(pagenow){
         type : 'get',
         url :'../warehouse/listsearch',
         data : {
-            currentpage: s1,
-            toseachid: optxt,
-            txtvalue: search_value
+            currentpage: warepagenow,
+            toseachid: wareselectmode,
+            txtvalue: warequerydata
         },
         contentType: "application/json; charset=utf-8",
         dataType:"json",
@@ -38,9 +43,20 @@ function WarehousegetPage(pagenow){
             warelistnull=datalist.length;
             if(warelistnull==0){//判断是否有订单
                 alert("查询无结果！")
+                wareselectmode=wareselectModeTemp;
+                warequerydata=warequeryDateTemp;
+                warepagenow=warepagenowTem;
+                return;
             }
-            if(optxt==0){
+            wareselectModeTemp=wareselectmode ;
+            warequeryDateTemp=warequerydata ;
+            warepagenowTem=warepagenow;
+            if(wareselectmode==0){
                 alert("请选择查询条件")
+                wareselectmode=wareselectModeTemp;
+                warequerydata=warequeryDateTemp;
+                warepagenow=warepagenowTem;
+                return;
             }
             //清除原先的数据
             $("#warehousetab tbody tr").eq(0).nextAll().remove();
@@ -64,9 +80,9 @@ function WarehousegetPage(pagenow){
 function wareGetnowPage(pagenow){
     var  myselect=document.getElementById("whselectid");
     var index=myselect.selectedIndex;
-    var optxt=myselect.options[index].value;//查询条件
-    var search_value=document.getElementById("whtxt").value;//查询值
-    var s1=pagenow;
+    wareselectmode=myselect.options[index].value;//查询条件
+    warequerydata=document.getElementById("whtxt").value;//查询值
+    warepagenow=pagenow;
     //在未勾选checkbox 置灰编辑和删除按钮
     document.getElementById("wareupdate").disabled=true;
     document.getElementById("waredelete").disabled=true;
@@ -76,15 +92,18 @@ function wareGetnowPage(pagenow){
         type : 'get',
         url :'../warehouse/listsearch',
         data : {
-            currentpage: s1,
-            toseachid: optxt,
-            txtvalue: search_value
+            currentpage: warepagenow ,
+            toseachid: wareselectmode,
+            txtvalue:  warequerydata
         },
         contentType: "application/json; charset=utf-8",
         dataType:"json",
         success:function(data) {
             var datapage = data.pagelist;
             var datalist = data.warelist;
+            wareselectModeTemp=wareselectmode ;
+            warequeryDateTemp=warequerydata ;
+            warepagenowTem=warepagenow;
             //清空数组，防止操作下一页时，数组不为空导致删除失败
             whidArray.length=0;
             //清除原先的数据
@@ -188,17 +207,7 @@ function ifwhname(id,divname){
 
 }
 
-//yanzhenselect
-/*
-function ifselect(){
-    var  myselect=document.getElementById("whselectid");
-    var index=myselect.selectedIndex;
-    var optxt=myselect.options[index].value;//查询条件
-    if(optxt==0){
-        alert("请选择查询条件")
-    }
-}
-*/
+
 
 //验证格式
 function ifden(warenum,warename){
@@ -359,7 +368,7 @@ function updateware(wareid){
             $(".loading").hide();
             switch(data) {
                 case 1 :
-                    alert("添加成功");
+                    alert("保存成功");
                     cleartext();
                     break;
                 case 2 :
