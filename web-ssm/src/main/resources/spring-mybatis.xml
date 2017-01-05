@@ -88,7 +88,7 @@
         </property>
         <!-- cron表达式 此处定义为一直触发执行任务-->
         <property name="cronExpression">
-            <value>0/1 0 0 * * ?</value>
+            <value>0 0/1 10 * * ?</value>
         </property>
     </bean>
 

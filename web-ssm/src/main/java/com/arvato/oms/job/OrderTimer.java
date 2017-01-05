@@ -19,6 +19,7 @@ public class OrderTimer {
     OrderModelMapper orderModelMapper;
     public void updateOrder()
     {
+        System.out.println("------------------------------------------------------");
         List<OrderModel> orderModels=orderModelMapper.selectAllByStatus("已发货");
         for(int i=0;i<orderModels.size();i++)
         {
@@ -28,7 +29,7 @@ public class OrderTimer {
             {
                 beforeTime=sdf.parse(orderModels.get(i).getModifytime());
             }
-            catch (ParseException e)
+            catch (Exception e)
             {
                 log.info(e);
             }
@@ -37,9 +38,10 @@ public class OrderTimer {
             }
             Date nowTime=new Date();
             Long intervalTime=nowTime.getTime()-beforeTime.getTime();
-            if(intervalTime>=48*3600*1000)
+            if(intervalTime>=1*60*1000)
             {
                 orderModels.get(i).setOrderstatus("已完成");
+                orderModels.get(i).setModifytime(new Date());
                 orderModelMapper.updateByOidSelective(orderModels.get(i));
             }
         }

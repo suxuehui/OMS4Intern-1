@@ -245,6 +245,8 @@ public class OrderServiceImpl implements OrderService
                     exceptionModel.setOrderstatus("订单异常");
                     exceptionModel.setOrderfrom("预检");
                     orderModel.setOrderstatus("订单异常");
+                    orderModel.setModifytime(new Date());
+                    orderModel.setModifyman(name);
                     orderModelMapper.updateByOidSelective(orderModel);
                     if(checkException(oId))
                     {
@@ -262,6 +264,8 @@ public class OrderServiceImpl implements OrderService
             exceptionModel.setOrderstatus("订单异常");
             exceptionModel.setOrderfrom("预检");
             orderModel.setOrderstatus("订单异常");
+            orderModel.setModifytime(new Date());
+            orderModel.setModifyman(name);
             orderModelMapper.updateByOidSelective(orderModel);
             if(checkException(oId))
             {
@@ -269,7 +273,7 @@ public class OrderServiceImpl implements OrderService
             }
             return 5;
         }
-        if((exceptionType==null||exceptionType.equals("备注异常"))&&orderModel.getRemark()!=null)
+        if((exceptionType==null||exceptionType.equals("备注异常"))&&orderModel.getRemark()!=null&&!orderModel.getRemark().equals(""))
         {
             exceptionModel=createException(orderModel);
             exceptionModel.setExceptiontype("备注异常");
@@ -277,6 +281,8 @@ public class OrderServiceImpl implements OrderService
             exceptionModel.setOrderstatus("订单异常");
             exceptionModel.setOrderfrom("预检");
             orderModel.setOrderstatus("订单异常");
+            orderModel.setModifytime(new Date());
+            orderModel.setModifyman(name);
             orderModelMapper.updateByOidSelective(orderModel);
             if(checkException(oId))
             {
@@ -291,6 +297,8 @@ public class OrderServiceImpl implements OrderService
             relationogModelMapper.updateByPrimaryKeySelective(re);
         }
         orderModel.setOrderstatus("待路由");
+        orderModel.setModifytime(new Date());
+        orderModel.setModifyman(name);
         orderModelMapper.updateByOidSelective(orderModel);
         return 1;
     }
