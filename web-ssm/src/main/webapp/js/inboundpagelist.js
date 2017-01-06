@@ -20,6 +20,7 @@ function inGNPage(pagenow){
 
     if(inselectmode==0){
         alert("请选择查询条件")
+        $("#inselectid").val(0);
         $("#intxt").val("");
         inselectmode=inselectModeTemp;
         inquerydata=inqueryDateTemp;
@@ -42,6 +43,7 @@ function inGNPage(pagenow){
             //打开数据为空时设置全局变量以提示信息
             if(data.list.length==0){
                 alert("查询无结果！")
+                $("#inselectid").val(0);
                 $("#intxt").val("");
                 inselectmode=inselectModeTemp;
                 inquerydata=inqueryDateTemp;

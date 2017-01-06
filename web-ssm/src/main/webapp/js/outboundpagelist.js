@@ -43,6 +43,7 @@ function outGNPage(pagenow){
             //打开数据为空时设置全局变量以提示信息
             if(data.list.length==0){
                 alert("查询无结果！")
+                $("#outselectid").val(0);
                 $("#outtxt").val("");
                 outselectmode=outselectModeTemp;
                 outquerydata=outqueryDateTemp;

@@ -25,6 +25,7 @@ function WarehousegetPage(pagenow){
 
     if(wareselectmode==0){
         alert("请选择查询条件")
+        $("#whselectid").val(0);
         $("#whtxt").val("");
         wareselectmode=wareselectModeTemp;
         warequerydata=warequeryDateTemp;
@@ -45,6 +46,7 @@ function WarehousegetPage(pagenow){
         success:function(data) {
             if(data.warelist.length==0){//判断是否有订单
                 alert("查询无结果！")
+                $("#whselectid").val(0);
                 $("#whtxt").val("");
                 wareselectmode=wareselectModeTemp;
                 warequerydata=warequeryDateTemp;
