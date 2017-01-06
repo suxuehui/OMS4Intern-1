@@ -197,7 +197,7 @@ function queryGoodsByOid(pageNo,pageSize,oid) {
             var html="";
             for(var i=0;i<goodsPojos.length;i++)
             {
-                html+='<tr><td><input type="checkbox" name="goodscheck" onclick="orderGoodCheck(this.id)" id="'
+                html+='<tr><td><input type="checkbox" name="goodsOrderCk" onclick="orderGoodCheck(this.id)" id="'
                     +goodsPojos[i].goodsno +'"></td><td>' +goodsPojos[i].goodsno
                     +'</td><td>'+goodsPojos[i].goodsname+'</td><td id="f'+goodsPojos[i].goodsno+'">'
                     +goodsPojos[i].divideorderfee+'</td><td><input type="text" readonly class="goodNum edit" id="n'

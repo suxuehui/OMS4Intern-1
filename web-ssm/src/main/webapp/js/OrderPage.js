@@ -109,7 +109,7 @@ function ordercheck(oid) {
         if(oidArray.length>1||oidArray.length==0)
         {
             $("#returnedOrderBtn,#exchangeGoodsBtn").attr('disabled',true);
-            $("[name='goodscheck']:checkbox").prop("checked",false);
+            $("[name='goodsOrderCk']:checkbox").prop("checked",false);
             for(var i=0;i<goodsArray.length;i++)
             {
                 $("#n"+goodsArray[i]).attr("readonly","readonly");
@@ -178,6 +178,16 @@ $(function () {
         window.open("../order/orderdetail?oId="+oid);
     })
 })
+
+//取消订单的勾选
+function cancleChecked() {
+    for(var i=0;i<oidArray.length;i++)
+    {
+        $("[name='orderck']").removeAttr("checked");
+        $("[name='goodsOrderCk']").removeAttr("checked");
+    }
+}
+
 //预检
 $(function () {
     $("#previewOrderBtn").click(function () {
@@ -199,6 +209,7 @@ $(function () {
                 alert(content);
                 var pageNo=$("#orderPageNo").text();
                 queryOrder(pageNo,orderPageSize);
+                cancleChecked();
             }
         })
     })
@@ -218,6 +229,7 @@ $(function () {
                 alert("success:"+success+"'\n'exception:"+exception);
                 var pageNo=$("#orderPageNo").text();
                 queryOrder(pageNo,orderPageSize);
+                cancleChecked();
             }
         })
     })
@@ -244,6 +256,7 @@ $(function () {
                 var pageNo=$("#orderPageNo").text();
                 queryOrder(pageNo,orderPageSize);
                 outGetnowPage(1);
+                cancleChecked();
             }
         })
     })
@@ -264,38 +277,32 @@ $(function () {
                 var pageNo=$("#orderPageNo").text();
                 queryOrder(pageNo,orderPageSize);
                 refoundGetnowPage(1);
+                cancleChecked();
             }
         })
     })
 })
 //商品勾选框
 function orderGoodCheck(goodsno) {
-    if(oidArray.length==0||oidArray.length>1)
+    if($("#returnedOrderBtn").attr("disabled")=="disabled")
     {
         return;
     }
-    if(oidArray.length==1){
-        var oid=$("#goodsOid").text();
-        if(oid!=oidArray[0])
+    if(document.getElementById(goodsno).checked)
+    {
+        goodsArray.push(goodsno);
+        $("#n"+goodsno).removeAttr("readonly");
+        $("#n"+goodsno).removeClass("edit");
+        return;
+    }
+    $("#n"+goodsno).attr("readonly","readonly");
+    $("#n"+goodsno).addClass("edit");
+    for(var i=0;i<goodsArray.length;i++)
+    {
+        if(goodsArray[i]==goodsno)
         {
-            return;
-        }
-        if(document.getElementById(goodsno).checked)
-        {
-            goodsArray.push(goodsno);
-            $("#n"+goodsno).removeAttr("readonly");
-            $("#n"+goodsno).removeClass("edit");
-            return;
-        }
-        $("#n"+goodsno).attr("readonly","readonly");
-        $("#n"+goodsno).addClass("edit");
-        for(var i=0;i<goodsArray.length;i++)
-        {
-            if(goodsArray[i]==goodsno)
-            {
-                goodsArray.splice(i,1);
-                break;
-            }
+            goodsArray.splice(i,1);
+            break;
         }
     }
 }
@@ -340,6 +347,7 @@ function returnOrExchange(returnoid,returnedOrChange) {
             {
                 alert("退换货异常");
             }
+            cancleChecked();
         }
     });
 }

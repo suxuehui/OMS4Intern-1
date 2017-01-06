@@ -5,7 +5,6 @@ import com.arvato.oms.model.OrderModel;
 import org.apache.log4j.Logger;
 
 import javax.annotation.Resource;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
