@@ -133,7 +133,7 @@ public class RefoundOrderController {
         RefoundOrderModel refoundOrderModel = refoundOrderServiceImpl.selectByDrawbackId(drawbackId3);
         //判断该退款单是否已经退过款了
         String drawbackstatus=refoundOrderModel.getDrawbackstatus();
-        if("已退款".equals(drawbackstatus)){
+        if("退款成功".equals(drawbackstatus)){
             return "{\"msg\":\"111\"}";
         }
         //退款单号
@@ -165,23 +165,26 @@ public class RefoundOrderController {
         }catch (Exception e){
             log.info(e);
         }
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+        String dataNow = df.format(new Date());//修改时间
+        String userName = (String)session.getAttribute("uname");//修改人
         //退款成功
         if("666".equals(code))
         {
             //将退款状态改为已退款
-            String drawbackStatus = "已退款";
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-            String dataNow = df.format(new Date());//修改时间
-            String userName = (String)session.getAttribute("uname");//修改人
+            String drawbackStatus = "退款成功";
             refoundOrderServiceImpl.updataRefoundDrawbackId(drawbackStatus,dataNow,userName,drawbackId);
             return "{\"msg\":\"666\"}";
         }
-        //随机数退款失败
+        //退款失败
         else if("777".equals(code))
         {
+            String drawbackStatus = "退款失败";
+            refoundOrderServiceImpl.updataRefoundDrawbackId(drawbackStatus,dataNow,userName,drawbackId);
             return "{\"msg\":\"777\"}";
         }
-        //退款失败
+        //信息发送失败
         else
         {
             log.info("code:"+code);
