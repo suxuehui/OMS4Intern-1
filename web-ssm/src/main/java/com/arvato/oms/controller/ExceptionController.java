@@ -121,8 +121,8 @@ public class ExceptionController {
                         orderServiceImpl.updateOrder2(orderStatus1,new Date(),userName,exOid[j]);
                         //再删除订单页面的订单信息
                         orderServiceImpl.cancleOrder(exOid[j],userName);
-                        return "{\"msg\":\"2\"}";
                     }
+                    return "{\"msg\":\"2\"}";
                 }
                 //由预检发送过来，处理方式为：取消订单
                 if("库存异常".equals(exceptionType))
@@ -135,8 +135,8 @@ public class ExceptionController {
                         orderServiceImpl.updateOrder2(orderStatus2,new Date(),userName,exOid[j]);
                         //再删除订单页面的订单信息
                         orderServiceImpl.cancleOrder(exOid[j],userName);
-                        return "{\"msg\":\"2\"}";
                     }
+                    return "{\"msg\":\"2\"}";
                 }
                 //由预检发送过来，处理方式为：跟客户确认后，进行下一步备注异常的检验
                 if("金额异常".equals(exceptionType))
@@ -157,8 +157,8 @@ public class ExceptionController {
                             //先将订单状态改为“待路由”,然后才能进行订单的修改操作
                             orderServiceImpl.updateOrder2(orderStatus3,new Date(),userName,exOid[j]);
                         }
-                        return "{\"msg\":\"2\"}";
                     }
+                    return "{\"msg\":\"2\"}";
                 }
 
                 //由预检发送过来，处理方式为：确认备注信息后，进行路由
@@ -170,8 +170,8 @@ public class ExceptionController {
                         orderServiceImpl.updateOrder2(orderStatus4,new Date(),userName,exOid[j]);
                         //再删除异常页面的异常订单
                         exceptionServiceImpl.deleteByOid(exOid[j]);
-                        return "{\"msg\":\"2\"}";
                     }
+                    return "{\"msg\":\"2\"}";
                 }
                 //向wms发送出库单是异常，处理方式为：再次将出库单信息发送给WMS
                 if("出库异常".equals(exceptionType))
@@ -199,6 +199,7 @@ public class ExceptionController {
                             return "{\"msg\":\"4\"}";
                         }
                     }
+
                 }
                 //wms发送过来缺货，处理方式为：取消订单
                 if("仓库库存异常".equals(exceptionType)){
@@ -225,8 +226,8 @@ public class ExceptionController {
                         } catch (Exception e) {
                             log.info(e);
                         }
-                        return "{\"msg\":\"2\"}";
                     }
+                    return "{\"msg\":\"2\"}";
                 }
 
             }

@@ -207,7 +207,6 @@ function drawback(){
                 },"json"
             );
         }else{
-            alert("一次只能操作一条退款单");
             var excheck = document.getElementsByName("refoundOrder_ck");
             for(var i=0;i<excheck .length;i++)
             {
