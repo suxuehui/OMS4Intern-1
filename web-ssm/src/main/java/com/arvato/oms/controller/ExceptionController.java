@@ -66,7 +66,8 @@ public class ExceptionController {
         for (int i = 0; i < sq.length; i++) {
             //如果是仓库库存异常，取消时需通知wms更新出库单状态
             String  outboundId= outboundorderServiceImpl.selectByOid(sq[i]).getOutboundid();
-            if("仓库库存异常".equals(outboundId)) {
+            String  exceptiontype =exceptionServiceImpl.selectByOid(sq[i]).getExceptiontype();
+            if("仓库库存异常".equals(exceptiontype)) {
                 JSONObject object = new JSONObject();
                 object.put("outboundOrdId", outboundId);
                 object.put("cancelOrd", "1");
