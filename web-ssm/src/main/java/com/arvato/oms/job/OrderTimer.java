@@ -37,10 +37,11 @@ public class OrderTimer {
             }
             Date nowTime=new Date();
             Long intervalTime=nowTime.getTime()-beforeTime.getTime();
-            if(intervalTime>=1*60*1000)
+            if(intervalTime>=1800*1000)
             {
                 orderModels.get(i).setOrderstatus("已完成");
                 orderModels.get(i).setModifytime(new Date());
+                orderModels.get(i).setModifyman("");
                 orderModelMapper.updateByOidSelective(orderModels.get(i));
             }
         }
