@@ -251,7 +251,7 @@
                                         <input type="button" value="查询" class="submitBtn fr" id="serarchReturnedOrder">
                                         <input type="text" class="textArea fr" id="returnValue">
                                         <select class="selectArea fr revise" id="returnedselect">
-                                            <option class="select_hide">请选择查询条件</option>
+                                            <option class="select_hide" id="returnSelect1">请选择查询条件</option>
                                             <option>退货单号</option>
                                             <option>订单号</option>
                                             <option>退货状态</option>

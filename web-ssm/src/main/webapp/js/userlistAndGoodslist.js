@@ -1443,11 +1443,11 @@ $(
         });
 
 
+
         $("#returnListBut").click(
             function () {
                 $("#returnValue").val("");
-
-                $("#returnedselect option:selected").val(0);
+                $("#returnedselect").val("请选择查询条件");
                 selectReturnByvalue(1);
             }
         );
@@ -1470,7 +1470,7 @@ $(
         
         $("#goodsListbut").click(
             function () {
-                $("#selectGoodssle option:selected").val(0);
+                $("#selectGoodssle").val("请选择查询条件");
                 $("#goodsvaluetxt").val("");
 
                 selectGoodsByValue(1);
@@ -1478,7 +1478,7 @@ $(
 
         $("#goodListSonBut").click(
             function () {
-                $("#selectGoodssle option:selected").val(0);
+                $("#selectGoodssle").val("请选择查询条件");
                 $("#goodsvaluetxt").val("");
                 selectGoodsByValue(1);
             }
