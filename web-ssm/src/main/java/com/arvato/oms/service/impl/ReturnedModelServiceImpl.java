@@ -58,7 +58,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
     InboundorderModelMapper inboundorderModelMapper;
 
     private Logger log = Logger.getLogger(ReturnedModelServiceImpl.class);
-
+    private static final String jkljyc = "链接接口异常";
     public int cancelReturn(Integer id)
     {
         /**
@@ -258,6 +258,8 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
          *
          */
 
+
+
         JSONObject json = new JSONObject();
         ReturnedModel returnedModel = returnedModelMapper.selectByPrimaryKey(id);
         long countoid = outboundorderModelMapper.Countoid(returnedModel.getOid());
@@ -326,24 +328,25 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
                     if (synchrostate1)
                     {
                         String s = sendOutBoundToWMS(outBoundRoot);
+                        String tsckd= "推送出库单";
                         if (s.equals("100"))
                         {//推送成功
 
-                            log.info("推送出库单" + outboundorderModel.getOutboundid() + "成功");
+                            log.info(tsckd + outboundorderModel.getOutboundid() + "成功");
                             // outboundorderModelMapper.updateOutboundSynchrostate(outboundorderModel.getOutboundid());
 
                             json.put("data", "换货成功");
                         } else if (s.equals("0"))
                         {//链接接口异常
-                            log.info("推送出库单" + outboundorderModel.getOutboundid() + "链接接口异常");
-                            json.put("data", "链接接口异常");
+                            log.info(tsckd + outboundorderModel.getOutboundid() + "链接接口异常");
+                            json.put("data", jkljyc);
                         } else if (s.equals("101"))
                         {//数据格式错误
-                            log.info("推送出库单" + outboundorderModel.getOutboundid() + "数据格式错误");
+                            log.info(tsckd + outboundorderModel.getOutboundid() + "数据格式错误");
                             json.put("data", "数据格式错误");
                         } else if (s.equals("102"))
                         {//重复的入库单
-                            log.info("推送出库单" + outboundorderModel.getOutboundid() + "重复的出库单");
+                            log.info(tsckd + outboundorderModel.getOutboundid() + "重复的出库单");
                             json.put("data", "重复的出库单");
 
                         } else
@@ -380,6 +383,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
          * @Return:
          */
 
+        String tsrkd = "推送入库单";
         ReturnedModel returnedModel = returnedModelMapper.selectByPrimaryKey(id);
         String returnedstatus = returnedModel.getReturnedstatus();
         if (returnedstatus.equals("待审核"))
@@ -451,7 +455,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
                     }
                     if (s.equals("100"))
                     {//推送成功
-                        log.info("推送入库单" + inboundorderModel.getInboundid() + "成功");
+                        log.info(tsrkd + inboundorderModel.getInboundid() + "成功");
                         //int i2 = inboundorderModelMapper.updateInboundSynchrostate(inboundorderModel.getInboundid());
                         returnedModelMapper.updateReturnedStatus(returnedModel.getReturnedid(), "等待收货");
 
@@ -468,17 +472,17 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
                         return "审核成功";
                     } else if (s.equals("0"))
                     {//链接接口异常
-                        log.info("推送入库单" + inboundorderModel.getInboundid() + "链接接口异常");
+                        log.info(tsrkd + inboundorderModel.getInboundid() + "链接接口异常");
 
                         return "链接接口异常";
                     } else if (s.equals("101"))
                     {//数据格式错误
-                        log.info("推送入库单" + inboundorderModel.getInboundid() + "数据格式错误");
+                        log.info(tsrkd + inboundorderModel.getInboundid() + "数据格式错误");
 
                         return "数据格式错误";
                     } else if (s.equals("102"))
                     {//重复的入库单
-                        log.info("推送入库单" + inboundorderModel.getInboundid() + "重复的入库单");
+                        log.info(tsrkd + inboundorderModel.getInboundid() + "重复的入库单");
 
                         return "重复的入库单";
                     } else
@@ -571,6 +575,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         {
             code = "0";//链接接口异常
             log.info("将出库单推送给WMS时链接接口异常" + e.getMessage());
+
         }
         return code;
     }    //根据退款单号查询该条退货单记录

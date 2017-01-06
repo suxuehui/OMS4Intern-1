@@ -1336,7 +1336,7 @@ $(
                                 }
                             });
 
-                            selectReturnByvalue(1);
+
                         }
                         if (changeErrorCount > 0) {
                             alert("订单已换货，请不要重复提交，共" + returnIdArray.length + "条,成功" + changesuccessCount + "条");
@@ -1445,29 +1445,41 @@ $(
 
         $("#returnListBut").click(
             function () {
+                $("#returnValue").val("");
+
+                $("#returnedselect option:selected").val(0);
                 selectReturnByvalue(1);
             }
         );
 
         $("#userListbut").click(
+
             function(){
+                $("#userselectvalue").val("");
                 selectByUserName(1);
             }
         );
 
         $("#userListSonbut").click(
             function(){
+
+                $("#userselectvalue").val("");
                 selectByUserName(1);
             }
         );
         
         $("#goodsListbut").click(
             function () {
+                $("#selectGoodssle option:selected").val(0);
+                $("#goodsvaluetxt").val("");
+
                 selectGoodsByValue(1);
         });
 
         $("#goodListSonBut").click(
             function () {
+                $("#selectGoodssle option:selected").val(0);
+                $("#goodsvaluetxt").val("");
                 selectGoodsByValue(1);
             }
         );
