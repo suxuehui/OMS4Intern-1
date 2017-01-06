@@ -261,7 +261,8 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         JSONObject json = new JSONObject();
         ReturnedModel returnedModel = returnedModelMapper.selectByPrimaryKey(id);
         long countoid = outboundorderModelMapper.Countoid(returnedModel.getOid());
-        if (countoid > 0)
+
+        if (countoid > 1)
         {
             json.put("data", "-1");
         } else
@@ -281,7 +282,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
                 outboundorderModel.setOrderstatus(orderModel.getOrderstatus());//订单状态
                 //List<OutboundorderModel> outboundorderModels = outboundorderModelMapper.selectOutboundorders(returnedModel.getOid());
                 outboundorderModel.setOutboundid("SO" + returnedModel.getOid() + generateRandomNumber(5));//出库单号
-                outboundorderModel.setOutboundstate("待出库");
+                outboundorderModel.setOutboundstate("处理中");
 
                 outboundorderModel.setSynchrostate(true);//未同步
                 outboundorderModel.setReceivername(orderModel.getReceivername());
