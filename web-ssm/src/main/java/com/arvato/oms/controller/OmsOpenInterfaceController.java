@@ -138,14 +138,13 @@ public class OmsOpenInterfaceController {
             //生成退款单
             orderServiceImpl.createReturned(oid);
         }else if ("补货成功".equals(outboundState)){
-            String orderStatus="补货成功";
             String orderStatus2="已出库";
             //快递公司
             String expressCompany4 =null;
             //快递单号
             String expressId4 = null;
             //向出库表中添加快递公司，快递单号,仓库出库单号的信息,以及修改出库单状态，订单状态
-            outboundServiceImpl.updateOutboundorder(orderStatus,outboundState,warehouseObid,expressCompany4,expressId4,new Date(),userName,outboundId);
+            outboundServiceImpl.updateOutboundorder(orderStatus2,outboundState,warehouseObid,expressCompany4,expressId4,new Date(),userName,outboundId);
             //先从出库表获取订单号，然后更新订单列表的订单状态
             String oid2 = outboundServiceImpl.selectOidByOutboundId(outboundId);
             //更新订单列表订单状态

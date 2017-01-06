@@ -88,10 +88,10 @@ public class ExceptionController {
             orderServiceImpl.updateOrder2(orderStatus1,new Date(),userName2,sq[i]);
             //再删除订单页面的订单信息
             orderServiceImpl.cancleOrder(sq[i],userName2);
-            return "{\"msg\":\"2\"}";
+
         }
 
-        return PAGE;
+        return "{\"msg\":\"2\"}";
     }
 
     //异常订单的处理
@@ -182,8 +182,8 @@ public class ExceptionController {
                         //根据订单号查询出该条出库单记录
                         OutboundorderModel outboundorderModel =outboundorderServiceImpl.selectByOid(exOid[j]);
                         //再次将出库单信息发送给WMS
-                        int s = orderServiceImpl.sendOutboundOrder(orderModel,outboundorderModel,userName);
-                        if (s==1){
+                        int result = orderServiceImpl.sendOutboundOrder(orderModel,outboundorderModel,userName);
+                        if (result==1){
                             String orderStatus5 ="待出库";
                             //先将订单状态改为“待出库”,然后才能进行订单的修改操作
                             orderServiceImpl.updateOrder2(orderStatus5,new Date(),userName,exOid[j]);
@@ -193,13 +193,9 @@ public class ExceptionController {
                             outboundorderServiceImpl.updateOutbound2(orderStatus,outboundState,new Date(),userName,exOid[j]);
                             //再删除异常页面的异常订单
                             exceptionServiceImpl.deleteByOid(exOid[j]);
-                            return "{\"msg\":\"3\"}";
-                        }
-                        if (s==5){
-                            return "{\"msg\":\"4\"}";
                         }
                     }
-
+                    return "{\"msg\":\"3\"}";
                 }
                 //wms发送过来缺货，处理方式为：取消订单
                 if("仓库库存异常".equals(exceptionType)){
