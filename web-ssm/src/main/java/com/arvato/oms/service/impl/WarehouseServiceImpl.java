@@ -124,12 +124,14 @@ public class WarehouseServiceImpl implements WarehouseService {
                 add=2;//用户输入信息格式有误
             }
           }
+          return add;
       } catch (Exception e){
-          add=3;
+          add=5;
           Logger logger = Logger.getLogger(WarehouseController.class);
           logger.info("仓库添加失败"+e);
+          return add;
       }
-        return add;
+
     }
 
 
@@ -166,6 +168,7 @@ public class WarehouseServiceImpl implements WarehouseService {
      }catch(Exception e){
             Logger logger = Logger.getLogger(WarehouseController.class);
             logger.info("仓库编辑失败"+e);
+             update=5;
             return update;
      }
     }

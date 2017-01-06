@@ -234,6 +234,11 @@ function cleartext(){
                      //隐藏loading
                      $(".loading").hide();
                      break;
+                 case 5 :
+                     $("#"+warnli).html("请输入有效仓库名")
+                     //隐藏loading
+                     $(".loading").hide();
+                     break;
                  default:
              }
 
@@ -346,6 +351,11 @@ function updateware(wareid){
                     $(".loading").hide();
                     break;
                 case 4 :
+                    //隐藏loading
+                    $(".loading").hide();
+                    break;
+                case 5 :
+                    $("#"+warnli).html("请输入有效仓库名")
                     //隐藏loading
                     $(".loading").hide();
                     break;
