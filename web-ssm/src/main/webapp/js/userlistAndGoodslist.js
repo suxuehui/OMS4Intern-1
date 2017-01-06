@@ -280,7 +280,7 @@ function selectByUserName(pageNow) {
             var totalPage = data.totalPage;
 
             if (userList.length == 0) {
-                alert("查询无结果");
+                alert("查询无结果！");
                 $('#userselectvalue').val("");
                 userselectValue = userselectValuetemp;
 
@@ -362,7 +362,7 @@ function selectGoodsByValue(pageNow) {
             if (goodsList.length == 0) {
                 goodselectValue = goodselectValueTemp;
                 goodselect = goodselectTemp;
-                alert("查询无结果");
+                alert("查询无结果！");
                 return false;
             } else {
                 goodselectValueTemp = goodselectValue;
@@ -436,6 +436,15 @@ function selectReturnByvalue(pageNow) {
             var returnedList = data.returnedModels;
             var totalPage = data.totalPage;
             $("#totalReturnedPage2").html(totalPage);
+            if (totalPage == 0) {
+
+                alert("查询无结果!");
+
+                $("#totalReturnedPage2").html(0);
+                returnSelect = returnSelectTemp;
+                returnSelectValue = returnSelectValueTemp;
+                return false;
+            }
             if (pageNow == 1) {
                 if (totalPage == 0 || totalPage == 1) {
 
@@ -470,15 +479,7 @@ function selectReturnByvalue(pageNow) {
                 $('#endReturnedPage').hide();
                 $('#nextReturnedPage').hide();
             }
-            if (totalPage == 0) {
 
-                alert("查询无结果!");
-
-                $("#totalReturnedPage2").html(0);
-                returnSelect = returnSelectTemp;
-                returnSelectValue = returnSelectValueTemp;
-                return false;
-            }
             returnSelectValueTemp = returnSelectValue;
             returnSelectTemp = returnSelect;
             $('#returnedBody').html("");
