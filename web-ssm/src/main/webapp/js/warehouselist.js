@@ -44,7 +44,7 @@ function WarehousegetPage(pagenow){
         dataType:"json",
         success:function(data) {
             if(data.warelist.length==0){//判断是否有订单
-                alert("该仓库信息不存在")
+                alert("查询无结果")
                 $("#whtxt").val("");
                 wareselectmode=wareselectModeTemp;
                 warequerydata=warequeryDateTemp;
@@ -169,7 +169,7 @@ function ifden(warenum,warename,warnli){
             return false;
         }
         if(warename.trim()==""){
-            $("#"+warnli).html("请输入仓库名称")
+            $("#"+warnli).html("请输入仓库名")
             return false;
         }
         else{
