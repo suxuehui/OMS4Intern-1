@@ -159,14 +159,8 @@ function ifzenze(warenum,warename,warnli){
 //验证格式
 function ifden(warenum,warename,warnli){
     if(warenum.trim()==""){
-        if( warename.trim()==""){
-            $("#"+warnli).html("请输入仓库编号,请输入仓库名");
+            $("#"+warnli).html("请输入仓库编号")
             return false;
-        }
-        else{
-            $("#"+warnli).html("请输入仓库编码")
-            return false;
-        }
     }
     else{
         if (!regex1.test(warenum))
