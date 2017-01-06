@@ -94,6 +94,10 @@ function inajax(data){
 function inGetnowPage(pagenow){
     $("#inselectid").val(0);
     $("#intxt").val("");
+      inselectmode=0;
+      inquerydata="";
+      inselectModeTemp=0;
+      inqueryDateTemp="";
     inpagenow=pagenow;
     inpagenowTem=inpagenow;
     //ajax调用后台方法获取数据并展示

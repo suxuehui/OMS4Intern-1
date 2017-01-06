@@ -98,6 +98,10 @@ function outajax(data){
 function outGetnowPage(pagenow){
     $("#outselectid").val(0);
     $("#outtxt").val("");
+    outselectmode=0;
+    outquerydata="";
+    outselectModeTemp=0;
+    outqueryDateTemp="";
     outpagenow=pagenow;
     outpagenowTem=outpagenow;
     //ajax调用后台方法获取数据并展示
