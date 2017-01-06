@@ -502,6 +502,11 @@ function selectReturnByvalue(pageNow) {
 $(
     function () {
 
+        $('#prereturnedGoodsPage').hide();
+        $('#firstreturnedGoodsPage').hide();
+        $('#endreturnedGoodsPage').hide();
+        $('#nextreturnedGoodsPage').hide();
+
         var returnIdArray = new Array();
         $("input:checkbox[name='returnedcheck']:checked").each(function () {
             returnIdArray[i++] = parseInt($(this).attr("id"));
