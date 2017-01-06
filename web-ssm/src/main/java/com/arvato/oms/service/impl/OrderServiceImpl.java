@@ -433,7 +433,7 @@ public class OrderServiceImpl implements OrderService
         String refoundId="RF"+oId+(int)(Math.random()*90000+10000);
         refoundOrderModel.setDrawbackid(refoundId);
         refoundOrderModel.setDrawbackmoney(orderModel.getOrdertolprice());
-        refoundOrderModel.setDrawbackstatus("未退款");
+        refoundOrderModel.setDrawbackstatus("待退款");
         refoundOrderModel.setCreatetime(new Date());
         RefoundOrderModel refoundOrderModel1=refoundOrderModelMapper.selectByRefoundId(refoundId);
         if(refoundOrderModel1!=null)
@@ -713,6 +713,10 @@ public class OrderServiceImpl implements OrderService
         JSONObject jsonObject=JSON.parseObject(jsonStr);
         ArrayList<GoodsPojo> goodsList=JSON.parseObject(jsonObject.getString("goods"),new TypeReference<ArrayList<GoodsPojo>>(){});
         OrderModel orderModel=orderModelMapper.selectByOid(jsonObject.getString("oid"));
+        if(orderModel==null)
+        {
+            return 0;//订单不存在
+        }
         RelationrgModel[] relationRgModels=new RelationrgModel[goodsList.size()];
         ReturnedModel returnedModel=returnedModelMapper.selectByOid(orderModel.getOid());
         if(returnedModel!=null&&!returnedModel.getReturnedstatus().equals("取消退货")&&!returnedModel.getReturnedstatus().equals("取消换货"))
@@ -721,10 +725,6 @@ public class OrderServiceImpl implements OrderService
         }
         returnedModel=new ReturnedModel();
         returnedModel.setOid(jsonObject.getString("oid"));
-        if(orderModel==null)
-        {
-            return 0;//订单不存在
-        }
         if(!orderModel.getOrderstatus().equals("已完成"))
         {
             return 2;//订单未完成
