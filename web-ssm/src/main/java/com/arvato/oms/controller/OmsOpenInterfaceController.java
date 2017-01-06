@@ -140,18 +140,9 @@ public class OmsOpenInterfaceController {
         }else if ("补货成功".equals(outboundState)){
             String orderStatus="补货成功";
             //快递公司
-            String expressCompany4 =outbound_message.getString("expressCompany");
-            if(expressCompany4==null||"".equals(expressCompany4)){
-                return "{\"msg\":\"306\"}";//快递公司不能为空
-            }
+            String expressCompany4 =null;
             //快递单号
-            String expressId4 = outbound_message.getString("expressId");
-            if(expressId4==null||"".equals(expressId4)){
-                return "{\"msg\":\"307\"}";//快递单号不能为空
-            }
-            if(expressId4.length()<10||expressId4.length()>16){
-                return "{\"msg\":\"309\"}";//快递单号格式错误
-            }
+            String expressId4 = null;
             //向出库表中添加快递公司，快递单号,仓库出库单号的信息,以及修改出库单状态，订单状态
             outboundServiceImpl.updateOutboundorder(orderStatus,outboundState,warehouseObid,expressCompany4,expressId4,new Date(),userName,outboundId);
             //先从出库表获取订单号，然后更新订单列表的订单状态
