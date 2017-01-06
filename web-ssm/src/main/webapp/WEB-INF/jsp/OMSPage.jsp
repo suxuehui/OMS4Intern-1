@@ -43,14 +43,14 @@
                 <c:if test="${urole == 1}">
                     <li class="on" id="userListbut">用户</li>
                     <li id="goodsListbut">商品</li>
-                    <li>仓库</li>
+                    <li class="wareliclick">仓库</li>
                     <li class="orderClick">订单</li>
                 </c:if>
 
                 <c:if test="${urole == 2}">
                     <li></li>
                     <li class="on" id="userListbut">商品</li>
-                    <li>仓库</li>
+                    <li class="wareliclick">仓库</li>
                     <li class="orderClick">订单</li>
                 </c:if>
             </ul>

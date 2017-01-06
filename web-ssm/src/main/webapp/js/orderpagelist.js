@@ -30,10 +30,13 @@ function  queryAllOrder(pageNo) {
 
 //点击导航栏刷新页面
 $(function () {
+
     $(".orderClick").click(function () {
         queryAllOrder(1);
         $("#queryOrderCon").val("");
         $("#queryMode").val(0);
+        outGetnowPage(1);
+        inGetnowPage(1);
     })
     $("#0").click(function () {
         queryAllOrder(1);

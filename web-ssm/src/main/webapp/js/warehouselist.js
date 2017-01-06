@@ -85,9 +85,20 @@ function ware(data){
     WareGetNavPage(datapage.totalPageCount,datapage.pageNow);
 }
 
+$(".wareliclick").on('click',function (){
+    wareGetnowPage(1);
+})
+
+
 function wareGetnowPage(pagenow){
     warepagenow=pagenow;
     warepagenowTem=warepagenow;
+      wareselectmode=0;
+      warequerydata="";
+      wareselectModeTemp=0;
+      warequeryDateTemp="";
+      $("#whselectid").val(0);
+      $("#whtxt").val("");
 
     //在未勾选checkbox 置灰编辑和删除按钮
     document.getElementById("wareupdate").disabled=true;
