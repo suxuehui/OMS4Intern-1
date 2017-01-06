@@ -361,15 +361,14 @@ public class OrderServiceImpl implements OrderService
         if(orderModel.getOrderstatus().equals("已出库"))
         {
             OutboundorderModel outboundorderModel=outboundorderModelMapper.selectByOid(oId);
-            Properties p=null;
+            String cancelOrderUrl=null;
             try {
-                p = rp.readProperties("url.properties");
+                cancelOrderUrl = rp.readProperties("url.properties","cancleOrderUrl");
             }catch (IOException e)
             {
                 log.info(e);
                 throw new NewRunException("找不到url.properties文件");
             }
-            String cancelOrderUrl=(String)p.get("cancleOrderUrl");
             HTTPClientDemo httpClientDemo=new HTTPClientDemo(cancelOrderUrl);
             String str=httpClientDemo.getMethod("outboundorderid",outboundorderModel.getOutboundid());
             String code="";
@@ -524,15 +523,14 @@ public class OrderServiceImpl implements OrderService
         deliveryOrder.put("receiveraddress",outboundorderModel.getReceiveraddress());
         jsonObject.put("outboundordergoods",outBoundGoodsList);
         jsonObject.put("deliveryOrder",deliveryOrder);
-        Properties p;
+        String sendOutboundOrderUrl=null;
         try {
-            p = rp.readProperties("url.properties");
+            sendOutboundOrderUrl = rp.readProperties("url.properties","sendOutboundOrderUrl");
         }catch (IOException e)
         {
             log.info(e);
             throw new NewRunException("找不到url.properties文件");
         }
-        String sendOutboundOrderUrl=(String)p.get("sendOutboundOrderUrl");
         HTTPClientDemo httpClientDemo=new HTTPClientDemo(sendOutboundOrderUrl);
         String response=httpClientDemo.postMethod(jsonObject.toString());
         String code="";
