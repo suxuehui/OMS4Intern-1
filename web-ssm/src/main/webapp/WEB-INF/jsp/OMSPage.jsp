@@ -112,7 +112,7 @@
                         </form>
                     </div>
                     <div class="page"><span id="userPageNow" hidden>1</span> <span id="totalUserPage"
-                                                                                   hidden>0</span><a
+                                                                                   hidden>1</span><a
                             id="endUserPage" hidden>尾页</a><a id="nextUserPage" hidden>下一页</a><a id="preUserPage" hidden>上一页</a><a
                             id="firstUserPage" hidden>首页</a></div>
                 </div>
@@ -187,7 +187,7 @@
                             </form>
                         </div>
                         <div class="page"><span id="goodsPageNow" hidden>1</span> <span id="totalGoodPage"
-                                                                                        hidden>0</span><a
+                                                                                        hidden>1</span><a
                                 id="endGoodsPage" hidden>尾页</a><a id="nextGoodsPage" hidden>下一页</a><a id="preGoodsPage"
                                                                                                       hidden>上一页</a><a
                                 id="firstGoodsPage" hidden>首页</a></div>
@@ -285,7 +285,7 @@
                                     </form>
                                 </div>
                                 <div class="page"><span id="returnedPageNow" hidden>1</span> <span
-                                        id="totalReturnedPage" hidden>0</span><a
+                                        id="totalReturnedPage" >1</span><a
                                         id="endReturnedPage" hidden>尾页</a><a id="nextReturnedPage" hidden>下一页</a><a
                                         id="preReturnedPage" hidden>上一页</a><a
                                         id="firstReturnedPage" hidden>首页</a></div>
@@ -311,7 +311,7 @@
                             </div>
                             <div class="page"><span id="returnedidongoods" hidden>null</span> <span
                                     id="returnedGoodsPageNow" hidden>1</span> <span
-                                    id="totalreturnedGoodsPage" hidden>0</span><a
+                                    id="totalreturnedGoodsPage" hidden>1</span><a
                                     id="endreturnedGoodsPage" hidden>尾页</a><a id="nextreturnedGoodsPage"
                                                                               hidden>下一页</a><a
                                     id="prereturnedGoodsPage" hidden>上一页</a><a
@@ -378,39 +378,7 @@
                     </div>
                 </div>
             </div>
-            <!--customShow结束-->
-            <%--<div class="productShow revise">--%>
-            <%--<div class="popupTop">--%>
-            <%--<span class="iconClose fr" id="closeoodsicon"></span>--%>
-            <%--<p class="popupTopTit">添加商品</p>--%>
-            <%--</div>--%>
-            <%--<div class="popupCont revise">--%>
 
-            <%--<ul>--%>
-            <%--<li>--%>
-            <%--<label class="listName">商品编号：</label>--%>
-            <%--<input type="text" class="inputList">--%>
-            <%--</li>--%>
-            <%--<li>--%>
-            <%--<label class="listName">商品名称：</label>--%>
-            <%--<input type="text" class="inputList">--%>
-            <%--</li>--%>
-            <%--<li>--%>
-            <%--<label class="listName">总库存：</label>--%>
-            <%--<input type="text" class="inputList">--%>
-            <%--</li>--%>
-            <%--<li>--%>
-            <%--<label class="listName">价格：</label>--%>
-            <%--<input type="text" class="inputList">--%>
-            <%--</li>--%>
-            <%----%>
-            <%--<li>--%>
-            <%--<input type="button" value="保存" class="save">--%>
-            <%--</li>--%>
-            <%--</ul>--%>
-            <%--</div>--%>
-            <%--</div>--%>
-            <!--productShow结束-->
             <div class="storeShow">
                 <div>
                     <div class="popupTop">

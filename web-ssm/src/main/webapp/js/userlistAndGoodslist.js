@@ -111,6 +111,7 @@ function returngetgoodsfromserver(returnedid, pageNow, pageSize) {
         success: function (data) {
             var returnedSonList = data.returnedSonList;
             var totalPage = data.totalPageCount;
+
             if (pageNow == 1) {
                 if (totalPage == 0 || totalPage == 1) {
                     $('#prereturnedGoodsPage').hide();
@@ -426,13 +427,15 @@ function selectReturnByvalue(pageNow) {
             select: returnSelect,
             value: returnSelectValue,
             pageNow: page,
-            pageSize: 10
+            pageSize: 10,
+            async: false
         },
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
             var returnedList = data.returnedModels;
             var totalPage = data.totalPage;
+            $("#totalReturnedPage2").html(totalPage);
             if (pageNow == 1) {
                 if (totalPage == 0 || totalPage == 1) {
 
@@ -468,7 +471,10 @@ function selectReturnByvalue(pageNow) {
                 $('#nextReturnedPage').hide();
             }
             if (totalPage == 0) {
-                alert("查询无结果");
+
+                alert("查询无结果!");
+
+                $("#totalReturnedPage2").html(0);
                 returnSelect = returnSelectTemp;
                 returnSelectValue = returnSelectValueTemp;
                 return false;
@@ -713,8 +719,8 @@ $(
                 $(".hbg").show();
                 var username = $('#updateUserName').val().trim();
                 var password = $('#updateUserPassword').val().trim();
-                var preusername = $('#updateusernamehidden').val();
-                var prepassword = $('#updateupasshidden').val();
+                var preusername = $('#updateusernamehidden').val().trim();
+                var prepassword = $('#updateupasshidden').val().trim();
                 if (username == preusername && password == prepassword) {
                     $("#updateUserMsg").html("与原用户信息一致，请重新修改");
                     $(".loading").hide();
@@ -811,7 +817,7 @@ $(
 
             $('#userselectbutton').click(function () {
                 $("#userPageNow").html(1);
-                userselectValue = $("#userselectvalue").val();
+                userselectValue = $("#userselectvalue").val().trim();
                 var zzbds = /^([\u4E00-\u9FA5]|\w)*$/;
                 if (!zzbds.test(userselectValue)) {
                     alert("请不要输入特殊符号");
@@ -929,8 +935,8 @@ $(
         $('#selectgoodsbut').click(
             function () {
                 $("#goodsPageNow").html(1);
-                var select = $('#selectGoodssle').val();
-                goodselectValue = $('#goodsvaluetxt').val();
+                var select = $('#selectGoodssle').val().trim();
+                goodselectValue = $('#goodsvaluetxt').val().trim();
                 if (select == "请选择查询条件") {
                     alert("请选择查询条件");
                 } else {
@@ -1364,7 +1370,10 @@ $(
                     if (!zzbds.test(returnSelectValue)) {
                         alert("请不要输入特殊符号");
                     } else {
+
                         selectReturnByvalue(1);
+
+
 
                     }
 
