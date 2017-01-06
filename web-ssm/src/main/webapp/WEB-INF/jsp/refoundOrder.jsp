@@ -21,7 +21,7 @@
                     <%--查看按钮  dfdgfg--%>
                     <li><input type="button" value="查看订单"  class="btn beta" disabled="disabled" id="refoundOrder_inbtn" onclick="refoundOrder_details()"></li>
                 </ul>
-                <input type="button" value="查询" class="submitBtn fr" id="refoundOrderSearch" onclick="refoundGetnowPage(1)">
+                <input type="button" value="查询" class="submitBtn fr" id="refoundOrderSearch" onclick="refGetnowPage(1)">
                 <input type="text" class="textArea fr" name="refoundTxt" id="refoundOrderTxt">
                 <select class="selectArea fr" name="refoundToseachid" id="refoundOrderSelectid">
                     <option value="0" class="select_hide">请选择查询条件</option>

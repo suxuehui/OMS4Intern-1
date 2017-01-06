@@ -1,9 +1,11 @@
 window.onload= GetnowPage(1);//加载页面时就执行函数进入后台
 
 var exclistnull;
+
 //使用ajax提交数据到后台
 function GetnowPage(pagenow){
-    exclistnull=0;//每次调用时初始化全局变量
+    // $("#exceptionSelectid").val(0);
+    // $("#exception_text").val("");
     var myselect=document.getElementById("exceptionSelectid");
     var index=myselect.selectedIndex;
     var optxt=myselect.options[index].value;//查询条件
@@ -23,13 +25,6 @@ function GetnowPage(pagenow){
         success : function(data) {
             var dataPage = data.pagelist;
             var dataList = data.list;
-
-            //打开数据为空时设置全局变量以提示信息
-            exclistnull=dataList.length;
-            if(exclistnull==0){//判断是否有异常订单
-                alert("查询无结果！")
-                return;
-            }
                 //清除母页面信息
                 $("#exetable tbody tr").eq(0).nextAll().remove();
                 //清除子页面信息
@@ -55,6 +50,59 @@ function GetnowPage(pagenow){
     });
 }
 
+function excGetnowPage(pagenow){
+    exclistnull=0;//每次调用时初始化全局变量
+    // $("#exceptionSelectid").val(0);
+    // $("#exception_text").val("");
+    var myselect=document.getElementById("exceptionSelectid");
+    var index=myselect.selectedIndex;
+    var optxt=myselect.options[index].value;//查询条件
+    var search_value=document.getElementById("exception_text").value;//查询值
+    var s1=pagenow;
+    //ajax调用后台方法获取数据并展示
+    $.ajax({
+        type : 'get',
+        url :'../exceptionOrder/showExceptionList',
+        data : {
+            currentpage: s1,
+            toseachid: optxt,
+            txtvalue: search_value
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType:"json",
+        success : function(data) {
+            var dataPage = data.pagelist;
+            var dataList = data.list;
+            //打开数据为空时设置全局变量以提示信息
+            exclistnull=dataList.length;
+            if(exclistnull==0){//判断是否有异常订单
+                alert("查询无结果！")
+                return;
+            }
+            //清除母页面信息
+            $("#exetable tbody tr").eq(0).nextAll().remove();
+            //清除子页面信息
+            $("#exception_table2 tbody tr").eq(0).nextAll().remove();
+            var i=0;
+            for(var obj in dataList){
+                i++;
+                var  list=dataList[obj];
+                var html='<tr><td>'+i+'</td><td><input type="checkbox" value="'+list.oid+'" name="exceptionck" onclick="getOid()" ></td><td id="'+list.oid+'" ' +
+                    'ondblclick="exceptiondbClick(this.id)" onclick="exceptionsingleClick(this.id)">'+list.oid+'</td>';
+                html+='<td>'+list.channeloid+'</td><td>'
+                    +list.orderstatus+'</td><td>'+list.orderfrom+'</td><td>'
+                    +list.exceptiontype+'</td><td>'+list.expceptioncause+'</td><td>'
+                    +list.exceptionstatus+'</td><td>' +list.createtime+'</td></tr>'
+                $("#exetable tbody ").append(html);
+            }
+            exGetNavPage(dataPage.totalPageCount,dataPage.pageNow);
+        },
+        error:function(){
+            self.location="../login/login" ;
+            alert("登陆超时，请重新登陆！");
+        }
+    });
+}
 
 /*单、双击事件跳转*/
 function exceptionsingleClick(oid) {

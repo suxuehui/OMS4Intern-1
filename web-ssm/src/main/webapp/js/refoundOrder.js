@@ -3,6 +3,50 @@ window.onload= refoundGetnowPage(1);//加载页面时就执行函数进入后台
 var reflistnull;
 //使用ajax提交数据到后台
 function refoundGetnowPage(pagenow){
+    var myselect=document.getElementById("refoundOrderSelectid");
+    var index=myselect.selectedIndex;
+    var optxt=myselect.options[index].value;//查询条件
+    var search_value=document.getElementById("refoundOrderTxt").value;//查询值
+    var s1=pagenow;
+    //ajax调用后台方法获取数据并展示
+    $.ajax({
+        type : 'get',
+        url :'../refoundOrder/showRefoundOrderList',
+        data : {
+            currentpage: s1,
+            refoundToseachid: optxt,
+            refoundOrderTxtvalue: search_value
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType:"json",
+        success : function(data) {
+            var dataPage = data.pagelist;
+            var dataList = eval(data.list);
+            //清除母页面信息
+            $("#refoundOrdertable1 tbody tr").eq(0).nextAll().remove();
+            //清除子页面信息
+            $("#refoundOrdertable2 tbody tr").eq(0).nextAll().remove();
+            var i=0;
+            for(var obj in dataList){
+                i++;
+                var  list=dataList[obj];
+                var html='<tr><td>'+i+'</td><td><input type="checkbox" value="'+list.drawbackid+'" name="refoundOrder_ck" onclick="refoundOrder_getDrawbackid()" ></td><td id="'+list.drawbackid+'" ' +
+                    'ondblclick="refounddbClick(this.id)" onclick="refoundsingleClick(this.id)">'+list.drawbackid+'</td>';
+                html+='<td>'+list.drawbackmoney+'</td><td>'
+                    +list.drawbackstatus+'</td><td>'+list.returnedid+'</td><td>' +list.createtime+'</td><td>'
+                    +list.modifytime+'</td><td>' +list.modifyman+'</td></tr>'
+                $("#refoundOrdertable1 tbody ").append(html);
+            }
+            refoundGetPage(dataPage.totalPageCount,dataPage.pageNow);
+        },
+        error:function(){
+            //self.location="../login/login" ;
+            alert("登陆超时，请重新登陆！");
+        }
+    });
+}
+
+function refGetnowPage(pagenow){
     reflistnull=0;//每次调用时初始化全局变量
     var myselect=document.getElementById("refoundOrderSelectid");
     var index=myselect.selectedIndex;
@@ -161,7 +205,6 @@ function refoundOrder_details(){
             var drawbackId3 = Array[0];
             window.open("../refoundOrder/details?drawbackId="+drawbackId3);
         }else{
-            alert("一次只能查看一条订单的信息");
             var excheck = document.getElementsByName("refoundOrder_ck");
             for(var i=0;i<excheck .length;i++)
             {
