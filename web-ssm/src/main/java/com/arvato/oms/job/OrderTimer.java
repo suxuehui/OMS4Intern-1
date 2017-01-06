@@ -1,7 +1,9 @@
 package com.arvato.oms.job;
 
 import com.arvato.oms.dao.OrderModelMapper;
+import com.arvato.oms.dao.OutboundorderModelMapper;
 import com.arvato.oms.model.OrderModel;
+import com.arvato.oms.model.OutboundorderModel;
 import org.apache.log4j.Logger;
 
 import javax.annotation.Resource;
@@ -16,9 +18,10 @@ public class OrderTimer {
     private Logger log = Logger.getLogger(OrderTimer.class);
     @Resource
     OrderModelMapper orderModelMapper;
+    @Resource
+    OutboundorderModelMapper outboundorderModelMapper;
     public void updateOrder()
     {
-        System.out.println("------------------------------------------------------");
         List<OrderModel> orderModels=orderModelMapper.selectAllByStatus("已发货");
         for(int i=0;i<orderModels.size();i++)
         {
@@ -42,7 +45,12 @@ public class OrderTimer {
                 orderModels.get(i).setOrderstatus("已完成");
                 orderModels.get(i).setModifytime(new Date());
                 orderModels.get(i).setModifyman("");
+                OutboundorderModel outboundorderModel=outboundorderModelMapper.selectByOid(orderModels.get(i).getOid());
+                outboundorderModel.setOrderstatus("已完成");
+                outboundorderModel.setModifytime(new Date());
+                outboundorderModel.setModifyman("");
                 orderModelMapper.updateByOidSelective(orderModels.get(i));
+                outboundorderModelMapper.updateByOidSelective(outboundorderModel);
             }
         }
     }

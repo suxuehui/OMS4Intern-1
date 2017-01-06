@@ -32,9 +32,13 @@ function  queryAllOrder(pageNo) {
 $(function () {
     $(".orderClick").click(function () {
         queryAllOrder(1);
+        $("#queryOrderCon").val("");
+        $("#queryMode").val(0);
     })
     $("#0").click(function () {
         queryAllOrder(1);
+        $("#queryOrderCon").val("");
+        $("#queryMode").val(0);
     })
 })
 
