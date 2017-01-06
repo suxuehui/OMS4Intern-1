@@ -285,7 +285,7 @@
                                     </form>
                                 </div>
                                 <div class="page"><span id="returnedPageNow" hidden>1</span> <span
-                                        id="totalReturnedPage" >1</span><a
+                                        id="totalReturnedPage" hidden>1</span><a
                                         id="endReturnedPage" hidden>尾页</a><a id="nextReturnedPage" hidden>下一页</a><a
                                         id="preReturnedPage" hidden>上一页</a><a
                                         id="firstReturnedPage" hidden>首页</a></div>
