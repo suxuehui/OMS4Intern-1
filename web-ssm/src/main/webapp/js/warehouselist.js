@@ -44,7 +44,7 @@ function WarehousegetPage(pagenow){
         dataType:"json",
         success:function(data) {
             if(data.warelist.length==0){//判断是否有订单
-                alert("查询无结果")
+                alert("查询无结果！")
                 $("#whtxt").val("");
                 wareselectmode=wareselectModeTemp;
                 warequerydata=warequeryDateTemp;
