@@ -54,12 +54,11 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
-            <mvc:mapping path="/oms/oms/index"/>
+            <mvc:mapping path="/oms/**"/>
             <mvc:exclude-mapping path="/login/**"/>
-            <mvc:exclude-mapping path="/css/login.css"/>
-            <mvc:exclude-mapping path="/images/logo.jpg"/>
-            <mvc:exclude-mapping path="/js/login.js"/>
-            <mvc:exclude-mapping path="/js/jquery-3.1.1.min.js"/>
+            <mvc:exclude-mapping path="/css/**"/>
+            <mvc:exclude-mapping path="/images/**"/>
+            <mvc:exclude-mapping path="/js/**"/>
             <mvc:exclude-mapping path="/WEB-INF/jsp/login.jsp"/>
             <mvc:exclude-mapping path="/OmsOpenInterface/**"/>
 
