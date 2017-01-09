@@ -77,6 +77,12 @@ function excGetnowPage(pagenow){
                 alert("查询无结果！")
                 return;
             }
+            if(optxt==0){
+                alert("请选择查询条件")
+                $("#exceptionSelectid").val(0);
+                $("#exception_text").val("");
+                return;
+            }
             //清除母页面信息
             $("#exetable tbody tr").eq(0).nextAll().remove();
             //清除子页面信息
