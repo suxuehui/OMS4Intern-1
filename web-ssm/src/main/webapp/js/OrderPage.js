@@ -323,7 +323,7 @@ function returnOrExchange(returnoid,returnedOrChange) {
             return;
         }
         var Num=$("#temp"+goodsArray[i]).text();
-        if(num>Num)
+        if(num-Num>0)
         {
             alert("填写的商品数量大于订单中的商品数量");
             return;
