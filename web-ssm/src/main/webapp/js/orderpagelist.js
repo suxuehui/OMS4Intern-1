@@ -1,8 +1,8 @@
 /**
  * Created by ZHAN545 on 2016/12/15.
  */
-var queryMode=1;
-var queryModeTemp=1;
+var queryMode=0;
+var queryModeTemp=0;
 var queryData="";
 var queryDateTemp="";
 var orderPageSize=10;
@@ -32,16 +32,16 @@ function  queryAllOrder(pageNo) {
 $(function () {
 
     $(".orderClick").click(function () {
-        queryAllOrder(1);
         $("#queryOrderCon").val("");
         $("#queryMode").val(0);
+        queryAllOrder(1);
         outGetnowPage(1);
         inGetnowPage(1);
     })
     $("#0").click(function () {
-        queryAllOrder(1);
         $("#queryOrderCon").val("");
         $("#queryMode").val(0);
+        queryAllOrder(1);
     })
 })
 

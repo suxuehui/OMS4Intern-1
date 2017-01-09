@@ -95,7 +95,15 @@ public class OrderServiceImpl implements OrderService
     {
         List<OrderModel> orderModels=null;
         int pageTotal=0;
-        if(queryMode==1)//按订单号查询
+        if(queryMode==0)//查询全部订单
+        {
+            int num=orderModelMapper.selectCount();
+            Page page=new Page(num,pageNo,pageSize);
+            int count=page.getStartPos();
+            pageTotal=page.getTotalPageCount();
+            orderModels=orderModelMapper.selectAll(count,pageSize);
+        }
+        else if(queryMode==1)//按订单号查询
         {
             int num=orderModelMapper.CountByOid(data);
             Page page=new Page(num,pageNo,pageSize);

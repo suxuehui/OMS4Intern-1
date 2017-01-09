@@ -121,7 +121,7 @@ public class OrderController
     @ResponseBody
     public JSONObject queryByOid(int queryMode,int pageNo,int pageSize,String data,Model model)
     {
-        if(queryMode<1||queryMode>7||pageNo<=0||pageSize<=0)
+        if(queryMode<0||queryMode>7||pageNo<=0||pageSize<=0)
         {
             return null;
         }

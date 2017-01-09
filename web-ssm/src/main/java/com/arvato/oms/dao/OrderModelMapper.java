@@ -14,8 +14,10 @@ public interface OrderModelMapper
     void updateOrder(String orderStatus, Date time, String userName,String expressCompany,String expressId, String oid );
 
     void updateOrder2(String orderStatus, Date time, String userName,String oid );
-
+    //查询全部订单
     int selectCount();
+
+    List<OrderModel> selectAll(Integer pageNo, Integer pageSize);
 
     int deleteByPrimaryKey(Integer id);
 
@@ -78,8 +80,6 @@ public interface OrderModelMapper
     OrderModel selectByChannelOid(String channelOid);
 
     OrderModel selectByPrimaryKey(Integer id);
-
-    List<OrderModel> selectAll(Integer pageNo, Integer pageSize);
 
     int updateByOidSelective(OrderModel record);
 
