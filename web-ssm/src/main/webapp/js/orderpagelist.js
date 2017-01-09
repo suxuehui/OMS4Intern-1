@@ -32,6 +32,10 @@ function  queryAllOrder(pageNo) {
 $(function () {
 
     $(".orderClick").click(function () {
+        queryMode=0;
+        queryModeTemp=0;
+        queryData="";
+        queryDateTemp="";
         $("#queryOrderCon").val("");
         $("#queryMode").val(0);
         queryAllOrder(1);
@@ -39,6 +43,10 @@ $(function () {
         inGetnowPage(1);
     })
     $("#0").click(function () {
+        queryMode=0;
+        queryModeTemp=0;
+        queryData="";
+        queryDateTemp="";
         $("#queryOrderCon").val("");
         $("#queryMode").val(0);
         queryAllOrder(1);
