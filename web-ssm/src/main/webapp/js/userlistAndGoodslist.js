@@ -262,6 +262,7 @@ function getreturnedOrChange(returnIdArray) {
 
 }
 
+//查询用户
 function selectByUserName(pageNow) {
     var page = pageNow;
     var pageSize = 20;
@@ -278,7 +279,12 @@ function selectByUserName(pageNow) {
         success: function (data) {
             var userList = data.userList;
             var totalPage = data.totalPage;
-
+            var urole = data.urole;
+            if(urole==2){
+                alert("用户无此权限");
+                window.location.href = "/oms/oms/index";
+                return false;
+            }
             if (totalPage == 0) {
                 alert("查询无结果！");
                 $('#userselectvalue').val("");
@@ -757,6 +763,7 @@ $(
             );
 
 
+            //删除用户
             $('#deleteUser').click(
                 function () {
                     var userIdArray = new Array();
@@ -778,6 +785,11 @@ $(
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             success: function (data) {
+                                if(data==-5){
+                                    alert("用户无此权限");
+                                    window.location.href = "/oms/oms/index";
+                                    return false;
+                                }
                                 if (data > 0) {
                                     //inGetUserNowPage(1);
                                     selectByUserName(1);
@@ -798,6 +810,7 @@ $(
                     }
                 });
 
+            //添加用户
             $("#addUser").click(function () {
                 $(".loading").hide();
                 $(".hbg").show();
@@ -834,6 +847,11 @@ $(
                                         contentType: "application/json; charset=utf-8",
                                         dataType: "json",
                                         success: function (data) {
+                                            if(data==-5){
+                                                alert("用户无此权限");
+                                                window.location.href = "/oms/oms/index";
+                                                return false;
+                                            }
                                             if (data == 1) {
                                                 $(".loading").hide();
                                                 $(".hbg").hide();
@@ -876,6 +894,7 @@ $(
             });
 
 
+            //修改用户
             $("#updateUser").click(function () {
                 $(".loading").hide();
                 $(".hbg").show();
@@ -926,6 +945,11 @@ $(
                                             contentType: "application/json; charset=utf-8",
                                             dataType: "json",
                                             success: function (data) {
+                                                if(data==-5){
+                                                    alert("用户无此权限");
+                                                    window.location.href = "/oms/oms/index";
+                                                    return false;
+                                                }
                                                 if (data == 1) {
                                                     alert("修改成功");
                                                     $(".loading").hide();
@@ -977,6 +1001,7 @@ $(
                 }
             });
 
+            //查询用户
             $('#userselectbutton').click(function () {
                 $("#userPageNow").html(1);
                 userselectValue = $("#userselectvalue").val().trim();

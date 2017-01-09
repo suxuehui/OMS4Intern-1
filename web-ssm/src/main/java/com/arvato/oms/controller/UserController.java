@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -46,13 +47,20 @@ public class UserController
         int checkCount = userModelService.checkUname(userName);//用户名是否存在状态码，0为不存在，1为存在，
         // 2为多条同名用户（异常情况）
         int i = 0;//初始值为0，添加成功为1
-        if (checkCount == 0)
-        {
-            return userModelService.addUser(userName, password);
-        } else
-        {
-            return 0;
+        HttpSession session = request.getSession();
+        int urole = (Integer) session.getAttribute("urole");
+        if (urole==2){
+            return -5;
+        }else {
+            if (checkCount == 0)
+            {
+                return userModelService.addUser(userName, password);
+            } else
+            {
+                return 0;
+            }
         }
+
     }
 
     @RequestMapping("/updateUser")
@@ -69,18 +77,25 @@ public class UserController
          */
         log.info("修改用户");
         int checkCount = userModelService.checkUnameEXself(userName,uid);
-        int i = 0;//初始值为0，添加成功为1
-        if (checkCount == 0)
-        {
-            if (uid==6){
-                return userModelService.updateUser(uid, userName, password)-2;
-            }else {
-                return userModelService.updateUser(uid, userName, password);
-            }
 
-        } else
-        {
-            return 0;
+        int i = 0;//初始值为0，添加成功为1
+        HttpSession session = request.getSession();
+        int urole = (Integer) session.getAttribute("urole");
+        if (urole==2){
+            return -5;
+        }else {
+            if (checkCount == 0)
+            {
+                if (uid==6){
+                    return userModelService.updateUser(uid, userName, password)-2;
+                }else {
+                    return userModelService.updateUser(uid, userName, password);
+                }
+
+            } else
+            {
+                return 0;
+            }
         }
 
     }
@@ -98,8 +113,9 @@ public class UserController
          * @Return:
          */
         log.info("根据用户名分页查询用户");
-
-        return userModelService.getUsersByUname(username,pageSize,nowPage);
+        HttpSession session = request.getSession();
+        int urole = (Integer) session.getAttribute("urole");
+        return userModelService.getUsersByUname(username,pageSize,nowPage,urole);
     }
 
     @RequestMapping("/getAllUsers")
@@ -114,7 +130,9 @@ public class UserController
          * @param model
          */
         log.info("分页显示用户");
-        return userModelService.getAllUser(pageSize,nowPage);
+        HttpSession session = request.getSession();
+        int urole = (Integer) session.getAttribute("urole");
+        return userModelService.getAllUser(pageSize,nowPage,urole);
     }
 
     @RequestMapping("/deleteUserByIds")
@@ -137,11 +155,19 @@ public class UserController
         {
             list.add(Integer.valueOf(listString.get(i)));
         }
-        if(list.contains(6)){
-            return -1;
+
+        HttpSession session = request.getSession();
+        int urole = (Integer) session.getAttribute("urole");
+        if (urole==2){
+            return -5;
         }else {
-            return userModelService.deleteUserByIds(list);
+            if(list.contains(6)){
+                return -1;
+            }else {
+                return userModelService.deleteUserByIds(list);
+            }
         }
+
 
     }
 }

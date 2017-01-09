@@ -44,6 +44,7 @@ public class LoginController
         int i = userModelService.login(uname, password);
         log.info("查询用户名密码是否匹配，判断" + uname + "身份是" + i + "密码是" + password);
         HttpSession session = request.getSession();
+
         session.setAttribute("uname", uname);
         session.setAttribute("urole", userModelService.isAdmin(uname) ? 1 : 2);
         session.setMaxInactiveInterval(30*60);
@@ -71,6 +72,7 @@ public class LoginController
     {
         session.invalidate();
         return "redirect:login";
+
     }
 
 

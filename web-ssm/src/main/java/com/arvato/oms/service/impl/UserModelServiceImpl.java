@@ -106,7 +106,7 @@ public class UserModelServiceImpl implements UserModelService
         return i;
     }
 
-    public JSONObject getUsersByUname(String name, int num, int pageNow)
+    public JSONObject getUsersByUname(String name, int num, int pageNow,int urole)
     {
         /**
          * @Author: 马潇霄
@@ -117,17 +117,25 @@ public class UserModelServiceImpl implements UserModelService
          * @param pageNow 现在的页码
          * @Return: List<UsersModel>
          */
+
         Integer countUser = userModelMapper.countSelectUser(name);
         Page page = new Page(countUser,pageNow,num);
         List<UsersModel> usersModels = userModelMapper.selectUserByNameAndPage(name,page.getStartPos(),num);
         log.info("StartPos:"+page.getStartPos());
         JSONObject json = new JSONObject();
-        json.put("userList",usersModels);
-        json.put("totalPage",page.getTotalPageCount());
+        if (urole==2){
+            json.put("urole",2);
+        }else {
+            json.put("urole",1);
+            json.put("totalPage",page.getTotalPageCount());
+            json.put("userList",usersModels);
+        }
+
+        log.info(urole);
         return json;
     }
 
-    public JSONObject getAllUser(int num, int pageNow)
+    public JSONObject getAllUser(int num, int pageNow,int urole)
     {
         /**
          * @Author: 马潇霄
@@ -143,8 +151,14 @@ public class UserModelServiceImpl implements UserModelService
         List<UsersModel> usersModels = userModelMapper.selectAllUser(page.getStartPos(),num);
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("userList",usersModels);
-        jsonObject.put("totalPage",page.getTotalPageCount());
+        if (urole==2){
+            jsonObject.put("urole",2);
+        }else {
+            jsonObject.put("urole",2);
+            jsonObject.put("userList",usersModels);
+            jsonObject.put("totalPage",page.getTotalPageCount());
+        }
+        log.info(urole);
         return jsonObject;
     }
 

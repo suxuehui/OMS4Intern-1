@@ -23,10 +23,10 @@ public interface UserModelService
     public int updateUser(int uId, String uName, String uPassword);
     //更新用户信息
 
-    public JSONObject getUsersByUname(String name, int num, int page);
+    public JSONObject getUsersByUname(String name, int num, int page,int urole);
     //根据用户名分页查询用户信息
 
-    public JSONObject getAllUser(int num, int pageNow);
+    public JSONObject getAllUser(int num, int pageNow,int urole);
     //分页查询全部用户信息
 
 
