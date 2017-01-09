@@ -81,11 +81,11 @@
                 <div class="formList">
                     <ul>
                         <li>
-                            <label class="listName" for="用户名">用户名：</label>
+                            <label class="listName" for="userId">用户名：</label>
                             <input type="text" name="" class="inputList" id="userId">
                         </li>
                         <li>
-                            <label class="listName" for="密码">密码：</label>
+                            <label class="listName" for="password">密码：</label>
                             <input type="password" name="" class="inputList ml20" id="password">
                         </li>
                         <label class="msg" id="msg"><br/><br/></label>
