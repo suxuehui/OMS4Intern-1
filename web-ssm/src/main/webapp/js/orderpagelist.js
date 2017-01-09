@@ -141,6 +141,12 @@ function translationOrder(data)
 $(function () {
     $("#queryOrderBtn").click(function () {
         queryMode=$("#queryMode option:selected").val();
+        if(queryMode==0)
+        {
+            alert("请选择查询条件");
+            $("#queryOrderCon").val("");
+            return;
+        }
         queryData=$("#queryOrderCon").val();
         queryOrder(1,orderPageSize);
     })
