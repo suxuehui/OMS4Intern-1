@@ -3,6 +3,8 @@ window.onload= refoundGetnowPage(1);//加载页面时就执行函数进入后台
 var reflistnull;
 //使用ajax提交数据到后台
 function refoundGetnowPage(pagenow){
+    $("#refoundOrderSelectid").val(0);
+    $("#refoundOrderTxt").val("");
     var myselect=document.getElementById("refoundOrderSelectid");
     var index=myselect.selectedIndex;
     var optxt=myselect.options[index].value;//查询条件

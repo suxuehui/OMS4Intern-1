@@ -4,8 +4,8 @@ var exclistnull;
 
 //使用ajax提交数据到后台
 function GetnowPage(pagenow){
-    // $("#exceptionSelectid").val(0);
-    // $("#exception_text").val("");
+    $("#exceptionSelectid").val(0);
+    $("#exception_text").val("");
     var myselect=document.getElementById("exceptionSelectid");
     var index=myselect.selectedIndex;
     var optxt=myselect.options[index].value;//查询条件
@@ -52,8 +52,6 @@ function GetnowPage(pagenow){
 
 function excGetnowPage(pagenow){
     exclistnull=0;//每次调用时初始化全局变量
-    // $("#exceptionSelectid").val(0);
-    // $("#exception_text").val("");
     var myselect=document.getElementById("exceptionSelectid");
     var index=myselect.selectedIndex;
     var optxt=myselect.options[index].value;//查询条件
