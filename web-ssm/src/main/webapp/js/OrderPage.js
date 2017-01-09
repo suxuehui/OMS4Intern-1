@@ -51,7 +51,7 @@ $(function () {
                 alert("导入成功");
                 $(".popupAll .leadingInShow").hide();
                 $(".hbg").hide();//隐藏阴影层
-                queryOrder(1,orderPageSize);
+                queryOrder(1);
             }
         })
     })
@@ -208,7 +208,7 @@ $(function () {
                 }
                 alert(content);
                 var pageNo=$("#orderPageNo").text();
-                queryOrder(pageNo,orderPageSize);
+                queryOrder(pageNo);
                 cancleChecked();
             }
         })
@@ -228,7 +228,7 @@ $(function () {
                 var exception=data.exception;
                 alert("success:"+success+"'\n'exception:"+exception);
                 var pageNo=$("#orderPageNo").text();
-                queryOrder(pageNo,orderPageSize);
+                queryOrder(pageNo);
                 cancleChecked();
             }
         })
@@ -254,7 +254,7 @@ $(function () {
                 }
                 alert(content);
                 var pageNo=$("#orderPageNo").text();
-                queryOrder(pageNo,orderPageSize);
+                queryOrder(pageNo);
                 //outGetnowPage(1);
                 cancleChecked();
             }
@@ -275,7 +275,7 @@ $(function () {
                 var exception=data.exception;
                 alert("success:"+success+"'\n'exception:"+exception);
                 var pageNo=$("#orderPageNo").text();
-                queryOrder(pageNo,orderPageSize);
+                queryOrder(pageNo);
                 //refoundGetnowPage(1);
                 cancleChecked();
             }

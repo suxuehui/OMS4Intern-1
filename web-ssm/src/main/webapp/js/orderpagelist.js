@@ -57,14 +57,14 @@ $(function () {
 })
 
 //条件查询
-function queryOrder(pageNo,pageSize) {
+function queryOrder(pageNo) {
     $.ajax({
         url:"../order/queryByCondition",
         type:"get",
         data:{
             queryMode:queryMode,
             pageNo:pageNo,
-            pageSize:pageSize,
+            pageSize:orderPageSize,
             data:queryData
         },
         contentType: "application/json; charset=utf-8",
@@ -151,34 +151,34 @@ $(function () {
             return;
         }
         queryData=$("#queryOrderCon").val();
-        queryOrder(1,orderPageSize);
+        queryOrder(1);
     })
 })
 //首页
 $(function () {
     $("#firstorder").click(function () {
-        queryOrder(1,orderPageSize);
+        queryOrder(1);
     });
 })
 //上一页
 $(function () {
     $("#preorder").click(function () {
         var pageNo=$("#orderPageNo").text()-1;
-        queryOrder(pageNo,orderPageSize);
+        queryOrder(pageNo);
     })
 })
 //下一页
 $(function () {
     $("#nextorder").click(function () {
         var pageNo=$("#orderPageNo").text();
-        queryOrder(++pageNo,orderPageSize);
+        queryOrder(++pageNo);
     })
 })
 //尾页
 $(function () {
     $("#lastorder").click(function () {
         var pageNo=$("#orderPageTotal").text();
-        queryOrder(pageNo,orderPageSize);
+        queryOrder(pageNo);
     })
 })
 /*单双击事件*/
