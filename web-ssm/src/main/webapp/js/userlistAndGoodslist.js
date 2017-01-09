@@ -1536,7 +1536,6 @@ $(
                         selectReturnByvalue2(1);
 
 
-
                     }
 
                 }
@@ -1585,7 +1584,7 @@ $(
                     } else if (returnOrChange == "change") {
                         $('#changeOutBound').removeAttr("disabled");
                         $('#returnedCreaterefoundOder').attr('disabled', "true");
-                    }else if (returnOrChange="error"){
+                    } else if (returnOrChange = "error") {
                         $('#returnedCreaterefoundOder').attr('disabled', "true");
                         $('#changeOutBound').attr('disabled', "true");
                     }
@@ -1599,9 +1598,12 @@ $(
         });
 
 
-
         $("#returnListBut").click(
             function () {
+                returnSelectValue = "";
+                returnSelectValueTemp = "";
+                returnSelect = "订单号";
+                returnSelectTemp = "订单号";
                 $("#returnValue").val("");
                 $("#returnedselect").val("请选择查询条件");
                 selectReturnByvalue(1);
@@ -1609,33 +1611,44 @@ $(
         );
 
         $("#userListbut").click(
-
-            function(){
+            function () {
+                userselectValue = "";
+                userselectValuetemp = "";
                 $("#userselectvalue").val("");
                 selectByUserName(1);
             }
         );
 
         $("#userListSonbut").click(
-            function(){
-
+            function () {
+                userselectValue = "";
+                userselectValuetemp = "";
                 $("#userselectvalue").val("");
                 selectByUserName(1);
             }
         );
-        
+
         $("#goodsListbut").click(
             function () {
                 $("#selectGoodssle").val("请选择查询条件");
                 $("#goodsvaluetxt").val("");
+                goodselectValue = "";
+                goodselectValueTemp = "";
 
+                goodselect = "id";
+                goodselectTemp = "id";
                 selectGoodsByValue(1);
-        });
+            });
 
         $("#goodListSonBut").click(
             function () {
                 $("#selectGoodssle").val("请选择查询条件");
                 $("#goodsvaluetxt").val("");
+                goodselectValue = "";
+                goodselectValueTemp = "";
+
+                goodselect = "id";
+                goodselectTemp = "id";
                 selectGoodsByValue(1);
             }
         );
