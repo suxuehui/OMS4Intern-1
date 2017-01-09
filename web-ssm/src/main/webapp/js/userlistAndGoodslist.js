@@ -279,7 +279,7 @@ function selectByUserName(pageNow) {
             var userList = data.userList;
             var totalPage = data.totalPage;
 
-            if (userList.length == 0) {
+            if (totalPage == 0) {
                 alert("查询无结果！");
                 $('#userselectvalue').val("");
                 userselectValue = userselectValuetemp;
@@ -359,7 +359,83 @@ function selectGoodsByValue(pageNow) {
             var goodsList = data.goodsAndStatus;
             var totalPage = data.totalPage;
 
-            if (goodsList.length == 0) {
+            if (totalPage == 0) {
+                goodselectValue = goodselectValueTemp;
+                goodselect = goodselectTemp;
+                return false;
+            } else {
+                goodselectValueTemp = goodselectValue;
+                goodselectTemp = goodselect;
+                if (pageNow == 1) {
+                    if (totalPage == 0 || totalPage == 1) {
+                        $('#preGoodsPage').hide();
+                        $('#firstGoodsPage').hide();
+                        $('#endGoodsPage').hide();
+                        $('#nextGoodsPage').hide();
+                    } else {
+                        $('#preGoodsPage').hide();
+                        $('#firstGoodsPage').hide();
+                        $('#nextGoodsPage').show();
+                        $('#endGoodsPage').show();
+                    }
+                } else if (pageNow < totalPage) {
+                    if (totalPage == 0 || totalPage == 1) {
+                        $('#preGoodsPage').hide();
+                        $('#firstGoodsPage').hide();
+                        $('#endGoodsPage').hide();
+                        $('#nextGoodsPage').hide();
+                    } else {
+                        $('#nextGoodsPage').show();
+                        $('#endGoodsPage').show();
+                        $('#preGoodsPage').show();
+                        $('#firstGoodsPage').show();
+
+                    }
+                } else if (pageNow = totalPage) {
+                    $('#preGoodsPage').show();
+                    $('#firstGoodsPage').show();
+                    $('#endGoodsPage').hide();
+                    $('#nextGoodsPage').hide();
+                }
+
+                $('#goodsbody').html("");
+                for (var i in goodsList) {
+                    var id = i * 1 + 1 * 1;
+                    $('#goodsbody').append("<tr><td>" + id + "</td><td><input type='checkbox'  name='goodscheck' ></td><td><a>" + goodsList[i].goodsno + "</a></td> <td>&nbsp;" + goodsList[i].goodsname + "</td> <td>&nbsp;" + goodsList[i].goodsvnum + "</td> <td>&nbsp;" + goodsList[i].booknum + "</td>  <td>&nbsp;" + goodsList[i].goodstolnum + "</td><td>&nbsp;" + goodsList[i].goodsprice + "</td></tr>");
+                    $('#totalGoodPage').html(totalPage);
+
+                }
+            }
+
+        },
+        error: function (data) {
+            alert("登录超时，请重新登录");
+            window.location.href = "/oms/login/logout";
+        }
+
+    });
+}
+
+function selectGoodsByValue2(pageNow) {
+    var page = pageNow;
+    var pageSize = 20;
+    $.ajax({
+        type: 'get',
+        url: '/oms/goods/selectGoods',
+        data: {
+            select: goodselect,
+            value: goodselectValue,
+            nowPage: page,
+            pageSize: pageSize
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+
+            var goodsList = data.goodsAndStatus;
+            var totalPage = data.totalPage;
+
+            if (totalPage == 0) {
                 goodselectValue = goodselectValueTemp;
                 goodselect = goodselectTemp;
                 alert("查询无结果！");
@@ -418,6 +494,86 @@ function selectGoodsByValue(pageNow) {
 }
 
 function selectReturnByvalue(pageNow) {
+    var page = pageNow;
+
+    $.ajax({
+        type: 'get',
+        url: '/oms/returned/getReturnedBySelect',
+        data: {
+            select: returnSelect,
+            value: returnSelectValue,
+            pageNow: page,
+            pageSize: 10,
+            async: false
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+            var returnedList = data.returnedModels;
+            var totalPage = data.totalPage;
+            $("#totalReturnedPage2").html(totalPage);
+            if (totalPage == 0) {
+
+                $("#totalReturnedPage2").html(0);
+                returnSelect = returnSelectTemp;
+                returnSelectValue = returnSelectValueTemp;
+                return false;
+            }
+            if (pageNow == 1) {
+                if (totalPage == 0 || totalPage == 1) {
+
+                    $('#preReturnedPage').hide();
+                    $('#firstReturnedPage').hide();
+                    $('#endReturnedPage').hide();
+                    $('#nextReturnedPage').hide();
+                } else {
+
+                    $('#preReturnedPage').hide();
+                    $('#firstReturnedPage').hide();
+                    $('#endReturnedPage').show();
+                    $('#nextReturnedPage').show();
+                }
+            } else if (pageNow < totalPage) {
+                if (totalPage == 0 || totalPage == 1) {
+                    $('#preReturnedPage').hide();
+                    $('#firstReturnedPage').hide();
+                    $('#endReturnedPage').hide();
+                    $('#nextReturnedPage').hide();
+                } else {
+                    $('#preReturnedPage').show();
+                    $('#firstReturnedPage').show();
+                    $('#endReturnedPage').show();
+                    $('#nextReturnedPage').show();
+
+                }
+            } else if (pageNow = totalPage) {
+
+                $('#preReturnedPage').show();
+                $('#firstReturnedPage').show();
+                $('#endReturnedPage').hide();
+                $('#nextReturnedPage').hide();
+            }
+
+            returnSelectValueTemp = returnSelectValue;
+            returnSelectTemp = returnSelect;
+            $('#returnedBody').html("");
+            for (var i in returnedList) {
+                var id = i * 1 + 1 * 1;
+                $('#returnedBody').append("<tr><td>" + id + "</td><td><input type='checkbox' onclick='checkboxreturneddis(this.id)' name='returnedcheck'  id='" + returnedList[i].id + "returned" + "'></td><td><a id='" + returnedList[i].returnedid + "' onclick='returnedGetGoods(this.id)' ondblclick='showReturnDetail(" + returnedList[i].id + ")' '>" + returnedList[i].returnedid + "</a></td> <td>&nbsp;" + returnedList[i].returnedorchange + "</td> <td>&nbsp;" + returnedList[i].returnedstatus + "</td> <td>&nbsp;" + returnedList[i].oid + "</td>  <td>&nbsp;" + returnedList[i].channeloid + "</td><td>&nbsp;" + returnedList[i].returnedmoney + "</td><td>&nbsp;" + returnedList[i].createtime + "</td><td>&nbsp;" + returnedList[i].modifytime + "</td><td>&nbsp;" + returnedList[i].modifyman + "</td></tr>");
+                $('#totalReturnedPage').html(totalPage);
+
+            }
+
+        },
+        error: function (data) {
+            alert("登录超时，请重新登录");
+            window.location.href = "/oms/login/logout";
+        }
+
+    });
+}
+
+function selectReturnByvalue2(pageNow) {
     var page = pageNow;
 
     $.ajax({
@@ -498,7 +654,6 @@ function selectReturnByvalue(pageNow) {
 
     });
 }
-
 
 $(
     function () {
@@ -956,7 +1111,7 @@ $(
                         if (select == "按名称查询") {
                             goodselect = "name";
 
-                            selectGoodsByValue(1);
+                            selectGoodsByValue2(1);
 
 
                         } else if (select == "按商品编码查询") {
@@ -1378,7 +1533,7 @@ $(
                         alert("请不要输入特殊符号");
                     } else {
 
-                        selectReturnByvalue(1);
+                        selectReturnByvalue2(1);
 
 
 
