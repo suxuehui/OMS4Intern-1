@@ -70,7 +70,7 @@ function queryOrder(pageNo,pageSize) {
             var orderModels=data.orderModels;
             if(orderModels=="")
             {
-                alert("查询无结果");
+                alert("查询无结果!");
                 queryMode=queryModeTemp;
                 queryData=queryDateTemp;
                 return;
@@ -92,7 +92,7 @@ function translationOrder(data)
     var html="";
     for(var i=0;i<orderModels.length;i++)
     {
-        html+='<tr><td>'+(i+1)+'</td><td><input type="checkbox" id="'+orderModels[i].oid
+        html+='<tr class="orderTr" id="tr'+orderModels[i].oid+'"><td>'+(i+1)+'</td><td><input type="checkbox" id="'+orderModels[i].oid
             +'" onclick="ordercheck(this.id)" name="orderck"></td><td id="'+orderModels[i].oid
             +'" onclick="ordersgclick(this.id)" ondblclick="orderdbclick(this.id)">'+orderModels[i].oid
             +'</td><td>'+orderModels[i].channeloid+'</td><td id="S'+orderModels[i].oid+'">'+orderModels[i].orderstatus+'</td><td>'
@@ -182,6 +182,8 @@ function ordersgclick(oid) {
     clearTimeout(time);
     //执行延时
     time = setTimeout(function(){
+        $(".orderTr").removeClass('changeColor');
+        $("#tr"+oid).addClass('changeColor');
         oId=oid;
         queryGoodsByOid(1,orderGoodsPageSize,oid);
     },300);
