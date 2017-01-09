@@ -30,7 +30,7 @@ function  queryAllOrder(pageNo) {
 
 //点击导航栏刷新页面
 $(function () {
-
+    //左侧导航栏订单列表
     $(".orderClick").click(function () {
         queryMode=0;
         queryModeTemp=0;
@@ -39,9 +39,11 @@ $(function () {
         $("#queryOrderCon").val("");
         $("#queryMode").val(0);
         queryAllOrder(1);
+        $("#ogList").html("");//清空子页的商品信息
         outGetnowPage(1);
         inGetnowPage(1);
     })
+    //上方导航栏订单
     $("#0").click(function () {
         queryMode=0;
         queryModeTemp=0;
@@ -50,6 +52,7 @@ $(function () {
         $("#queryOrderCon").val("");
         $("#queryMode").val(0);
         queryAllOrder(1);
+        $("#ogList").html("");
     })
 })
 

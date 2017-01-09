@@ -28,7 +28,7 @@
     select 
     <include refid="Base_Column_List" />
     from outboundorder
-    where oId = #{oid,jdbcType=VARCHAR}
+    where oId = #{oid,jdbcType=VARCHAR} GROUP BY cid desc limit 1
   </select>
 
   <!--向出库表中添加快递公司，快递单号,仓库出库单号的信息,以及修改出库单状态，订单状态-->

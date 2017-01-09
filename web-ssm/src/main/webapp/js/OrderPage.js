@@ -250,12 +250,12 @@ $(function () {
                 if(exception!=0)
                 {
                     content+="'\n'请去异常订单页查看";
-                    GetnowPage(1);
+                    //GetnowPage(1);
                 }
                 alert(content);
                 var pageNo=$("#orderPageNo").text();
                 queryOrder(pageNo,orderPageSize);
-                outGetnowPage(1);
+                //outGetnowPage(1);
                 cancleChecked();
             }
         })
@@ -276,7 +276,7 @@ $(function () {
                 alert("success:"+success+"'\n'exception:"+exception);
                 var pageNo=$("#orderPageNo").text();
                 queryOrder(pageNo,orderPageSize);
-                refoundGetnowPage(1);
+                //refoundGetnowPage(1);
                 cancleChecked();
             }
         })
@@ -341,7 +341,7 @@ function returnOrExchange(returnoid,returnedOrChange) {
             if(data==1)
             {
                 alert("订单退换货成功，可以去退换货页面查看");
-                selectReturnByvalue(1);
+                //selectReturnByvalue(1);
             }
             else
             {
