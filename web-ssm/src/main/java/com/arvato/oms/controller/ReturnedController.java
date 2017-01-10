@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -25,7 +26,7 @@ public class ReturnedController
 
     @RequestMapping("/cancelReturn")
     @ResponseBody
-    public JSONObject cancelReturn(Integer id)
+    public JSONObject cancelReturn(Integer id,HttpServletRequest request)
     {
         /**
          * @Author: 马潇霄
@@ -35,7 +36,7 @@ public class ReturnedController
          * @Return:
          */
 
-        int i = returnedModelService.cancelReturn(id);
+        int i = returnedModelService.cancelReturn(id,request);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("isSuccess",i);
         return jsonObject;
@@ -108,7 +109,7 @@ public class ReturnedController
 
     @RequestMapping("/createOutBoundOrder")
     @ResponseBody
-    public JSONObject createOutBoundOrder(Integer id)
+    public JSONObject createOutBoundOrder(Integer id,HttpServletRequest request)
     {
         /**
          * @Author: 马潇霄
@@ -118,12 +119,12 @@ public class ReturnedController
          * @Return:
          */
 
-        return returnedModelService.createOutbound(id);
+        return returnedModelService.createOutbound(id,request);
     }
 
     @RequestMapping("/createInBoundOrder")
     @ResponseBody
-    public JSONObject createInBoundOrder(Integer id) throws UnsupportedEncodingException
+    public JSONObject createInBoundOrder(Integer id,HttpServletRequest request) throws UnsupportedEncodingException
     {
         /**
          * @Author: 马潇霄
@@ -133,7 +134,7 @@ public class ReturnedController
          * @Return: int 0为失败，1为成功
          */
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("return", returnedModelService.checkInBound(id));
+        jsonObject.put("return", returnedModelService.checkInBound(id,request));
 
         return jsonObject;
     }

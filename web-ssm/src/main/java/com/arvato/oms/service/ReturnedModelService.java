@@ -3,6 +3,7 @@ package com.arvato.oms.service;
 import com.alibaba.fastjson.JSONObject;
 import com.arvato.oms.model.ReturnedModel;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Date;
 
 public interface ReturnedModelService
 {
-    public int cancelReturn(Integer id);
+    public int cancelReturn(Integer id,HttpServletRequest request);
     //取消退货单（更新退货单状态为已取消）
 
     public JSONObject getAllReturnedOrders(int pageNow, int num);
@@ -27,10 +28,10 @@ public interface ReturnedModelService
     //批量生成退款单
 
 
-    public JSONObject createOutbound(Integer id);
+    public JSONObject createOutbound(Integer id,HttpServletRequest request);
     //换货发货，生成出库单
 
-    public String checkInBound(Integer returnedId);
+    public String checkInBound(Integer returnedId, HttpServletRequest request);
 
     //根据退款单号查询该条退货单记录
     ReturnedModel selectByReturnedId(String returnedId);

@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 
 import java.util.ArrayList;
@@ -56,7 +58,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
     private ReturnedModelMapper returnedModelMapper;
     private Logger log = Logger.getLogger(ReturnedModelServiceImpl.class);
 
-    public int cancelReturn(Integer id)
+    public int cancelReturn(Integer id,HttpServletRequest request)
     {
         /**
          * @Author: 马潇霄
@@ -66,14 +68,22 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
          * @Return: int 取消成功条数
          */
         ReturnedModel returnedModel = returnedModelMapper.selectByPrimaryKey(id);
+        HttpSession session = request.getSession();
         String returnedOrChange = returnedModel.getReturnedorchange();
         if ("return".equals(returnedOrChange))
         {
-            return returnedModelMapper.updateStatusToDisable(id, "取消退货");
+            returnedModel.setModifyman(session.getAttribute("uname").toString());
+            returnedModel.setModifytime(new Date());
+            returnedModel.setReturnedstatus("取消退货");
+
+            return returnedModelMapper.updateByPrimaryKeySelective(returnedModel);
 
         } else if ("change".equals(returnedOrChange))
         {
-            return returnedModelMapper.updateStatusToDisable(id, "取消换货");
+            returnedModel.setModifyman(session.getAttribute("uname").toString());
+            returnedModel.setModifytime(new Date());
+            returnedModel.setReturnedstatus("取消换货");
+            return returnedModelMapper.updateByPrimaryKeySelective(returnedModel);
         } else
         {
             return 0;
@@ -238,7 +248,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         return json;
     }
 
-    public JSONObject createOutbound(Integer id)
+    public JSONObject createOutbound(Integer id,HttpServletRequest request)
     {
 
         /**
@@ -254,6 +264,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         JSONObject json = new JSONObject();
         ReturnedModel returnedModel = returnedModelMapper.selectByPrimaryKey(id);
         long countoid = outboundorderModelMapper.Countoid(returnedModel.getOid());
+        HttpSession session = request.getSession();
 
         if (countoid > 1)
         {
@@ -274,7 +285,8 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
                 outboundorderModel.setOrderstatus(orderModel.getOrderstatus());//订单状态
                 outboundorderModel.setOutboundid("SO" + returnedModel.getOid() + generateRandomNumber(5));//出库单号
                 outboundorderModel.setOutboundstate("处理中");
-
+                outboundorderModel.setModifyman(session.getAttribute("uname").toString());
+                outboundorderModel.setModifytime(new Date());
                 outboundorderModel.setSynchrostate(true);//未同步
                 outboundorderModel.setReceivername(orderModel.getReceivername());
                 outboundorderModel.setReceiveraddress(orderModel.getReceiverprovince() + orderModel.getReceivercity() + orderModel.getReceiverarea() + orderModel.getDetailaddress());
@@ -360,7 +372,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         return json;
     }
 
-    public String checkInBound(Integer id)
+    public String checkInBound(Integer id, HttpServletRequest request)
     {
         /**
          * @Author: 马潇霄
@@ -442,8 +454,12 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
                     if ("100".equals(s))
                     {//推送成功
                         log.info(tsrkd + inboundorderModel.getInboundid() + "成功");
-                        returnedModelMapper.updateReturnedStatus(returnedModel.getReturnedid(), "等待收货");
-
+                        //returnedModelMapper.updateReturnedStatus(returnedModel.getReturnedid(), "等待收货");
+                        returnedModel.setReturnedstatus("等待收货");
+                        returnedModel.setModifytime(new Date());
+                        HttpSession session = request.getSession();
+                        returnedModel.setModifyman(session.getAttribute("uname").toString());
+                        returnedModelMapper.updateByPrimaryKeySelective(returnedModel);
                        //更新入库单同步状态为已同步
 
                         return "审核成功";
@@ -470,7 +486,12 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
 
             } else
             {
-                returnedModelMapper.updateReturnedStatus(returnedModel.getReturnedstatus(), "审核失败");
+                //returnedModelMapper.updateReturnedStatus(returnedModel.getReturnedstatus(), "审核失败");
+                returnedModel.setReturnedstatus("审核失败");
+                returnedModel.setModifytime(new Date());
+                HttpSession session = request.getSession();
+                returnedModel.setModifyman(session.getAttribute("uname").toString());
+                returnedModelMapper.updateByPrimaryKeySelective(returnedModel);
                 return "入库单已经存在";
 
             }
