@@ -27,7 +27,7 @@ public class SessionListener implements HttpSessionAttributeListener{
     }
 
     public void attributeRemoved(HttpSessionBindingEvent httpSessionBindingEvent) {
-        String name=httpSessionBindingEvent.getName();
+        String name=(String)httpSessionBindingEvent.getValue();
         if(map.containsKey(name))
         {
             map.remove(name);
