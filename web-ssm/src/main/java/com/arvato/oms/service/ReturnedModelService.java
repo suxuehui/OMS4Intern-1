@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.arvato.oms.model.ReturnedModel;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by 马潇霄 on 2016/12/9.
@@ -28,7 +27,7 @@ public interface ReturnedModelService
     //批量生成退款单
 
 
-    public JSONObject createOutboundOrders(Integer id);
+    public JSONObject createOutbound(Integer id);
     //换货发货，生成出库单
 
     public String checkInBound(Integer returnedId);

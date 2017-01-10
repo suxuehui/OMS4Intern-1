@@ -23,8 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,29 +35,27 @@ import java.util.List;
 @Transactional(rollbackFor = Exception.class)
 public class ReturnedModelServiceImpl implements ReturnedModelService
 {
-    @Resource
-    private ReturnedModelMapper returnedModelMapper;
-
+    private static final String JKLJYC = "链接接口异常";
+    private static final String RETURNMODELS = "returnedModels";
+    private static final String TOTALPAGE = "totalPage";
+    private static final String SJKGSCW = "数据格式错误";
+    String ipUrl = "http://114.215.252.146:8080/";
     @Resource
     RelationrgModelMapper relationrgModelMapper;
-
     @Resource
     GoodsModelMapper goodsModelMapper;
-
     @Resource
     RefoundOrderModelMapper refoundOrderModelMapper;
-
     @Resource
     OrderModelMapper orderModelMapper;
-
     @Resource
     OutboundorderModelMapper outboundorderModelMapper;
-
     @Resource
     InboundorderModelMapper inboundorderModelMapper;
-
+    @Resource
+    private ReturnedModelMapper returnedModelMapper;
     private Logger log = Logger.getLogger(ReturnedModelServiceImpl.class);
-    private static final String jkljyc = "链接接口异常";
+
     public int cancelReturn(Integer id)
     {
         /**
@@ -70,11 +67,11 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
          */
         ReturnedModel returnedModel = returnedModelMapper.selectByPrimaryKey(id);
         String returnedOrChange = returnedModel.getReturnedorchange();
-        if (returnedOrChange.equals("return"))
+        if ("return".equals(returnedOrChange))
         {
             return returnedModelMapper.updateStatusToDisable(id, "取消退货");
 
-        } else if (returnedOrChange.equals("change"))
+        } else if ("change".equals(returnedOrChange))
         {
             return returnedModelMapper.updateStatusToDisable(id, "取消换货");
         } else
@@ -100,13 +97,12 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         Page page = new Page(countReturnedOrders, pageNow, num);
         List<ReturnedModel> returnedModels = returnedModelMapper.selectAllReturnedByPage(page.getStartPos(), num);
         JSONObject json = new JSONObject();
-        json.put("returnedModels", returnedModels);
-        json.put("totalPage", page.getTotalPageCount());
+        json.put(RETURNMODELS, returnedModels);
+        json.put(TOTALPAGE, page.getTotalPageCount());
         json.put("size", returnedModels.size());
         json.put("getStartPos", page.getStartPos());
         String s = JSON.toJSONString(json, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullStringAsEmpty);
-        JSONObject jsonObj = JSON.parseObject(s);
-        return jsonObj;
+        return JSON.parseObject(s);
     }
 
     public JSONObject getGoodsListByRid(String returnedId, int pageNow, int num)
@@ -152,8 +148,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         json.put("isHasPre", page.isHasPre());
         json.put("start", page.getStartPos());
         String s = JSON.toJSONString(json, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullStringAsEmpty);
-        JSONObject jsonObj = JSON.parseObject(s);
-        return jsonObj;
+        return  JSON.parseObject(s);
     }
 
     public JSONObject getReturnedListBySelect(String select, String value, int pageNow, int num)
@@ -168,44 +163,43 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
          * @param num 每页显示查询条数
          * @Return: JSONObject
          */
-        List<ReturnedModel> returnedModels = new ArrayList<ReturnedModel>();
+        List<ReturnedModel> returnedModels ;
         JSONObject json = new JSONObject();
 
-        if (select.equals("退货单号"))
+        if ("退货单号".equals(select))
         {
             int count = returnedModelMapper.countReturnedbyId(value);
             Page page = new Page(count, pageNow, num);
             returnedModels = returnedModelMapper.selectReturnedById(page.getStartPos(), num, value);
-            json.put("totalPage", page.getTotalPageCount());
-            json.put("returnedModels", returnedModels);
+            json.put(TOTALPAGE, page.getTotalPageCount());
+            json.put(RETURNMODELS, returnedModels);
 
-        } else if (select.equals("订单号"))
+        } else if ("订单号".equals(select))
         {
             int count = returnedModelMapper.countReturnedbyOId(value);
             Page page = new Page(count, pageNow, num);
             returnedModels = returnedModelMapper.selectReturnedByOId(page.getStartPos(), num, value);
-            json.put("totalPage", page.getTotalPageCount());
-            json.put("returnedModels", returnedModels);
-        } else if (select.equals("退货状态"))
+            json.put(TOTALPAGE, page.getTotalPageCount());
+            json.put(RETURNMODELS, returnedModels);
+        } else if ("退货状态".equals(select))
         {
             int count = returnedModelMapper.countReturnedbyStatus(value);
             Page page = new Page(count, pageNow, num);
             returnedModels = returnedModelMapper.selectReturnedByStatus(page.getStartPos(), num, value);
-            json.put("totalPage", page.getTotalPageCount());
-            json.put("returnedModels", returnedModels);
-        } else if (select.equals("渠道订单号"))
+            json.put(TOTALPAGE, page.getTotalPageCount());
+            json.put(RETURNMODELS, returnedModels);
+        } else if ("渠道订单号".equals(select))
         {
             int count = returnedModelMapper.countReturnedbyChannelOid(value);
             Page page = new Page(count, pageNow, num);
             returnedModels = returnedModelMapper.selectReturnedByChannelOid(page.getStartPos(), num, value);
-            json.put("totalPage", page.getTotalPageCount());
-            json.put("returnedModels", returnedModels);
+            json.put(TOTALPAGE, page.getTotalPageCount());
+            json.put(RETURNMODELS, returnedModels);
         }
 
         String s = JSON.toJSONString(json, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullStringAsEmpty);
-        JSONObject jsonObj = JSON.parseObject(s);
+        return JSON.parseObject(s);
 
-        return jsonObj;
     }
 
     public JSONObject createRefoundOrders(Integer id)
@@ -225,8 +219,6 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         {
             RefoundOrderModel refoundOrderModel = new RefoundOrderModel();
             Date date = new Date();
-            DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String time = format.format(date);
             refoundOrderModel.setCreatetime(date);//退款单创建时间
             String oid = returnedModel.getOid();
             String refoundedId = "RF" + oid + generateRandomNumber(5);
@@ -246,7 +238,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         return json;
     }
 
-    public JSONObject createOutboundOrders(Integer id)
+    public JSONObject createOutbound(Integer id)
     {
 
         /**
@@ -259,7 +251,6 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
          */
 
 
-
         JSONObject json = new JSONObject();
         ReturnedModel returnedModel = returnedModelMapper.selectByPrimaryKey(id);
         long countoid = outboundorderModelMapper.Countoid(returnedModel.getOid());
@@ -270,19 +261,17 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         } else
         {
             String returnedstatus = returnedModel.getReturnedstatus();
-            if (returnedstatus.equals("收货成功"))
+            if ("收货成功".equals(returnedstatus))
             {
                 OutboundorderModel outboundorderModel = new OutboundorderModel();
                 log.info(returnedModel.toString());
                 OrderModel orderModel = orderModelMapper.selectOrderByOidM(returnedModel.getOid());
                 outboundorderModel.setChanneloid(returnedModel.getChanneloid());//渠道单号
                 Date date = new Date();
-                DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 outboundorderModel.setCreatedtime(date);//创建时间
                 //outboundorderModel.setModifytime(date);//修改时间
                 outboundorderModel.setOid(returnedModel.getOid());
                 outboundorderModel.setOrderstatus(orderModel.getOrderstatus());//订单状态
-                //List<OutboundorderModel> outboundorderModels = outboundorderModelMapper.selectOutboundorders(returnedModel.getOid());
                 outboundorderModel.setOutboundid("SO" + returnedModel.getOid() + generateRandomNumber(5));//出库单号
                 outboundorderModel.setOutboundstate("处理中");
 
@@ -328,23 +317,21 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
                     if (synchrostate1)
                     {
                         String s = sendOutBoundToWMS(outBoundRoot);
-                        String tsckd= "推送出库单";
-                        if (s.equals("100"))
+                        String tsckd = "推送出库单";
+                        if ("100".equals(s))
                         {//推送成功
 
                             log.info(tsckd + outboundorderModel.getOutboundid() + "成功");
-                            // outboundorderModelMapper.updateOutboundSynchrostate(outboundorderModel.getOutboundid());
-
                             json.put("data", "换货成功");
-                        } else if (s.equals("0"))
+                        } else if ("0".equals(s))
                         {//链接接口异常
-                            log.info(tsckd + outboundorderModel.getOutboundid() + "链接接口异常");
-                            json.put("data", jkljyc);
-                        } else if (s.equals("101"))
+                            log.info(tsckd + outboundorderModel.getOutboundid() + JKLJYC);
+                            json.put("data", JKLJYC);
+                        } else if ("101".equals(s))
                         {//数据格式错误
-                            log.info(tsckd + outboundorderModel.getOutboundid() + "数据格式错误");
-                            json.put("data", "数据格式错误");
-                        } else if (s.equals("102"))
+                            log.info(tsckd + outboundorderModel.getOutboundid() + SJKGSCW);
+                            json.put("data", SJKGSCW);
+                        } else if ("102".equals(s))
                         {//重复的入库单
                             log.info(tsckd + outboundorderModel.getOutboundid() + "重复的出库单");
                             json.put("data", "重复的出库单");
@@ -386,7 +373,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         String tsrkd = "推送入库单";
         ReturnedModel returnedModel = returnedModelMapper.selectByPrimaryKey(id);
         String returnedstatus = returnedModel.getReturnedstatus();
-        if (returnedstatus.equals("待审核"))
+        if ("待审核".equals(returnedstatus))
         {
 
             //待审核订单可以审核
@@ -401,7 +388,6 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
             OrderModel orderModel = orderModelMapper.selectOrderByOidM(returnedModel.getOid());
             inboundorderModel.setWarehouse(orderModel.getGoodswarehouse());
             Date date = new Date();
-            DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             inboundorderModel.setCreatedtime(date);//创建时间
             inboundorderModel.setModifytime(date);//修改时间
 
@@ -451,43 +437,34 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
                         s = sendInboundToWMS(inBoundRoot);
                     } catch (Exception e)
                     {
-                        log.error("推送入库单给wms失败");
+                        log.info("推送入库单给wms失败"+e);
                     }
-                    if (s.equals("100"))
+                    if ("100".equals(s))
                     {//推送成功
                         log.info(tsrkd + inboundorderModel.getInboundid() + "成功");
-                        //int i2 = inboundorderModelMapper.updateInboundSynchrostate(inboundorderModel.getInboundid());
                         returnedModelMapper.updateReturnedStatus(returnedModel.getReturnedid(), "等待收货");
 
-//                        //更新入库单同步状态为已同步
-//                        if (i2 > 0)
-//                        {
-//                            log.info("更新入库单" + inboundorderModel.getInboundid() + "状态为已同步");
-//                            return "审核成功";
-//                        } else
-//                        {
-//                            log.info("更新入库单" + inboundorderModel.getInboundid() + "状态为已同步时发生错误");
-//                            return "更新入库单状态失败";
-//                        }
+                       //更新入库单同步状态为已同步
+
                         return "审核成功";
-                    } else if (s.equals("0"))
+                    } else if ("0".equals(s))
                     {//链接接口异常
-                        log.info(tsrkd + inboundorderModel.getInboundid() + "链接接口异常");
+                        log.info(tsrkd + inboundorderModel.getInboundid() + JKLJYC);
 
-                        return "链接接口异常";
-                    } else if (s.equals("101"))
+                        return JKLJYC;
+                    } else if ("101".equals(s))
                     {//数据格式错误
-                        log.info(tsrkd + inboundorderModel.getInboundid() + "数据格式错误");
+                        log.info(tsrkd + inboundorderModel.getInboundid() + SJKGSCW);
 
-                        return "数据格式错误";
-                    } else if (s.equals("102"))
+                        return SJKGSCW;
+                    } else if ("102".equals(s))
                     {//重复的入库单
                         log.info(tsrkd + inboundorderModel.getInboundid() + "重复的入库单");
 
                         return "重复的入库单";
                     } else
                     {//链接失败
-                        return "链接接口异常";
+                        return JKLJYC;
                     }
                 }
 
@@ -529,7 +506,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
          *      {“code”:”102”} 重复的入库单
          */
         String dataStr = JSONArray.toJSONString(inBoundRoot);
-        String url = "http://114.215.252.146:8080/wms/inboundOrder/receiveOrder";
+        String url = ipUrl+"wms/inboundOrder/receiveOrder";
         log.info(dataStr);
         String code = "";
         try
@@ -543,7 +520,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         } catch (Exception e)
         {
             code = "0";//链接接口异常
-            log.info("将入库单推送给WMS时链接接口异常" + e.getMessage());
+            log.info("将入库单推送给WMS时链接接口异常" + e);
         }
         return code;
     }
@@ -562,7 +539,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
          */
         String dataStr = JSONArray.toJSONString(outBoundRoot);
         log.info(dataStr);
-        String url = "http://114.215.252.146:8080/wms/outboundOrder/receiveOrder";
+        String url = ipUrl+"wms/outboundOrder/receiveOrder";
         String code = "";
         try
         {
@@ -574,7 +551,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         } catch (Exception e)
         {
             code = "0";//链接接口异常
-            log.info("将出库单推送给WMS时链接接口异常" + e.getMessage());
+            log.info("将出库单推送给WMS时链接接口异常" + e);
 
         }
         return code;
@@ -608,8 +585,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
 
         json.put("returnedSonList", returnedSonList);
         String s = JSON.toJSONString(json, SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullStringAsEmpty);
-        JSONObject jsonObj = JSON.parseObject(s);
-        return jsonObj;
+        return JSON.parseObject(s);
     }
 
     public String getStatus(Integer id)
@@ -628,19 +604,24 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
     {
         char[] chars = inboundId.toCharArray();
 
-        String oid = "";
+
+        StringBuilder bld = new StringBuilder();
         for (int i = 2; i < 17; i++)
         {
-            oid += chars[i];
+
+            bld.append(chars[i]);
         }
+        String oid = bld.toString();
         ReturnedModel returnedModel = returnedModelMapper.selectByOid(oid);
         returnedModel.setReturnedstatus(state);
         returnedModel.setModifyman(modifyman);
         returnedModel.setModifytime(date);
         int i = returnedModelMapper.updateByPrimaryKeySelective(returnedModel);
-        if (i>0){
+        if (i > 0)
+        {
             return i;
-        }else {
+        } else
+        {
             return 0;
         }
 

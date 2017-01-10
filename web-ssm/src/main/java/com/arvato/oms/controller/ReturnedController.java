@@ -10,8 +10,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by 马潇霄 on 2016/12/9.
@@ -54,8 +52,7 @@ public class ReturnedController
          * @param
          * @Return:
          */
-        JSONObject allReturnedOrders = returnedModelService.getAllReturnedOrders(pageNow, pageSizeR);
-        return allReturnedOrders;
+        return returnedModelService.getAllReturnedOrders(pageNow, pageSizeR);
     }
 
 
@@ -73,8 +70,7 @@ public class ReturnedController
          * @Return: JSONObject
          */
         log.info("returnedId" + returnedId);
-        JSONObject goodsListByRid = returnedModelService.getGoodsListByRid(returnedId, pageNow, pageSize);
-        return goodsListByRid;
+        return returnedModelService.getGoodsListByRid(returnedId, pageNow, pageSize);
     }
 
     @RequestMapping("/getReturnedBySelect")
@@ -91,8 +87,8 @@ public class ReturnedController
          * @param value 条件内容
          * @Return: JSONObject
          */
-        JSONObject getReturnedBySelect = returnedModelService.getReturnedListBySelect(select, value, pageNow, pageSize);
-        return getReturnedBySelect;
+
+        return returnedModelService.getReturnedListBySelect(select, value, pageNow, pageSize);
     }
 
     @RequestMapping("/createRefoundOrder")
@@ -122,7 +118,7 @@ public class ReturnedController
          * @Return:
          */
 
-        return returnedModelService.createOutboundOrders(id);
+        return returnedModelService.createOutbound(id);
     }
 
     @RequestMapping("/createInBoundOrder")

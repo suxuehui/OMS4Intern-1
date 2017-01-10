@@ -1,7 +1,7 @@
 package com.arvato.oms.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.arvato.oms.model.UsersModel;
+
 import com.arvato.oms.service.UserModelService;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -27,7 +27,7 @@ public class UserController
 
     private Logger log = Logger.getLogger(UserController.class);
 
-
+    public  static final  String UROLE = "urole";
     @Resource
     private UserModelService userModelService;
 
@@ -46,9 +46,8 @@ public class UserController
         log.info("添加用户");
         int checkCount = userModelService.checkUname(userName);//用户名是否存在状态码，0为不存在，1为存在，
         // 2为多条同名用户（异常情况）
-        int i = 0;//初始值为0，添加成功为1
         HttpSession session = request.getSession();
-        int urole = (Integer) session.getAttribute("urole");
+        int urole = (Integer) session.getAttribute(UROLE);
         if (urole==2){
             return -5;
         }else {
@@ -77,10 +76,8 @@ public class UserController
          */
         log.info("修改用户");
         int checkCount = userModelService.checkUnameEXself(userName,uid);
-
-        int i = 0;//初始值为0，添加成功为1
         HttpSession session = request.getSession();
-        int urole = (Integer) session.getAttribute("urole");
+        int urole = (Integer) session.getAttribute(UROLE);
         if (urole==2){
             return -5;
         }else {
@@ -114,7 +111,7 @@ public class UserController
          */
         log.info("根据用户名分页查询用户");
         HttpSession session = request.getSession();
-        int urole = (Integer) session.getAttribute("urole");
+        int urole = (Integer) session.getAttribute(UROLE);
         return userModelService.getUsersByUname(username,pageSize,nowPage,urole);
     }
 
@@ -131,7 +128,7 @@ public class UserController
          */
         log.info("分页显示用户");
         HttpSession session = request.getSession();
-        int urole = (Integer) session.getAttribute("urole");
+        int urole = (Integer) session.getAttribute(UROLE);
         return userModelService.getAllUser(pageSize,nowPage,urole);
     }
 
@@ -157,7 +154,7 @@ public class UserController
         }
 
         HttpSession session = request.getSession();
-        int urole = (Integer) session.getAttribute("urole");
+        int urole = (Integer) session.getAttribute(UROLE);
         if (urole==2){
             return -5;
         }else {

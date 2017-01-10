@@ -57,8 +57,7 @@ public class LoginController
     @ResponseBody
     public int checkUName(String uName)
     {
-        int i = userModelService.checkUname(uName);
-        return i;
+        return userModelService.checkUname(uName);
     }
 
     @RequestMapping("/login")
