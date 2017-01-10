@@ -381,7 +381,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
          * @param returnedIds
          * @Return:
          */
-
+        HttpSession session = request.getSession();
         String tsrkd = "推送入库单";
         ReturnedModel returnedModel = returnedModelMapper.selectByPrimaryKey(id);
         String returnedstatus = returnedModel.getReturnedstatus();
@@ -402,7 +402,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
             Date date = new Date();
             inboundorderModel.setCreatedtime(date);//创建时间
             inboundorderModel.setModifytime(date);//修改时间
-
+            inboundorderModel.setModifyman(session.getAttribute("uname").toString());
             int i = inboundorderModelMapper.countInboundorder(inboundorderModel.getInboundid());
             //查看数据库里是否已经存在
             if (i == 0)
@@ -457,7 +457,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
                         //returnedModelMapper.updateReturnedStatus(returnedModel.getReturnedid(), "等待收货");
                         returnedModel.setReturnedstatus("等待收货");
                         returnedModel.setModifytime(new Date());
-                        HttpSession session = request.getSession();
+
                         returnedModel.setModifyman(session.getAttribute("uname").toString());
                         returnedModelMapper.updateByPrimaryKeySelective(returnedModel);
                        //更新入库单同步状态为已同步
@@ -489,7 +489,6 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
                 //returnedModelMapper.updateReturnedStatus(returnedModel.getReturnedstatus(), "审核失败");
                 returnedModel.setReturnedstatus("审核失败");
                 returnedModel.setModifytime(new Date());
-                HttpSession session = request.getSession();
                 returnedModel.setModifyman(session.getAttribute("uname").toString());
                 returnedModelMapper.updateByPrimaryKeySelective(returnedModel);
                 return "入库单已经存在";
