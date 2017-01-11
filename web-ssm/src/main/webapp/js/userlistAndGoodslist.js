@@ -31,10 +31,7 @@ $.extend({
     }
 });
 
-//获取参数对象
-//alert($.getUrlVars());
-//获取参数a的值
-//alert($.getUrlVar('urole'));
+
 
 
 function usercheckclick(userid) {
@@ -153,14 +150,14 @@ function returngetgoodsfromserver(returnedid, pageNow, pageSize) {
 
             $('#returnedGoodsBody').html("");
             for (var i in returnedSonList) {
-                var id = i * 1 + 1 * 1;
-                $('#returnedGoodsBody').append("<tr class='a'><td><input type='checkbox'  name='returnedsoncheck'   id='" + returnedSonList[i].goodsno + "returnedson" + "'></td><td><a id='" + returnedSonList[i].goodsno + "'>" + returnedSonList[i].goodsno + "</a></td> <td>&nbsp;" + returnedSonList[i].goodsname + "</td> <td>&nbsp;" + returnedSonList[i].goodnum + "</td> <td>&nbsp;" + returnedSonList[i].goodsprice + "</td></tr>");
-                $('#totalreturnedGoodsPage').html(totalPage);
-
+                if (returnedSonList.hasOwnProperty(i)) {
+                    $('#returnedGoodsBody').append("<tr class='a'><td><input type='checkbox'  name='returnedsoncheck'   id='" + returnedSonList[i].goodsno + "returnedson" + "'></td><td><a id='" + returnedSonList[i].goodsno + "'>" + returnedSonList[i].goodsno + "</a></td> <td>&nbsp;" + returnedSonList[i].goodsname + "</td> <td>&nbsp;" + returnedSonList[i].goodnum + "</td> <td>&nbsp;" + returnedSonList[i].goodsprice + "</td></tr>");
+                    $('#totalreturnedGoodsPage').html(totalPage);
+                }
             }
             $("#returnedidongoods").html(returnedid);
         },
-        error: function (data) {
+        error: function () {
             alert("登录已失效，请重新登录！");
             window.location.href = "/oms/login/logout";
         }
@@ -192,12 +189,12 @@ function getreturnedStatus(returnIdArray, statusp) {
             async: false,//同步
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function (data) {
+            success: function () {
                 if (data.status == statusp) {
                     countStatus++;
                 }
             },
-            error: function (data) {
+            error: function () {
                 alert("登录已失效，请重新登录！");
                 window.location.href = "/oms/login/logout";
             }
@@ -242,7 +239,7 @@ function getreturnedOrChange(returnIdArray) {
                 }
 
             },
-            error: function (data) {
+            error: function () {
                 alert("登录已失效，请重新登录！");
                 window.location.href = "/oms/login/logout";
             }
@@ -332,15 +329,16 @@ function selectByUserName(pageNow) {
                 var adminstr = "管理员";
                 var userstr = "普通用户";
                 for (var i in userList) {
+                    if (userList.hasOwnProperty(i)) {
                     var id = i * 1 + 1 * 1;
                     var urolestr = parseInt(userList[i].urole)==1?adminstr:userstr;
                     $('#usertbody').append("<tr><td>" + id + "</td><td><input type='checkbox' id='" + userList[i].uid + "user" + "' name='usercheck' onclick='usercheckclick(this.id)'></td><td id='" + userList[i].uid + "uname" + "'>" + userList[i].uname + "</td> <td id='" + userList[i].uid + "upass" + "'>&nbsp;" + userList[i].upassword + "</td> <td>&nbsp;" + urolestr + "</td> </tr>");
                     $('#totalUserPage').html(totalPage);
-                }
+                }}
             }
 
         },
-        error: function (data) {
+        error: function () {
             alert("登录已失效，请重新登录！");
             window.location.href = "/oms/login/logout";
         }
@@ -409,15 +407,16 @@ function selectGoodsByValue(pageNow) {
 
                 $('#goodsbody').html("");
                 for (var i in goodsList) {
-                    var id = i * 1 + 1 * 1;
-                    $('#goodsbody').append("<tr><td>" + id + "</td><td><input type='checkbox'  name='goodscheck' ></td><td><a>" + goodsList[i].goodsno + "</a></td> <td>&nbsp;" + goodsList[i].goodsname + "</td> <td>&nbsp;" + goodsList[i].goodsvnum + "</td> <td>&nbsp;" + goodsList[i].booknum + "</td>  <td>&nbsp;" + goodsList[i].goodstolnum + "</td><td>&nbsp;" + goodsList[i].goodsprice + "</td></tr>");
-                    $('#totalGoodPage').html(totalPage);
-
+                    if (goodsList.hasOwnProperty(i)) {
+                        var id = i * 1 + 1 * 1;
+                        $('#goodsbody').append("<tr><td>" + id + "</td><td><input type='checkbox'  name='goodscheck' ></td><td><a>" + goodsList[i].goodsno + "</a></td> <td>&nbsp;" + goodsList[i].goodsname + "</td> <td>&nbsp;" + goodsList[i].goodsvnum + "</td> <td>&nbsp;" + goodsList[i].booknum + "</td>  <td>&nbsp;" + goodsList[i].goodstolnum + "</td><td>&nbsp;" + goodsList[i].goodsprice + "</td></tr>");
+                        $('#totalGoodPage').html(totalPage);
+                    }
                 }
             }
 
         },
-        error: function (data) {
+        error: function () {
             alert("登录已失效，请重新登录！");
             window.location.href = "/oms/login/logout";
         }
@@ -486,15 +485,16 @@ function selectGoodsByValue2(pageNow) {
 
                 $('#goodsbody').html("");
                 for (var i in goodsList) {
-                    var id = i * 1 + 1 * 1;
-                    $('#goodsbody').append("<tr><td>" + id + "</td><td><input type='checkbox'  name='goodscheck' ></td><td><a>" + goodsList[i].goodsno + "</a></td> <td>&nbsp;" + goodsList[i].goodsname + "</td> <td>&nbsp;" + goodsList[i].goodsvnum + "</td> <td>&nbsp;" + goodsList[i].booknum + "</td>  <td>&nbsp;" + goodsList[i].goodstolnum + "</td><td>&nbsp;" + goodsList[i].goodsprice + "</td></tr>");
-                    $('#totalGoodPage').html(totalPage);
-
+                    if (goodsList.hasOwnProperty(i)) {
+                        var id = i * 1 + 1 * 1;
+                        $('#goodsbody').append("<tr><td>" + id + "</td><td><input type='checkbox'  name='goodscheck' ></td><td><a>" + goodsList[i].goodsno + "</a></td> <td>&nbsp;" + goodsList[i].goodsname + "</td> <td>&nbsp;" + goodsList[i].goodsvnum + "</td> <td>&nbsp;" + goodsList[i].booknum + "</td>  <td>&nbsp;" + goodsList[i].goodstolnum + "</td><td>&nbsp;" + goodsList[i].goodsprice + "</td></tr>");
+                        $('#totalGoodPage').html(totalPage);
+                    }
                 }
             }
 
         },
-        error: function (data) {
+        error: function () {
             alert("登录已失效，请重新登录！");
             window.location.href = "/oms/login/logout";
         }
@@ -570,15 +570,16 @@ function selectReturnByvalue(pageNow) {
             var returnstrEng = "return";
             $('#returnedBody').html("");
             for (var i in returnedList) {
-                var id = i * 1 + 1 * 1;
-                var a = returnedList[i].returnedorchange==returnstrEng?returnstr:changestr;
-                $('#returnedBody').append("<tr><td>" + id + "</td><td><input type='checkbox' onclick='checkboxreturneddis(this.id)' name='returnedcheck'  id='" + returnedList[i].id + "returned" + "'></td><td><a id='" + returnedList[i].returnedid + "' onclick='returnedGetGoods(this.id)' ondblclick='showReturnDetail(" + returnedList[i].id + ")' '>" + returnedList[i].returnedid + "</a></td> <td>&nbsp;" + a + "</td> <td>&nbsp;" + returnedList[i].returnedstatus + "</td> <td>&nbsp;" + returnedList[i].oid + "</td>  <td>&nbsp;" + returnedList[i].channeloid + "</td><td>&nbsp;" + returnedList[i].returnedmoney + "</td><td>&nbsp;" + returnedList[i].createtime + "</td><td>&nbsp;" + returnedList[i].modifytime + "</td><td>&nbsp;" + returnedList[i].modifyman + "</td></tr>");
-                $('#totalReturnedPage').html(totalPage);
-
+                if (returnedList.hasOwnProperty(i)) {
+                    var id = i * 1 + 1 * 1;
+                    var a = returnedList[i].returnedorchange == returnstrEng ? returnstr : changestr;
+                    $('#returnedBody').append("<tr><td>" + id + "</td><td><input type='checkbox' onclick='checkboxreturneddis(this.id)' name='returnedcheck'  id='" + returnedList[i].id + "returned" + "'></td><td><a id='" + returnedList[i].returnedid + "' onclick='returnedGetGoods(this.id)' ondblclick='showReturnDetail(" + returnedList[i].id + ")' '>" + returnedList[i].returnedid + "</a></td> <td>&nbsp;" + a + "</td> <td>&nbsp;" + returnedList[i].returnedstatus + "</td> <td>&nbsp;" + returnedList[i].oid + "</td>  <td>&nbsp;" + returnedList[i].channeloid + "</td><td>&nbsp;" + returnedList[i].returnedmoney + "</td><td>&nbsp;" + returnedList[i].createtime + "</td><td>&nbsp;" + returnedList[i].modifytime + "</td><td>&nbsp;" + returnedList[i].modifyman + "</td></tr>");
+                    $('#totalReturnedPage').html(totalPage);
+                }
             }
 
         },
-        error: function (data) {
+        error: function () {
             alert("登录已失效，请重新登录！");
             window.location.href = "/oms/login/logout";
         }
@@ -656,15 +657,16 @@ function selectReturnByvalue2(pageNow) {
             var returnstrEng = "return";
             $('#returnedBody').html("");
             for (var i in returnedList) {
-                var id = i * 1 + 1 * 1;
-                var a = returnedList[i].returnedorchange==returnstrEng?returnstr:changestr;
-                $('#returnedBody').append("<tr><td>" + id + "</td><td><input type='checkbox' onclick='checkboxreturneddis(this.id)' name='returnedcheck'  id='" + returnedList[i].id + "returned" + "'></td><td><a id='" + returnedList[i].returnedid + "' onclick='returnedGetGoods(this.id)' ondblclick='showReturnDetail(" + returnedList[i].id + ")' '>" + returnedList[i].returnedid + "</a></td> <td>&nbsp;" + a + "</td> <td>&nbsp;" + returnedList[i].returnedstatus + "</td> <td>&nbsp;" + returnedList[i].oid + "</td>  <td>&nbsp;" + returnedList[i].channeloid + "</td><td>&nbsp;" + returnedList[i].returnedmoney + "</td><td>&nbsp;" + returnedList[i].createtime + "</td><td>&nbsp;" + returnedList[i].modifytime + "</td><td>&nbsp;" + returnedList[i].modifyman + "</td></tr>");
-                $('#totalReturnedPage').html(totalPage);
-
+                if (returnedListt.hasOwnProperty(i)) {
+                    var id = i * 1 + 1 * 1;
+                    var a = returnedList[i].returnedorchange == returnstrEng ? returnstr : changestr;
+                    $('#returnedBody').append("<tr><td>" + id + "</td><td><input type='checkbox' onclick='checkboxreturneddis(this.id)' name='returnedcheck'  id='" + returnedList[i].id + "returned" + "'></td><td><a id='" + returnedList[i].returnedid + "' onclick='returnedGetGoods(this.id)' ondblclick='showReturnDetail(" + returnedList[i].id + ")' '>" + returnedList[i].returnedid + "</a></td> <td>&nbsp;" + a + "</td> <td>&nbsp;" + returnedList[i].returnedstatus + "</td> <td>&nbsp;" + returnedList[i].oid + "</td>  <td>&nbsp;" + returnedList[i].channeloid + "</td><td>&nbsp;" + returnedList[i].returnedmoney + "</td><td>&nbsp;" + returnedList[i].createtime + "</td><td>&nbsp;" + returnedList[i].modifytime + "</td><td>&nbsp;" + returnedList[i].modifyman + "</td></tr>");
+                    $('#totalReturnedPage').html(totalPage);
+                }
             }
 
         },
-        error: function (data) {
+        error: function () {
             alert("登录已失效，请重新登录！");
             window.location.href = "/oms/login/logout";
         }
@@ -702,7 +704,6 @@ $(
         var urole = getUserRole();
 
         if (parseInt(urole) == 1) {
-            //window.onload = inGetUserNowPage($('#userPageNow').html());
             window.onload = selectByUserName(1);
             $('#nextUserPage').click(
                 function () {
@@ -718,7 +719,6 @@ $(
                         $('#preUserPage').show();
                         $('#firstUserPage').show();
                         $('#userPageNow').html(userpage * 1 + 1 * 1);
-                        //inGetUserNowPage();
                         selectByUserName(userpage * 1 + 1 * 1);
 
                     } else {
@@ -738,7 +738,6 @@ $(
                             $('#firstUserPage').hide();
                         }
                         $('#userPageNow').html(userpage * 1 - 1 * 1);
-                        //inGetUserNowPage(userpage * 1 - 1 * 1);
                         selectByUserName(userpage * 1 - 1 * 1);
                     } else {
 
@@ -750,7 +749,6 @@ $(
 
             $('#firstUserPage').click(
                 function () {
-                    //inGetUserNowPage(1);
                     selectByUserName(1);
                     $('#userPageNow').html(1);
                     $('#preUserPage').hide();
@@ -767,7 +765,7 @@ $(
                     $('#firstUserPage').show();
                     $('#endUserPage').hide();
                     $('#nextUserPage').hide();
-                    //inGetUserNowPage($('#totalUserPage').html());
+
                     selectByUserName($('#totalUserPage').html());
                     $('#userPageNow').html($('#totalUserPage').html());
                 }
@@ -802,16 +800,15 @@ $(
                                     return false;
                                 }
                                 if (data > 0) {
-                                    //inGetUserNowPage(1);
                                     selectByUserName(1);
                                     alert("删除成功");
-                                } else if (data = 0) {
+                                } else if (data == 0) {
                                     alert("删除失败");
-                                } else if (data = -1) {
+                                } else if (data == -1) {
                                     alert("不可以删除自己");
                                 }
                             },
-                            error: function (data) {
+                            error: function () {
                                 alert("登录已失效，请重新登录！");
                                 window.location.href = "/oms/login/logout";
                                 selectByUserName(1);
@@ -871,7 +868,6 @@ $(
 
                                                 $('#addUserName').val("");
                                                 $('#addUserPassword').val("");
-                                                //inGetUserNowPage(1);
                                                 selectByUserName(1);
 
                                             } else {
@@ -884,7 +880,7 @@ $(
 
                                             }
                                         },
-                                        error: function (data) {
+                                        error: function () {
 
                                             alert("登录已失效，请重新登录！");
                                             window.location.href = "/oms/login/logout";
@@ -969,7 +965,6 @@ $(
                                                     $('#updateUserName').val("");
                                                     $('#updateUserPassword').val("");
                                                     document.getElementById("updateUserBut").disabled = true;
-                                                    //inGetUserNowPage(1);
                                                     selectByUserName(1);
 
                                                 } else if (data == -1) {
@@ -992,7 +987,7 @@ $(
                                                     $('#updateUserPassword').val(upass);
                                                 }
                                             },
-                                            error: function (data) {
+                                            error: function () {
                                                 alert("登录已失效，请重新登录！");
                                                 window.location.href = "/oms/login/logout";
                                                 $(".loading").hide();
@@ -1044,9 +1039,6 @@ $(
 
                 }
             );
-
-        } else {
-
 
         }
 
@@ -1343,7 +1335,7 @@ $(
                                 },
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
-                                success: function (data) {
+                                success: function () {
 
                                     selectReturnByvalue(1);
                                 }
@@ -1385,11 +1377,11 @@ $(
                                 },
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
-                                success: function (data) {
+                                success: function () {
 
                                     selectReturnByvalue(1);
                                 },
-                                error: function (data) {
+                                error: function () {
                                     alert("登录已失效，请重新登录！");
                                     window.location.href = "/oms/login/logout";
                                     return false;
@@ -1450,7 +1442,7 @@ $(
 
                                     }
                                 },
-                                error: function (data) {
+                                error: function () {
                                     alert("登录已失效，请重新登录！");
                                     window.location.href = "/oms/login/logout";
                                     return false;
@@ -1521,7 +1513,7 @@ $(
                                         changeErrorCount++;
                                     }
                                 },
-                                error: function (data) {
+                                error: function () {
                                     alert("登录已失效，请重新登录！");
                                     window.location.href = "/oms/login/logout";
                                     return false;
@@ -1620,7 +1612,7 @@ $(
                     } else if (returnOrChange == "change") {
                         $('#changeOutBound').removeAttr("disabled");
                         $('#returnedCreaterefoundOder').attr('disabled', "true");
-                    } else if (returnOrChange = "error") {
+                    } else if (returnOrChange == "error") {
                         $('#returnedCreaterefoundOder').attr('disabled', "true");
                         $('#changeOutBound').attr('disabled', "true");
                     }
