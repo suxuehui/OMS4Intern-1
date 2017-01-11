@@ -41,6 +41,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
     private static final String RETURNMODELS = "returnedModels";
     private static final String TOTALPAGE = "totalPage";
     private static final String SJKGSCW = "数据格式错误";
+    private static final String UNAME = "uname";
     String ipUrl = "http://114.215.252.146:8080/";
     @Resource
     RelationrgModelMapper relationrgModelMapper;
@@ -72,7 +73,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         String returnedOrChange = returnedModel.getReturnedorchange();
         if ("return".equals(returnedOrChange))
         {
-            returnedModel.setModifyman(session.getAttribute("uname").toString());
+            returnedModel.setModifyman(session.getAttribute(UNAME).toString());
             returnedModel.setModifytime(new Date());
             returnedModel.setReturnedstatus("取消退货");
 
@@ -80,7 +81,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
 
         } else if ("change".equals(returnedOrChange))
         {
-            returnedModel.setModifyman(session.getAttribute("uname").toString());
+            returnedModel.setModifyman(session.getAttribute(UNAME).toString());
             returnedModel.setModifytime(new Date());
             returnedModel.setReturnedstatus("取消换货");
             return returnedModelMapper.updateByPrimaryKeySelective(returnedModel);
@@ -285,7 +286,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
                 outboundorderModel.setOrderstatus(orderModel.getOrderstatus());//订单状态
                 outboundorderModel.setOutboundid("SO" + returnedModel.getOid() + generateRandomNumber(5));//出库单号
                 outboundorderModel.setOutboundstate("处理中");
-                outboundorderModel.setModifyman(session.getAttribute("uname").toString());
+                outboundorderModel.setModifyman(session.getAttribute(UNAME).toString());
                 outboundorderModel.setModifytime(new Date());
                 outboundorderModel.setSynchrostate(true);//未同步
                 outboundorderModel.setReceivername(orderModel.getReceivername());
@@ -402,7 +403,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
             Date date = new Date();
             inboundorderModel.setCreatedtime(date);//创建时间
             inboundorderModel.setModifytime(date);//修改时间
-            inboundorderModel.setModifyman(session.getAttribute("uname").toString());
+            inboundorderModel.setModifyman(session.getAttribute(UNAME).toString());
             int i = inboundorderModelMapper.countInboundorder(inboundorderModel.getInboundid());
             //查看数据库里是否已经存在
             if (i == 0)
@@ -454,11 +455,10 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
                     if ("100".equals(s))
                     {//推送成功
                         log.info(tsrkd + inboundorderModel.getInboundid() + "成功");
-                        //returnedModelMapper.updateReturnedStatus(returnedModel.getReturnedid(), "等待收货");
                         returnedModel.setReturnedstatus("等待收货");
                         returnedModel.setModifytime(new Date());
 
-                        returnedModel.setModifyman(session.getAttribute("uname").toString());
+                        returnedModel.setModifyman(session.getAttribute(UNAME).toString());
                         returnedModelMapper.updateByPrimaryKeySelective(returnedModel);
                        //更新入库单同步状态为已同步
 
@@ -486,10 +486,10 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
 
             } else
             {
-                //returnedModelMapper.updateReturnedStatus(returnedModel.getReturnedstatus(), "审核失败");
+
                 returnedModel.setReturnedstatus("审核失败");
                 returnedModel.setModifytime(new Date());
-                returnedModel.setModifyman(session.getAttribute("uname").toString());
+                returnedModel.setModifyman(session.getAttribute(UNAME).toString());
                 returnedModelMapper.updateByPrimaryKeySelective(returnedModel);
                 return "入库单已经存在";
 
