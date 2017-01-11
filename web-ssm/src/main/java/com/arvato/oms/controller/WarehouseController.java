@@ -37,7 +37,7 @@ public class WarehouseController {
     //添加仓库
     @RequestMapping("addwarehouse")
     @ResponseBody
-    public String addWarehouse(HttpSession session,String warehousenum, String warehousename) throws Exception {
+    public String addWarehouse(HttpSession session,String warehousenum, String warehousename) throws UnsupportedEncodingException {
         log.info("添加仓库");
         int add=warehouseService.addWarehouse(warehousenum,warehousename);
         String str=String.valueOf(add);

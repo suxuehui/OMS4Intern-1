@@ -103,10 +103,26 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     }
 
+    public int addwh(boolean bl,int add,String warehousenum,String warehousename){
+
+        WarehouseModel warehouse = warehouseModelModel.selectBywarehousenum(warehousenum);
+        if (warehouse == null) {//判断仓库是否存在
+            if (bl) { //向数据库添加仓库
+                add= this.warehouseModelModel.addWarehouse(warehousenum,warehousename);
+            }
+            if(!bl){
+                add=2;//用户输入信息格式有误
+            }
+        }
+        return add;
+    }
+
+
     //添加仓库
-    public int addWarehouse(String warehousenum, String warename) throws Exception {
+    public int addWarehouse(String warehousenum, String warename) throws UnsupportedEncodingException {
         //对用户填写的数据校验 warehousenum：4位数字 warehousename：不含特殊字符2到16位
-        String warehousename = URLDecoder.decode(warename, "UTF-8");
+        String warehousename  = URLDecoder.decode(warename, "UTF-8");
+
         if(warehousenum=="" && warename==""){
             return 4;
         }
@@ -115,15 +131,7 @@ public class WarehouseServiceImpl implements WarehouseService {
         boolean bl=num && name;
         int add=3;//仓库已存在
       try{
-          WarehouseModel warehouse = warehouseModelModel.selectBywarehousenum(warehousenum);
-          if (warehouse == null) {//判断仓库是否存在
-            if (bl) { //向数据库添加仓库
-                add= this.warehouseModelModel.addWarehouse(warehousenum,warehousename);
-            }
-             if(!bl){
-                add=2;//用户输入信息格式有误
-            }
-          }
+          add=addwh(bl,add,warehousenum,warehousename);
           return add;
       } catch (Exception e){
           add=5;

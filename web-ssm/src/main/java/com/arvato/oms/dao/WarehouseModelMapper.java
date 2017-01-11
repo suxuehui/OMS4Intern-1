@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface WarehouseModelMapper {
 
-
-
     int insert(WarehouseModel record);
 
     int insertSelective(WarehouseModel record);
