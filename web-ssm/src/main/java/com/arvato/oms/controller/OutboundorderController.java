@@ -71,16 +71,14 @@ public class OutboundorderController {
             //获取商品数量  ---------->
             int snum= roglist.get(i).getGoodnum() ;
             GoodsModel gm=  this.godserviceimpl.selectByGoodsNo(sno);
-            //只显示已上架的商品
+           
             String goodsstate=gm.getGoodsstate();
-            if(goodsstate.equals ("已上架"))
-            {
               gp.setGoodNum(snum);
               gp.setGoodsname(gm.getGoodsname());
               gp.setGoodsno(gm.getGoodsno());
               gp.setGoodsprice(gm.getGoodsprice());
               godslist.add(gp);
-            }
+
         }
         model.addAttribute("gods",godslist);
         model.addAttribute("obol",obolist);
