@@ -95,6 +95,10 @@ function returnedGetGoods(returnedid) {
 
 
 function returngetgoodsfromserver(returnedid, pageNow, pageSize) {
+    $('#prereturnedGoodsPage').hide();
+    $('#firstreturnedGoodsPage').hide();
+    $('#endreturnedGoodsPage').hide();
+    $('#nextreturnedGoodsPage').hide();
     $.ajax({
         type: 'get',
         url: '/oms/returned/getGoods',
@@ -189,7 +193,7 @@ function getreturnedStatus(returnIdArray, statusp) {
             async: false,//同步
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function () {
+            success: function (data) {
                 if (data.status == statusp) {
                     countStatus++;
                 }
@@ -504,7 +508,10 @@ function selectGoodsByValue2(pageNow) {
 
 function selectReturnByvalue(pageNow) {
     var page = pageNow;
-
+    $('#preReturnedPage').hide();
+    $('#firstReturnedPage').hide();
+    $('#endReturnedPage').hide();
+    $('#nextReturnedPage').hide();
     $.ajax({
         type: 'get',
         url: '/oms/returned/getReturnedBySelect',
