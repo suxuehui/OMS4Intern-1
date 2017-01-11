@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -213,33 +212,37 @@ public class ExceptionController {
                     JSONObject object2 = new JSONObject();
                     object2.put("outboundOrdId", outboundId);
                     object2.put("cancelOrd", "0");
-                    String sendOutboundExceptionUrl=null;
-                    try {
-                        sendOutboundExceptionUrl = rps.readProperties("url.properties", "sendOutboundExceptionUrl");
-                    }
-                    catch (IOException e)
-                    {
-                    log.info(e);
-                    throw new NewRunException("找不到url.properties文件");
-                    }
-                    HTTPClientDemo httpClientDemo = new HTTPClientDemo(sendOutboundExceptionUrl);
-                    //得到返回信息
-                    String returnInformation2 = httpClientDemo.postMethod(object2.toString());
-                    String code2 = null;
-                    try {
-                        net.sf.json.JSONObject returnObject = net.sf.json.JSONObject.fromObject(returnInformation2);
-                        code2 = returnObject.getString("code");
-                        log.info("--------------------------code:" + code2);
-                    }
-                    catch (Exception e)
-                    {
-                        log.info(e);
-                    }
+                    sentUrl(object2);
                 }
                 return MSG;
             }
         }
         return PAGE;
+    }
+
+    public void sentUrl(JSONObject object2){
+        String sendOutboundExceptionUrl=null;
+        try {
+            sendOutboundExceptionUrl = rps.readProperties("url.properties", "sendOutboundExceptionUrl");
+        }
+        catch (IOException e)
+        {
+            log.info(e);
+            throw new NewRunException("找不到url.properties文件");
+        }
+        HTTPClientDemo httpClientDemo = new HTTPClientDemo(sendOutboundExceptionUrl);
+        //得到返回信息
+        String returnInformation2 = httpClientDemo.postMethod(object2.toString());
+        String code2 = null;
+        try {
+            net.sf.json.JSONObject returnObject = net.sf.json.JSONObject.fromObject(returnInformation2);
+            code2 = returnObject.getString("code");
+            log.info("--------------------------code:" + code2);
+        }
+        catch (Exception e)
+        {
+            log.info(e);
+        }
     }
 
     public void renew(int k,String oid,String userName){

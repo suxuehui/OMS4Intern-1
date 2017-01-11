@@ -124,7 +124,6 @@ function exceptiondbClick(oid) {
 //单击跳转子页面
 function  exceptionPostOid(oid)
 {
-    //$("#"+this.id).parent().css('background-color','#F4F5F3');
     //OOYYYYMMDD12345
     oid=oid.substring(2);//YYYYMMDD12345
     exceptionpageson(oid,1);

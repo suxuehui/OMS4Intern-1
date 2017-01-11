@@ -2,7 +2,6 @@ package com.arvato.oms.service;
 
 import com.arvato.oms.model.ExceptionModel;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**

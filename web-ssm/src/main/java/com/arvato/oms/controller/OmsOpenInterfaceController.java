@@ -120,7 +120,7 @@ public class OmsOpenInterfaceController {
             exceptionModel.setOid(orderModel.getOid());
             exceptionModel.setChanneloid(orderModel.getChanneloid());
             exceptionModel.setOrderstatus(orderModel.getOrderstatus());
-            exceptionModel.setOrderfrom(orderModel.getOrderform());
+            exceptionModel.setOrderfrom("WMS缺货");
             exceptionModel.setExceptiontype("仓库库存异常");
             exceptionModel.setExpceptioncause("库存不足");
             exceptionModel.setExceptionstatus("待处理");
