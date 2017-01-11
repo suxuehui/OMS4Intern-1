@@ -34,7 +34,7 @@ $.extend({
 
 
 
-function usercheckclick(userid) {
+function usercheckclick() {
 
     document.getElementById("deleteUser").disabled = false;
     var count = 0;
@@ -60,7 +60,7 @@ function usercheckclick(userid) {
 }
 
 
-function checkboxreturneddis(id) {
+function checkboxreturneddis() {
 
     var count = 0;
     var checkArry = document.getElementsByName("returnedcheck");
@@ -84,11 +84,11 @@ function checkboxreturneddis(id) {
 function returnedGetGoods(returnedid) {
 
 
-    var returnedid = returnedid;
+    var returnedid2 = returnedid;
     var pageNow = $("#returnedPageNow").html();
     var pageSize = 5;
 
-    returngetgoodsfromserver(returnedid, pageNow, pageSize);
+    returngetgoodsfromserver(returnedid2, pageNow, pageSize);
 
 
 }
@@ -332,7 +332,7 @@ function selectByUserName(pageNow) {
                     if (userList.hasOwnProperty(i)) {
                     var id = i * 1 + 1 * 1;
                     var urolestr = parseInt(userList[i].urole)==1?adminstr:userstr;
-                    $('#usertbody').append("<tr><td>" + id + "</td><td><input type='checkbox' id='" + userList[i].uid + "user" + "' name='usercheck' onclick='usercheckclick(this.id)'></td><td id='" + userList[i].uid + "uname" + "'>" + userList[i].uname + "</td> <td id='" + userList[i].uid + "upass" + "'>&nbsp;" + userList[i].upassword + "</td> <td>&nbsp;" + urolestr + "</td> </tr>");
+                    $('#usertbody').append("<tr><td>" + id + "</td><td><input type='checkbox' id='" + userList[i].uid + "user" + "' name='usercheck' onclick='usercheckclick()'></td><td id='" + userList[i].uid + "uname" + "'>" + userList[i].uname + "</td> <td id='" + userList[i].uid + "upass" + "'>&nbsp;" + userList[i].upassword + "</td> <td>&nbsp;" + urolestr + "</td> </tr>");
                     $('#totalUserPage').html(totalPage);
                 }}
             }
@@ -573,7 +573,7 @@ function selectReturnByvalue(pageNow) {
                 if (returnedList.hasOwnProperty(i)) {
                     var id = i * 1 + 1 * 1;
                     var a = returnedList[i].returnedorchange == returnstrEng ? returnstr : changestr;
-                    $('#returnedBody').append("<tr><td>" + id + "</td><td><input type='checkbox' onclick='checkboxreturneddis(this.id)' name='returnedcheck'  id='" + returnedList[i].id + "returned" + "'></td><td><a id='" + returnedList[i].returnedid + "' onclick='returnedGetGoods(this.id)' ondblclick='showReturnDetail(" + returnedList[i].id + ")' '>" + returnedList[i].returnedid + "</a></td> <td>&nbsp;" + a + "</td> <td>&nbsp;" + returnedList[i].returnedstatus + "</td> <td>&nbsp;" + returnedList[i].oid + "</td>  <td>&nbsp;" + returnedList[i].channeloid + "</td><td>&nbsp;" + returnedList[i].returnedmoney + "</td><td>&nbsp;" + returnedList[i].createtime + "</td><td>&nbsp;" + returnedList[i].modifytime + "</td><td>&nbsp;" + returnedList[i].modifyman + "</td></tr>");
+                    $('#returnedBody').append("<tr><td>" + id + "</td><td><input type='checkbox' onclick='checkboxreturneddis()' name='returnedcheck'  id='" + returnedList[i].id + "returned" + "'></td><td><a id='" + returnedList[i].returnedid + "' onclick='returnedGetGoods(this.id)' ondblclick='showReturnDetail(" + returnedList[i].id + ")' '>" + returnedList[i].returnedid + "</a></td> <td>&nbsp;" + a + "</td> <td>&nbsp;" + returnedList[i].returnedstatus + "</td> <td>&nbsp;" + returnedList[i].oid + "</td>  <td>&nbsp;" + returnedList[i].channeloid + "</td><td>&nbsp;" + returnedList[i].returnedmoney + "</td><td>&nbsp;" + returnedList[i].createtime + "</td><td>&nbsp;" + returnedList[i].modifytime + "</td><td>&nbsp;" + returnedList[i].modifyman + "</td></tr>");
                     $('#totalReturnedPage').html(totalPage);
                 }
             }
@@ -1311,7 +1311,6 @@ $(
         //审核
         $('#checkreturnedorder').click(
             function () {
-                var successCount = 0;
                 var returnIdArray = new Array();
                 var i = 0;
                 $("input:checkbox[name='returnedcheck']:checked").each(function () {
@@ -1321,7 +1320,7 @@ $(
                     alert("请勾选订单");
                     return false;
                 } else {
-                    var returnIds = returnIdArray.join("/");
+
                     var a = getreturnedStatus(returnIdArray, "待审核");
 
                     if (a == "yes") {
@@ -1364,7 +1363,7 @@ $(
                     alert("请勾选订单");
                     return false;
                 } else {
-                    var returnIds = returnIdArray.join("/");
+
                     var a = getreturnedStatus(returnIdArray, "待审核");
                     if (a == "yes") {
                         for (var j = 0; j < returnIdArray.length; j++) {
@@ -1414,7 +1413,7 @@ $(
                 alert("请勾选订单");
                 return false;
             } else {
-                var returnIds = returnIdArray.join("/");
+
                 var a = getreturnedStatus(returnIdArray, "收货成功");
                 var returnOrChange = getreturnedOrChange(returnIdArray);
                 if (a == "yes") {
@@ -1487,7 +1486,6 @@ $(
                 alert("请勾选订单");
                 return false;
             } else {
-                var returnIds = returnIdArray.join("/");
                 var a = getreturnedStatus(returnIdArray, "收货成功");
                 var returnOrChange = getreturnedOrChange(returnIdArray);
                 if (a == "yes") {
