@@ -161,7 +161,7 @@ function returngetgoodsfromserver(returnedid, pageNow, pageSize) {
             $("#returnedidongoods").html(returnedid);
         },
         error: function (data) {
-            alert("登录超时，请重新登录");
+            alert("登录已失效，请重新登录！");
             window.location.href = "/oms/login/logout";
         }
 
@@ -198,7 +198,7 @@ function getreturnedStatus(returnIdArray, statusp) {
                 }
             },
             error: function (data) {
-                alert("登录超时，请重新登录");
+                alert("登录已失效，请重新登录！");
                 window.location.href = "/oms/login/logout";
             }
         });
@@ -243,7 +243,7 @@ function getreturnedOrChange(returnIdArray) {
 
             },
             error: function (data) {
-                alert("登录超时，请重新登录");
+                alert("登录已失效，请重新登录！");
                 window.location.href = "/oms/login/logout";
             }
 
@@ -341,7 +341,7 @@ function selectByUserName(pageNow) {
 
         },
         error: function (data) {
-            alert("登录超时，请重新登录");
+            alert("登录已失效，请重新登录！");
             window.location.href = "/oms/login/logout";
         }
 
@@ -418,7 +418,7 @@ function selectGoodsByValue(pageNow) {
 
         },
         error: function (data) {
-            alert("登录超时，请重新登录");
+            alert("登录已失效，请重新登录！");
             window.location.href = "/oms/login/logout";
         }
 
@@ -495,7 +495,7 @@ function selectGoodsByValue2(pageNow) {
 
         },
         error: function (data) {
-            alert("登录超时，请重新登录");
+            alert("登录已失效，请重新登录！");
             window.location.href = "/oms/login/logout";
         }
 
@@ -579,7 +579,7 @@ function selectReturnByvalue(pageNow) {
 
         },
         error: function (data) {
-            alert("登录超时，请重新登录");
+            alert("登录已失效，请重新登录！");
             window.location.href = "/oms/login/logout";
         }
 
@@ -665,7 +665,7 @@ function selectReturnByvalue2(pageNow) {
 
         },
         error: function (data) {
-            alert("登录超时，请重新登录");
+            alert("登录已失效，请重新登录！");
             window.location.href = "/oms/login/logout";
         }
 
@@ -812,7 +812,7 @@ $(
                                 }
                             },
                             error: function (data) {
-                                alert("登录超时，请重新登录");
+                                alert("登录已失效，请重新登录！");
                                 window.location.href = "/oms/login/logout";
                                 selectByUserName(1);
                             }
@@ -886,7 +886,7 @@ $(
                                         },
                                         error: function (data) {
 
-                                            alert("登录超时，请重新登录");
+                                            alert("登录已失效，请重新登录！");
                                             window.location.href = "/oms/login/logout";
                                             $("#addUserwindows").hide();
                                             $(".loading").hide();
@@ -993,7 +993,7 @@ $(
                                                 }
                                             },
                                             error: function (data) {
-                                                alert("登录超时，请重新登录");
+                                                alert("登录已失效，请重新登录！");
                                                 window.location.href = "/oms/login/logout";
                                                 $(".loading").hide();
                                                 $(".hbg").hide();
@@ -1390,7 +1390,7 @@ $(
                                     selectReturnByvalue(1);
                                 },
                                 error: function (data) {
-                                    alert("登录超时，请重新登录");
+                                    alert("登录已失效，请重新登录！");
                                     window.location.href = "/oms/login/logout";
                                     return false;
                                 }
@@ -1451,7 +1451,7 @@ $(
                                     }
                                 },
                                 error: function (data) {
-                                    alert("登录超时，请重新登录");
+                                    alert("登录已失效，请重新登录！");
                                     window.location.href = "/oms/login/logout";
                                     return false;
                                 }
@@ -1522,7 +1522,7 @@ $(
                                     }
                                 },
                                 error: function (data) {
-                                    alert("登录超时，请重新登录");
+                                    alert("登录已失效，请重新登录！");
                                     window.location.href = "/oms/login/logout";
                                     return false;
                                 }
