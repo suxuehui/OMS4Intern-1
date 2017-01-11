@@ -88,94 +88,14 @@
     where oId = #{oId,jdbcType=VARCHAR}
   </select>
   <!--按订单号模糊查询，分页-->
-  <select id="CountByOid" resultType="java.lang.Integer" parameterType="java.lang.String">
-    select count(1) from oms_schema.order where oId like #{oId,jdbcType=VARCHAR}
+  <select id="CountByCondition" resultType="java.lang.Integer">
+    select count(1) from oms_schema.order where ${queryMode} like #{data,jdbcType=VARCHAR}
   </select>
-  <select id="selectByOids" resultMap="BaseResultMap" >
+  <select id="selectByCondition" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
     from oms_schema.order
-    where oId like #{2,jdbcType=VARCHAR} limit #{0},#{1}
-  </select>
-  <!--按渠道订单号模糊查询，分页-->
-  <select id="CountByChanneloid" resultType="java.lang.Integer" parameterType="java.lang.String">
-    select count(1) from oms_schema.order where channelOid like #{channelOid,jdbcType=VARCHAR}
-  </select>
-  <select id="selectByChanneloids" resultMap="BaseResultMap" >
-    select
-    <include refid="Base_Column_List" />
-    from oms_schema.order
-    where channelOid like #{2,jdbcType=VARCHAR} limit #{0},#{1}
-  </select>
-    <!--按订单状态查询，模糊，分页 -->
-  <select id="CountByOrderStatus" resultType="java.lang.Integer" parameterType="java.lang.String">
-    select count(1) from oms_schema.order where orderStatus like #{orderStatus,jdbcType=VARCHAR}
-  </select>
-  <select id="selectByOrderStatuss" resultMap="BaseResultMap" >
-    select
-    <include refid="Base_Column_List" />
-    from oms_schema.order
-    where orderStatus like #{2,jdbcType=VARCHAR} limit #{0},#{1}
-  </select>
-    <!--按支付方式查询，模糊，分页 -->
-  <select id="CountByPayStyle" resultType="java.lang.Integer" parameterType="java.lang.String">
-    select count(1) from oms_schema.order where payStyle like #{payStyle,jdbcType=VARCHAR}
-  </select>
-  <select id="selectByPayStyles" resultMap="BaseResultMap" >
-    select
-    <include refid="Base_Column_List" />
-    from oms_schema.order
-    where payStyle like #{2,jdbcType=VARCHAR} limit #{0},#{1}
-  </select>
-    <!--按物流公司查询，模糊，分页 -->
-  <select id="CountByLogisticsCompany" resultType="java.lang.Integer" parameterType="java.lang.String">
-    select count(1) from oms_schema.order where logisticsCompany like #{logisticsCompany,jdbcType=VARCHAR}
-  </select>
-  <select id="selectByLogisticsCompanys" resultMap="BaseResultMap" >
-    select
-    <include refid="Base_Column_List" />
-    from oms_schema.order
-    where logisticsCompany like #{2,jdbcType=VARCHAR} limit #{0},#{1}
-  </select>
-    <!--按省查询，模糊，分页 -->
-  <select id="CountByReceiverProvince" resultType="java.lang.Integer" parameterType="java.lang.String">
-    select count(1) from oms_schema.order where receiverProvince like #{receiverProvince,jdbcType=VARCHAR}
-  </select>
-  <select id="selectByReceiverProvinces" resultMap="BaseResultMap" >
-    select
-    <include refid="Base_Column_List" />
-    from oms_schema.order
-    where receiverProvince like #{2,jdbcType=VARCHAR} limit #{0},#{1}
-  </select>
-    <!--按市查询，模糊，分页 -->
-  <select id="CountByReceiverCity" resultType="java.lang.Integer" parameterType="java.lang.String">
-    select count(1) from oms_schema.order where receiverCity like #{receiverCity,jdbcType=VARCHAR}
-  </select>
-  <select id="selectByReceiverCitys" resultMap="BaseResultMap" >
-    select
-    <include refid="Base_Column_List" />
-    from oms_schema.order
-    where receiverCity like #{2,jdbcType=VARCHAR} limit #{0},#{1}
-  </select>
-    <!--按区查询，模糊，分页 -->
-  <select id="CountByReceiverArea" resultType="java.lang.Integer" parameterType="java.lang.String">
-    select count(1) from oms_schema.order where receiverArea like #{receiverArea,jdbcType=VARCHAR}
-  </select>
-  <select id="selectByReceiverAreas" resultMap="BaseResultMap" >
-    select
-    <include refid="Base_Column_List" />
-    from oms_schema.order
-    where receiverArea like #{2,jdbcType=VARCHAR} limit #{0},#{1}
-  </select>
-    <!--按收货人手机号查询，模糊，分页 -->
-  <select id="CountByReceiverMobel" resultType="java.lang.Integer" parameterType="java.lang.String">
-    select count(1) from oms_schema.order where receiverMobel like #{receiverMobel,jdbcType=VARCHAR}
-  </select>
-  <select id="selectByReceiverMobels" resultMap="BaseResultMap" >
-    select
-    <include refid="Base_Column_List" />
-    from oms_schema.order
-    where receiverMobel like #{2,jdbcType=VARCHAR} limit #{0},#{1}
+    where ${queryMode} like #{data,jdbcType=VARCHAR} limit #{pageNo},#{pageSize}
   </select>
   <!--根据渠道订单号查询订单是否已存在-->
   <select id="selectByChannelOid" resultMap="BaseResultMap" parameterType="java.lang.String" >

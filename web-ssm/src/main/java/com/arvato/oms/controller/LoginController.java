@@ -74,5 +74,16 @@ public class LoginController
 
     }
 
+    @RequestMapping("/checkSession")
+    @ResponseBody
+    public int checkSession(HttpSession session)
+    {
+        Integer urole=(Integer)session.getAttribute("urole");
+        if(urole==null)
+        {
+            return 0;
+        }
+        return urole;
+    }
 
 }

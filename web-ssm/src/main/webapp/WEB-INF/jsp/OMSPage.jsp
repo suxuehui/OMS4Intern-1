@@ -29,12 +29,12 @@
     <script src="${pageContext.request.contextPath}/js/deleteExceptionOrder.js"></script>
     <script src="${pageContext.request.contextPath}/js/refoundpagelist.js"></script>
     <script src="${pageContext.request.contextPath}/js/refoundpagelistson.js"></script>
-
 </head>
 
 <body>
 <span id="urole" hidden>${urole}</span>
 <span id="uname" hidden>${uname}</span>
+<span id="name"></span>
 <div class="wrap">
     <div class="header clearFix">
         <div class="menu fl">

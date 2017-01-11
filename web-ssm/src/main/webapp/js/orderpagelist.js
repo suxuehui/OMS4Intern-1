@@ -1,8 +1,8 @@
 /**
  * Created by ZHAN545 on 2016/12/15.
  */
-var queryMode=0;
-var queryModeTemp=0;
+var queryMode="";
+var queryModeTemp="";
 var queryData="";
 var queryDateTemp="";
 var orderPageSize=10;
@@ -36,12 +36,12 @@ function  queryAllOrder(pageNo) {
 $(function () {
     //左侧导航栏订单列表
     $(".orderClick").click(function () {
-        queryMode=0;
-        queryModeTemp=0;
+        queryMode="";
+        queryModeTemp="";
         queryData="";
         queryDateTemp="";
         $("#queryOrderCon").val("");
-        $("#queryMode").val(0);
+        $("#queryMode").val("");
         queryAllOrder(1);
         $("#ogList").html("");//清空子页的商品信息
         outGetnowPage(1);
@@ -49,12 +49,12 @@ $(function () {
     })
     //上方导航栏订单
     $("#0").click(function () {
-        queryMode=0;
-        queryModeTemp=0;
+        queryMode="";
+        queryModeTemp="";
         queryData="";
         queryDateTemp="";
         $("#queryOrderCon").val("");
-        $("#queryMode").val(0);
+        $("#queryMode").val("");
         queryAllOrder(1);
         $("#ogList").html("");
     })
@@ -152,7 +152,7 @@ function translationOrder(data)
 $(function () {
     $("#queryOrderBtn").click(function () {
         queryMode=$("#queryMode option:selected").val();
-        if(queryMode==0)
+        if(queryMode=="")
         {
             alert("请选择查询条件");
             $("#queryOrderCon").val("");

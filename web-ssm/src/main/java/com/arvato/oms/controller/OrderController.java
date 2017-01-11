@@ -119,12 +119,8 @@ public class OrderController
     //条件查询，分页，模糊查询
     @RequestMapping("queryByCondition")
     @ResponseBody
-    public JSONObject queryByOid(int queryMode,int pageNo,int pageSize,String data,Model model)
+    public JSONObject queryByOid(String queryMode,int pageNo,int pageSize,String data,Model model)
     {
-        if(queryMode<0||queryMode>9||pageNo<=0||pageSize<=0)
-        {
-            return null;
-        }
         String str=data.trim();
         return orderService.selects(queryMode,pageNo,pageSize,"%"+str+"%");
     }

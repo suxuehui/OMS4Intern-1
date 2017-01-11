@@ -77,4 +77,29 @@ $(document).ready(function(){
 		$(".orderMain>.relatedOrder").eq(num).show().siblings().hide();
 	});
 });
+function sleep(n) {
+	var start = new Date().getTime();
+	while(true)  if(new Date().getTime()-start > n) break;
+}
 
+$(document).ready(function () {
+	$("body").click(function () {
+		$.ajax({
+			type:"get",
+			url:"/oms/login/checkSession",
+			success:function (data) {
+				sleep(10000);
+				if(data==0)
+				{
+					alert("登录已失效，请重新登录！");
+					window.location.href = "/oms/login/logout";
+				}
+				var urole=$("#urole").text();
+				if(!(urole==data))
+				{
+					window.location.reload();
+				}
+			}
+		})
+	})
+})

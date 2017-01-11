@@ -31,16 +31,16 @@
                 <input type="button" value="查询" class="submitBtn fr" id="queryOrderBtn">
                 <input type="text" class="textArea fr" id="queryOrderCon"   >
                 <select class="selectArea fr" id="queryMode">
-                    <option value="0" class="select_hide">请选择查询条件</option>
-                    <option value="1">订单号</option>
-                    <option value="2">渠道订单号</option>
-                    <option value="3">订单状态</option>
-                    <option value="4">支付方式</option>
-                    <option value="5">物流公司</option>
-                    <option value="6">省</option>
-                    <option value="7">市</option>
-                    <option value="8">区</option>
-                    <option value="9">收货人手机号</option>
+                    <option value="" class="select_hide">请选择查询条件</option>
+                    <option value="oId">订单号</option>
+                    <option value="channelOid">渠道订单号</option>
+                    <option value="orderStatus">订单状态</option>
+                    <option value="payStyle">支付方式</option>
+                    <option value="logisticsCompany">物流公司</option>
+                    <option value="receiverProvince">省</option>
+                    <option value="receiverCity">市</option>
+                    <option value="receiverArea">区</option>
+                    <option value="receiverMobel">收货人手机号</option>
                 </select>
 
             </div>

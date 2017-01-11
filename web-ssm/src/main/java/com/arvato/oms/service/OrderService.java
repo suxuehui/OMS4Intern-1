@@ -19,7 +19,7 @@ public interface OrderService {
     //根据订单号查询所有商品信息
     public List<GoodsPojo> selectGoodsByOid(String oid);
     //分条件查询，分页，模糊查询
-    public JSONObject selects(int queryMode,int pageNo,int pageSize,String oid);
+    public JSONObject selects(String queryMode,int pageNo,int pageSize,String oid);
     //更新订单
     public int updateByOidSelective(OrderModel record);
     //预检订单

@@ -91,11 +91,11 @@ public class OrderServiceImpl implements OrderService
     * 8：按区查询
     * 9：按收货人手机号查询
     */
-    public JSONObject selects(int queryMode,int pageNo,int pageSize,String data)
+    public JSONObject selects(String queryMode,int pageNo,int pageSize,String data)
     {
         List<OrderModel> orderModels=null;
         int pageTotal=0;
-        if(queryMode==0)//查询全部订单
+        if(queryMode.equals(""))//查询全部订单
         {
             int num=orderModelMapper.selectCount();
             Page page=new Page(num,pageNo,pageSize);
@@ -103,77 +103,13 @@ public class OrderServiceImpl implements OrderService
             pageTotal=page.getTotalPageCount();
             orderModels=orderModelMapper.selectAll(count,pageSize);
         }
-        else if(queryMode==1)//按订单号查询
+        else//条件查询
         {
-            int num=orderModelMapper.CountByOid(data);
+            int num=orderModelMapper.CountByCondition(data,queryMode);
             Page page=new Page(num,pageNo,pageSize);
             int count=page.getStartPos();
             pageTotal=page.getTotalPageCount();
-            orderModels=orderModelMapper.selectByOids(count,pageSize,data);
-        }
-        else if (queryMode==2)//按渠道订单号查询
-        {
-            int num=orderModelMapper.CountByChanneloid(data);
-            Page page=new Page(num,pageNo,pageSize);
-            int count=page.getStartPos();
-            pageTotal=page.getTotalPageCount();
-            orderModels=orderModelMapper.selectByChanneloids(count,pageSize,data);
-        }
-        else if (queryMode==3)//按订单状态查询
-        {
-            int num=orderModelMapper.CountByOrderStatus(data);
-            Page page=new Page(num,pageNo,pageSize);
-            int count=page.getStartPos();
-            pageTotal=page.getTotalPageCount();
-            orderModels=orderModelMapper.selectByOrderStatuss(count,pageSize,data);
-        }
-        else if (queryMode==4)//按支付方式查询
-        {
-            int num=orderModelMapper.CountByPayStyle(data);
-            Page page=new Page(num,pageNo,pageSize);
-            int count=page.getStartPos();
-            pageTotal=page.getTotalPageCount();
-            orderModels=orderModelMapper.selectByPayStyles(count,pageSize,data);
-        }
-        else if (queryMode==5)//按物流公司查询
-        {
-            int num=orderModelMapper.CountByLogisticsCompany(data);
-            Page page=new Page(num,pageNo,pageSize);
-            int count=page.getStartPos();
-            pageTotal=page.getTotalPageCount();
-            orderModels=orderModelMapper.selectByLogisticsCompanys(count,pageSize,data);
-        }
-        else if (queryMode==6)//按省查询
-        {
-            int num=orderModelMapper.CountByReceiverProvince(data);
-            Page page=new Page(num,pageNo,pageSize);
-            int count=page.getStartPos();
-            pageTotal=page.getTotalPageCount();
-            orderModels=orderModelMapper.selectByReceiverProvinces(count,pageSize,data);
-        }
-        else if (queryMode==7)//按市查询
-        {
-            int num=orderModelMapper.CountByReceiverCity(data);
-            Page page=new Page(num,pageNo,pageSize);
-            int count=page.getStartPos();
-            pageTotal=page.getTotalPageCount();
-            orderModels=orderModelMapper.selectByReceiverCitys(count,pageSize,data);
-        }
-        else if (queryMode==8)//按区查询
-        {
-            int num=orderModelMapper.CountByReceiverArea(data);
-            Page page=new Page(num,pageNo,pageSize);
-            int count=page.getStartPos();
-            pageTotal=page.getTotalPageCount();
-            orderModels=orderModelMapper.selectByReceiverAreas(count,pageSize,data);
-        }
-        else if (queryMode==9)//按收货人手机号查询
-        {
-            int num=orderModelMapper.CountByReceiverMobel(data);
-            Page page=new Page(num,pageNo,pageSize);
-            int count=page.getStartPos();
-            pageTotal=page.getTotalPageCount();
-            orderModels=orderModelMapper.selectByReceiverMobels(count,pageSize,data);
+            orderModels=orderModelMapper.selectByCondition(count,pageSize,data,queryMode);
         }
         JSONObject jObj=new JSONObject();
         jObj.put("pageTotal",pageTotal);
