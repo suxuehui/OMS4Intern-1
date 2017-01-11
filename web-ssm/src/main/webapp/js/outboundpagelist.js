@@ -57,7 +57,7 @@ function outGNPage(pagenow){
         },
         error:function(){
             self.location="../login/login" ;
-            alert("登陆超时，请重新登陆！");
+            alert("登录已失效，请重新登录！");
         }
     });
 }
@@ -120,7 +120,7 @@ function outGetnowPage(pagenow){
         },
         error:function(){
             self.location="../login/login" ;
-            alert("登陆超时，请重新登陆！");
+            alert("登录已失效，请重新登录！");
         }
     });
 }
@@ -232,7 +232,7 @@ function booleantoString(list){
             },
             error: function () {
                 self.location="../login/login" ;
-                alert("登陆超时，请重新登陆！");
+                alert("登录已失效，请重新登录！");
             }
         });
     }

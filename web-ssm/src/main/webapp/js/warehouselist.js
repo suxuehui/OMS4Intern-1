@@ -60,7 +60,7 @@ function WarehousegetPage(pagenow){
         },
         error:function(){
             self.location="../login/login" ;
-            alert("登陆超时，请重新登陆！");
+            alert("登录已失效，请重新登录！");
         }
     });
 }
@@ -119,7 +119,7 @@ function wareGetnowPage(pagenow){
         },
         error:function(){
             self.location="../login/login" ;
-            alert("登陆超时，请重新登陆！");
+            alert("登录已失效，请重新登录！");
         }
     });
 }
@@ -256,7 +256,7 @@ function cleartext(){
          },
          error:function(){
              self.location="../login/login" ;
-             alert("登陆超时，请重新登陆！");
+             alert("登录已失效，请重新登录！");
          }
      })
  }
@@ -310,7 +310,7 @@ function warehouseupdate(obj) {
             },
             error: function () {
                 self.location="../login/login" ;
-                alert("登陆超时，请重新登陆！");
+                alert("登录已失效，请重新登录！");
             }
         })
         //显示弹窗
@@ -378,7 +378,7 @@ function updateware(wareid){
         },
         error:function(){
             self.location="../login/login" ;
-            alert("登陆超时，请重新登陆！");
+            alert("登录已失效，请重新登录！");
         }
     })
 
@@ -411,7 +411,7 @@ function deleteware() {
             },
             error: function () {
                 self.location="../login/login" ;
-                alert("登陆超时，请重新登陆！");
+                alert("登录已失效，请重新登录！");
             }
         })
 

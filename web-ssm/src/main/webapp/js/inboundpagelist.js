@@ -57,7 +57,7 @@ function inGNPage(pagenow){
         },
         error:function(){
             self.location="../login/login" ;
-            alert("登陆超时，请重新登陆！");
+            alert("登录已失效，请重新登录！");
         }
     });
 }
@@ -116,7 +116,7 @@ function inGetnowPage(pagenow){
         },
         error:function(){
             self.location="../login/login" ;
-            alert("登陆超时，请重新登陆！");
+            alert("登录已失效，请重新登录！");
         }
     });
 
@@ -226,7 +226,7 @@ function inpageson(oid,pagenow){
         },
         error:function () {
             self.location="../login/login" ;
-            alert("登陆超时，请重新登陆！");
+            alert("登录已失效，请重新登录！");
         }
     });
 }
