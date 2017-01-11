@@ -71,12 +71,13 @@ function inajax(data){
     $("#inboundertabson tbody tr").eq(0).nextAll().remove();
     document.getElementById("inbtn").disabled=true;
     inboundArray.length=0;//每次分页就将勾选数组初始化
-    for(var obj in datalist){
-        if(datalist.hasOwnProperty(obj)){
-            var  list=datalist[obj];
+    var jj=0;
+    for(jj ;jj< datalist.length;jj++){
+            var  list=datalist[jj];
             //将同步状态的显示格式进行修改
             bytetoString(list)
-            var html='<tr name="'+list.oid+'"><td>'+(++obj)+'</td><td><input type="checkbox"  id="'+list.oid+'" ' +
+            var qq=jj+1;
+            var html='<tr name="'+list.oid+'"><td>'+qq+'</td><td><input type="checkbox"  id="'+list.oid+'" ' +
                 'onclick="toincheck(this)"  name="inck"></td><td>';
             html+= '<button id="'+list.oid+'" style=" border-style:none;outline:none;background: transparent;"  ondblclick="indblclick(this.id)" onclick="insgclick(this.id)">'+list.oid+'</button> </td><td>'
                 +list.channeloid+'</td><td>'
@@ -85,7 +86,7 @@ function inajax(data){
                 +list.warehouse+'</td><td>' +list.createdtime+'</td><td>'
                 +list.modifytime+'</td><td>' +list.modifyman +'</td></tr>'
             $("#inboundertab tbody ").append(html);
-        }}
+        }
 
     //分页设置
     inGetNavPage(datapage.totalPageCount,datapage.pageNow);
@@ -207,10 +208,11 @@ function inpageson(oid,pagenow){
             var datapage = data.pagelist;
             //清除子页面信息
             $("#inboundertabson tbody tr").eq(0).nextAll().remove();
-            for(var i in rglist)
+           var ii=0;
+            for(ii;ii< rglist.size;ii++)
             {
-                var god=gdlist[i];//获取商品表的一个对象
-                var obj=rglist[i] ;//获取关系表的一个对象
+                var god=gdlist[ii];//获取商品表的一个对象
+                var obj=rglist[ii] ;//获取关系表的一个对象
                 //只显示已上架的商品
                 if(god.goodsstate=="已上架")
                 {

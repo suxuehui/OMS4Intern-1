@@ -72,12 +72,13 @@ function outajax(data){
     $("#outboundertabson tbody tr").eq(0).nextAll().remove();
     document.getElementById("outbtn").disabled=true;
     outboundArray.length=0;//每次分页就将勾选数组初始化
-    for(var obj in datalist) {
-        if(datalist.hasOwnProperty(obj)) {
-            var list = datalist[obj];
+    var o=0;
+    for(o;o<datalist.length;o++) {
+            var list = datalist[o];
             //将同步状态的显示格式进行修改
             booleantoString(list);
-            var html = '<tr name="'+list.oid+'"><td>'+(++obj)+'</td><td><input type="checkbox" id="' + list.oid + '"' +
+            var p=o+1;
+            var html = '<tr name="'+list.oid+'"><td>'+p+'</td><td><input type="checkbox" id="' + list.oid + '"' +
                 'onclick="tooutcheck(this)"  name="outck"></td><td>';
             html += '<button id="' + list.oid + '"style=" border-style:none;outline:none;background: transparent;" ondblclick="outdblclick(this.id)" onclick="outsgclick(this.id)">' + list.oid + '</button></td><td>'
                 + list.channeloid + '</td><td>'
@@ -89,7 +90,7 @@ function outajax(data){
                 + list.createdtime + '</td><td>' + list.modifytime + '</td><td>'
                 + list.modifyman + '</td></tr>'
             $("#outboundertab tbody ").append(html);
-        }
+
     }
     //分页设置
     outGetNavPage(datapage.totalPageCount,datapage.pageNow);

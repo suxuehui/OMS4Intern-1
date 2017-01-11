@@ -72,14 +72,14 @@ function ware(data){
     whidArray.length=0;
     //清除原先的数据
     $("#warehousetab tbody tr").eq(0).nextAll().remove();
-    for(var listindex in datalist) {
-        if (datalist.hasOwnProperty(listindex)) {
-            var list = datalist[listindex];
-            var html = '<tr><td>' +(++listindex)+ '</td><td><input type="checkbox" id="'
+    var pp=0;
+    for( pp ; pp< datalist.length;pp++) {
+            var list = datalist[pp];
+        var e=pp+1;
+            var html = '<tr><td>' +e+ '</td><td><input type="checkbox" id="'
                 + list.id + '" onclick="towhcheck(this.id)"  name="whck"></td><td>'
                 + list.warehousenum + ' </td><td>' + list.warehousename + '</td></tr>'
             $("#warehousetab tbody ").append(html);
-        }
 
     }
     WareGetNavPage(datapage.totalPageCount,datapage.pageNow);
@@ -381,7 +381,6 @@ function updateware(wareid){
             alert("登录已失效，请重新登录！");
         }
     })
-
 }
 
 //批量删除仓库
