@@ -24,6 +24,10 @@ function  queryAllOrder(pageNo) {
         dataType:"json",
         success:function (data) {
             translationOrder(data);
+        },
+        error: function (data) {
+            alert("登录已失效，请重新登录！");
+            window.location.href = "/oms/login/logout";
         }
     })
 }
@@ -81,6 +85,10 @@ function queryOrder(pageNo) {
             queryModeTemp=queryMode;
             queryDateTemp=queryData;
             translationOrder(data);
+        },
+        error: function (data) {
+            alert("登录已失效，请重新登录！");
+            window.location.href = "/oms/login/logout";
         }
     })
 }
@@ -253,6 +261,10 @@ function queryGoodsByOid(pageNo,pageSize,oid) {
                 $("#ogLastpage").show();
             }
             judgeGoodsChecked();
+        },
+        error: function (data) {
+            alert("登录已失效，请重新登录！");
+            window.location.href = "/oms/login/logout";
         }
     })
 }

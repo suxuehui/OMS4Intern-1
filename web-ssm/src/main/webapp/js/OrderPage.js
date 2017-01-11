@@ -52,6 +52,10 @@ $(function () {
                 $(".popupAll .leadingInShow").hide();
                 $(".hbg").hide();//隐藏阴影层
                 queryOrder(1);
+            },
+            error: function (data) {
+                alert("登录已失效，请重新登录！");
+                window.location.href = "/oms/login/logout";
             }
         })
     })
@@ -130,6 +134,10 @@ function ordercheck(oid) {
                     $("#returnedOrderBtn,#exchangeGoodsBtn").attr('disabled',false);
                     return;
                 }
+            },
+            error: function (data) {
+                alert("登录已失效，请重新登录！");
+                window.location.href = "/oms/login/logout";
             }
         });
         $("#returnedOrderBtn,#exchangeGoodsBtn").attr('disabled',true);
@@ -210,6 +218,10 @@ $(function () {
                 var pageNo=$("#orderPageNo").text();
                 queryOrder(pageNo);
                 cancleChecked();
+            },
+            error: function (data) {
+                alert("登录已失效，请重新登录！");
+                window.location.href = "/oms/login/logout";
             }
         })
     })
@@ -230,6 +242,10 @@ $(function () {
                 var pageNo=$("#orderPageNo").text();
                 queryOrder(pageNo);
                 cancleChecked();
+            },
+            error: function (data) {
+                alert("登录已失效，请重新登录！");
+                window.location.href = "/oms/login/logout";
             }
         })
     })
@@ -250,13 +266,15 @@ $(function () {
                 if(exception!=0)
                 {
                     content+="'\n'请去异常订单页查看";
-                    //GetnowPage(1);
                 }
                 alert(content);
                 var pageNo=$("#orderPageNo").text();
                 queryOrder(pageNo);
-                //outGetnowPage(1);
                 cancleChecked();
+            },
+            error: function (data) {
+                alert("登录已失效，请重新登录！");
+                window.location.href = "/oms/login/logout";
             }
         })
     })
@@ -276,8 +294,11 @@ $(function () {
                 alert("success:"+success+"'\n'exception:"+exception);
                 var pageNo=$("#orderPageNo").text();
                 queryOrder(pageNo);
-                //refoundGetnowPage(1);
                 cancleChecked();
+            },
+            error: function (data) {
+                alert("登录已失效，请重新登录！");
+                window.location.href = "/oms/login/logout";
             }
         })
     })
@@ -341,13 +362,16 @@ function returnOrExchange(returnoid,returnedOrChange) {
             if(data==1)
             {
                 alert("订单退换货成功，可以去退换货页面查看");
-                //selectReturnByvalue(1);
             }
             else
             {
                 alert("退换货异常");
             }
             cancleChecked();
+        },
+        error: function (data) {
+            alert("登录已失效，请重新登录！");
+            window.location.href = "/oms/login/logout";
         }
     });
 }
