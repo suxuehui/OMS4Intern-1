@@ -1,8 +1,10 @@
 package com.arvato.oms.controller;
 
+import com.arvato.oms.ExceptionModel.NewRunException;
 import com.arvato.oms.model.*;
 import com.arvato.oms.service.*;
 import com.arvato.oms.utils.HTTPClientDemo;
+import com.arvato.oms.utils.ReadProperties;
 import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,6 +30,7 @@ import java.util.List;
 @RequestMapping("/refoundOrder/")
 public class RefoundOrderController {
     private Logger log = Logger.getLogger(ExceptionController.class);
+    ReadProperties rpr = new ReadProperties();
     @Resource
     private RefoundOrderService refoundOrderServiceImpl;
     @Resource
@@ -154,7 +158,15 @@ public class RefoundOrderController {
         object.put("refundment",drawbackMoney);//退款金额
         object.put("refundAccount",buyerAlipayNo);//退款账号
         log.info("-----------------------------------object:"+object.toString());
-        HTTPClientDemo httpClientDemo = new HTTPClientDemo("http://114.215.252.146:8080/DGFORQ3/oms/api/v1/refund");
+        String sendRefoundOrderUrl=null;
+        try {
+            sendRefoundOrderUrl = rpr.readProperties("url.properties","sendRefoundOrderUrl");
+        }catch (IOException e)
+        {
+            log.info(e);
+            throw new NewRunException("找不到url.properties文件");
+        }
+        HTTPClientDemo httpClientDemo = new HTTPClientDemo(sendRefoundOrderUrl);
         //得到返回信息
         String returnInformation = httpClientDemo.postMethod(object.toString());
         String code = null;
