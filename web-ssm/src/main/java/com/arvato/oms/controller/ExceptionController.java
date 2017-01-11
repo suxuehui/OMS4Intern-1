@@ -27,8 +27,8 @@ import java.util.*;
 @RequestMapping("/exceptionOrder/")
 public class ExceptionController {
     private Logger log = Logger.getLogger(ExceptionController.class);
-
     private static final String PAGE = "OMSPage";
+    private static final String MSG = "{\"msg\":\"2\"}";
     @Resource
     private ExceptionService exceptionServiceImpl;
     @Resource
@@ -39,8 +39,6 @@ public class ExceptionController {
     private OrderService orderServiceImpl;
     @Resource
     private OutboundorderService outboundorderServiceImpl;
-
-    private static final String EXCEPTION="exception";
 
     //进入页面
     @RequestMapping(value="indexExceptionList")
@@ -92,7 +90,7 @@ public class ExceptionController {
 
         }
 
-        return "{\"msg\":\"2\"}";
+        return MSG;
     }
 
     //异常订单的处理
@@ -108,7 +106,10 @@ public class ExceptionController {
             String exceptionTypeList=exceptionServiceImpl.selectTypeByOid(exOid[i]);
             set.add(exceptionTypeList);
         }
-        if(set.size()==1){//判断异常类型是否相同
+        if(set.size()!=1) {//判断异常类型是否相同
+            log.info("异常类型不完全相同");
+            return "{\"msg\":\"1\"}";
+        }
             Iterator iterator=set.iterator();
             while(iterator.hasNext()){
                 String exceptionType = iterator.next().toString();
@@ -123,7 +124,7 @@ public class ExceptionController {
                         //再删除订单页面的订单信息
                         orderServiceImpl.cancleOrder(exOid[j],userName);
                     }
-                    return "{\"msg\":\"2\"}";
+                    return MSG;
                 }
                 //由预检发送过来，处理方式为：取消订单
                 if("库存异常".equals(exceptionType))
@@ -137,7 +138,7 @@ public class ExceptionController {
                         //再删除订单页面的订单信息
                         orderServiceImpl.cancleOrder(exOid[j],userName);
                     }
-                    return "{\"msg\":\"2\"}";
+                    return MSG;
                 }
                 //由预检发送过来，处理方式为：跟客户确认后，进行下一步备注异常的检验
                 if("金额异常".equals(exceptionType))
@@ -151,7 +152,6 @@ public class ExceptionController {
                         String exceptionType2 = "备注异常";
                         //进行下一步备注异常的检验
                         int k=orderServiceImpl.previewOrder(exOid[j],exceptionType2,userName);
-                        int exception = 0;
                         if(k==1)
                         {
                             String orderStatus3 ="待路由";
@@ -159,7 +159,7 @@ public class ExceptionController {
                             orderServiceImpl.updateOrder2(orderStatus3,new Date(),userName,exOid[j]);
                         }
                     }
-                    return "{\"msg\":\"2\"}";
+                    return MSG;
                 }
 
                 //由预检发送过来，处理方式为：确认备注信息后，进行路由
@@ -172,7 +172,7 @@ public class ExceptionController {
                         //再删除异常页面的异常订单
                         exceptionServiceImpl.deleteByOid(exOid[j]);
                     }
-                    return "{\"msg\":\"2\"}";
+                    return MSG;
                 }
                 //向wms发送出库单是异常，处理方式为：再次将出库单信息发送给WMS
                 if("出库异常".equals(exceptionType))
@@ -224,14 +224,13 @@ public class ExceptionController {
                             log.info(e);
                         }
                     }
-                    return "{\"msg\":\"2\"}";
+                    return MSG;
                 }
-
             }
-        }else{
-            log.info("异常类型不完全相同");
-            return "{\"msg\":\"1\"}";
-        }
+
+
+
+
         return PAGE;
     }
 

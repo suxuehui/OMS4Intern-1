@@ -96,7 +96,7 @@ public class RefoundOrderController {
             model.addAttribute("rog",rogList2);
             model.addAttribute("oid",oid);
             return "refoundOrderDetails";
-        }{
+        }
         /* 获取商品编码  查询关系表*/
         List<RelationrgModel> rogList = relationrgServiceImpl.selectALLByReturnedId(returnedId);
         //获取商品实体 查询商品表
@@ -123,7 +123,6 @@ public class RefoundOrderController {
         model.addAttribute("oid",returnedId);
         return "refoundOrderDetails";
         }
-    }
 
     //调退款接口
     @RequestMapping(value="drawback")

@@ -36,9 +36,10 @@ public class OmsOpenInterfaceController {
     private ExceptionService exceptionServiceImpl;
     @Resource
     private RelationogService relationogServiceImpl;
-
     @Resource
     private ReturnedModelService returnedModelService;
+
+    private static final String GTN = "goodsTolnum";
 
     //接受wms传来的数据，更新出库单
     @RequestMapping(value = "updateOutboundOrder")
@@ -50,12 +51,12 @@ public class OmsOpenInterfaceController {
         if(object==null){//未获得从client传来的json对象
             return "{\"msg\":\"200\"}";
         }
-        JSONObject  outbound_message= object.getJSONObject("outbound_message");
-        if(outbound_message==null){//未获得outbound_message对象
+        JSONObject  outboundMessage= object.getJSONObject("outbound_message");
+        if(outboundMessage==null){//未获得outboundMessage对象
             return "{\"msg\":\"201\"}";
         }
         //仓库出库单号
-        String warehouseObid=outbound_message.getString("warehouseObid");
+        String warehouseObid=outboundMessage.getString("warehouseObid");
         if(warehouseObid==null||"".equals(warehouseObid)){
             return "{\"msg\":\"301\"}";//仓库出库单号不能为空
         }
@@ -64,7 +65,7 @@ public class OmsOpenInterfaceController {
             return "{\"msg\":\"302\"}";//仓库出库单号格式错误
         }
         //出库单号
-        String outboundId =outbound_message.getString("outboundId");
+        String outboundId =outboundMessage.getString("outboundId");
         if(outboundId==null||"".equals(outboundId)){
             return "{\"msg\":\"303\"}";//出库单号不能为空
         }
@@ -73,18 +74,18 @@ public class OmsOpenInterfaceController {
             return "{\"msg\":\"304\"}";//出库单号格式错误
         }
         //出库单状态
-        String outboundState = outbound_message.getString("outboundState");
+        String outboundState = outboundMessage.getString("outboundState");
         if(outboundState==null||"".equals(outboundState)){
             return "{\"msg\":\"305\"}";//出库单状态不能为空
         }
         if("已发货".equals(outboundState)){
             //快递公司
-            String expressCompany =outbound_message.getString("expressCompany");
+            String expressCompany =outboundMessage.getString("expressCompany");
             if(expressCompany==null||"".equals(expressCompany)){
                 return "{\"msg\":\"306\"}";//快递公司不能为空
             }
             //快递单号
-            String expressId = outbound_message.getString("expressId");
+            String expressId = outboundMessage.getString("expressId");
             if(expressId==null||"".equals(expressId)){
                 return "{\"msg\":\"307\"}";//快递单号不能为空
             }
@@ -169,11 +170,9 @@ public class OmsOpenInterfaceController {
         }
         else
         {
-            System.out.println(object);
             //商品操作，是上架还是下架
             String operation = object.getString("operation");
-            System.out.println(operation);
-            if(operation.equals("add")){
+            if("add".equals(operation)){
                 JSONObject goods = object.getJSONObject("goods");
                 //商品编号
                 String goodsNo = goods.getString("goodsNo");
@@ -191,7 +190,7 @@ public class OmsOpenInterfaceController {
                     return "{\"msg\":\"104\"}";//未获得商品单价
                 }
                 //商品总库存
-                String goodsTolnum = goods.getString("goodsTolnum");
+                String goodsTolnum = goods.getString(GTN);
                 if(goodsTolnum==null){
                     return "{\"msg\":\"105\"}";//未获得商品总库存
                 }
@@ -201,11 +200,11 @@ public class OmsOpenInterfaceController {
                     return "{\"msg\":\"106\"}";//未获得商品状态
                 }
                 //可用库存，商品刚上架是可用库存等于总库存
-                String goodsVnum = goods.getString("goodsTolnum");
+                String goodsVnum = goods.getString(GTN);
                 //添加一条商品信息
                 goodsServiceImpl.addGoods(goodsNo,goodsName,goodsVnum,goodsPrice,goodsTolnum,goodsState);
 
-            }else if(operation.equals("edit")){
+            }else if("edit".equals(operation)){
                 JSONObject goods = object.getJSONObject("goods");
                 //商品编号
                 String goodsNo2 = goods.getString("goodsNo");
@@ -218,12 +217,12 @@ public class OmsOpenInterfaceController {
                     return "{\"msg\":\"106\"}";//未获得商品状态
                 }
                 //商品总库存
-                String goodsTolnum2 = goods.getString("goodsTolnum");
+                String goodsTolnum2 = goods.getString(GTN);
                 if(goodsTolnum2==null){
                     return "{\"msg\":\"105\"}";//未获得商品总库存
                 }
-                Integer GoodsNum = relationogServiceImpl.countGoodsNum(goodsNo2);
-                if(GoodsNum>0)
+                Integer goodsNum = relationogServiceImpl.countGoodsNum(goodsNo2);
+                if(goodsNum>0)
                 {
                     //计算锁定库存
                     Integer lockSum = relationogServiceImpl.selectGoodsRnum(goodsNo2);
