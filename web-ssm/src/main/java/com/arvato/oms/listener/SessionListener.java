@@ -9,11 +9,12 @@ import java.util.Map;
  */
 public class SessionListener implements HttpSessionAttributeListener{
 
-    Map<String, HttpSession> map = new HashMap<String, HttpSession>();
+    private Map<String, HttpSession> map = new HashMap<String, HttpSession>();
+    private static final String UNAME="uname";
 
     public void attributeAdded(HttpSessionBindingEvent httpSessionBindingEvent) {
         HttpSession httpSession=httpSessionBindingEvent.getSession();
-        String name=(String)httpSession.getAttribute("uname");
+        String name=(String)httpSession.getAttribute(UNAME);
         if(map.containsKey(name))
         {
             HttpSession session=map.get(name);
@@ -35,6 +36,31 @@ public class SessionListener implements HttpSessionAttributeListener{
     }
 
     public void attributeReplaced(HttpSessionBindingEvent httpSessionBindingEvent) {
-        return;
+        HttpSession httpSession=httpSessionBindingEvent.getSession();
+        String name=(String)httpSession.getAttribute(UNAME);
+        if(!map.containsValue(httpSession))
+        {
+            attributeAdded(httpSessionBindingEvent);
+        }
+        for(Map.Entry<String,HttpSession> entry : map.entrySet())
+        {
+            if(entry.getKey().equals(name))
+            {
+                if(entry.getValue()==httpSession)
+                {
+                    continue;
+                }
+                entry.getValue().invalidate();
+                map.remove(entry.getKey());
+            }
+        }
+        for(Map.Entry<String,HttpSession> entry : map.entrySet())
+        {
+            if(entry.getValue()==httpSession)
+            {
+                map.remove(entry.getKey());
+                map.put((String)httpSession.getAttribute(UNAME),httpSession);
+            }
+        }
     }
 }

@@ -39,13 +39,17 @@
     <!-- spring监听器 -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-        <listener-class>com.arvato.oms.listener.SessionListener</listener-class>
     </listener>
 
 
     <!-- 防止spring内存溢出监听器，比如quartz -->
     <listener>
         <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+    </listener>
+
+    <!--session监听-->
+    <listener>
+        <listener-class>com.arvato.oms.listener.SessionListener</listener-class>
     </listener>
 
 
