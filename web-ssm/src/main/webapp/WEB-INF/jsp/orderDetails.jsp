@@ -36,7 +36,18 @@
                   </tr>
                   <tr>
                     <td>订单状态:</td>
-                    <td id="orderStatus">${orderModel.getOrderstatus()}</td>
+                    <td id="orderStatus" hidden>${orderModel.getOrderstatus()}</td>
+                    <td name="orderStatus">${orderModel.getOrderstatus()==1?"缺货异常":""}</td>
+                    <td name="orderStatus">${orderModel.getOrderstatus()==2?"订单异常":""}</td>
+                    <td name="orderStatus">${orderModel.getOrderstatus()==3?"待预检":""}</td>
+                    <td name="orderStatus">${orderModel.getOrderstatus()==4?"待路由":""}</td>
+                    <td name="orderStatus">${orderModel.getOrderstatus()==5?"已出库":""}</td>
+                    <td name="orderStatus">${orderModel.getOrderstatus()==6?"已完成":""}</td>
+                    <td name="orderStatus">${orderModel.getOrderstatus()==7?"缺货等待":""}</td>
+                    <td name="orderStatus">${orderModel.getOrderstatus()==8?"待出库":""}</td>
+                    <td name="orderStatus">${orderModel.getOrderstatus()==9?"已取消":""}</td>
+                    <td name="orderStatus">${orderModel.getOrderstatus()==10?"出库异常":""}</td>
+                    <td name="orderStatus">${orderModel.getOrderstatus()==11?"已发货":""}</td>
                   </tr>
                   <tr>
                     <td>订单来源:</td>
@@ -52,7 +63,7 @@
                   </tr>
                   <tr>
                     <td>基本状态:</td>
-                    <td>${orderModel.getBasestatus()}</td>
+                    <td>${orderModel.getBasestatus()=="1"?"活动":"冻结"}</td>
                   </tr>
                   <tr>
                     <td>修改人:</td>
@@ -73,11 +84,11 @@
                 <table cellspacing="0" cellpadding="0" border="0" class="table">
                   <tr>
                     <td>支付状态:</td>
-                    <td>${orderModel.getPaystatus()}</td>
+                    <td>${orderModel.getPaystatus()=="1"?"已支付":"未支付"}</td>
                   </tr>
                   <tr>
                     <td>支付方式:</td>
-                    <td>${orderModel.getPaystyle()}</td>
+                    <td>${orderModel.getPaystyle()==1?"支付宝":""}</td>
                   </tr>
                   <tr>
                     <td>付款时间:</td>
@@ -151,7 +162,7 @@
                 <table cellspacing="0" cellpadding="0" border="0" class="table">
                   <tr>
                     <td>发货仓库:</td>
-                    <td>${orderModel.getGoodswarehouse()}</td>
+                    <td id="wareHouse">${orderModel.getGoodswarehouse()}</td>
                   </tr>
                   <tr>
                     <td>物流公司:</td>

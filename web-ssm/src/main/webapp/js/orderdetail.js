@@ -77,8 +77,29 @@ $(function () {
 $(function () {
     $("#cancleOrderBtn,#save").attr("disabled",true);
     var status=$("#orderStatus").text();
-    if(status=="已发货"||status=="已完成"||status=="已取消")
+    if(status=="11"||status=="6"||status=="9")
     {
         $("#editOrder").attr('disabled',true);
     }
 })
+window.onload=function matchWareHouse() {
+    var num=$("#wareHouse").text();
+    if(num==""||num==null)
+    {
+        return "";
+    }
+    $.ajax({
+        url:"../warehouse/getName",
+        type:"get",
+        data:{num:num},
+        datatype:"json",
+        success:function (data) {
+            if(data=="")
+            {
+                $("wareHouse").text("");
+                return;
+            }
+            $("#wareHouse").text(data.wareName);
+        }
+    });
+}
