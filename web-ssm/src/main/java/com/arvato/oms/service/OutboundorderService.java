@@ -1,6 +1,7 @@
 package com.arvato.oms.service;
 
 import com.arvato.oms.model.OutboundorderModel;
+import org.springframework.ui.Model;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
@@ -11,9 +12,6 @@ import java.util.Date;
  */
 public interface OutboundorderService
 {
-
-
-
     //出库单条件查询，
     String outboundsearchAllByparam(HttpServletRequest request ) throws UnsupportedEncodingException;
 
@@ -30,4 +28,6 @@ public interface OutboundorderService
 
 	//从出库表获取订单号
 	String selectOidByOutboundId(String outboundId);
+
+     Model outboundorderdetail(HttpServletRequest request, Model model);
 }

@@ -5,6 +5,7 @@ import com.arvato.oms.dao.OrderModelMapper;
 import com.arvato.oms.dao.OutboundorderModelMapper;
 import com.arvato.oms.dao.RelationogModelMapper;
 import com.arvato.oms.model.GoodsModel;
+import com.arvato.oms.model.GoodsPojo;
 import com.arvato.oms.model.OutboundorderModel;
 import com.arvato.oms.model.RelationogModel;
 import com.arvato.oms.service.OutboundorderService;
@@ -13,6 +14,7 @@ import com.arvato.oms.utils.Page;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -166,9 +168,8 @@ public class OutboundorderServiceImpl implements OutboundorderService
         String pagenow=request.getParameter ("currentpage");//获取当前页
         List<RelationogModel> roglist ;
         int totalCount ; //获取对象总数量
-         //通过oid精确查询出库单信息
-        OutboundorderModel  obolist=outboundorderModelMapper.selectByOid(oid);
-
+         //通过引用下面的方法selectByOid(oid) 精确查询出库单信息
+        OutboundorderModel  obolist=selectByOid(oid);
         Page pagelist ;
         int pagesize=5;
         totalCount=  this.rogdao.selectCount(oid); //获取总数
@@ -193,6 +194,8 @@ public class OutboundorderServiceImpl implements OutboundorderService
             GoodsModel gm= gddao.selectByGoodsNo(sno);
             godslist.add(gm);
         }
+
+
         //对象转JSON
         JSONObject a0= JSONObject.fromObject(pagelist);
         String jsonstr="{\"pagelist\":"+a0.toString();//分页
@@ -200,14 +203,55 @@ public class OutboundorderServiceImpl implements OutboundorderService
         jsonstr +=",\"obolist\":"+a1.toString(); //出库单列表
         JSONArray a2 = JSONArray.fromObject(godslist);   //商品列表
         jsonstr +=",\"gdslist\":"+a2.toString();
-        JSONArray a3 = JSONArray.fromObject(roglist );   //商品与订单关系列表
+        JSONArray a3 = JSONArray.fromObject(roglist );   //商品与出库订单关系列表
         jsonstr +=",\"rglist\":"+a3.toString()+"}";
         return jsonstr;
+    }
+
+//详情页面展示
+    public Model outboundorderdetail(HttpServletRequest request,Model model){
+       /**
+        *精确查询出库单信息
+        * method:selectByOid(oid)
+        *获取商品编码  查询关系表
+        * parameter:obolist
+        *获取商品实体 查询商品表
+        *  parameter：roglist
+        * 获取商品编号
+        * parameter：sno
+        * 获取商品数量
+        * parameter：snum
+        * */
+       String oid=request.getParameter("oid").trim ();
+
+        OutboundorderModel  obolist=selectByOid(oid);
+
+        List<RelationogModel> roglist=rogdao.selectAllByOid (oid);
+
+        List<Object> godslist=new ArrayList<Object>();
+        for(int i=0;i<roglist.size();i++){
+            GoodsPojo gp=new GoodsPojo();
+            String sno= roglist.get(i).getGoodsno();
+            int snum= roglist.get(i).getGoodnum() ;
+            GoodsModel gm= this.gddao.selectByGoodsNo(sno);
+            gp.setGoodNum(snum);
+            gp.setGoodsname(gm.getGoodsname());
+            gp.setGoodsno(gm.getGoodsno());
+            gp.setGoodsprice(gm.getGoodsprice());
+            godslist.add(gp);
+
+        }
+        model.addAttribute("gods",godslist);
+        model.addAttribute("obol",obolist);
+        return model;
     }
 
     /*精确获取oid*/
     public OutboundorderModel selectByOid(String oid) {
         OutboundorderModel list=outboundorderModelMapper.selectByOid(oid);
+        //出库单状态转换
+        ObjectToJsonstr objtojsonstr=new ObjectToJsonstr ();
+        list=objtojsonstr.transferstatus (list);
         return list;
     }
 

@@ -5,6 +5,7 @@ import com.arvato.oms.dao.GoodsModelMapper;
 import com.arvato.oms.dao.InboundorderModelMapper;
 import com.arvato.oms.dao.RelationogModelMapper;
 import com.arvato.oms.model.GoodsModel;
+import com.arvato.oms.model.GoodsPojo;
 import com.arvato.oms.model.InboundorderModel;
 import com.arvato.oms.model.RelationogModel;
 import com.arvato.oms.service.InboundorderService;
@@ -13,6 +14,7 @@ import com.arvato.oms.utils.Page;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -36,17 +38,25 @@ public class InboundorderServiceImpl implements InboundorderService {
     private RelationogModelMapper rogdao;
     //分页查询
     public String inboundsearchAllByparam(HttpServletRequest request ) throws UnsupportedEncodingException {
-        String pageNow = request.getParameter("currentpage").trim ();//获取当前页数pagenow
-        String id=request.getParameter("txtvalue").trim (); //用户输入的值id
-        int selectvalue= Integer.parseInt(request.getParameter("toseachid"))  ;//下拉框的value
-        int pagesize=10;//分页的每页显示的数量
+      /**
+       * @param pageNow         获取当前页数pagenow
+       * @param id              用户输入的值id
+       * @param selectvalue    下拉框的value
+       * @param pagesize       分页的每页显示的数量
+       * @param totalCount     获取对象总数量
+       * @param jsonstr        需要返回的json字符串
+       *
+      * */
+        String pageNow = request.getParameter("currentpage").trim ();
+        String id=request.getParameter("txtvalue").trim ();
+        int selectvalue= Integer.parseInt(request.getParameter("toseachid"))  ;
+        int pagesize=10;
         Page pagelist=null;
         List<InboundorderModel> list=null;
-        int totalCount=0 ; //获取对象总数量
-        String jsonstr=null;//需要返回的json字符串
+        int totalCount=0 ;
+        String jsonstr=null;
 
         if(id==null || id.length()<=0) {
-            // 页面显示所有信息
             jsonstr= equalzero(pageNow,totalCount,pagesize,pagelist, list,jsonstr);
         }
         else
@@ -197,11 +207,9 @@ public class InboundorderServiceImpl implements InboundorderService {
         List<RelationogModel> roglist ;
         Page pagelist ;
         int pagesize=5;
-        int totalCount ; //获取对象总数量
-        //获取商品实体 查询商品表
+        int totalCount ;
         List<Object> godslist=new ArrayList<Object>();
-        //查询入库单列表
-        InboundorderModel iodlist=ibodao.selectByOid(oid);
+        InboundorderModel iodlist=selectByOid(oid);
         totalCount=  this.rogdao.selectCount(oid); //获取总数
         if (pagenow != null)
         {
@@ -234,10 +242,37 @@ public class InboundorderServiceImpl implements InboundorderService {
         return jsonstr;
     }
 
-
+public  Model inbounderdetail(HttpServletRequest request,Model model){
+    String oid=request.getParameter("oid");
+    //查询入库单列表
+    InboundorderModel iodlist=selectByOid(oid);
+    //获取商品编码  查询关系表
+    List<RelationogModel> roglist=rogdao.selectAllByOid(oid);
+    //获取商品实体 查询商品表
+    List<Object> godslist=new ArrayList<Object>();
+    for(int i=0;i<roglist.size();i++){
+        GoodsPojo gp=new GoodsPojo();
+        //获取商品编号
+        String sno= roglist.get(i).getGoodsno();
+        //获取商品数量
+        int snum= roglist.get(i).getGoodnum() ;
+        GoodsModel gm=gddao.selectByGoodsNo(sno);
+        gp.setGoodNum(snum);
+        gp.setGoodsname(gm.getGoodsname());
+        gp.setGoodsno(gm.getGoodsno());
+        gp.setGoodsprice(gm.getGoodsprice());
+        godslist.add(gp);
+    }
+    model.addAttribute("gods",godslist);
+    model.addAttribute("obol",iodlist);
+    return model;
+}
     //精确查找by oid
     public  InboundorderModel  selectByOid(String oid) {
         InboundorderModel  list=this.ibodao.selectByOid(oid);
+        //转化状态
+        ObjectToJsonstr objtojsonstr=new ObjectToJsonstr ();
+        list=objtojsonstr.inboundtransferstatus (list);
         return list;
     }
     //更新入库单列表

@@ -1,12 +1,6 @@
 package com.arvato.oms.controller;
 
-import com.arvato.oms.model.GoodsModel;
-import com.arvato.oms.model.GoodsPojo;
-import com.arvato.oms.model.InboundorderModel;
-import com.arvato.oms.model.RelationogModel;
-import com.arvato.oms.service.GoodsModelService;
 import com.arvato.oms.service.impl.InboundorderServiceImpl;
-import com.arvato.oms.service.impl.RelationogServiceImpl;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,8 +10,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by GONG036 on 2016/12/8.
@@ -30,10 +22,7 @@ public class InboundorderController {
 
     @Resource
     private InboundorderServiceImpl inboserciveimpl;
-    @Resource
-    private RelationogServiceImpl rogserviceimpl;
-    @Resource
-    private GoodsModelService godserviceimpl;
+
 
     //通过分页查询所有列表 listseach'
      @RequestMapping(value="listseach")
@@ -59,29 +48,7 @@ public class InboundorderController {
     @RequestMapping(value="details")
     public String  details(HttpServletRequest request,Model model){
         log.info("详情页面展示");
-        String oid=request.getParameter("oid");
-        //查询入库单列表
-        InboundorderModel iodlist=inboserciveimpl.selectByOid(oid);
-        //获取商品编码  查询关系表
-        List<RelationogModel> roglist=rogserviceimpl.selectALLByOid(oid);
-        //获取商品实体 查询商品表
-        List<Object> godslist=new ArrayList<Object>();
-        for(int i=0;i<roglist.size();i++){
-            GoodsPojo gp=new GoodsPojo();
-            //获取商品编号
-            String sno= roglist.get(i).getGoodsno();
-            //获取商品数量  xiugai---->---------->
-            int snum= roglist.get(i).getGoodnum() ;
-            GoodsModel gm=godserviceimpl.selectByGoodsNo(sno);
-            String goodsstate=gm.getGoodsstate();
-                gp.setGoodNum(snum);
-                gp.setGoodsname(gm.getGoodsname());
-                gp.setGoodsno(gm.getGoodsno());
-                gp.setGoodsprice(gm.getGoodsprice());
-                godslist.add(gp);
-        }
-        model.addAttribute("gods",godslist);
-        model.addAttribute("obol",iodlist);
+        inboserciveimpl.inbounderdetail(request,model);
         return "InbounderDetail";
     }
 
