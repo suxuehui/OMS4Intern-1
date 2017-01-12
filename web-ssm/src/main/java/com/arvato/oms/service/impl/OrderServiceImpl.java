@@ -93,8 +93,8 @@ public class OrderServiceImpl implements OrderService
     */
     public JSONObject selects(String queryMode,int pageNo,int pageSize,String data)
     {
-        List<OrderModel> orderModels=null;
-        int pageTotal=0;
+        List<OrderModel> orderModels;
+        int pageTotal;
         if(queryMode.equals(""))//查询全部订单
         {
             int num=orderModelMapper.selectCount();
@@ -127,124 +127,159 @@ public class OrderServiceImpl implements OrderService
     public int previewOrder(String oId, String exceptionType,String name) throws RuntimeException
     {
         OrderModel orderModel=selectByOid(oId);
-        List<String> exceptionList=Arrays.asList("商品异常","库存异常","金额异常","备注异常",null);
-        if(orderModel==null)
-        {
-            return 3;//订单号不存在
-        }
-        if(!orderModel.getOrderstatus().equals("待预检"))
-        {
-            return 2;//订单状态不符
-        }
-        if(!exceptionList.contains(exceptionType))
-        {
-            return 4;//异常类型有错
-        }
+        checkPreview(orderModel,exceptionType);
         List<RelationogModel> relationogModelList=relationogModelMapper.selectAllByOid(oId);
-        ExceptionModel exceptionModel;
         if(exceptionType==null||exceptionType.equals("商品异常"))
         {
-            for(RelationogModel re:relationogModelList)
+            int i=goodsException(relationogModelList,orderModel,name);
+            if(i==5)
             {
-                GoodsModel goodsModel=goodsModelMapper.selectByPrimaryKey(re.getGoodsno());
-                if(goodsModel==null||goodsModel.getGoodsstate().equals("已下架"))
-                {
-                    exceptionModel=createException(orderModel);
-                    exceptionModel.setExceptiontype("商品异常");
-                    exceptionModel.setExpceptioncause("该订单包含不存在或已下架的商品");
-                    exceptionModel.setOrderstatus("订单异常");
-                    exceptionModel.setOrderfrom("预检");
-                    orderModel.setOrderstatus("订单异常");
-                    orderModel.setModifytime(new Date());
-                    orderModel.setModifyman(name);
-                    orderModelMapper.updateByOidSelective(orderModel);
-                    if(checkException(oId))
-                    {
-                        exceptionModelMapper.insertSelective(exceptionModel);
-                    }
-                    return 5;
-                }
+                return 5;
             }
         }
         if(exceptionType==null||exceptionType.equals("库存异常"))
         {
-            for(RelationogModel re:relationogModelList)
+            int i=repertoryException(relationogModelList,orderModel,name);
+            if(i==5)
             {
-                GoodsModel goodsModel=goodsModelMapper.selectByPrimaryKey(re.getGoodsno());
-                int goodsRnum;
-                if(relationogModelMapper.selectGoodsRnum(oId)==null)
-                {
-                    goodsRnum=0;
-                }
-                else
-                {
-                    goodsRnum =relationogModelMapper.selectGoodsRnum(oId);
-                }
-                int goodsVnum=goodsModel.getGoodstolnum()-goodsRnum;
-                if(re.getGoodnum()>goodsVnum)
-                {
-                    exceptionModel=createException(orderModel);
-                    exceptionModel.setExceptiontype("库存异常");
-                    exceptionModel.setExpceptioncause("库存不足");
-                    exceptionModel.setOrderstatus("订单异常");
-                    exceptionModel.setOrderfrom("预检");
-                    orderModel.setOrderstatus("订单异常");
-                    orderModel.setModifytime(new Date());
-                    orderModel.setModifyman(name);
-                    orderModelMapper.updateByOidSelective(orderModel);
-                    if(checkException(oId))
-                    {
-                        exceptionModelMapper.insertSelective(exceptionModel);
-                    }
-                    return 5;
-                }
+                return 5;
             }
         }
         if((exceptionType==null||exceptionType.equals("金额异常"))&&orderModel.getOrdertolprice().doubleValue()>=10000)
         {
-            exceptionModel=createException(orderModel);
-            exceptionModel.setExceptiontype("金额异常");
-            exceptionModel.setExpceptioncause("金额大于10000");
-            exceptionModel.setOrderstatus("订单异常");
-            exceptionModel.setOrderfrom("预检");
-            orderModel.setOrderstatus("订单异常");
-            orderModel.setModifytime(new Date());
-            orderModel.setModifyman(name);
-            orderModelMapper.updateByOidSelective(orderModel);
-            if(checkException(oId))
-            {
-                exceptionModelMapper.insertSelective(exceptionModel);
-            }
-            return 5;
+            return amountException(orderModel,name);
         }
         if((exceptionType==null||exceptionType.equals("备注异常"))&&orderModel.getRemark()!=null&&!orderModel.getRemark().equals(""))
         {
-            exceptionModel=createException(orderModel);
-            exceptionModel.setExceptiontype("备注异常");
-            exceptionModel.setExpceptioncause("订单有备注内容");
-            exceptionModel.setOrderstatus("订单异常");
-            exceptionModel.setOrderfrom("预检");
-            orderModel.setOrderstatus("订单异常");
-            orderModel.setModifytime(new Date());
-            orderModel.setModifyman(name);
-            orderModelMapper.updateByOidSelective(orderModel);
-            if(checkException(oId))
-            {
-                exceptionModelMapper.insertSelective(exceptionModel);
-            }
-            return 5;
+            return remarkException(orderModel,name);
         }
-        //book库存
-        for(RelationogModel re:relationogModelList)
-        {
-            re.setStatus((byte)1);
-            relationogModelMapper.updateByPrimaryKeySelective(re);
-        }
+        bookNum(relationogModelList);
         orderModel.setOrderstatus("待路由");
         orderModel.setModifytime(new Date());
         orderModel.setModifyman(name);
         orderModelMapper.updateByOidSelective(orderModel);
         return 1;
+    }
+    //book库存
+    public void bookNum(List<RelationogModel> relationogModelList)
+    {
+        for(RelationogModel re:relationogModelList)
+        {
+            re.setStatus((byte)1);
+            relationogModelMapper.updateByPrimaryKeySelective(re);
+        }
+    }
+    //预检状态检查
+    public void checkPreview(OrderModel orderModel,String exceptionType)
+    {
+        List<String> exceptionList=Arrays.asList("商品异常","库存异常","金额异常","备注异常",null);
+        if(orderModel==null)
+        {
+            throw new NewRunException("订单号不存在");
+        }
+        if(!orderModel.getOrderstatus().equals("待预检"))
+        {
+            throw new NewRunException("订单状态不符");
+        }
+        if(!exceptionList.contains(exceptionType))
+        {
+            throw new NewRunException("异常类型有错");
+        }
+    }
+    //商品异常
+    public int goodsException(List<RelationogModel> relationogModelList,OrderModel orderModel,String name) {
+        for (RelationogModel re : relationogModelList) {
+            GoodsModel goodsModel = goodsModelMapper.selectByPrimaryKey(re.getGoodsno());
+            if (goodsModel == null || goodsModel.getGoodsstate().equals("已下架"))
+            {
+                ExceptionModel exceptionModel = createException(orderModel);
+                exceptionModel.setExceptiontype("商品异常");
+                exceptionModel.setExpceptioncause("该订单包含不存在或已下架的商品");
+                exceptionModel.setOrderstatus("订单异常");
+                exceptionModel.setOrderfrom("预检");
+                orderModel.setOrderstatus("订单异常");
+                orderModel.setModifytime(new Date());
+                orderModel.setModifyman(name);
+                orderModelMapper.updateByOidSelective(orderModel);
+                if (checkException(orderModel.getOid())) {
+                    exceptionModelMapper.insertSelective(exceptionModel);
+                }
+                return 5;
+            }
+        }
+        return 0;
+    }
+    //库存异常
+    public int repertoryException(List<RelationogModel> relationogModelList,OrderModel orderModel,String name)
+    {
+        for(RelationogModel re:relationogModelList)
+        {
+            GoodsModel goodsModel=goodsModelMapper.selectByPrimaryKey(re.getGoodsno());
+            int goodsRnum;
+            if(relationogModelMapper.selectGoodsRnum(orderModel.getOid())==null)
+            {
+                goodsRnum=0;
+            }
+            else
+            {
+                goodsRnum =relationogModelMapper.selectGoodsRnum(orderModel.getOid());
+            }
+            int goodsVnum=goodsModel.getGoodstolnum()-goodsRnum;
+            if(re.getGoodnum()>goodsVnum)
+            {
+                ExceptionModel exceptionModel = createException(orderModel);
+                exceptionModel.setExceptiontype("库存异常");
+                exceptionModel.setExpceptioncause("库存不足");
+                exceptionModel.setOrderstatus("订单异常");
+                exceptionModel.setOrderfrom("预检");
+                orderModel.setOrderstatus("订单异常");
+                orderModel.setModifytime(new Date());
+                orderModel.setModifyman(name);
+                orderModelMapper.updateByOidSelective(orderModel);
+                if(checkException(orderModel.getOid()))
+                {
+                    exceptionModelMapper.insertSelective(exceptionModel);
+                }
+                return 5;
+            }
+        }
+        return 0;
+    }
+    //金额异常
+    public int amountException(OrderModel orderModel,String name)
+    {
+        ExceptionModel exceptionModel = createException(orderModel);
+        exceptionModel.setExceptiontype("金额异常");
+        exceptionModel.setExpceptioncause("金额大于10000");
+        exceptionModel.setOrderstatus("订单异常");
+        exceptionModel.setOrderfrom("预检");
+        orderModel.setOrderstatus("订单异常");
+        orderModel.setModifytime(new Date());
+        orderModel.setModifyman(name);
+        orderModelMapper.updateByOidSelective(orderModel);
+        if(checkException(orderModel.getOid()))
+        {
+            exceptionModelMapper.insertSelective(exceptionModel);
+        }
+        return 5;
+    }
+    //备注异常
+    public int remarkException(OrderModel orderModel,String name)
+    {
+        ExceptionModel exceptionModel = createException(orderModel);
+        exceptionModel.setExceptiontype("备注异常");
+        exceptionModel.setExpceptioncause("订单有备注内容");
+        exceptionModel.setOrderstatus("订单异常");
+        exceptionModel.setOrderfrom("预检");
+        orderModel.setOrderstatus("订单异常");
+        orderModel.setModifytime(new Date());
+        orderModel.setModifyman(name);
+        orderModelMapper.updateByOidSelective(orderModel);
+        if(checkException(orderModel.getOid()))
+        {
+            exceptionModelMapper.insertSelective(exceptionModel);
+        }
+        return 5;
     }
     //判断异常列表中该订单号是否存在
     public boolean checkException(String oId)
@@ -282,83 +317,14 @@ public class OrderServiceImpl implements OrderService
         List<String> statusList= Arrays.asList("待预检","待路由","待出库");
         if(statusList.contains(orderModel.getOrderstatus()))
         {
-            OutboundorderModel outboundorderModel=outboundorderModelMapper.selectByOid(oId);
-            if(outboundorderModel!=null)
-            {
-                outboundorderModel.setOrderstatus("已取消");
-                outboundorderModel.setOutboundstate("已取消");
-                outboundorderModel.setModifytime(new Date());
-                outboundorderModel.setModifyman(uname);
-                outboundorderModelMapper.updateByOidSelective(outboundorderModel);
-            }
-            orderModel.setOrderstatus("已取消");
-            orderModel.setModifytime(new Date());
-            orderModel.setModifyman(uname);
-            orderModelMapper.updateByOidSelective(orderModel);
-            //取消该订单的锁定库存
-            for(RelationogModel re:relationogModelList)
-            {
-                re.setStatus((byte)0);
-                relationogModelMapper.updateByPrimaryKeySelective(re);
-            }
+            cancleOrderLocal(orderModel,uname,relationogModelList);
         }
         if(orderModel.getOrderstatus().equals("已出库"))
         {
-            OutboundorderModel outboundorderModel=outboundorderModelMapper.selectByOid(oId);
-            String cancelOrderUrl=null;
-            try {
-                cancelOrderUrl = rp.readProperties("url.properties","cancleOrderUrl");
-            }catch (IOException e)
+            int i=cancleOrderByWMS(orderModel,uname,relationogModelList);
+            if(i!=0)
             {
-                log.info(e);
-                throw new NewRunException("找不到url.properties文件");
-            }
-            HTTPClientDemo httpClientDemo=new HTTPClientDemo(cancelOrderUrl);
-            String str=httpClientDemo.getMethod("outboundorderid",outboundorderModel.getOutboundid());
-            String code="";
-            try
-            {
-                JSONObject jsonObject=JSON.parseObject(str);
-                code=jsonObject.getString("code");
-                if(code.equals("100"))
-                {
-                    outboundorderModel.setOrderstatus("已取消");
-                    outboundorderModel.setOutboundstate("已取消");
-                    outboundorderModel.setModifytime(new Date());
-                    outboundorderModel.setModifyman(uname);
-                    outboundorderModelMapper.updateByOidSelective(outboundorderModel);
-                    orderModel.setOrderstatus("已取消");
-                    orderModel.setModifytime(new Date());
-                    orderModel.setModifyman(uname);
-                    orderModelMapper.updateByOidSelective(orderModel);
-                    //取消该订单的锁定库存
-                    for(RelationogModel re:relationogModelList)
-                    {
-                        re.setStatus((byte)0);
-                        relationogModelMapper.updateByPrimaryKeySelective(re);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                log.info(e);
-                return 4;//接口连接异常
-            }
-            if(code.equals("101"))
-            {
-                return 5;//出库单号为空
-            }
-            if(code.equals("102"))
-            {
-                return 6;//没有该出库单
-            }
-            if(code.equals("103"))
-            {
-                return 7;//订单已取消
-            }
-            if(code.equals("104"))
-            {
-                return 8;//订单已发货，无法取消
+                return i;
             }
         }
         try {
@@ -368,6 +334,90 @@ public class OrderServiceImpl implements OrderService
             log.info(e);
             throw new NewRunException("数据库更新异常");
         }
+    }
+    //没有发送出库单的订单取消
+    public void cancleOrderLocal(OrderModel orderModel,String uname,List<RelationogModel> relationogModelList)
+    {
+        OutboundorderModel outboundorderModel=outboundorderModelMapper.selectByOid(orderModel.getOid());
+        if(outboundorderModel!=null)
+        {
+            outboundorderModel.setOrderstatus("已取消");
+            outboundorderModel.setOutboundstate("已取消");
+            outboundorderModel.setModifytime(new Date());
+            outboundorderModel.setModifyman(uname);
+            outboundorderModelMapper.updateByOidSelective(outboundorderModel);
+        }
+        orderModel.setOrderstatus("已取消");
+        orderModel.setModifytime(new Date());
+        orderModel.setModifyman(uname);
+        orderModelMapper.updateByOidSelective(orderModel);
+        //取消该订单的锁定库存
+        for(RelationogModel re:relationogModelList)
+        {
+            re.setStatus((byte)0);
+            relationogModelMapper.updateByPrimaryKeySelective(re);
+        }
+    }
+    //调WMS取消订单
+    public int cancleOrderByWMS(OrderModel orderModel,String uname,List<RelationogModel> relationogModelList)
+    {
+        OutboundorderModel outboundorderModel=outboundorderModelMapper.selectByOid(orderModel.getOid());
+        String cancelOrderUrl=null;
+        try {
+            cancelOrderUrl = rp.readProperties("url.properties","cancleOrderUrl");
+        }catch (IOException e)
+        {
+            log.info(e);
+            throw new NewRunException("找不到url.properties文件");
+        }
+        HTTPClientDemo httpClientDemo=new HTTPClientDemo(cancelOrderUrl);
+        String str=httpClientDemo.getMethod("outboundorderid",outboundorderModel.getOutboundid());
+        String code="";
+        try
+        {
+            JSONObject jsonObject=JSON.parseObject(str);
+            code=jsonObject.getString("code");
+            if(code.equals("100"))
+            {
+                outboundorderModel.setOrderstatus("已取消");
+                outboundorderModel.setOutboundstate("已取消");
+                outboundorderModel.setModifytime(new Date());
+                outboundorderModel.setModifyman(uname);
+                outboundorderModelMapper.updateByOidSelective(outboundorderModel);
+                orderModel.setOrderstatus("已取消");
+                orderModel.setModifytime(new Date());
+                orderModel.setModifyman(uname);
+                orderModelMapper.updateByOidSelective(orderModel);
+                //取消该订单的锁定库存
+                for(RelationogModel re:relationogModelList)
+                {
+                    re.setStatus((byte)0);
+                    relationogModelMapper.updateByPrimaryKeySelective(re);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            log.info(e);
+            return 4;//接口连接异常
+        }
+        if(code.equals("101"))
+        {
+            return 5;//出库单号为空
+        }
+        if(code.equals("102"))
+        {
+            return 6;//没有该出库单
+        }
+        if(code.equals("103"))
+        {
+            return 7;//订单已取消
+        }
+        if(code.equals("104"))
+        {
+            return 8;//订单已发货，无法取消
+        }
+        return 0;
     }
     //根据订单号生成退款单
     public int createReturned(String oId) throws RuntimeException

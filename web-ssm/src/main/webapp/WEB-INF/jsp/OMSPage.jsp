@@ -33,7 +33,6 @@
 
 <body>
 <span id="urole" hidden>${urole}</span>
-<span id="uname" hidden>${uname}</span>
 <span id="name"></span>
 <div class="wrap">
     <div class="header clearFix">
@@ -56,6 +55,7 @@
             </ul>
         </div>
         <div class="logOut fr"><a href="${pageContext.request.contextPath }/login/logout">【注销】</a></div>
+        <div class="logOut fr" id="uname">${uname}</div>
     </div><!--header结束-->
     <div class="content">
 

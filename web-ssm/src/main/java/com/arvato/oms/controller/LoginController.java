@@ -76,14 +76,18 @@ public class LoginController
 
     @RequestMapping("/checkSession")
     @ResponseBody
-    public int checkSession(HttpSession session)
+    public JSONObject checkSession(HttpSession session)
     {
+        JSONObject jsonObject=new JSONObject();
         Integer urole=(Integer)session.getAttribute("urole");
+        String uname=(String)session.getAttribute("uname");
         if(urole==null)
         {
-            return 0;
+            return null;
         }
-        return urole;
+        jsonObject.put("urole",urole);
+        jsonObject.put("uname",uname);
+        return jsonObject;
     }
 
 }

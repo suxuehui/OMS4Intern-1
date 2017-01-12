@@ -87,17 +87,24 @@ $(document).ready(function () {
 		$.ajax({
 			type:"get",
 			url:"/oms/login/checkSession",
+			datatype:"json",
 			success:function (data) {
-				sleep(10000);
-				if(data==0)
+				var role=data.urole;
+				var name=data.uname;
+				if(data=="")
 				{
 					alert("登录已失效，请重新登录！");
 					window.location.href = "/oms/login/logout";
 				}
 				var urole=$("#urole").text();
-				if(!(urole==data))
+				var uname=$("#uname").text();
+				if(!(urole==role))
 				{
 					window.location.reload();
+				}
+				if(!(name==uname))
+				{
+					$("#uname").text(name);
 				}
 			}
 		})
