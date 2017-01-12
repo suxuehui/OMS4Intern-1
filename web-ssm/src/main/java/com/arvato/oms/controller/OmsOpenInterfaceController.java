@@ -78,7 +78,7 @@ public class OmsOpenInterfaceController {
         if(outboundState==null||"".equals(outboundState)){
             return "{\"msg\":\"305\"}";//出库单状态不能为空
         }
-        if("已发货".equals(outboundState)){
+        if("1".equals(outboundState)){//已发货
             //快递公司
             String expressCompany =outboundMessage.getString("expressCompany");
             if(expressCompany==null||"".equals(expressCompany)){
@@ -97,15 +97,15 @@ public class OmsOpenInterfaceController {
             if(expressId.length()<10||expressId.length()>16){
                 return "{\"msg\":\"309\"}";//快递单号格式错误
             }
-            String orderStatus="已发货";
+            String orderStatus="11";//已发货
             //向出库表中添加快递公司，快递单号,仓库出库单号的信息,以及修改出库单状态，订单状态
             outboundServiceImpl.updateOutboundorder(orderStatus,outboundState,warehouseObid,expressCompany,expressId,new Date(),userName,outboundId);
             //先从出库表获取订单号，然后更新订单列表的订单状态
             String oid = outboundServiceImpl.selectOidByOutboundId(outboundId);
             orderServiceImpl.updateOrder(orderStatus,new Date(),userName,expressCompany,expressId,oid);
-        }else if("缺货".equals(outboundState)){
-            String orderStatus="缺货异常";
-            String outboundState2="仓库库存异常";
+        }else if("2".equals(outboundState)){//缺货
+            String orderStatus="1";//缺货异常
+            String outboundState2="3";//仓库库存异常
             String expressCompany2=null;
             String expressId2=null;
             //向出库表中添加快递公司，快递单号,仓库出库单号的信息,以及修改出库单状态，订单状态
@@ -120,15 +120,15 @@ public class OmsOpenInterfaceController {
             exceptionModel.setOid(orderModel.getOid());
             exceptionModel.setChanneloid(orderModel.getChanneloid());
             exceptionModel.setOrderstatus(orderModel.getOrderstatus());
-            exceptionModel.setOrderfrom("WMS缺货");
-            exceptionModel.setExceptiontype("仓库库存异常");
-            exceptionModel.setExpceptioncause("库存不足");
-            exceptionModel.setExceptionstatus("待处理");
+            exceptionModel.setOrderfrom("2");//WMS缺货
+            exceptionModel.setExceptiontype("6");//仓库库存异常
+            exceptionModel.setExpceptioncause("6");//库存不足
+            exceptionModel.setExceptionstatus("1");//待处理
             exceptionModel.setCreatetime(new Date());
             exceptionServiceImpl.insertSelective(exceptionModel);
 
-        }else if("已取消".equals(outboundState)){
-            String orderStatus="已取消";
+        }else if("3".equals(outboundState)){//已取消
+            String orderStatus="9";//已取消
             String expressCompany3=null;
             String expressId3=null;
             //向出库表中添加快递公司，快递单号,仓库出库单号的信息,以及修改出库单状态，订单状态
@@ -138,8 +138,8 @@ public class OmsOpenInterfaceController {
             orderServiceImpl.updateOrder(orderStatus,new Date(),userName,expressCompany3,expressId3,oid);
             //生成退款单
             orderServiceImpl.createReturned(oid);
-        }else if ("补货成功".equals(outboundState)){
-            String orderStatus2="已出库";
+        }else if ("4".equals(outboundState)){//补货成功
+            String orderStatus2="5";//已出库
             //快递公司
             String expressCompany4 =null;
             //快递单号

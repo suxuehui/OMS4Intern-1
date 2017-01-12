@@ -10,8 +10,8 @@ import com.arvato.oms.model.GoodsModel;
 import com.arvato.oms.model.RelationogModel;
 import com.arvato.oms.service.ExceptionService;
 import com.arvato.oms.utils.Page;
+import com.arvato.oms.utils.ExcToJson;
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -111,10 +111,9 @@ public class ExceptionServiceImpl implements ExceptionService {
                 list=null;
             }
         }
-        JSONObject json1 = JSONObject.fromObject(pagelist);//将java对象转换为json对象
-        String jsonstr = "{\"pagelist\":"+json1.toString();//将json对象转换为字符串
-        JSONArray array = JSONArray.fromObject(list);
-        jsonstr +=",\"list\":"+array.toString()+"}";
+        //调用对象转json转字符串的工具类
+        ExcToJson exctojson = new ExcToJson();
+        String jsonstr = exctojson.excobjtojson(pagelist,list);
         return jsonstr ;
     }
 

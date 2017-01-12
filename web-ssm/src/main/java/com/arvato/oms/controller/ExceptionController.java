@@ -68,7 +68,7 @@ public class ExceptionController {
             //如果是仓库库存异常，取消时需通知wms更新出库单状态
             String  outboundId= outboundorderServiceImpl.selectByOid(sq[i]).getOutboundid();
             String  exceptiontype =exceptionServiceImpl.selectByOid(sq[i]).getExceptiontype();
-            if("仓库库存异常".equals(exceptiontype)) {
+            if("6".equals(exceptiontype)) {
                 JSONObject object = new JSONObject();
                 object.put("outboundOrdId", outboundId);
                 object.put("cancelOrd", "1");
@@ -94,7 +94,7 @@ public class ExceptionController {
                 }
             }
             exceptionServiceImpl.deleteByOid(sq[i]);
-            String orderStatus1 ="待预检";
+            String orderStatus1 ="3";
             //先将订单状态改为“待预检”,然后才能进行订单的修改操作
             orderServiceImpl.updateOrder2(orderStatus1,new Date(),userName2,sq[i]);
             //再删除订单页面的订单信息
@@ -129,11 +129,11 @@ public class ExceptionController {
         while(iterator.hasNext()){
             String exceptionType = iterator.next().toString();
             //由预检发送过来，处理方式为：取消订单
-            if ("商品异常".equals(exceptionType)){
+            if ("1".equals(exceptionType)){
                 for(int j=0;j<exOid.length;j++){
                     //先删除异常页面的异常订单
                     exceptionServiceImpl.deleteByOid(exOid[j]);
-                    String orderStatus1 ="待预检";
+                    String orderStatus1 ="3";
                     //先将订单状态改为“待预检”,然后才能进行订单的修改操作
                     orderServiceImpl.updateOrder2(orderStatus1,new Date(),userName,exOid[j]);
                     //再删除订单页面的订单信息
@@ -142,12 +142,12 @@ public class ExceptionController {
                 return MSG;
             }
             //由预检发送过来，处理方式为：取消订单
-            if("库存异常".equals(exceptionType))
+            if("2".equals(exceptionType))
             {
                 for(int j=0;j<exOid.length;j++){
                     //先删除异常页面的异常订单
                     exceptionServiceImpl.deleteByOid(exOid[j]);
-                    String orderStatus2 ="待预检";
+                    String orderStatus2 ="3";
                     //先将订单状态改为“待预检”,然后才能进行订单的修改操作
                     orderServiceImpl.updateOrder2(orderStatus2,new Date(),userName,exOid[j]);
                     //再删除订单页面的订单信息
@@ -156,15 +156,15 @@ public class ExceptionController {
                 return MSG;
             }
             //由预检发送过来，处理方式为：跟客户确认后，进行下一步备注异常的检验
-            if("金额异常".equals(exceptionType))
+            if("3".equals(exceptionType))
             {
                 for(int j=0;j<exOid.length;j++){
                     //再删除异常页面的异常订单
                     exceptionServiceImpl.deleteByOid(exOid[j]);
-                    String orderStatus ="待预检";
+                    String orderStatus ="3";
                     //先将订单状态改为“待预检”
                     orderServiceImpl.updateOrder2(orderStatus,new Date(),userName,exOid[j]);
-                    String exceptionType2 = "备注异常";
+                    String exceptionType2 = "4";
                     //进行下一步备注异常的检验
                     int k=orderServiceImpl.previewOrder(exOid[j],exceptionType2,userName);
                     renew(k,exOid[j],userName);
@@ -173,10 +173,10 @@ public class ExceptionController {
             }
 
             //由预检发送过来，处理方式为：确认备注信息后，进行路由
-            if("备注异常".equals(exceptionType))
+            if("4".equals(exceptionType))
             {
                 for(int j=0;j<exOid.length;j++){
-                    String orderStatus4 ="待路由";
+                    String orderStatus4 ="4";
                     //先将订单状态改为“待路由”,然后才能进行订单的修改操作
                     orderServiceImpl.updateOrder2(orderStatus4,new Date(),userName,exOid[j]);
                     //再删除异常页面的异常订单
@@ -185,7 +185,7 @@ public class ExceptionController {
                 return MSG;
             }
             //向wms发送出库单是异常，处理方式为：再次将出库单信息发送给WMS
-            if("出库异常".equals(exceptionType))
+            if("5".equals(exceptionType))
             {
                 for(int j=0;j<exOid.length;j++) {
                     //根据订单号查询出该条订单记录
@@ -199,12 +199,12 @@ public class ExceptionController {
                 return "{\"msg\":\"3\"}";
             }
             //wms发送过来缺货，处理方式为：取消订单
-            if("仓库库存异常".equals(exceptionType)){
+            if("6".equals(exceptionType)){
                 for(int j=0;j<exOid.length;j++){
                     //先删除异常页面的异常订单
                     exceptionServiceImpl.deleteByOid(exOid[j]);
-                    String orderStatus6 ="缺货等待";
-                    String outboundState = "缺货";
+                    String orderStatus6 ="7";
+                    String outboundState = "4";
                     //先将订单状态改为“待预检”,然后才能进行订单的修改操作
                     orderServiceImpl.updateOrder2(orderStatus6,new Date(),userName,exOid[j]);
                     outboundorderServiceImpl.updateOutbound2(orderStatus6,outboundState,new Date(),userName,exOid[j]);
@@ -247,7 +247,7 @@ public class ExceptionController {
 
     public void renew(int k,String oid,String userName){
         if(k==1){
-            String orderStatus3 ="待路由";
+            String orderStatus3 ="4";
             //先将订单状态改为“待路由”,然后才能进行订单的修改操作
             orderServiceImpl.updateOrder2(orderStatus3,new Date(),userName,oid);
         }
@@ -255,12 +255,12 @@ public class ExceptionController {
 
     public void result(int result,String oid,String userName){
         if(result==1){
-            String orderStatus5 ="待出库";
+            String orderStatus5 ="8";
             //先将订单状态改为“待出库”,然后才能进行订单的修改操作
             orderServiceImpl.updateOrder2(orderStatus5,new Date(),userName,oid);
             //出库单列表中，该订单的同步状态改为“已接收”，出库单状态为“处理中”
-            String orderStatus = "已接收";
-            String outboundState="处理中";
+            String orderStatus = "9";
+            String outboundState="2";
             outboundorderServiceImpl.updateOutbound2(orderStatus,outboundState,new Date(),userName,oid);
             //再删除异常页面的异常订单
             exceptionServiceImpl.deleteByOid(oid);

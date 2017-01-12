@@ -136,7 +136,7 @@ public class RefoundOrderController {
         RefoundOrderModel refoundOrderModel = refoundOrderServiceImpl.selectByDrawbackId(drawbackId3);
         //判断该退款单是否已经退过款了
         String drawbackstatus=refoundOrderModel.getDrawbackstatus();
-        if("退款成功".equals(drawbackstatus)){
+        if("3".equals(drawbackstatus)){
             return "{\"msg\":\"111\"}";
         }
         //退款单号
@@ -184,14 +184,14 @@ public class RefoundOrderController {
         if("666".equals(code))
         {
             //将退款状态改为已退款
-            String drawbackStatus = "退款成功";
+            String drawbackStatus = "3";
             refoundOrderServiceImpl.updataRefoundDrawbackId(drawbackStatus,dataNow,userName,drawbackId);
             return "{\"msg\":\"666\"}";
         }
         //退款失败
         else if("777".equals(code))
         {
-            String drawbackStatus = "退款失败";
+            String drawbackStatus = "2";
             refoundOrderServiceImpl.updataRefoundDrawbackId(drawbackStatus,dataNow,userName,drawbackId);
             return "{\"msg\":\"777\"}";
         }
