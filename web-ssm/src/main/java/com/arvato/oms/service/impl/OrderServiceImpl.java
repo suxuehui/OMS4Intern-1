@@ -129,7 +129,7 @@ public class OrderServiceImpl implements OrderService
         OrderModel orderModel=selectByOid(oId);
         checkPreview(orderModel,exceptionType);
         List<RelationogModel> relationogModelList=relationogModelMapper.selectAllByOid(oId);
-        if(exceptionType==null||exceptionType.equals("商品异常"))
+        if(exceptionType==null||exceptionType.equals("1"))
         {
             int i=goodsException(relationogModelList,orderModel,name);
             if(i==5)
@@ -137,7 +137,7 @@ public class OrderServiceImpl implements OrderService
                 return 5;
             }
         }
-        if(exceptionType==null||exceptionType.equals("库存异常"))
+        if(exceptionType==null||exceptionType.equals("2"))
         {
             int i=repertoryException(relationogModelList,orderModel,name);
             if(i==5)
@@ -145,16 +145,16 @@ public class OrderServiceImpl implements OrderService
                 return 5;
             }
         }
-        if((exceptionType==null||exceptionType.equals("金额异常"))&&orderModel.getOrdertolprice().doubleValue()>=10000)
+        if((exceptionType==null||exceptionType.equals("3"))&&orderModel.getOrdertolprice().doubleValue()>=10000)
         {
             return amountException(orderModel,name);
         }
-        if((exceptionType==null||exceptionType.equals("备注异常"))&&orderModel.getRemark()!=null&&!orderModel.getRemark().equals(""))
+        if((exceptionType==null||exceptionType.equals("4"))&&orderModel.getRemark()!=null&&!orderModel.getRemark().equals(""))
         {
             return remarkException(orderModel,name);
         }
         bookNum(relationogModelList);
-        orderModel.setOrderstatus("待路由");
+        orderModel.setOrderstatus("4");
         orderModel.setModifytime(new Date());
         orderModel.setModifyman(name);
         orderModelMapper.updateByOidSelective(orderModel);
@@ -172,12 +172,12 @@ public class OrderServiceImpl implements OrderService
     //预检状态检查
     public void checkPreview(OrderModel orderModel,String exceptionType)
     {
-        List<String> exceptionList=Arrays.asList("商品异常","库存异常","金额异常","备注异常",null);
+        List<String> exceptionList=Arrays.asList("1","2","3","4",null);
         if(orderModel==null)
         {
             throw new NewRunException("订单号不存在");
         }
-        if(!orderModel.getOrderstatus().equals("待预检"))
+        if(!orderModel.getOrderstatus().equals("3"))
         {
             throw new NewRunException("订单状态不符");
         }
@@ -190,14 +190,14 @@ public class OrderServiceImpl implements OrderService
     public int goodsException(List<RelationogModel> relationogModelList,OrderModel orderModel,String name) {
         for (RelationogModel re : relationogModelList) {
             GoodsModel goodsModel = goodsModelMapper.selectByPrimaryKey(re.getGoodsno());
-            if (goodsModel == null || goodsModel.getGoodsstate().equals("已下架"))
+            if (goodsModel == null || goodsModel.getGoodsstate().equals("1"))
             {
                 ExceptionModel exceptionModel = createException(orderModel);
-                exceptionModel.setExceptiontype("商品异常");
-                exceptionModel.setExpceptioncause("该订单包含不存在或已下架的商品");
-                exceptionModel.setOrderstatus("订单异常");
-                exceptionModel.setOrderfrom("预检");
-                orderModel.setOrderstatus("订单异常");
+                exceptionModel.setExceptiontype("1");
+                exceptionModel.setExpceptioncause("1");
+                exceptionModel.setOrderstatus("2");
+                exceptionModel.setOrderfrom("1");
+                orderModel.setOrderstatus("2");
                 orderModel.setModifytime(new Date());
                 orderModel.setModifyman(name);
                 orderModelMapper.updateByOidSelective(orderModel);
@@ -228,11 +228,11 @@ public class OrderServiceImpl implements OrderService
             if(re.getGoodnum()>goodsVnum)
             {
                 ExceptionModel exceptionModel = createException(orderModel);
-                exceptionModel.setExceptiontype("库存异常");
-                exceptionModel.setExpceptioncause("库存不足");
-                exceptionModel.setOrderstatus("订单异常");
-                exceptionModel.setOrderfrom("预检");
-                orderModel.setOrderstatus("订单异常");
+                exceptionModel.setExceptiontype("2");
+                exceptionModel.setExpceptioncause("2");
+                exceptionModel.setOrderstatus("2");
+                exceptionModel.setOrderfrom("1");
+                orderModel.setOrderstatus("2");
                 orderModel.setModifytime(new Date());
                 orderModel.setModifyman(name);
                 orderModelMapper.updateByOidSelective(orderModel);
@@ -249,11 +249,11 @@ public class OrderServiceImpl implements OrderService
     public int amountException(OrderModel orderModel,String name)
     {
         ExceptionModel exceptionModel = createException(orderModel);
-        exceptionModel.setExceptiontype("金额异常");
-        exceptionModel.setExpceptioncause("金额大于10000");
-        exceptionModel.setOrderstatus("订单异常");
-        exceptionModel.setOrderfrom("预检");
-        orderModel.setOrderstatus("订单异常");
+        exceptionModel.setExceptiontype("3");
+        exceptionModel.setExpceptioncause("3");
+        exceptionModel.setOrderstatus("2");
+        exceptionModel.setOrderfrom("1");
+        orderModel.setOrderstatus("2");
         orderModel.setModifytime(new Date());
         orderModel.setModifyman(name);
         orderModelMapper.updateByOidSelective(orderModel);
@@ -267,11 +267,11 @@ public class OrderServiceImpl implements OrderService
     public int remarkException(OrderModel orderModel,String name)
     {
         ExceptionModel exceptionModel = createException(orderModel);
-        exceptionModel.setExceptiontype("备注异常");
-        exceptionModel.setExpceptioncause("订单有备注内容");
-        exceptionModel.setOrderstatus("订单异常");
-        exceptionModel.setOrderfrom("预检");
-        orderModel.setOrderstatus("订单异常");
+        exceptionModel.setExceptiontype("4");
+        exceptionModel.setExpceptioncause("4");
+        exceptionModel.setOrderstatus("2");
+        exceptionModel.setOrderfrom("1");
+        orderModel.setOrderstatus("2");
         orderModel.setModifytime(new Date());
         orderModel.setModifyman(name);
         orderModelMapper.updateByOidSelective(orderModel);
@@ -296,7 +296,7 @@ public class OrderServiceImpl implements OrderService
         ExceptionModel exceptionModel=new ExceptionModel();
         exceptionModel.setOid(orderModel.getOid());
         exceptionModel.setChanneloid(orderModel.getChanneloid());
-        exceptionModel.setExceptionstatus("待处理");
+        exceptionModel.setExceptionstatus("1");
         exceptionModel.setCreatetime(new Date());
         return exceptionModel;
     }
@@ -314,12 +314,12 @@ public class OrderServiceImpl implements OrderService
             return 3;//订单不存在
         }
         List<RelationogModel> relationogModelList=relationogModelMapper.selectAllByOid(oId);
-        List<String> statusList= Arrays.asList("待预检","待路由","待出库");
+        List<String> statusList= Arrays.asList("3","4","8");
         if(statusList.contains(orderModel.getOrderstatus()))
         {
             cancleOrderLocal(orderModel,uname,relationogModelList);
         }
-        if(orderModel.getOrderstatus().equals("已出库"))
+        if(orderModel.getOrderstatus().equals("5"))
         {
             int i=cancleOrderByWMS(orderModel,uname,relationogModelList);
             if(i!=0)
@@ -341,13 +341,13 @@ public class OrderServiceImpl implements OrderService
         OutboundorderModel outboundorderModel=outboundorderModelMapper.selectByOid(orderModel.getOid());
         if(outboundorderModel!=null)
         {
-            outboundorderModel.setOrderstatus("已取消");
-            outboundorderModel.setOutboundstate("已取消");
+            outboundorderModel.setOrderstatus("9");
+            outboundorderModel.setOutboundstate("5");
             outboundorderModel.setModifytime(new Date());
             outboundorderModel.setModifyman(uname);
             outboundorderModelMapper.updateByOidSelective(outboundorderModel);
         }
-        orderModel.setOrderstatus("已取消");
+        orderModel.setOrderstatus("9");
         orderModel.setModifytime(new Date());
         orderModel.setModifyman(uname);
         orderModelMapper.updateByOidSelective(orderModel);
@@ -379,12 +379,12 @@ public class OrderServiceImpl implements OrderService
             code=jsonObject.getString("code");
             if(code.equals("100"))
             {
-                outboundorderModel.setOrderstatus("已取消");
-                outboundorderModel.setOutboundstate("已取消");
+                outboundorderModel.setOrderstatus("9");
+                outboundorderModel.setOutboundstate("5");
                 outboundorderModel.setModifytime(new Date());
                 outboundorderModel.setModifyman(uname);
                 outboundorderModelMapper.updateByOidSelective(outboundorderModel);
-                orderModel.setOrderstatus("已取消");
+                orderModel.setOrderstatus("9");
                 orderModel.setModifytime(new Date());
                 orderModel.setModifyman(uname);
                 orderModelMapper.updateByOidSelective(orderModel);
@@ -427,7 +427,7 @@ public class OrderServiceImpl implements OrderService
         String refoundId="RF"+oId+(int)(Math.random()*90000+10000);
         refoundOrderModel.setDrawbackid(refoundId);
         refoundOrderModel.setDrawbackmoney(orderModel.getOrdertolprice());
-        refoundOrderModel.setDrawbackstatus("待退款");
+        refoundOrderModel.setDrawbackstatus("1");
         refoundOrderModel.setCreatetime(new Date());
         RefoundOrderModel refoundOrderModel1=refoundOrderModelMapper.selectByRefoundId(refoundId);
         if(refoundOrderModel1!=null)
@@ -443,12 +443,12 @@ public class OrderServiceImpl implements OrderService
         {
             return 3;//订单不存在
         }
-        if(!orderModel.getOrderstatus().equals("待路由"))
+        if(!orderModel.getOrderstatus().equals("4"))
         {
             return 2;//订单状态不符
         }
-        orderModel.setGoodswarehouse("南京仓");
-        orderModel.setOrderstatus("待出库");
+        orderModel.setGoodswarehouse("S433");
+        orderModel.setOrderstatus("8");
         orderModel.setModifytime(new Date());
         orderModel.setModifyman(uname);
         orderModelMapper.updateByOidSelective(orderModel);
@@ -462,7 +462,7 @@ public class OrderServiceImpl implements OrderService
         {
             return 2;//订单不存在
         }
-        if(!orderModel.getOrderstatus().equals("待出库"))
+        if(!orderModel.getOrderstatus().equals("8"))
         {
             return 3;//订单状态不符
         }
@@ -538,12 +538,12 @@ public class OrderServiceImpl implements OrderService
         }
         if(code.equals("100"))
         {
-            orderModel.setOrderstatus("已出库");
+            orderModel.setOrderstatus("5");
             orderModel.setModifyman(uname);
             orderModel.setModifytime(new Date());
             orderModelMapper.updateByOidSelective(orderModel);
-            outboundorderModel.setOrderstatus("已出库");
-            outboundorderModel.setOutboundstate("处理中");
+            outboundorderModel.setOrderstatus("5");
+            outboundorderModel.setOutboundstate("2");
             outboundorderModel.setSynchrostate(true);
             outboundorderModel.setModifyman(uname);
             outboundorderModel.setModifytime(new Date());
@@ -610,18 +610,18 @@ public class OrderServiceImpl implements OrderService
             code="商品信息不正确";
         }
         ExceptionModel exceptionModel=createException(orderModel);
-        exceptionModel.setExceptiontype("出库异常");
+        exceptionModel.setExceptiontype("5");
         exceptionModel.setExpceptioncause(code);
-        exceptionModel.setOrderstatus("出库异常");
-        exceptionModel.setOrderfrom("出库");
+        exceptionModel.setOrderstatus("10");
+        exceptionModel.setOrderfrom("3");
         exceptionModelMapper.insertSelective(exceptionModel);
-        outboundorderModel.setOrderstatus("出库异常");
-        outboundorderModel.setOutboundstate("出库异常");
+        outboundorderModel.setOrderstatus("10");
+        outboundorderModel.setOutboundstate("7");
         outboundorderModel.setSynchrostate(true);
         outboundorderModel.setModifytime(new Date());
         outboundorderModel.setModifyman(uname);
         outboundorderModelMapper.updateByOidSelective(outboundorderModel);
-        orderModel.setOrderstatus("出库异常");
+        orderModel.setOrderstatus("10");
         orderModel.setModifytime(new Date());
         orderModel.setModifyman(uname);
         orderModelMapper.updateByOidSelective(orderModel);
@@ -654,13 +654,13 @@ public class OrderServiceImpl implements OrderService
             return 6;//订单存在
         }
         orderModel.setChanneloid(tradeJson.getString("tid"));
-        orderModel.setOrderstatus("待预检");
+        orderModel.setOrderstatus("3");
         orderModel.setOrderform(tradeJson.getString("trade_from"));
         orderModel.setBuyerid(tradeJson.getString("buyer_nick"));
         orderModel.setOrdertime(tradeJson.getDate("created"));
-        orderModel.setBasestatus("活动");
-        orderModel.setPaystatus("已支付");
-        orderModel.setPaystyle("支付宝");
+        orderModel.setBasestatus("1");
+        orderModel.setPaystatus("1");
+        orderModel.setPaystyle("1");
         orderModel.setPaytime(tradeJson.getDate("pay_time"));
         orderModel.setGoodstolprice(tradeJson.getBigDecimal("total_fee"));
         orderModel.setOrdertolprice(tradeJson.getBigDecimal("payment"));
@@ -713,13 +713,13 @@ public class OrderServiceImpl implements OrderService
         }
         RelationrgModel[] relationRgModels=new RelationrgModel[goodsList.size()];
         ReturnedModel returnedModel=returnedModelMapper.selectByOid(orderModel.getOid());
-        if(returnedModel!=null&&!returnedModel.getReturnedstatus().equals("取消退货")&&!returnedModel.getReturnedstatus().equals("取消换货"))
+        if(returnedModel!=null&&!returnedModel.getReturnedstatus().equals("9")&&!returnedModel.getReturnedstatus().equals("7"))
         {
             return 0;//订单退货中
         }
         returnedModel=new ReturnedModel();
         returnedModel.setOid(jsonObject.getString("oid"));
-        if(!orderModel.getOrderstatus().equals("已完成"))
+        if(!orderModel.getOrderstatus().equals("6"))
         {
             return 2;//订单未完成
         }
@@ -742,7 +742,7 @@ public class OrderServiceImpl implements OrderService
             relationRgModels[i].setGoodnum(goodsList.get(i).getGoodNum());
         }
         returnedModel.setReturnedmoney(BigDecimal.valueOf(returnedMoney));
-        returnedModel.setReturnedstatus("待审核");
+        returnedModel.setReturnedstatus("1");
         Date date=new Date();
         returnedModel.setCreatetime(date);
         returnedModelMapper.insertSelective(returnedModel);
@@ -756,7 +756,7 @@ public class OrderServiceImpl implements OrderService
     public int checkreturn(String oid)
     {
         ReturnedModel returnedModel=returnedModelMapper.selectByOid(oid);
-        if(returnedModel!=null&&!returnedModel.getReturnedstatus().equals("取消退货")&&!returnedModel.getReturnedstatus().equals("取消换货"))
+        if(returnedModel!=null&&!returnedModel.getReturnedstatus().equals("9")&&!returnedModel.getReturnedstatus().equals("7"))
         {
             return 1;//不可以退换货
         }

@@ -106,13 +106,13 @@ function translationOrder(data)
         html+='<tr class="orderTr" id="tr'+orderModels[i].oid+'"><td>'+(i+1)+'</td><td><input type="checkbox" id="'+orderModels[i].oid
             +'" onclick="ordercheck(this.id)" name="orderck"></td><td id="'+orderModels[i].oid
             +'" onclick="ordersgclick(this.id)" ondblclick="orderdbclick(this.id)">'+orderModels[i].oid
-            +'</td><td>'+orderModels[i].channeloid+'</td><td id="S'+orderModels[i].oid+'">'+orderModels[i].orderstatus+'</td><td>'
+            +'</td><td>'+orderModels[i].channeloid+'</td><td id="S'+orderModels[i].oid+'">'+matchOrderStatus(orderModels[i].orderstatus)+'</td><td>'
             +orderModels[i].orderform+'</td><td>'+orderModels[i].buyerid+'</td><td>'
-            +orderModels[i].ordertime+'</td><td>'+orderModels[i].basestatus+'</td><td>'
-            +orderModels[i].paystatus+'</td><td>'+orderModels[i].paystyle+'</td><td>'
+            +orderModels[i].ordertime+'</td><td>'+matchBaseStatus(orderModels[i].basestatus)+'</td><td>'
+            +matchPayStatus(orderModels[i].paystatus)+'</td><td>'+matchPayStytle(orderModels[i].paystyle)+'</td><td>'
             +orderModels[i].paytime+'</td><td>'+orderModels[i].goodstolprice+'</td><td>'
-            +orderModels[i].discountprice+'</td><td>'+orderModels[i].ordertolprice+'</td><td>'
-            +changeNull(orderModels[i].goodswarehouse)+'</td><td>'+changeNull(orderModels[i].logisticscompany)+'</td><td>'
+            +orderModels[i].discountprice+'</td><td>'+orderModels[i].ordertolprice+'</td><td id="'+orderModels[i].goodswarehouse+'">'
+            +matchWareHouse(orderModels[i].goodswarehouse)+'</td><td>'+changeNull(orderModels[i].logisticscompany)+'</td><td>'
             +changeNull(orderModels[i].logisticsid)+'</td><td>'+changeNull(orderModels[i].sendtime)+'</td><td>'
             +changeNull(orderModels[i].remark)+'</td><td>'+orderModels[i].receivername+'</td><td>'
             +orderModels[i].receivermobel+'</td><td>'+changeNull(orderModels[i].receivertelnum)+'</td><td>'
@@ -304,4 +304,70 @@ function judgeGoodsChecked() {
 //将null改为空字符串
 function changeNull(str) {
     return str==null?"":str;
+}
+
+//将订单状态显示为中文
+function matchOrderStatus(status) {
+    switch(parseInt(status))
+    {
+        case 1:
+            return "缺货异常";
+        case 2:
+            return "订单异常";
+        case 3:
+            return "待预检";
+        case 4:
+            return "待路由";
+        case 5:
+            return "已出库";
+        case 6:
+            return "已完成";
+        case 7:
+            return "缺货等待";
+        case 8:
+            return "待出库";
+        case 9:
+            return "已取消";
+        case 10:
+            return "出库异常";
+        case 11:
+            return "已发货";
+    }
+}
+//将订单基本状态显示为中文
+function matchBaseStatus(status) {
+    return status=="1"?"活动":"冻结";
+}
+//将支付状态显示中文
+function matchPayStatus(status) {
+    return status=="1"?"已支付":"未支付";
+}
+//将付款方式显示为中文
+function matchPayStytle(status) {
+    switch (parseInt(status))
+    {
+        case 1:
+            return "支付宝";
+    }
+}
+//将仓库显示为中文
+function matchWareHouse(num) {
+    if(num=="")
+    {
+        return "";
+    }
+    $.ajax({
+        url:"../warehouse/getName",
+        type:"get",
+        data:{num:num},
+        datatype:"json",
+        success:function (data) {
+            if(data=="")
+            {
+                $("#"+num).text("");
+                return;
+            }
+            $("#"+num).text(data.wareName);
+        }
+    });
 }

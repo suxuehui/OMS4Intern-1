@@ -26,5 +26,7 @@ public interface WarehouseService {
     //删除仓库
     int deleteWarehouseById ( String[] id);
 
+    //根据仓库编码获取仓库名
+    public String selectNameByNum(String num);
 }
 

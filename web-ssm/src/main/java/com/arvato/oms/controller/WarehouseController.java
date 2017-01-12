@@ -1,5 +1,6 @@
 package com.arvato.oms.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.arvato.oms.model.WarehouseModel;
 import com.arvato.oms.service.WarehouseService;
 import org.apache.log4j.Logger;
@@ -72,4 +73,17 @@ public class WarehouseController {
          return str;
      }
 
+     //根据仓库编码获取仓库名
+    @RequestMapping("getName")
+    @ResponseBody
+    public JSONObject getName(String num)
+    {
+        if(num=="")
+        {
+            return null;
+        }
+        JSONObject jsonObject=new JSONObject();
+        jsonObject.put("wareName",warehouseService.selectNameByNum(num));
+        return jsonObject;
+    }
 }

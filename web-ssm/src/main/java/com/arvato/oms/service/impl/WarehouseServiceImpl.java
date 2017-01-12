@@ -203,5 +203,10 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     }
 
-
+//根据仓库编码获取仓库名
+    public String selectNameByNum(String num)
+    {
+        WarehouseModel warehouseModel=warehouseModelModel.selectBywarehousenum(num);
+        return warehouseModel.getWarehousename();
+    }
 }
