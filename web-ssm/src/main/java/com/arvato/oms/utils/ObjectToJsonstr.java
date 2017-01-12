@@ -19,9 +19,7 @@ public class ObjectToJsonstr {
         for(OutboundorderModel obolist1 : list ){
             //转换订单状态和出库单状态表现形式
              transferstatus(obolist1);
-            System.out.print ("========================"+obolist1.getOrderstatus ());
         }
-
         JSONObject json = JSONObject.fromObject(pagelist);//将java对象转换为json对象
         jsonstr = "{\"pagelist\":"+json.toString();//将json对象转换为字符串
         JSONArray array = JSONArray.fromObject(list);
@@ -45,17 +43,17 @@ public class ObjectToJsonstr {
             String[]b=new String[]{"","已发货","处理中","仓库库存异常","缺货","已取消","补货成功","出库异常"} ;
             try{
                    obolist1.setOrderstatus(a[os]) ;
-
                } catch(Exception e){
                    logger.info("出库单的出库状态码数组有误"+e);
                    obolist1.setOrderstatus(a[0]);
                }
             try{
-             obolist1.setOutboundstate(b[obs]) ;
+                   obolist1.setOutboundstate(b[obs]) ;
             } catch(Exception e){
-            logger.info("出库单的订单状态码数组有误"+e);
-            obolist1.setOutboundstate(b[0]) ;
+                   logger.info("出库单的订单状态码数组有误"+e);
+                   obolist1.setOutboundstate(b[0]) ;
             }
+
             return obolist1;
     }
 
@@ -84,6 +82,7 @@ public class ObjectToJsonstr {
             logger.info("入库单的入库状态码数组有误"+e);
             ibolist1.setInboundstate(c[0]);
         }
+
         return ibolist1;
     }
 

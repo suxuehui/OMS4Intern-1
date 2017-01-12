@@ -133,7 +133,6 @@ function booleantoString(list){
     else{
         list.synchrostate="已发送"
     }
-
 }
 
 /*点击checkbox */
@@ -216,8 +215,7 @@ function booleantoString(list){
                 var gdlist = data.gdslist;
                 var datapage = data.pagelist;
                 $("#outboundertabson tbody tr").eq(0).nextAll().remove();
-                for (var i in rglist) {
-                    if (rglist.hasOwnProperty(i)) {
+                for (var i=0;i< rglist.length;i++) {
                         var obj = rglist[i];//获取关系表的一个对象
                         var god = gdlist[i];//获取商品表的一个对象
                             var html = '<tr><td><input type="checkbox"/></td><td>' + outboindid + '</td><td>'
@@ -225,7 +223,7 @@ function booleantoString(list){
                                 + god.goodsname + '</td><td>' + obj.goodnum + '</td><td>'
                                 + obj.goodnum + '</td></tr>'
                             $("#outboundertabson tbody  ").append(html);
-                    }}
+                    }
                 outpagelistson(datapage.totalPageCount,datapage.pageNow , oid);
             },
             error: function () {

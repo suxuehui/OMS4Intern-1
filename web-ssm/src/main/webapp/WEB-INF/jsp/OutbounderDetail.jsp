@@ -46,7 +46,14 @@
                             </tr>
                             <tr>
                                 <td>同步状态:</td>
-                                <td>&nbsp;${obol.synchrostate}</td>
+                                <td>&nbsp;
+                                    <c:if test="${obol.synchrostate}==true">
+                                        已接收
+                                    </c:if>
+                                    <c:if test="${obol.synchrostate}==false">
+                                        已发送
+                                    </c:if>
+                                 </td>
                             </tr>
                             <tr>
                                 <td>收货人:</td>

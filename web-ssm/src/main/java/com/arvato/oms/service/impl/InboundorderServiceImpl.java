@@ -246,6 +246,7 @@ public  Model inbounderdetail(HttpServletRequest request,Model model){
     String oid=request.getParameter("oid");
     //查询入库单列表
     InboundorderModel iodlist=selectByOid(oid);
+    
     //获取商品编码  查询关系表
     List<RelationogModel> roglist=rogdao.selectAllByOid(oid);
     //获取商品实体 查询商品表
@@ -265,6 +266,7 @@ public  Model inbounderdetail(HttpServletRequest request,Model model){
     }
     model.addAttribute("gods",godslist);
     model.addAttribute("obol",iodlist);
+
     return model;
 }
     //精确查找by oid
