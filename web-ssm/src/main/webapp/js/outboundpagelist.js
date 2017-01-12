@@ -220,14 +220,11 @@ function booleantoString(list){
                     if (rglist.hasOwnProperty(i)) {
                         var obj = rglist[i];//获取关系表的一个对象
                         var god = gdlist[i];//获取商品表的一个对象
-                        //只显示已上架的商品
-                        if(god.goodsstate=="已上架") {
                             var html = '<tr><td><input type="checkbox"/></td><td>' + outboindid + '</td><td>'
                                 + warehouseobid + '</td><td>' + god.goodsno + '</td><td>'
                                 + god.goodsname + '</td><td>' + obj.goodnum + '</td><td>'
                                 + obj.goodnum + '</td></tr>'
                             $("#outboundertabson tbody  ").append(html);
-                        }
                     }}
                 outpagelistson(datapage.totalPageCount,datapage.pageNow , oid);
             },
