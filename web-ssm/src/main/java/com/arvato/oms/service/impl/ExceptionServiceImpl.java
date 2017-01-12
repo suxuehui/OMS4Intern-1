@@ -38,6 +38,7 @@ public class ExceptionServiceImpl implements ExceptionService {
         //获取当前页数
         String pageNow = request.getParameter("currentpage");
         String txtvalue=request.getParameter("txtvalue"); //用户输入的值txtvalue
+
         int selectValue= Integer.parseInt(request.getParameter("toseachid"))  ;//下拉框的value
         int pagesize=10;
         Page pagelist;
@@ -93,16 +94,17 @@ public class ExceptionServiceImpl implements ExceptionService {
             }
             else if(selectValue==3)
             {
+                String txtvalue2=change(txtvalue);
                 if (pageNow != null) {
-                    totalCount= (int) exceptionModelMapper.Counttype(txtvalue);
+                    totalCount= (int) exceptionModelMapper.Counttype(txtvalue2);
                     pagelist =new Page(totalCount, Integer.parseInt(pageNow),pagesize);
-                    list=this.exceptionModelMapper.selectAllByexceptionType(txtvalue , pagelist.getStartPos(),pagelist.getPageSize());
+                    list=this.exceptionModelMapper.selectAllByexceptionType(txtvalue2 , pagelist.getStartPos(),pagelist.getPageSize());
                 }
                 else
                 {
-                    totalCount= (int) exceptionModelMapper.Counttype(txtvalue);
+                    totalCount= (int) exceptionModelMapper.Counttype(txtvalue2);
                     pagelist = new Page(totalCount, 1,pagesize);
-                    list=this.exceptionModelMapper.selectAllByexceptionType(txtvalue , pagelist.getStartPos(),pagelist.getPageSize());
+                    list=this.exceptionModelMapper.selectAllByexceptionType(txtvalue2 , pagelist.getStartPos(),pagelist.getPageSize());
                 }
             }
              else
@@ -116,6 +118,25 @@ public class ExceptionServiceImpl implements ExceptionService {
         String jsonstr = exctojson.excobjtojson(pagelist,list);
         return jsonstr ;
     }
+
+    public String change(String value){
+        if("商品异常".equals(value)){
+            return "1";
+        }else if ("库存异常".equals(value)){
+            return "2";
+        }else if ("金额异常".equals(value)){
+            return "3";
+        }else if ("备注异常".equals(value)){
+            return "4";
+        }else if ("出库异常".equals(value)){
+            return "5";
+        }else if ("仓库库存异常".equals(value)){
+            return "6";
+        }else{
+        return value;
+        }
+    }
+
 
     //根据订单号删除所选异常订单
     public List<ExceptionModel> deleteByOid(String oId)

@@ -74,16 +74,18 @@ public class RefoundOrderServiceImpl implements RefoundOrderService{
             }
             else if(selectValue==2)
             {
+                String txtvalue2=change2(txtvalue);
                 if (pageNow != null) {
-                    totalCount= (int) refoundOrderModelMapper.CountdDrawbackStatus( txtvalue);
+
+                    totalCount= (int) refoundOrderModelMapper.CountdDrawbackStatus( txtvalue2);
                     pagelist =new Page(totalCount, Integer.parseInt(pageNow),pagesize);
-                    list=this.refoundOrderModelMapper.selectAllByDrawbackStatus( txtvalue , pagelist.getStartPos(),pagelist.getPageSize());
+                    list=this.refoundOrderModelMapper.selectAllByDrawbackStatus( txtvalue2 , pagelist.getStartPos(),pagelist.getPageSize());
                 }
                 else
                 {
-                    totalCount= (int) refoundOrderModelMapper.CountdDrawbackStatus( txtvalue);
+                    totalCount= (int) refoundOrderModelMapper.CountdDrawbackStatus( txtvalue2);
                     pagelist = new Page(totalCount, 1,pagesize);
-                    list=this.refoundOrderModelMapper.selectAllByDrawbackStatus(txtvalue , pagelist.getStartPos(),pagelist.getPageSize());
+                    list=this.refoundOrderModelMapper.selectAllByDrawbackStatus(txtvalue2 , pagelist.getStartPos(),pagelist.getPageSize());
                 }
             }
             else if(selectValue==3)
@@ -113,6 +115,17 @@ public class RefoundOrderServiceImpl implements RefoundOrderService{
 
     }
 
+    public String change2(String value) {
+        if ("待退款".equals(value)) {
+            return "1";
+        } else if ("退款失败".equals(value)) {
+            return "2";
+        } else if ("退款成功".equals(value)) {
+            return "3";
+        } else {
+            return value;
+        }
+    }
 
     //根据退款号查询该条退款单记录
     public RefoundOrderModel selectByDrawbackId(String drawbackId)

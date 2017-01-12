@@ -28,7 +28,7 @@
                     <option value="0" class="select_hide">请选择查询条件</option>
                     <option value="1">订单号</option>
                     <option value="2">渠道订单号</option>
-                    <option value="3">异常状态</option>
+                    <option value="3">异常类型</option>
                 </select>
             </div>
         </div>
