@@ -213,17 +213,11 @@ function inpageson(oid,pagenow){
             {
                 var god=gdlist[ii];//获取商品表的一个对象
                 var obj=rglist[ii] ;//获取关系表的一个对象
-                //只显示已上架的商品
-                if(god.goodsstate=="已上架")
-                {
                     var html='<tr><td><input type="checkbox"/></td><td>' + god.goodsno+'</td><td>'
                         + god.goodsname+'</td><td>'+obj.goodnum +'</td><td>'
                         + obj.goodnum+'</td></tr>'
                     $("#inboundertabson tbody  ").append(html);
-                }
             }
-
-
             inpagelistson(datapage.totalPageCount,datapage.pageNow , oid);
         },
         error:function () {

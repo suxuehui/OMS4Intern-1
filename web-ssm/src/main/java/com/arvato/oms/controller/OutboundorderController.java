@@ -70,9 +70,7 @@ public class OutboundorderController {
             String sno= roglist.get(i).getGoodsno();
             //获取商品数量  ---------->
             int snum= roglist.get(i).getGoodnum() ;
-            GoodsModel gm=  this.godserviceimpl.selectByGoodsNo(sno);
-           
-            String goodsstate=gm.getGoodsstate();
+              GoodsModel gm=  this.godserviceimpl.selectByGoodsNo(sno);
               gp.setGoodNum(snum);
               gp.setGoodsname(gm.getGoodsname());
               gp.setGoodsno(gm.getGoodsno());
