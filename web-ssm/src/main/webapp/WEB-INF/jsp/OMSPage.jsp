@@ -55,7 +55,7 @@
             </ul>
         </div>
         <div class="logOut fr"><a href="${pageContext.request.contextPath }/login/logout">【注销】</a></div>
-        <div class="logOut fr" id="uname">${uname}</div>
+        <div class="fr userIcon" id="uname">${uname}</div>
     </div><!--header结束-->
     <div class="content">
 

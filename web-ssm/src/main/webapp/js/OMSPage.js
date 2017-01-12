@@ -88,7 +88,6 @@ $(document).ready(function () {
 			type:"get",
 			url:"/oms/login/checkSession",
 			datatype:"json",
-			async: false,
 			success:function (data) {
 				var role=data.urole;
 				var name=data.uname;

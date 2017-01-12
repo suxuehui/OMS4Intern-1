@@ -111,8 +111,8 @@ function translationOrder(data)
             +orderModels[i].ordertime+'</td><td>'+matchBaseStatus(orderModels[i].basestatus)+'</td><td>'
             +matchPayStatus(orderModels[i].paystatus)+'</td><td>'+matchPayStytle(orderModels[i].paystyle)+'</td><td>'
             +orderModels[i].paytime+'</td><td>'+orderModels[i].goodstolprice+'</td><td>'
-            +orderModels[i].discountprice+'</td><td>'+orderModels[i].ordertolprice+'</td><td id="'+orderModels[i].goodswarehouse+'">'
-            +matchWareHouse(orderModels[i].goodswarehouse)+'</td><td>'+changeNull(orderModels[i].logisticscompany)+'</td><td>'
+            +orderModels[i].discountprice+'</td><td>'+orderModels[i].ordertolprice+'</td><td id="ware'+i+'">'
+            +matchWareHouse(orderModels[i].goodswarehouse,i)+'</td><td>'+changeNull(orderModels[i].logisticscompany)+'</td><td>'
             +changeNull(orderModels[i].logisticsid)+'</td><td>'+changeNull(orderModels[i].sendtime)+'</td><td>'
             +changeNull(orderModels[i].remark)+'</td><td>'+orderModels[i].receivername+'</td><td>'
             +orderModels[i].receivermobel+'</td><td>'+changeNull(orderModels[i].receivertelnum)+'</td><td>'
@@ -158,7 +158,7 @@ $(function () {
             $("#queryOrderCon").val("");
             return;
         }
-        queryData=$("#queryOrderCon").val();
+        queryData=orderStatusTranslation($("#queryOrderCon").val());
         queryOrder(1);
     })
 })
@@ -334,6 +334,38 @@ function matchOrderStatus(status) {
             return "已发货";
     }
 }
+//将中文状态对应为数字
+function orderStatusTranslation(status) {
+    switch(status)
+    {
+        case "缺货异常":
+        case "已支付":
+            return 1;
+        case "订单异常":
+        case "未支付":
+            return 2;
+        case "待预检":
+            return 3;
+        case "待路由":
+            return 4;
+        case "已出库":
+            return 5;
+        case "已完成":
+            return 6;
+        case "缺货等待":
+            return 7;
+        case "待出库":
+            return 8;
+        case "已取消":
+            return 9;
+        case "出库异常":
+            return 10;
+        case "已发货":
+            return 11;
+        default:
+            return status;
+    }
+}
 //将订单基本状态显示为中文
 function matchBaseStatus(status) {
     return status=="1"?"活动":"冻结";
@@ -351,8 +383,8 @@ function matchPayStytle(status) {
     }
 }
 //将仓库显示为中文
-function matchWareHouse(num) {
-    if(num=="")
+function matchWareHouse(num,i) {
+    if(num==""||num==null)
     {
         return "";
     }
@@ -364,10 +396,10 @@ function matchWareHouse(num) {
         success:function (data) {
             if(data=="")
             {
-                $("#"+num).text("");
+                $("#ware"+i).text("");
                 return;
             }
-            $("#"+num).text(data.wareName);
+            $("#ware"+i).text(data.wareName);
         }
     });
 }

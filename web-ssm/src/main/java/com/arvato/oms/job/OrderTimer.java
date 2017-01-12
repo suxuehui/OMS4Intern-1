@@ -22,7 +22,7 @@ public class OrderTimer {
     OutboundorderModelMapper outboundorderModelMapper;
     public void updateOrder()
     {
-        List<OrderModel> orderModels=orderModelMapper.selectAllByStatus("已发货");
+        List<OrderModel> orderModels=orderModelMapper.selectAllByStatus("11");
         for(int i=0;i<orderModels.size();i++)
         {
             SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -42,11 +42,11 @@ public class OrderTimer {
             Long intervalTime=nowTime.getTime()-beforeTime.getTime();
             if(intervalTime>=1800*1000)
             {
-                orderModels.get(i).setOrderstatus("已完成");
+                orderModels.get(i).setOrderstatus("6");
                 orderModels.get(i).setModifytime(new Date());
                 orderModels.get(i).setModifyman("");
                 OutboundorderModel outboundorderModel=outboundorderModelMapper.selectByOid(orderModels.get(i).getOid());
-                outboundorderModel.setOrderstatus("已完成");
+                outboundorderModel.setOrderstatus("6");
                 outboundorderModel.setModifytime(new Date());
                 outboundorderModel.setModifyman("");
                 orderModelMapper.updateByOidSelective(orderModels.get(i));

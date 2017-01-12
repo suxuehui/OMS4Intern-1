@@ -118,3 +118,4 @@ table.orderTable td{border:1px solid #CCC;height:25px}
 .goodNum.edit{border: none;text-align: center}
 .changeColor{background-color: #f4f5f3}
 .hbg{width:100%;position:absolute;background:#000;z-index:998;top:0;left:0;filter:alpha(opacity=60);opacity:0.6;display:none;height:100%;position:fixed}
+.userIcon{background:url(../images/100772992e191012f0245323fdc62e90_03.png) no-repeat;background-size:20px 20px;background-position:-2px 15px;height:50px;line-height:50px;font-size:15px;padding-left:22px;margin-right:10px}
