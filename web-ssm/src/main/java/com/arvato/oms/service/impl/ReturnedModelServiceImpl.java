@@ -75,7 +75,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         {
             returnedModel.setModifyman(session.getAttribute(UNAME).toString());
             returnedModel.setModifytime(new Date());
-            returnedModel.setReturnedstatus("取消退货");
+            returnedModel.setReturnedstatus("9");//取消退货
 
             return returnedModelMapper.updateByPrimaryKeySelective(returnedModel);
 
@@ -83,7 +83,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         {
             returnedModel.setModifyman(session.getAttribute(UNAME).toString());
             returnedModel.setModifytime(new Date());
-            returnedModel.setReturnedstatus("取消换货");
+            returnedModel.setReturnedstatus("7");//取消换货
             return returnedModelMapper.updateByPrimaryKeySelective(returnedModel);
         } else
         {
@@ -235,7 +235,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
             String refoundedId = "RF" + oid + generateRandomNumber(5);
             refoundOrderModel.setDrawbackid(refoundedId);//退款单号
             refoundOrderModel.setDrawbackmoney(returnedModel.getReturnedmoney());//退款金额
-            refoundOrderModel.setDrawbackstatus("未退款");//退款单状态
+            refoundOrderModel.setDrawbackstatus("1");//未退款
             refoundOrderModel.setReturnedid(returnedModel.getReturnedid());//退货单号
             int i = refoundOrderModelMapper.insertSelective(refoundOrderModel);
             log.info("a:" + i);
@@ -273,7 +273,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         } else
         {
             String returnedstatus = returnedModel.getReturnedstatus();
-            if ("收货成功".equals(returnedstatus))
+            if ("5".equals(returnedstatus))//收货成功
             {
                 OutboundorderModel outboundorderModel = new OutboundorderModel();
                 log.info(returnedModel.toString());
@@ -285,7 +285,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
                 outboundorderModel.setOid(returnedModel.getOid());
                 outboundorderModel.setOrderstatus(orderModel.getOrderstatus());//订单状态
                 outboundorderModel.setOutboundid("SO" + returnedModel.getOid() + generateRandomNumber(5));//出库单号
-                outboundorderModel.setOutboundstate("处理中");
+                outboundorderModel.setOutboundstate("2");//处理中
                 outboundorderModel.setModifyman(session.getAttribute(UNAME).toString());
                 outboundorderModel.setModifytime(new Date());
                 outboundorderModel.setSynchrostate(true);//未同步
@@ -386,7 +386,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         String tsrkd = "推送入库单";
         ReturnedModel returnedModel = returnedModelMapper.selectByPrimaryKey(id);
         String returnedstatus = returnedModel.getReturnedstatus();
-        if ("待审核".equals(returnedstatus))
+        if ("1".equals(returnedstatus))//待审核
         {
 
             //待审核订单可以审核
@@ -394,7 +394,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
             inboundorderModel.setOid(returnedModel.getOid());
             inboundorderModel.setChanneloid(returnedModel.getChanneloid());
             inboundorderModel.setReturnedid(returnedModel.getReturnedid());
-            inboundorderModel.setInboundstate("等待收货");
+            inboundorderModel.setInboundstate("5");//等待收货
             inboundorderModel.setInboundid("SI" + returnedModel.getOid() + generateRandomNumber(5));
             Byte synchrostate = new Byte("1");//同步状态
             inboundorderModel.setSynchrostate(synchrostate);//初始同步状态0为未同步
@@ -455,7 +455,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
                     if ("100".equals(s))
                     {//推送成功
                         log.info(tsrkd + inboundorderModel.getInboundid() + "成功");
-                        returnedModel.setReturnedstatus("等待收货");
+                        returnedModel.setReturnedstatus("4");//等待收货
                         returnedModel.setModifytime(new Date());
 
                         returnedModel.setModifyman(session.getAttribute(UNAME).toString());
@@ -487,7 +487,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
             } else
             {
 
-                returnedModel.setReturnedstatus("审核失败");
+                returnedModel.setReturnedstatus("3");//审核失败
                 returnedModel.setModifytime(new Date());
                 returnedModel.setModifyman(session.getAttribute(UNAME).toString());
                 returnedModelMapper.updateByPrimaryKeySelective(returnedModel);

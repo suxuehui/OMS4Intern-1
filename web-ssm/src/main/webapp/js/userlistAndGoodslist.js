@@ -32,10 +32,8 @@ $.extend({
 });
 
 
-
-
+//用户列表界面：复选框点击事件控制按钮是否失效
 function usercheckclick() {
-
     document.getElementById("deleteUser").disabled = false;
     var count = 0;
     var checkArry = document.getElementsByName("usercheck");
@@ -56,10 +54,9 @@ function usercheckclick() {
         document.getElementById("updateUserBut").disabled = true;
     }
 
-
 }
 
-
+//退货单界面：复选框点击事件控制退款单详情按钮是否失效
 function checkboxreturneddis() {
 
     var count = 0;
@@ -69,7 +66,6 @@ function checkboxreturneddis() {
 
         if (checkArry[i].checked == true) {
             ++count;
-
         }
     }
 
@@ -81,6 +77,7 @@ function checkboxreturneddis() {
 
 }
 
+//退货单号点击事件：显示此退货单商品
 function returnedGetGoods(returnedid) {
 
 
@@ -93,7 +90,7 @@ function returnedGetGoods(returnedid) {
 
 }
 
-
+//根据退货单号获取商品信息
 function returngetgoodsfromserver(returnedid, pageNow, pageSize) {
     $('#prereturnedGoodsPage').hide();
     $('#firstreturnedGoodsPage').hide();
@@ -220,6 +217,7 @@ function getUserRole() {
 
 }
 
+//根据退货单id数组判断一批退货单全是return，或全是change，或都有
 function getreturnedOrChange(returnIdArray) {
     var returncount = 0;
     for (var i = 0; i < returnIdArray.length; i++) {
@@ -281,7 +279,7 @@ function selectByUserName(pageNow) {
             var userList = data.userList;
             var totalPage = data.totalPage;
             var urole = data.urole;
-            if(urole==2){
+            if (urole == 2) {
                 alert("用户无此权限");
                 window.location.href = "/oms/oms/index";
                 return false;
@@ -293,52 +291,21 @@ function selectByUserName(pageNow) {
 
                 return false;
             } else {
-                if (pageNow == 1) {
-                    if (totalPage == 0 || totalPage == 1) {
 
-                        $('#preUserPage').hide();
-                        $('#firstUserPage').hide();
-                        $('#endUserPage').hide();
-                        $('#nextUserPage').hide();
-                    } else {
+                pageShowUser(pageNow,totalPage);//
 
-                        $('#preUserPage').hide();
-                        $('#firstUserPage').hide();
-                        $('#nextUserPage').show();
-                        $('#endUserPage').show();
-                    }
-                } else if (pageNow < totalPage) {
-                    if (totalPage == 0 || totalPage == 1) {
-
-                        $('#preUserPage').hide();
-                        $('#firstUserPage').hide();
-                        $('#endUserPage').hide();
-                        $('#nextUserPage').hide();
-                    } else {
-
-                        $('#nextUserPage').show();
-                        $('#endUserPage').show();
-                        $('#preUserPage').show();
-                        $('#firstUserPage').show();
-
-                    }
-                } else if (pageNow = totalPage) {
-                    $('#preUserPage').show();
-                    $('#firstUserPage').show();
-                    $('#endUserPage').hide();
-                    $('#nextUserPage').hide();
-                }
                 userselectValuetemp = userselectValue;
                 $('#usertbody').html("");
                 var adminstr = "管理员";
                 var userstr = "普通用户";
                 for (var i in userList) {
                     if (userList.hasOwnProperty(i)) {
-                    var id = i * 1 + 1 * 1;
-                    var urolestr = parseInt(userList[i].urole)==1?adminstr:userstr;
-                    $('#usertbody').append("<tr><td>" + id + "</td><td><input type='checkbox' id='" + userList[i].uid + "user" + "' name='usercheck' onclick='usercheckclick()'></td><td id='" + userList[i].uid + "uname" + "'>" + userList[i].uname + "</td> <td id='" + userList[i].uid + "upass" + "'>&nbsp;" + userList[i].upassword + "</td> <td>&nbsp;" + urolestr + "</td> </tr>");
-                    $('#totalUserPage').html(totalPage);
-                }}
+                        var id = i * 1 + 1 * 1;
+                        var urolestr = parseInt(userList[i].urole) == 1 ? adminstr : userstr;
+                        $('#usertbody').append("<tr><td>" + id + "</td><td><input type='checkbox' id='" + userList[i].uid + "user" + "' name='usercheck' onclick='usercheckclick()'></td><td id='" + userList[i].uid + "uname" + "'>" + userList[i].uname + "</td> <td id='" + userList[i].uid + "upass" + "'>&nbsp;" + userList[i].upassword + "</td> <td>&nbsp;" + urolestr + "</td> </tr>");
+                        $('#totalUserPage').html(totalPage);
+                    }
+                }
             }
 
         },
@@ -350,7 +317,7 @@ function selectByUserName(pageNow) {
     });
 }
 
-//查询商品
+//查询商品，用于刷新显示
 function selectGoodsByValue(pageNow) {
     var page = pageNow;
     var pageSize = 20;
@@ -377,37 +344,8 @@ function selectGoodsByValue(pageNow) {
             } else {
                 goodselectValueTemp = goodselectValue;
                 goodselectTemp = goodselect;
-                if (pageNow == 1) {
-                    if (totalPage == 0 || totalPage == 1) {
-                        $('#preGoodsPage').hide();
-                        $('#firstGoodsPage').hide();
-                        $('#endGoodsPage').hide();
-                        $('#nextGoodsPage').hide();
-                    } else {
-                        $('#preGoodsPage').hide();
-                        $('#firstGoodsPage').hide();
-                        $('#nextGoodsPage').show();
-                        $('#endGoodsPage').show();
-                    }
-                } else if (pageNow < totalPage) {
-                    if (totalPage == 0 || totalPage == 1) {
-                        $('#preGoodsPage').hide();
-                        $('#firstGoodsPage').hide();
-                        $('#endGoodsPage').hide();
-                        $('#nextGoodsPage').hide();
-                    } else {
-                        $('#nextGoodsPage').show();
-                        $('#endGoodsPage').show();
-                        $('#preGoodsPage').show();
-                        $('#firstGoodsPage').show();
 
-                    }
-                } else if (pageNow = totalPage) {
-                    $('#preGoodsPage').show();
-                    $('#firstGoodsPage').show();
-                    $('#endGoodsPage').hide();
-                    $('#nextGoodsPage').hide();
-                }
+                pageShowGoods(pageNow,totalPage);//
 
                 $('#goodsbody').html("");
                 for (var i in goodsList) {
@@ -428,6 +366,7 @@ function selectGoodsByValue(pageNow) {
     });
 }
 
+//条件查询商品，用于查询
 function selectGoodsByValue2(pageNow) {
     var page = pageNow;
     var pageSize = 20;
@@ -506,6 +445,7 @@ function selectGoodsByValue2(pageNow) {
     });
 }
 
+//查询退款单，用于刷新
 function selectReturnByvalue(pageNow) {
     var page = pageNow;
     $('#preReturnedPage').hide();
@@ -580,7 +520,7 @@ function selectReturnByvalue(pageNow) {
                 if (returnedList.hasOwnProperty(i)) {
                     var id = i * 1 + 1 * 1;
                     var a = returnedList[i].returnedorchange == returnstrEng ? returnstr : changestr;
-                    $('#returnedBody').append("<tr><td>" + id + "</td><td><input type='checkbox' onclick='checkboxreturneddis()' name='returnedcheck'  id='" + returnedList[i].id + "returned" + "'></td><td><a id='" + returnedList[i].returnedid + "' onclick='returnedGetGoods(this.id)' ondblclick='showReturnDetail(" + returnedList[i].id + ")' '>" + returnedList[i].returnedid + "</a></td> <td>&nbsp;" + a + "</td> <td>&nbsp;" + returnedList[i].returnedstatus + "</td> <td>&nbsp;" + returnedList[i].oid + "</td>  <td>&nbsp;" + returnedList[i].channeloid + "</td><td>&nbsp;" + returnedList[i].returnedmoney + "</td><td>&nbsp;" + returnedList[i].createtime + "</td><td>&nbsp;" + returnedList[i].modifytime + "</td><td>&nbsp;" + returnedList[i].modifyman + "</td></tr>");
+                    $('#returnedBody').append("<tr><td>" + id + "</td><td><input type='checkbox' onclick='checkboxreturneddis()' name='returnedcheck'  id='" + returnedList[i].id + "returned" + "'></td><td><a id='" + returnedList[i].returnedid + "' onclick='returnedGetGoods(this.id)' ondblclick='showReturnDetail(" + returnedList[i].id + ")' '>" + returnedList[i].returnedid + "</a></td> <td>&nbsp;" + a + "</td> <td>&nbsp;" + returnedStatusToCN(returnedList[i].returnedstatus) + "</td> <td>&nbsp;" + returnedList[i].oid + "</td>  <td>&nbsp;" + returnedList[i].channeloid + "</td><td>&nbsp;" + returnedList[i].returnedmoney + "</td><td>&nbsp;" + returnedList[i].createtime + "</td><td>&nbsp;" + returnedList[i].modifytime + "</td><td>&nbsp;" + returnedList[i].modifyman + "</td></tr>");
                     $('#totalReturnedPage').html(totalPage);
                 }
             }
@@ -594,6 +534,7 @@ function selectReturnByvalue(pageNow) {
     });
 }
 
+//条件查询退款单，用于条件查询
 function selectReturnByvalue2(pageNow) {
     var page = pageNow;
 
@@ -667,7 +608,7 @@ function selectReturnByvalue2(pageNow) {
                 if (returnedListt.hasOwnProperty(i)) {
                     var id = i * 1 + 1 * 1;
                     var a = returnedList[i].returnedorchange == returnstrEng ? returnstr : changestr;
-                    $('#returnedBody').append("<tr><td>" + id + "</td><td><input type='checkbox' onclick='checkboxreturneddis(this.id)' name='returnedcheck'  id='" + returnedList[i].id + "returned" + "'></td><td><a id='" + returnedList[i].returnedid + "' onclick='returnedGetGoods(this.id)' ondblclick='showReturnDetail(" + returnedList[i].id + ")' '>" + returnedList[i].returnedid + "</a></td> <td>&nbsp;" + a + "</td> <td>&nbsp;" + returnedList[i].returnedstatus + "</td> <td>&nbsp;" + returnedList[i].oid + "</td>  <td>&nbsp;" + returnedList[i].channeloid + "</td><td>&nbsp;" + returnedList[i].returnedmoney + "</td><td>&nbsp;" + returnedList[i].createtime + "</td><td>&nbsp;" + returnedList[i].modifytime + "</td><td>&nbsp;" + returnedList[i].modifyman + "</td></tr>");
+                    $('#returnedBody').append("<tr><td>" + id + "</td><td><input type='checkbox' onclick='checkboxreturneddis(this.id)' name='returnedcheck'  id='" + returnedList[i].id + "returned" + "'></td><td><a id='" + returnedList[i].returnedid + "' onclick='returnedGetGoods(this.id)' ondblclick='showReturnDetail(" + returnedList[i].id + ")' '>" + returnedList[i].returnedid + "</a></td> <td>&nbsp;" + a + "</td> <td>&nbsp;" + returnedStatusToCN(returnedList[i].returnedstatus) + "</td> <td>&nbsp;" + returnedList[i].oid + "</td>  <td>&nbsp;" + returnedList[i].channeloid + "</td><td>&nbsp;" + returnedList[i].returnedmoney + "</td><td>&nbsp;" + returnedList[i].createtime + "</td><td>&nbsp;" + returnedList[i].modifytime + "</td><td>&nbsp;" + returnedList[i].modifyman + "</td></tr>");
                     $('#totalReturnedPage').html(totalPage);
                 }
             }
@@ -681,6 +622,116 @@ function selectReturnByvalue2(pageNow) {
     });
 }
 
+//将退货单状态显示为中文
+function returnedStatusToCN(returnedStatus){
+
+    switch (parseInt(returnedStatus)){
+        case 1:
+            return "待审核";
+
+        case 2:
+            return "审核通过";
+
+        case 3:
+            return "审核失败";
+
+        case 4:
+            return "等待收货";
+
+        case 5:
+            return "收货成功";
+
+        case 6:
+            return "换货失败";
+
+        case 7:
+            return "换货取消";
+
+        case 8:
+            return "退货失败";
+
+        case 9:
+            return "退货取消";
+
+        default:
+            return "";
+
+    }
+
+}
+
+function pageShowUser(pageNow,totalPage) {
+    if (pageNow == 1) {
+        if (totalPage == 0 || totalPage == 1) {
+
+            $('#preUserPage').hide();
+            $('#firstUserPage').hide();
+            $('#endUserPage').hide();
+            $('#nextUserPage').hide();
+        } else {
+
+            $('#preUserPage').hide();
+            $('#firstUserPage').hide();
+            $('#nextUserPage').show();
+            $('#endUserPage').show();
+        }
+    } else if (pageNow < totalPage) {
+        if (totalPage == 0 || totalPage == 1) {
+
+            $('#preUserPage').hide();
+            $('#firstUserPage').hide();
+            $('#endUserPage').hide();
+            $('#nextUserPage').hide();
+        } else {
+
+            $('#nextUserPage').show();
+            $('#endUserPage').show();
+            $('#preUserPage').show();
+            $('#firstUserPage').show();
+
+        }
+    } else if (pageNow = totalPage) {
+        $('#preUserPage').show();
+        $('#firstUserPage').show();
+        $('#endUserPage').hide();
+        $('#nextUserPage').hide();
+    }
+}
+
+function pageShowGoods(pageNow,totalPage) {
+
+    if (pageNow == 1) {
+        if (totalPage == 0 || totalPage == 1) {
+            $('#preGoodsPage').hide();
+            $('#firstGoodsPage').hide();
+            $('#endGoodsPage').hide();
+            $('#nextGoodsPage').hide();
+        } else {
+            $('#preGoodsPage').hide();
+            $('#firstGoodsPage').hide();
+            $('#nextGoodsPage').show();
+            $('#endGoodsPage').show();
+        }
+    } else if (pageNow < totalPage) {
+        if (totalPage == 0 || totalPage == 1) {
+            $('#preGoodsPage').hide();
+            $('#firstGoodsPage').hide();
+            $('#endGoodsPage').hide();
+            $('#nextGoodsPage').hide();
+        } else {
+            $('#nextGoodsPage').show();
+            $('#endGoodsPage').show();
+            $('#preGoodsPage').show();
+            $('#firstGoodsPage').show();
+
+        }
+    } else if (pageNow = totalPage) {
+        $('#preGoodsPage').show();
+        $('#firstGoodsPage').show();
+        $('#endGoodsPage').hide();
+        $('#nextGoodsPage').hide();
+    }
+}
 $(
     function () {
 
@@ -801,7 +852,7 @@ $(
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             success: function (data) {
-                                if(data==-5){
+                                if (data == -5) {
                                     alert("用户无此权限");
                                     window.location.href = "/oms/oms/index";
                                     return false;
@@ -862,7 +913,7 @@ $(
                                         contentType: "application/json; charset=utf-8",
                                         dataType: "json",
                                         success: function (data) {
-                                            if(data==-5){
+                                            if (data == -5) {
                                                 alert("用户无此权限");
                                                 window.location.href = "/oms/oms/index";
                                                 return false;
@@ -959,7 +1010,7 @@ $(
                                             contentType: "application/json; charset=utf-8",
                                             dataType: "json",
                                             success: function (data) {
-                                                if(data==-5){
+                                                if (data == -5) {
                                                     alert("用户无此权限");
                                                     window.location.href = "/oms/oms/index";
                                                     return false;

@@ -169,11 +169,11 @@
   
   <select id="selectAllGoodsByPage" resultMap="BaseResultMap">
     SELECT * FROM goods
-    limit #{startPage},#{num} where goodsState='已上架'
+    limit #{startPage},#{num} where goodsState='0'
   </select>
 
   <select id="countGoods" resultType="int">
-    SELECT COUNT(1) FROM goods where goodsState='已上架'
+    SELECT COUNT(1) FROM goods where goodsState='0'
   </select>
 
 
@@ -202,29 +202,29 @@
 
   <select id="selectGoodsByNoAndPage" resultMap="BaseResultMap">
     SELECT * FROM goods
-    WHERE goodsNo LIKE '%${goodsNo}%' AND goodsState='已上架'
+    WHERE goodsNo LIKE '%${goodsNo}%' AND goodsState='0'
     limit #{startPage},#{num}
   </select>
 
   <select id="countGoodsByNoAndPage" resultType="Integer">
     SELECT IFNULL(COUNT(1),0) FROM goods
-    WHERE goodsNo LIKE '%${goodsNo}%' AND goodsState='已上架'
+    WHERE goodsNo LIKE '%${goodsNo}%' AND goodsState='0'
   </select>
 
   <select id="selectGoodsByNameAndPage" resultMap="BaseResultMap">
     SELECT * FROM goods
-    WHERE goodsName LIKE '%${goodsName}%'AND goodsState='已上架'
+    WHERE goodsName LIKE '%${goodsName}%'AND goodsState='0'
     limit #{startPage},#{num}
   </select>
 
   <select id="countGoodsByNameAndPage" resultType="Integer">
     SELECT IFNULL(COUNT(1),0) FROM goods
-    WHERE goodsName LIKE '%${goodsName}%' AND goodsState='已上架'
+    WHERE goodsName LIKE '%${goodsName}%' AND goodsState='0'
   </select>
 
   <select id="selectGoodsByNosAndPage" resultMap="BaseResultMap">
     SELECT * FROM goods
-    WHERE goodsState='已上架' AND goodsNo in
+    WHERE goodsState='0' AND goodsNo in
     <foreach item="goodsNoItem" collection="goodsNos" open="(" separator="," close=")">
       #{goodsNoItem}
     </foreach>
@@ -232,6 +232,6 @@
 
   <select id="countGoodsByNo" resultType="int">
     SELECT COUNT(1) FROM goods
-    where goodsNo = #{goodsNo} AND  goodsState='已上架'
+    where goodsNo = #{goodsNo} AND  goodsState='0'
   </select>
 </mapper>

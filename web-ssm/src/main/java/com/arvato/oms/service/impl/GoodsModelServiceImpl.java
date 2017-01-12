@@ -228,15 +228,6 @@ public class GoodsModelServiceImpl implements GoodsModelService
         goodsModelMapper.updateGoodsState(goodsState2,goodsTolnum2,goodsvnum,goodsNo2);
     }
 
-    public boolean goodsNoIsExist(String goodsNo)
-    {//暂不用
-        if (goodsModelMapper.countGoodsByNo(goodsNo) == 0)
-        {
-            return false;
-        } else
-        {
-            return true;
-        }
-    }
+
 }
 
