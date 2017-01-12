@@ -3,6 +3,7 @@ package com.arvato.oms.controller;
 import com.arvato.oms.ExceptionModel.NewRunException;
 import com.arvato.oms.model.*;
 import com.arvato.oms.service.*;
+import com.arvato.oms.utils.ExcToJson;
 import com.arvato.oms.utils.HTTPClientDemo;
 import com.arvato.oms.utils.ReadProperties;
 import net.sf.json.JSONObject;
@@ -72,7 +73,7 @@ public class RefoundOrderController {
     public String  details(HttpServletRequest request,Model model){
         String drawbackId=request.getParameter("drawbackId");
         //查询退款单列表
-        RefoundOrderModel refoundOrderList = refoundOrderServiceImpl.selectByDrawbackId(drawbackId);
+        RefoundOrderModel refoundOrderList = selectByDrawbackId(drawbackId);
         String returnedId = refoundOrderList.getReturnedid();
         String oid = drawbackId.substring(2,17);
         List<RelationogModel> rogList2= relationogServiceImpl.selectALLByOid(oid);
@@ -127,6 +128,14 @@ public class RefoundOrderController {
         model.addAttribute("oid",returnedId);
         return "refoundOrderDetails";
         }
+
+    public RefoundOrderModel selectByDrawbackId(String drawbackId) {
+        RefoundOrderModel list=refoundOrderServiceImpl.selectByDrawbackId(drawbackId);
+        //出库单状态转换
+        ExcToJson exctojson = new ExcToJson();
+        list = exctojson.refChange(list);
+        return list;
+    }
 
     //调退款接口
     @RequestMapping(value="drawback")

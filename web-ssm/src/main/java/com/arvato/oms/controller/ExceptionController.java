@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.arvato.oms.ExceptionModel.NewRunException;
 import com.arvato.oms.model.*;
 import com.arvato.oms.service.*;
+import com.arvato.oms.utils.ExcToJson;
 import com.arvato.oms.utils.HTTPClientDemo;
 import com.arvato.oms.utils.ReadProperties;
 import org.apache.log4j.Logger;
@@ -259,8 +260,8 @@ public class ExceptionController {
             //先将订单状态改为“待出库”,然后才能进行订单的修改操作
             orderServiceImpl.updateOrder2(orderStatus5,new Date(),userName,oid);
             //出库单列表中，该订单的同步状态改为“已接收”，出库单状态为“处理中”
-            String orderStatus = "9";
-            String outboundState="2";
+            String orderStatus = "已接收";
+            String outboundState="处理中";
             outboundorderServiceImpl.updateOutbound2(orderStatus,outboundState,new Date(),userName,oid);
             //再删除异常页面的异常订单
             exceptionServiceImpl.deleteByOid(oid);
@@ -281,7 +282,7 @@ public class ExceptionController {
     public String  details(HttpServletRequest request,Model model){
         String oid3=request.getParameter("oid3");
         //查询异常订单列表
-        ExceptionModel exceptionList = exceptionServiceImpl.selectByOid(oid3);
+        ExceptionModel exceptionList = selectByOid(oid3);
         // 获取商品编码  查询关系表
         List<RelationogModel> rogList= relationogServiceImpl.selectALLByOid(oid3);
         //获取商品实体 查询商品表
@@ -310,5 +311,12 @@ public class ExceptionController {
         return "exceptionDetails";
     }
 
+    public ExceptionModel selectByOid(String oid) {
+        ExceptionModel list=exceptionServiceImpl.selectByOid(oid);
+        //出库单状态转换
+        ExcToJson exctojson = new ExcToJson();
+        list = exctojson.changestatus(list);
+        return list;
+    }
 
 }
