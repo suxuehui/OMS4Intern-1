@@ -790,7 +790,7 @@ $(
         $('#closeUpdateUser').click(
             function () {
                 $(".hbg").hide();
-                document.getElementById("updateUserBut").disabled = true;
+
             }
         );
 
@@ -1651,6 +1651,12 @@ $(
 
         $("#returnListBut").click(
             function () {
+
+                $('#checkreturnedorder').attr('disabled', "true");
+                $('#cancelReturnedOrder').attr('disabled', "true");
+                $('#returnedCreaterefoundOder').attr('disabled', "true");
+                $('#changeOutBound').attr('disabled', "true");
+                $('#returnedDetailbut').attr('disabled', "true");
                 returnSelectValue = "";
                 returnSelectValueTemp = "";
                 returnSelect = "订单号";
@@ -1659,6 +1665,7 @@ $(
                 $("#returnedselect").val("请选择查询条件");
                 selectReturnByvalue(1);
                 $('#returnedPageNow').html(1);
+
             }
         );
 
@@ -1667,6 +1674,8 @@ $(
                 if ($("#userListbut").text() == "") {
                     return;
                 }
+                $('#updateUserBut').attr('disabled', "true");
+                $('#deleteUser').attr('disabled', "true");
                 userselectValue = "";
                 userselectValuetemp = "";
                 $("#userselectvalue").val("");
@@ -1677,6 +1686,8 @@ $(
 
         $("#userListSonbut").click(
             function () {
+                $('#updateUserBut').attr('disabled', "true");
+                $('#deleteUser').attr('disabled', "true");
                 userselectValue = "";
                 userselectValuetemp = "";
                 $("#userselectvalue").val("");
