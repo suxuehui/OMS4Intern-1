@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/oms")
-public class indexController
+public class IndexController
 {
     @RequestMapping("/index")
     public ModelAndView index(HttpSession session)

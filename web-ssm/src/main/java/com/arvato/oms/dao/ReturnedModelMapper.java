@@ -1,6 +1,5 @@
 package com.arvato.oms.dao;
 
-import com.arvato.oms.model.RefoundOrderModel;
 import com.arvato.oms.model.ReturnedModel;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;

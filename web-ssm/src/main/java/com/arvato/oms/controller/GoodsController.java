@@ -3,7 +3,6 @@ package com.arvato.oms.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.arvato.oms.dao.GoodsModelMapper;
 import com.arvato.oms.service.GoodsModelService;
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -39,8 +38,7 @@ public class GoodsController
          * @param pageSize 一页显示信息条数
          * @Return:  JSONObject
          */
-        JSONObject jsonObject = goodsModelService.getAllGoods(page, pageSize);
-        return jsonObject;
+        return  goodsModelService.getAllGoods(page, pageSize);
     }
 
     @RequestMapping("selectOneGoodsByNo")
@@ -81,8 +79,7 @@ public class GoodsController
          */
         if (!goodsNoIsExist(goodsNo))
         {
-            int i = goodsModelService.addGoods(goodsNo, goodsName, goodsTolnum, goodsPriceD);
-            return i;
+            return goodsModelService.addGoods(goodsNo, goodsName, goodsTolnum, goodsPriceD);
         }else {
             return 0;
         }
@@ -101,8 +98,7 @@ public class GoodsController
          */
         if (goodsNoIsExist(goodsNo))
         {
-            int i = goodsModelService.deleteGoodsByNo(goodsNo);
-            return i;
+            return goodsModelService.deleteGoodsByNo(goodsNo);
         }else {
             return 0;
         }
@@ -130,8 +126,8 @@ public class GoodsController
             }
 
         }
-        int i = goodsModelService.deleteGoodsByNos(list);
-        return i;
+
+        return goodsModelService.deleteGoodsByNos(list);
     }
 
     @RequestMapping("selectGoods")
@@ -148,8 +144,7 @@ public class GoodsController
          * @param pageSize 每页显示个数
          * @Return:
          */
-        JSONObject jsonObject = goodsModelService.selectGoodsByValueAndPage(select, value, nowPage, pageSize);
-        return jsonObject;
+        return goodsModelService.selectGoodsByValueAndPage(select, value, nowPage, pageSize);
 
     }
 
@@ -162,12 +157,7 @@ public class GoodsController
          * @param goodsNo 商品编码
          * @Return:  boolean true:商品存在 false:商品不存在
          */
-        if (goodsModelMapper.countGoodsByNo(goodsNo) == 0)
-        {
-            return false;
-        } else
-        {
-            return true;
-        }
+
+        return goodsModelMapper.countGoodsByNo(goodsNo) != 0;
     }
 }
