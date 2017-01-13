@@ -22,7 +22,7 @@
                 </ul>
 
                 <input type="button" id="insearch" onclick="inGNPage(1)" value="查询" class="submitBtn fr">
-                <input type="text" name="intxtvalue" id="intxt" class="textArea fr">
+                <input type="text" name="intxtvalue" id="intxt" class="textArea fr" onkeydown="if (event.keyCode == 13){inGNPage(1)}">
                 <select class="selectArea fr" name="inselect" id="inselectid">
                     <option value="0" class="select_hide">请选择查询条件</option>
                     <option value="1" >订单号</option>
