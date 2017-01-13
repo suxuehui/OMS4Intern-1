@@ -14,7 +14,6 @@ var warepagenowTem
 window.onload= wareGetnowPage(1);
 
 $(".wareliclick").on('click',function(){
-
     wareGetnowPage(1)
 })
 
