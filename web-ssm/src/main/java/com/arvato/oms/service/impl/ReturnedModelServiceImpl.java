@@ -588,7 +588,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         log.info(returnedModel.getReturnedorchange());
         returnedModel.setReturnedorchange(returnedModel.getReturnedorchange().equals("return")?"退货":"换货");
         String[] status={"","待审核","审核通过","审核失败","等待收货","收货成功","换货失败","换货取消","退货失败","退货取消"};
-        if (returnedModel.getReturnedstatus()==""){
+        if (returnedModel.getReturnedstatus().equals("")){
             returnedModel.setReturnedstatus("0");
         }
         returnedModel.setReturnedstatus(status[Integer.parseInt(returnedModel.getReturnedstatus())]);
