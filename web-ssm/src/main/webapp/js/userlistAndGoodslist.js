@@ -353,7 +353,7 @@ function selectGoodsByValue(pageNow) {
                 goodselectValueTemp = goodselectValue;
                 goodselectTemp = goodselect;
 
-                pageShowGoods(pageNow,totalPage);//
+                pageShowGoods(pageNow,totalPage);//分页按钮显示控制
 
                 $('#goodsbody').html("");
                 for (var i in goodsList) {
@@ -402,37 +402,7 @@ function selectGoodsByValue2(pageNow) {
             } else {
                 goodselectValueTemp = goodselectValue;
                 goodselectTemp = goodselect;
-                if (pageNow == 1) {
-                    if (totalPage == 0 || totalPage == 1) {
-                        $('#preGoodsPage').hide();
-                        $('#firstGoodsPage').hide();
-                        $('#endGoodsPage').hide();
-                        $('#nextGoodsPage').hide();
-                    } else {
-                        $('#preGoodsPage').hide();
-                        $('#firstGoodsPage').hide();
-                        $('#nextGoodsPage').show();
-                        $('#endGoodsPage').show();
-                    }
-                } else if (pageNow < totalPage) {
-                    if (totalPage == 0 || totalPage == 1) {
-                        $('#preGoodsPage').hide();
-                        $('#firstGoodsPage').hide();
-                        $('#endGoodsPage').hide();
-                        $('#nextGoodsPage').hide();
-                    } else {
-                        $('#nextGoodsPage').show();
-                        $('#endGoodsPage').show();
-                        $('#preGoodsPage').show();
-                        $('#firstGoodsPage').show();
-
-                    }
-                } else if (pageNow = totalPage) {
-                    $('#preGoodsPage').show();
-                    $('#firstGoodsPage').show();
-                    $('#endGoodsPage').hide();
-                    $('#nextGoodsPage').hide();
-                }
+                pageShowGoods(pageNow,totalPage);//分页按钮显示控制
 
                 $('#goodsbody').html("");
                 for (var i in goodsList) {
@@ -483,40 +453,8 @@ function selectReturnByvalue(pageNow) {
                 returnSelectValue = returnSelectValueTemp;
                 return false;
             }
-            if (pageNow == 1) {
-                if (totalPage == 0 || totalPage == 1) {
 
-                    $('#preReturnedPage').hide();
-                    $('#firstReturnedPage').hide();
-                    $('#endReturnedPage').hide();
-                    $('#nextReturnedPage').hide();
-                } else {
-
-                    $('#preReturnedPage').hide();
-                    $('#firstReturnedPage').hide();
-                    $('#endReturnedPage').show();
-                    $('#nextReturnedPage').show();
-                }
-            } else if (pageNow < totalPage) {
-                if (totalPage == 0 || totalPage == 1) {
-                    $('#preReturnedPage').hide();
-                    $('#firstReturnedPage').hide();
-                    $('#endReturnedPage').hide();
-                    $('#nextReturnedPage').hide();
-                } else {
-                    $('#preReturnedPage').show();
-                    $('#firstReturnedPage').show();
-                    $('#endReturnedPage').show();
-                    $('#nextReturnedPage').show();
-
-                }
-            } else if (pageNow = totalPage) {
-
-                $('#preReturnedPage').show();
-                $('#firstReturnedPage').show();
-                $('#endReturnedPage').hide();
-                $('#nextReturnedPage').hide();
-            }
+            pageShowReturned(pageNow,totalPage);
 
             returnSelectValueTemp = returnSelectValue;
             returnSelectTemp = returnSelect;
@@ -571,40 +509,8 @@ function selectReturnByvalue2(pageNow) {
                 returnSelectValue = returnSelectValueTemp;
                 return false;
             }
-            if (pageNow == 1) {
-                if (totalPage == 0 || totalPage == 1) {
 
-                    $('#preReturnedPage').hide();
-                    $('#firstReturnedPage').hide();
-                    $('#endReturnedPage').hide();
-                    $('#nextReturnedPage').hide();
-                } else {
-
-                    $('#preReturnedPage').hide();
-                    $('#firstReturnedPage').hide();
-                    $('#endReturnedPage').show();
-                    $('#nextReturnedPage').show();
-                }
-            } else if (pageNow < totalPage) {
-                if (totalPage == 0 || totalPage == 1) {
-                    $('#preReturnedPage').hide();
-                    $('#firstReturnedPage').hide();
-                    $('#endReturnedPage').hide();
-                    $('#nextReturnedPage').hide();
-                } else {
-                    $('#preReturnedPage').show();
-                    $('#firstReturnedPage').show();
-                    $('#endReturnedPage').show();
-                    $('#nextReturnedPage').show();
-
-                }
-            } else if (pageNow = totalPage) {
-
-                $('#preReturnedPage').show();
-                $('#firstReturnedPage').show();
-                $('#endReturnedPage').hide();
-                $('#nextReturnedPage').hide();
-            }
+            pageShowReturned(pageNow,totalPage);
 
             returnSelectValueTemp = returnSelectValue;
             returnSelectTemp = returnSelect;
@@ -763,6 +669,44 @@ function selectReturned() {
         }
     }
 }
+
+function pageShowReturned(pageNow,totalPage){
+    if (pageNow == 1) {
+        if (totalPage == 0 || totalPage == 1) {
+
+            $('#preReturnedPage').hide();
+            $('#firstReturnedPage').hide();
+            $('#endReturnedPage').hide();
+            $('#nextReturnedPage').hide();
+        } else {
+
+            $('#preReturnedPage').hide();
+            $('#firstReturnedPage').hide();
+            $('#endReturnedPage').show();
+            $('#nextReturnedPage').show();
+        }
+    } else if (pageNow < totalPage) {
+        if (totalPage == 0 || totalPage == 1) {
+            $('#preReturnedPage').hide();
+            $('#firstReturnedPage').hide();
+            $('#endReturnedPage').hide();
+            $('#nextReturnedPage').hide();
+        } else {
+            $('#preReturnedPage').show();
+            $('#firstReturnedPage').show();
+            $('#endReturnedPage').show();
+            $('#nextReturnedPage').show();
+
+        }
+    } else if (pageNow = totalPage) {
+
+        $('#preReturnedPage').show();
+        $('#firstReturnedPage').show();
+        $('#endReturnedPage').hide();
+        $('#nextReturnedPage').hide();
+    }
+}
+
 $(
     function () {
 
