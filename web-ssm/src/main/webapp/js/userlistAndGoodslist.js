@@ -1678,6 +1678,10 @@ $(
 
         $("#userListbut").click(
             function () {
+                if($("#userListbut").text()=="")
+                {
+                    return;
+                }
                 userselectValue = "";
                 userselectValuetemp = "";
                 $("#userselectvalue").val("");

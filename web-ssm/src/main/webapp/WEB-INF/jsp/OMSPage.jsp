@@ -47,7 +47,7 @@
                 </c:if>
 
                 <c:if test="${urole == 2}">
-                    <li></li>
+                    <li id="userListbut" hidden></li>
                     <li class="on" id="goodsListbut">商品</li>
                     <li class="wareliclick">仓库</li>
                     <li class="orderClick">订单</li>
@@ -61,70 +61,16 @@
 
         <c:if test="${urole == 1}">
         <!--用户模块-->
-        <div class="order">
-            <div class="orderList fl">
-                <ul>
-                    <li>
-                        <ul class="orderListCent">
-                            <li class="listTit"><p class="listContTit">用户管理</p></li>
-                            <li class="on" id="userListSonbut"><a>用户列表</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div><!--orderList结束-->
-
-            <div class="orderMain fl">
-                <div class="orderManage">
-                    <div class="orderTag">
-                        <div class="orderTit">用户列表</div>
-                        <div class="customSearch">
-                            <ul>
-                                <li><input type="button" value="新增用户" class="btn" id="adduserbutindex"></li>
-                                <li><input type="button" value="修改用户" class="btn" id="updateUserBut"
-                                           disabled="disabled"></li>
-                                <span id="updateusernamehidden" hidden></span>
-                                <span id="updateupasshidden" hidden></span>
-                                <li><input type="button" value="删除用户" class="btn" id="deleteUser"
-                                           disabled="disabled"></li>
-                            </ul>
-                            <form>
-                                <input type="button" value="查询" class="submitBtn fr" id="userselectbutton">
-                                <input type="text" class="textArea fr" id="userselectvalue"
-                                       onFocus="if(value==defaultValue){value='';}">
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="orderDetails">
-                    <div class="tableDetails">
-                        <form>
-                            <table cellspacing="0" cellpadding="0">
-                                <tr class="tableTit">
-                                    <th class="w50">序号</th>
-                                    <th class="w50">批量</th>
-                                    <th>用户名</th>
-                                    <th>密码</th>
-                                    <th>用户角色</th>
-                                </tr>
-                                <tbody id="usertbody">
-                                </tbody>
-                            </table>
-                        </form>
-                    </div>
-                    <div class="page"><span id="userPageNow" hidden>1</span> <span id="totalUserPage"
-                                                                                   hidden>1</span><a
-                            id="endUserPage" hidden>尾页</a><a id="nextUserPage" hidden>下一页</a><a id="preUserPage" hidden>上一页</a><a
-                            id="firstUserPage" hidden>首页</a></div>
-                </div>
-            </div><!--orderMain结束-->
-        </div>
+            <div id="userList">
+            <jsp:include page="user.jsp"/>
+            </div>
         <!--order结束-->
         <!--用户模块-->
         </c:if>
 
         <c:if test="${urole == 2}">
         <!--用户模块-->
-        <div class="order">
+        <div id="userList">
         </div>
         <!--order结束-->
         <!--用户模块-->
@@ -132,10 +78,10 @@
 
         <!--商品模块-->
         <c:if test="${urole == 2}">
-        <div>
+            <div class="order">
             </c:if>
             <c:if test="${urole == 1}">
-            <div class="order hide">
+            <div class="order hide" id="goodsList">
                 </c:if>
                 <div class="orderList fl">
                     <ul>

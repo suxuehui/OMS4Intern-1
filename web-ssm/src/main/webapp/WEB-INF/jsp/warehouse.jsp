@@ -17,7 +17,7 @@
             <li>
                 <ul class="orderListCent">
                     <li class="listTit"><p class="listContTit">仓库管理</p></li>
-                    <li class="on"><a onclick="wareGetnowPage(1)" id="">仓库列表</a></li>
+                    <li><a id="">仓库列表</a></li>
                 </ul>
             </li>
         </ul>
@@ -32,8 +32,8 @@
                         <li><input type="button" value="编辑"   id="wareupdate" onclick="warehouseupdate(this)" class="btn"></li>
                         <li><input type="button" value="删除"  id="waredelete" onclick="deleteware()" class="btn"></li>
                     </ul>
-                    <input type="button" value="查询"   onclick="WarehousegetPage(1)"  class="submitBtn fr">
-                    <input type="text"  id="whtxt" value="" class="textArea fr" onkeydown="if (event.keyCode == 13){WarehousegetPage(1)}" >
+                    <input type="button" value="查询" onclick="WarehousegetPage(1)"  class="submitBtn fr">
+                    <input type="text"  id="whtxt" value="" class="textArea fr"  >
                     <select id="whselectid" class="selectArea fr">
                         <option value="0" class="select_hide">请选择查询条件</option>
                         <option value="1" >仓库编号</option>

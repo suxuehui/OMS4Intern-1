@@ -98,9 +98,25 @@ $(document).ready(function () {
 				}
 				var urole=$("#urole").text();
 				var uname=$("#uname").text();
-				if(!(urole==role))
+                $("#urole").text(role);
+				if(!(urole==role)&&role==1)
 				{
-					window.location.reload();
+					$("#userListbut").text("用户");
+					$("#userListbut").show();
+					//$("#userList").load("/oms/login/loadUser");
+					loadUser();
+				}
+				else if(!(urole==role)&&role==2)
+				{
+					$("#userListbut").text("");
+					$("#userListbut").hide();
+					if($("#userListbut").hasClass("on"))
+					{
+						$("#userListbut").removeClass("on");
+						$("#goodsListbut").addClass("on");
+						$("#userList").html('');
+						$("#goodsList").show();
+					}
 				}
 				if(!(name==uname))
 				{
@@ -110,3 +126,12 @@ $(document).ready(function () {
 		})
 	})
 })
+//加载用户页面
+function loadUser() {
+	$.ajax({
+		url:"/oms/login/loadUser",
+		success:function (data) {
+			$("#userList").html(data);
+		}
+	})
+}

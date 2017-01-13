@@ -13,16 +13,11 @@ var warepagenowTem
 
 window.onload= wareGetnowPage(1);
 
-$(".wareliclick").on('click',function(){
-
-    wareGetnowPage(1)
-})
-
 //点击查询时无结果就显示提示
 function WarehousegetPage(pagenow){
     warepagenow=pagenow;
     wareselectmode =$("#whselectid option:selected").val();//查询条件
-    warequerydata=encodeURIComponent($("#whtxt").val());//查询值
+    warequerydata=$("#whtxt").val();//查询值
 
     //在未勾选checkbox 置灰编辑和删除按钮
     document.getElementById("wareupdate").disabled=true;
@@ -90,7 +85,9 @@ function ware(data){
     WareGetNavPage(datapage.totalPageCount,datapage.pageNow);
 }
 
-
+$(".wareliclick").on('click',function (){
+    wareGetnowPage(1);
+})
 
 
 function wareGetnowPage(pagenow){

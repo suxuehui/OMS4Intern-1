@@ -90,4 +90,9 @@ public class LoginController
         return jsonObject;
     }
 
+    @RequestMapping("loadUser")
+    public String loadUser()
+    {
+        return "user";
+    }
 }

@@ -6,10 +6,6 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-</head>
-<body>
 <div class="relatedOrder">
     <div class="orderManage">
         <div class="orderTag">
@@ -28,7 +24,7 @@
                     <li><input type="button" value="换货"  class="btn beta" name="orderBtn" id="exchangeGoodsBtn"></li>
                     <li><input type="button" value="查看订单" class="btn" name="orderBtn" id="queryOBtn"></li>
                 </ul>
-                <input type="button" value="查询" class="submitBtn fr" id="queryOrderBtn">
+                <input type="button" value="查询" class="submitBtn fr" id="queryOrderBtn" onkeypress="if (event.keyCode == 13)">
                 <input type="text" class="textArea fr" id="queryOrderCon"   >
                 <select class="selectArea fr" id="queryMode">
                     <option value="" class="select_hide">请选择查询条件</option>
@@ -119,5 +115,3 @@
             <a id="ogPrepage" style="display: none">上一页</a><a id="ogFirstpage" style="display: none">首页</a></div>
     </div>
 </div>
-</body>
-</html>
