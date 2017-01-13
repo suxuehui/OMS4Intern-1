@@ -98,7 +98,7 @@
                         <div class="orderTag">
                             <div class="orderTit">商品列表</div>
                             <div class="productSearch">
-                                <form>
+
                                     <input type="button" value="查询" class="submitBtn fr" id="selectgoodsbut">
                                     <input type="text" class="textArea fr" id="goodsvaluetxt">
                                     <select class="selectArea fr revise" id="selectGoodssle" value="1">
@@ -107,7 +107,7 @@
                                         <option id="selectGoodsByIdop">按商品编码查询</option>
 
                                     </select>
-                                </form>
+
                             </div>
                         </div>
                     </div>
@@ -177,7 +177,7 @@
                                 <div class="orderTit">退货单列表</div>
                                 <span id="returnedCheck"></span>
                                 <div class="orderSearch">
-                                    <form>
+
                                         <ul>
                                             <li><input type="button" value="创建退款单" class="btn"
                                                        id="returnedCreaterefoundOder" disabled="disabled"></li>
@@ -203,7 +203,7 @@
                                             <option>退货状态</option>
                                             <option>渠道订单号</option>
                                         </select>
-                                    </form>
+
                                 </div>
                             </div>
                             <div class="orderMainCont revise">
