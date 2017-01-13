@@ -42,8 +42,8 @@ function refoundGetnowPage(pagenow){
             refoundGetPage(dataPage.totalPageCount,dataPage.pageNow);
         },
         error:function(){
-            //self.location="../login/login" ;
-            alert("登陆超时，请重新登陆！");
+            alert("登录已失效，请重新登录！");
+            window.location.href = "/oms/login/logout";
         }
     });
 }
@@ -55,6 +55,12 @@ function refGetnowPage(pagenow){
     var optxt=myselect.options[index].value;//查询条件
     var search_value=document.getElementById("refoundOrderTxt").value;//查询值
     var s1=pagenow;
+    if(optxt==0){
+        alert("请选择查询条件")
+        $("#refoundOrderSelectid").val(0);
+        $("#refoundOrderTxt").val("");
+        return;
+    }
     //ajax调用后台方法获取数据并展示
     $.ajax({
         type : 'get',
@@ -74,14 +80,10 @@ function refGetnowPage(pagenow){
             reflistnull=dataList.length;
             if(reflistnull==0){//判断是否有退款单
                 alert("查询无结果！")
-                return;
-            }
-            if(optxt==0){
-                alert("请选择查询条件")
-                $("#refoundOrderSelectid").val(0);
                 $("#refoundOrderTxt").val("");
                 return;
             }
+
             //清除母页面信息
             $("#refoundOrdertable1 tbody tr").eq(0).nextAll().remove();
             //清除子页面信息
@@ -100,11 +102,18 @@ function refGetnowPage(pagenow){
             refoundGetPage(dataPage.totalPageCount,dataPage.pageNow);
         },
         error:function(){
-            //self.location="../login/login" ;
-            alert("登陆超时，请重新登陆！");
+            alert("登录已失效，请重新登录！");
+            window.location.href = "/oms/login/logout";
         }
     });
 }
+
+//回车键绑定查询事件
+$(document).keydown(function(event){
+    if(event.keyCode==13){
+        $("#refoundOrderSearch").click();
+    }
+});
 
 /*单、双击事件跳转*/
 var exceptionDb;

@@ -44,11 +44,14 @@ function GetnowPage(pagenow){
             exGetNavPage(dataPage.totalPageCount,dataPage.pageNow);
         },
         error:function(){
-            self.location="../login/login" ;
-            alert("登陆超时，请重新登陆！");
+            alert("登录已失效，请重新登录！");
+            window.location.href = "/oms/login/logout";
         }
     });
 }
+
+
+
 
 function excGetnowPage(pagenow){
     exclistnull=0;//每次调用时初始化全局变量
@@ -57,6 +60,12 @@ function excGetnowPage(pagenow){
     var optxt=myselect.options[index].value;//查询条件
     var search_value=document.getElementById("exception_text").value;//查询值
     var s1=pagenow;
+    if(optxt==0){
+        alert("请选择查询条件")
+        $("#exceptionSelectid").val(0);
+        $("#exception_text").val("");
+        return;
+    }
     //ajax调用后台方法获取数据并展示
     $.ajax({
         type : 'get',
@@ -75,11 +84,6 @@ function excGetnowPage(pagenow){
             exclistnull=dataList.length;
             if(exclistnull==0){//判断是否有异常订单
                 alert("查询无结果！")
-                return;
-            }
-            if(optxt==0){
-                alert("请选择查询条件")
-                $("#exceptionSelectid").val(0);
                 $("#exception_text").val("");
                 return;
             }
@@ -102,11 +106,19 @@ function excGetnowPage(pagenow){
             exGetNavPage(dataPage.totalPageCount,dataPage.pageNow);
         },
         error:function(){
-            self.location="../login/login" ;
-            alert("登陆超时，请重新登陆！");
+            alert("登录已失效，请重新登录！");
+            window.location.href = "/oms/login/logout";
         }
     });
 }
+
+//回车键绑定查询事件
+$(document).keydown(function(event){
+        if(event.keyCode==13){
+            $("#search").click();
+        }
+    });
+
 
 /*单、双击事件跳转*/
 function exceptionsingleClick(oid) {
