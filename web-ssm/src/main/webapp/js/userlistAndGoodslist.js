@@ -173,39 +173,33 @@ function showReturnDetail(id) {
     window.open("/oms/returned/returnedDetail?id=" + id);
 }
 
-function getreturnedStatusAjax(i,statusp,countStatus){
-    var id = returnIdArray[i];
-
-    $.ajax({
-        type: 'get',
-        url: '/oms/returned/getReturnedStatus',
-        data: {
-            id: id,
-        },
-        async: false,//同步
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (data) {
-            if (data.status == statusp) {
-                countStatus++;
-            }
-        },
-        error: function () {
-            alert("登录已失效，请重新登录！");
-            window.location.href = "/oms/login/logout";
-        }
-    });
-
-}
-
 //获得退货单状态
 function getreturnedStatus(returnIdArray, statusp) {
 
     var status;
     var countStatus = 0;
     for (var i = 0; i < returnIdArray.length; i++) {
-        getreturnedStatusAjax(i,statusp,countStatus);
+        var id = returnIdArray[i];
 
+        $.ajax({
+            type: 'get',
+            url: '/oms/returned/getReturnedStatus',
+            data: {
+                id: id,
+            },
+            async: false,//同步
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                if (data.status == statusp) {
+                    countStatus++;
+                }
+            },
+            error: function () {
+                alert("登录已失效，请重新登录！");
+                window.location.href = "/oms/login/logout";
+            }
+        });
     }
     if (countStatus == returnIdArray.length) {
         return "yes";
@@ -223,42 +217,37 @@ function getUserRole() {
 
 }
 
-function getreturnedOrChangeAjax(i,returnIdArray,returncount){
-    var id = returnIdArray[i];
-
-    $.ajax({
-        type: 'get',
-        url: '/oms/returned/getReturnedOrChange',
-        data: {
-            id: id,
-        },
-        async: false,//同步
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (data) {
-
-            if (data.returnOrChange == "return") {
-
-                returncount++;
-            }
-
-        },
-        error: function () {
-            alert("登录已失效，请重新登录！");
-            window.location.href = "/oms/login/logout";
-        }
-
-
-    });
-}
-
-
 //根据退货单id数组判断一批退货单全是return，或全是change，或都有
 function getreturnedOrChange(returnIdArray) {
     var returncount = 0;
     for (var i = 0; i < returnIdArray.length; i++) {
 
-        getreturnedOrChangeAjax(i,returnIdArray,returncount);
+        var id = returnIdArray[i];
+
+        $.ajax({
+            type: 'get',
+            url: '/oms/returned/getReturnedOrChange',
+            data: {
+                id: id,
+            },
+            async: false,//同步
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+
+                if (data.returnOrChange == "return") {
+
+                    returncount++;
+                }
+
+            },
+            error: function () {
+                alert("登录已失效，请重新登录！");
+                window.location.href = "/oms/login/logout";
+            }
+
+
+        });
 
     }
     if (returncount == returnIdArray.length) {
@@ -303,7 +292,7 @@ function selectByUserName(pageNow) {
                 return false;
             } else {
 
-                pageShowUser(pageNow, totalPage);//上一页，下一页控制显示
+                pageShowUser(pageNow,totalPage);//
 
                 userselectValuetemp = userselectValue;
                 $('#usertbody').html("");
@@ -356,7 +345,7 @@ function selectGoodsByValue(pageNow) {
                 goodselectValueTemp = goodselectValue;
                 goodselectTemp = goodselect;
 
-                pageShowGoods(pageNow, totalPage);//上一页，下一页控制显示
+                pageShowGoods(pageNow,totalPage);//
 
                 $('#goodsbody').html("");
                 for (var i in goodsList) {
@@ -405,7 +394,37 @@ function selectGoodsByValue2(pageNow) {
             } else {
                 goodselectValueTemp = goodselectValue;
                 goodselectTemp = goodselect;
-                pageShowGoods(pageNow, totalPage);//上一页，下一页控制显示
+                if (pageNow == 1) {
+                    if (totalPage == 0 || totalPage == 1) {
+                        $('#preGoodsPage').hide();
+                        $('#firstGoodsPage').hide();
+                        $('#endGoodsPage').hide();
+                        $('#nextGoodsPage').hide();
+                    } else {
+                        $('#preGoodsPage').hide();
+                        $('#firstGoodsPage').hide();
+                        $('#nextGoodsPage').show();
+                        $('#endGoodsPage').show();
+                    }
+                } else if (pageNow < totalPage) {
+                    if (totalPage == 0 || totalPage == 1) {
+                        $('#preGoodsPage').hide();
+                        $('#firstGoodsPage').hide();
+                        $('#endGoodsPage').hide();
+                        $('#nextGoodsPage').hide();
+                    } else {
+                        $('#nextGoodsPage').show();
+                        $('#endGoodsPage').show();
+                        $('#preGoodsPage').show();
+                        $('#firstGoodsPage').show();
+
+                    }
+                } else if (pageNow = totalPage) {
+                    $('#preGoodsPage').show();
+                    $('#firstGoodsPage').show();
+                    $('#endGoodsPage').hide();
+                    $('#nextGoodsPage').hide();
+                }
 
                 $('#goodsbody').html("");
                 for (var i in goodsList) {
@@ -456,8 +475,40 @@ function selectReturnByvalue(pageNow) {
                 returnSelectValue = returnSelectValueTemp;
                 return false;
             }
-            pageShowReturned(pageNow, totalPage);
+            if (pageNow == 1) {
+                if (totalPage == 0 || totalPage == 1) {
 
+                    $('#preReturnedPage').hide();
+                    $('#firstReturnedPage').hide();
+                    $('#endReturnedPage').hide();
+                    $('#nextReturnedPage').hide();
+                } else {
+
+                    $('#preReturnedPage').hide();
+                    $('#firstReturnedPage').hide();
+                    $('#endReturnedPage').show();
+                    $('#nextReturnedPage').show();
+                }
+            } else if (pageNow < totalPage) {
+                if (totalPage == 0 || totalPage == 1) {
+                    $('#preReturnedPage').hide();
+                    $('#firstReturnedPage').hide();
+                    $('#endReturnedPage').hide();
+                    $('#nextReturnedPage').hide();
+                } else {
+                    $('#preReturnedPage').show();
+                    $('#firstReturnedPage').show();
+                    $('#endReturnedPage').show();
+                    $('#nextReturnedPage').show();
+
+                }
+            } else if (pageNow = totalPage) {
+
+                $('#preReturnedPage').show();
+                $('#firstReturnedPage').show();
+                $('#endReturnedPage').hide();
+                $('#nextReturnedPage').hide();
+            }
 
             returnSelectValueTemp = returnSelectValue;
             returnSelectTemp = returnSelect;
@@ -512,8 +563,40 @@ function selectReturnByvalue2(pageNow) {
                 returnSelectValue = returnSelectValueTemp;
                 return false;
             }
+            if (pageNow == 1) {
+                if (totalPage == 0 || totalPage == 1) {
 
-            pageShowReturned(pageNow, totalPage);//分页按钮显示控制
+                    $('#preReturnedPage').hide();
+                    $('#firstReturnedPage').hide();
+                    $('#endReturnedPage').hide();
+                    $('#nextReturnedPage').hide();
+                } else {
+
+                    $('#preReturnedPage').hide();
+                    $('#firstReturnedPage').hide();
+                    $('#endReturnedPage').show();
+                    $('#nextReturnedPage').show();
+                }
+            } else if (pageNow < totalPage) {
+                if (totalPage == 0 || totalPage == 1) {
+                    $('#preReturnedPage').hide();
+                    $('#firstReturnedPage').hide();
+                    $('#endReturnedPage').hide();
+                    $('#nextReturnedPage').hide();
+                } else {
+                    $('#preReturnedPage').show();
+                    $('#firstReturnedPage').show();
+                    $('#endReturnedPage').show();
+                    $('#nextReturnedPage').show();
+
+                }
+            } else if (pageNow = totalPage) {
+
+                $('#preReturnedPage').show();
+                $('#firstReturnedPage').show();
+                $('#endReturnedPage').hide();
+                $('#nextReturnedPage').hide();
+            }
 
             returnSelectValueTemp = returnSelectValue;
             returnSelectTemp = returnSelect;
@@ -540,17 +623,44 @@ function selectReturnByvalue2(pageNow) {
 }
 
 //将退货单状态显示为中文
-function returnedStatusToCN(returnedStatus) {
+function returnedStatusToCN(returnedStatus){
 
-    var statusArr=["","待审核","审核通过","审核失败","等待收货","收货成功","换货失败","换货取消","退货失败","退货取消"];
-    if(returnedStatus==""){
-        returnedStatus="0";
+    switch (parseInt(returnedStatus)){
+        case 1:
+            return "待审核";
+
+        case 2:
+            return "审核通过";
+
+        case 3:
+            return "审核失败";
+
+        case 4:
+            return "等待收货";
+
+        case 5:
+            return "收货成功";
+
+        case 6:
+            return "换货失败";
+
+        case 7:
+            return "换货取消";
+
+        case 8:
+            return "退货失败";
+
+        case 9:
+            return "退货取消";
+
+        default:
+            return "";
+
     }
-    return statusArr[parseInt(returnedStatus)];
 
 }
 
-function pageShowUser(pageNow, totalPage) {
+function pageShowUser(pageNow,totalPage) {
     if (pageNow == 1) {
         if (totalPage == 0 || totalPage == 1) {
 
@@ -588,7 +698,7 @@ function pageShowUser(pageNow, totalPage) {
     }
 }
 
-function pageShowGoods(pageNow, totalPage) {
+function pageShowGoods(pageNow,totalPage) {
 
     if (pageNow == 1) {
         if (totalPage == 0 || totalPage == 1) {
@@ -622,350 +732,6 @@ function pageShowGoods(pageNow, totalPage) {
         $('#nextGoodsPage').hide();
     }
 }
-
-
-function pageShowReturned(pageNow, totalPage) {
-
-    if (pageNow == 1) {
-        if (totalPage == 0 || totalPage == 1) {
-
-            $('#preReturnedPage').hide();
-            $('#firstReturnedPage').hide();
-            $('#endReturnedPage').hide();
-            $('#nextReturnedPage').hide();
-        } else {
-
-            $('#preReturnedPage').hide();
-            $('#firstReturnedPage').hide();
-            $('#endReturnedPage').show();
-            $('#nextReturnedPage').show();
-        }
-    } else if (pageNow < totalPage) {
-        if (totalPage == 0 || totalPage == 1) {
-            $('#preReturnedPage').hide();
-            $('#firstReturnedPage').hide();
-            $('#endReturnedPage').hide();
-            $('#nextReturnedPage').hide();
-        } else {
-            $('#preReturnedPage').show();
-            $('#firstReturnedPage').show();
-            $('#endReturnedPage').show();
-            $('#nextReturnedPage').show();
-
-        }
-    } else if (pageNow = totalPage) {
-
-        $('#preReturnedPage').show();
-        $('#firstReturnedPage').show();
-        $('#endReturnedPage').hide();
-        $('#nextReturnedPage').hide();
-    }
-}
-
-function addUserAjax(username,password){
-    $.ajax({
-        type: 'get',
-        url: '/oms/user/addUser',
-        data: {
-            userName: username,
-            password: password
-        },
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (data) {
-            if (data == -5) {
-                alert("用户无此权限");
-                window.location.href = "/oms/oms/index";
-                return false;
-            }
-            if (data == 1) {
-                $(".loading").hide();
-                $(".hbg").hide();
-                alert("添加成功");
-                $("#addUserwindows").hide();
-
-                $('#addUserName').val("");
-                $('#addUserPassword').val("");
-                selectByUserName(1);
-
-            } else {
-
-                alert("用户名已存在");
-
-                $('#addUserName').val("");
-                $('#addUserPassword').val("");
-
-
-            }
-        },
-        error: function () {
-
-            alert("登录已失效，请重新登录！");
-            window.location.href = "/oms/login/logout";
-            $("#addUserwindows").hide();
-            $(".loading").hide();
-            $(".hbg").hide();
-        }
-
-    });
-}
-
-//添加用户时判断用户名密码是否含特殊字符
-function addUserWordCheck(username,password){
-    var zzbds = /^([\u4E00-\u9FA5]|\w)*$/;
-    if (!zzbds.test(username)) {
-        $("#addUserMsg").html("请输入有效用户名");
-        $(".loading").hide();
-    } else {
-        if (!zzbds.test(password)) {
-            $("#addUserMsg").html("请输入有效密码");
-            $(".loading").hide();
-        } else {
-            addUserAjax(username,password);
-
-        }
-    }
-
-}
-function addUserLengthCheck(username,password){
-    if (password.length < 6 || password.length > 15) {
-        $("#addUserMsg").html("请输入6-15位密码");
-        $(".loading").hide();
-    } else {
-
-        addUserWordCheck(username,password);//判断用户名密码是否合法，添加用户
-
-    }
-}
-
-function updateUserAjax(userIds,username,password){
-    $.ajax({
-        type: 'get',
-        url: '/oms/user/updateUser',
-        data: {
-            uid: userIds,
-            userName: username,
-            password: password
-        },
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (data) {
-            if (data == -5) {
-                alert("用户无此权限");
-                window.location.href = "/oms/oms/index";
-                return false;
-            }
-            if (data == 1) {
-                alert("修改成功");
-                $(".loading").hide();
-                $(".hbg").hide();
-                $("#updateUserBound").hide();
-                $('#updateUserName').val("");
-                $('#updateUserPassword').val("");
-                document.getElementById("updateUserBut").disabled = true;
-                selectByUserName(1);
-
-            } else if (data == -1) {
-                alert("修改成功请重新登陆");
-                $('#updateUserName').val("");
-                $('#updateUserPassword').val("");
-
-                $(".loading").hide();
-                window.location.href = "/oms/login/logout";
-            } else {
-
-                $("#updateUserMsg").html("用户名已存在");
-                var unameid = "#" + userIds + "uname";
-                var upassid = "#" + userIds + "upass";
-
-                var uname = $(unameid).html();
-                var upass = $(upassid).html();
-                $('#updateUserName').val(uname);
-                upass = upass.replace("&nbsp;", "");
-                $('#updateUserPassword').val(upass);
-            }
-        },
-        error: function () {
-            alert("登录已失效，请重新登录！");
-            window.location.href = "/oms/login/logout";
-            $(".loading").hide();
-            $(".hbg").hide();
-            $("#updateUserBound").hide();
-            document.getElementById("updateUserBut").disabled = true;
-        }
-
-    });
-}
-
-function updateUserWordCheck(username,password,userIdArray){
-    var i = 0;
-    var zzbds = /^([\u4E00-\u9FA5]|\w)*$/;
-    if (!zzbds.test(username)) {
-        $("#updateUserMsg").html("请输入有效用户名");
-        $(".loading").hide();
-    } else {
-
-        if (!zzbds.test(password)) {
-            $("#updateUserMsg").html("请输入有效密码");
-            $(".loading").hide();
-        } else {
-            $("input:checkbox[name='usercheck']:checked").each(function () {
-                userIdArray[i++] = parseInt($(this).attr("id"));
-            });
-            var userIds = userIdArray.join("/");
-
-            updateUserAjax(userIds,username,password);
-
-        }
-    }
-
-}
-
-function updateUserLength(username,password,userIdArray){
-    if (password == '') {
-        $("#updateUserMsg").html("请输入密码");
-        $(".loading").hide();
-    } else {
-        if (password.length < 6 || password.length > 15) {
-            $("#updateUserMsg").html("请输入6-15位密码");
-            $(".loading").hide();
-        } else {
-
-            updateUserWordCheck(username,password,userIdArray);
-
-        }
-    }
-}
-
-function createOutBoundAjax(j,returnIdArray,successCount,errorcount){
-    var id = returnIdArray[j];
-
-    $.ajax({
-        type: 'get',
-        url: '/oms/returned/createRefoundOrder',
-        data: {
-            id: id,
-        },
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (data) {
-            if (data.isSuccess > 0) {
-                successCount++;
-
-            } else if (data.isSuccess < 0) {
-                errorcount++;
-
-            }
-        },
-        error: function () {
-            alert("登录已失效，请重新登录！");
-            window.location.href = "/oms/login/logout";
-            return false;
-        }
-    });
-
-}
-
-function createOutBounds(returnIdArray,successCount,errorcount){
-    for (var j = 0; j < returnIdArray.length; j++) {
-
-        createOutBoundAjax(j,returnIdArray,successCount,errorcount);
-
-        selectReturnByvalue(1);
-    }
-    if (errorcount > 0) {
-        alert("退款单已创建，请不要重复提交，共" + returnIdArray.length + "条,成功" + successCount + "条");
-    } else if (successCount > 0) {
-        alert("创建完成,共" + returnIdArray.length + "条,成功" + successCount + "条");
-    }
-}
-
-function changeOutBoundAjax(j,returnIdArray,changesuccessCount,changeErrorCount){
-
-    var id = returnIdArray[j];
-    $.ajax({
-        type: 'get',
-        url: '/oms/returned/createOutBoundOrder',
-        data: {
-            id: id,
-        },
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (data) {
-            if (data.data == "换货成功") {
-                changesuccessCount = parseInt(changesuccessCount) + 1;
-            } else if (data.data == "-1") {
-                changeErrorCount++;
-            }
-        },
-        error: function () {
-            alert("登录已失效，请重新登录！");
-            window.location.href = "/oms/login/logout";
-            return false;
-        }
-    });
-
-}
-function changeOutBounds(returnIdArray,changesuccessCount,changeErrorCount){
-    for (var j = 0; j < returnIdArray.length; j++) {
-
-        changeOutBoundAjax(j,returnIdArray,changesuccessCount,changeErrorCount);
-
-    }
-    if (changeErrorCount > 0) {
-        alert("订单已换货，请不要重复提交，共" + returnIdArray.length + "条,成功" + changesuccessCount + "条");
-    } else if (changesuccessCount > 0) {
-        //if
-        alert("发货完成,共" + returnIdArray.length + "条,成功" + changesuccessCount + "条");
-    }
-}
-
-
-function checkreturnedorderAjax(j,returnIdArray){
-    var id = returnIdArray[j];
-    $.ajax({
-        type: 'get',
-        url: '/oms/returned/createInBoundOrder',
-        data: {
-            id: id,
-        },
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function () {
-
-            selectReturnByvalue(1);
-        }
-    });
-}
-
-
-function cancelReturnedOrderAjax(j,returnIdArray){
-
-    var id = returnIdArray[j];
-    $.ajax({
-        type: 'get',
-        url: '/oms/returned/cancelReturn',
-        data: {
-            id: id,
-        },
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function () {
-
-            selectReturnByvalue(1);
-        },
-        error: function () {
-            alert("登录已失效，请重新登录！");
-            window.location.href = "/oms/login/logout";
-            return false;
-        }
-
-    });
-}
-
-
 $(
     function () {
 
@@ -1124,9 +890,69 @@ $(
                         $("#addUserMsg").html("请输入密码");
                         $(".loading").hide();
                     } else {
+                        if (password.length < 6 || password.length > 15) {
+                            $("#addUserMsg").html("请输入6-15位密码");
+                            $(".loading").hide();
+                        } else {
+                            var zzbds = /^([\u4E00-\u9FA5]|\w)*$/;
+                            if (!zzbds.test(username)) {
+                                $("#addUserMsg").html("请输入有效用户名");
+                                $(".loading").hide();
+                            } else {
+                                if (!zzbds.test(password)) {
+                                    $("#addUserMsg").html("请输入有效密码");
+                                    $(".loading").hide();
+                                } else {
+                                    $.ajax({
+                                        type: 'get',
+                                        url: '/oms/user/addUser',
+                                        data: {
+                                            userName: username,
+                                            password: password
+                                        },
+                                        contentType: "application/json; charset=utf-8",
+                                        dataType: "json",
+                                        success: function (data) {
+                                            if (data == -5) {
+                                                alert("用户无此权限");
+                                                window.location.href = "/oms/oms/index";
+                                                return false;
+                                            }
+                                            if (data == 1) {
+                                                $(".loading").hide();
+                                                $(".hbg").hide();
+                                                alert("添加成功");
+                                                $("#addUserwindows").hide();
 
-                        addUserLengthCheck(username,password);//添加用户，长度判断，特殊符号判断
+                                                $('#addUserName').val("");
+                                                $('#addUserPassword').val("");
+                                                selectByUserName(1);
 
+                                            } else {
+
+                                                alert("用户名已存在");
+
+                                                $('#addUserName').val("");
+                                                $('#addUserPassword').val("");
+
+
+                                            }
+                                        },
+                                        error: function () {
+
+                                            alert("登录已失效，请重新登录！");
+                                            window.location.href = "/oms/login/logout";
+                                            $("#addUserwindows").hide();
+                                            $(".loading").hide();
+                                            $(".hbg").hide();
+                                        }
+
+                                    });
+
+
+                                }
+                            }
+                        }
                     }
                 }
 
@@ -1146,13 +972,95 @@ $(
                     $(".loading").hide();
                 } else {
                     var userIdArray = new Array();
-
+                    var i = 0;
                     if (username == '') {
                         $("#updateUserMsg").html("请输入用户名");
                         $(".loading").hide();
                     } else {
-                        updateUserLength(username,password,userIdArray);
+                        if (password == '') {
+                            $("#updateUserMsg").html("请输入密码");
+                            $(".loading").hide();
+                        } else {
+                            if (password.length < 6 || password.length > 15) {
+                                $("#updateUserMsg").html("请输入6-15位密码");
+                                $(".loading").hide();
+                            } else {
+                                var zzbds = /^([\u4E00-\u9FA5]|\w)*$/;
+                                if (!zzbds.test(username)) {
+                                    $("#updateUserMsg").html("请输入有效用户名");
+                                    $(".loading").hide();
+                                } else {
+                                    if (!zzbds.test(password)) {
+                                        $("#updateUserMsg").html("请输入有效密码");
+                                        $(".loading").hide();
+                                    } else {
+                                        $("input:checkbox[name='usercheck']:checked").each(function () {
+                                            userIdArray[i++] = parseInt($(this).attr("id"));
+                                        });
+                                        var userIds = userIdArray.join("/");
 
+                                        $.ajax({
+                                            type: 'get',
+                                            url: '/oms/user/updateUser',
+                                            data: {
+                                                uid: userIds,
+                                                userName: username,
+                                                password: password
+                                            },
+                                            contentType: "application/json; charset=utf-8",
+                                            dataType: "json",
+                                            success: function (data) {
+                                                if (data == -5) {
+                                                    alert("用户无此权限");
+                                                    window.location.href = "/oms/oms/index";
+                                                    return false;
+                                                }
+                                                if (data == 1) {
+                                                    alert("修改成功");
+                                                    $(".loading").hide();
+                                                    $(".hbg").hide();
+                                                    $("#updateUserBound").hide();
+                                                    $('#updateUserName').val("");
+                                                    $('#updateUserPassword').val("");
+                                                    document.getElementById("updateUserBut").disabled = true;
+                                                    selectByUserName(1);
+
+                                                } else if (data == -1) {
+                                                    alert("修改成功请重新登陆");
+                                                    $('#updateUserName').val("");
+                                                    $('#updateUserPassword').val("");
+
+                                                    $(".loading").hide();
+                                                    window.location.href = "/oms/login/logout";
+                                                } else {
+
+                                                    $("#updateUserMsg").html("用户名已存在");
+                                                    var unameid = "#" + userIds + "uname";
+                                                    var upassid = "#" + userIds + "upass";
+
+                                                    var uname = $(unameid).html();
+                                                    var upass = $(upassid).html();
+                                                    $('#updateUserName').val(uname);
+                                                    upass = upass.replace("&nbsp;", "");
+                                                    $('#updateUserPassword').val(upass);
+                                                }
+                                            },
+                                            error: function () {
+                                                alert("登录已失效，请重新登录！");
+                                                window.location.href = "/oms/login/logout";
+                                                $(".loading").hide();
+                                                $(".hbg").hide();
+                                                $("#updateUserBound").hide();
+                                                document.getElementById("updateUserBut").disabled = true;
+                                            }
+
+                                        });
+
+
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             });
@@ -1471,12 +1379,24 @@ $(
                     return false;
                 } else {
 
-                    var a = getreturnedStatus(returnIdArray, "待审核");
+                    var a = getreturnedStatus(returnIdArray, "1");
 
                     if (a == "yes") {
                         for (var j = 0; j < returnIdArray.length; j++) {
-                            checkreturnedorderAjax(j,returnIdArray);
+                            var id = returnIdArray[j];
+                            $.ajax({
+                                type: 'get',
+                                url: '/oms/returned/createInBoundOrder',
+                                data: {
+                                    id: id,
+                                },
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function () {
 
+                                    selectReturnByvalue(1);
+                                }
+                            });
                         }
                     } else {
                         alert('请选择待审核订单');
@@ -1502,11 +1422,29 @@ $(
                     return false;
                 } else {
 
-                    var a = getreturnedStatus(returnIdArray, "待审核");
+                    var a = getreturnedStatus(returnIdArray, "1");
                     if (a == "yes") {
                         for (var j = 0; j < returnIdArray.length; j++) {
-                            cancelReturnedOrderAjax(j,returnIdArray);
+                            var id = returnIdArray[j];
+                            $.ajax({
+                                type: 'get',
+                                url: '/oms/returned/cancelReturn',
+                                data: {
+                                    id: id,
+                                },
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                success: function () {
 
+                                    selectReturnByvalue(1);
+                                },
+                                error: function () {
+                                    alert("登录已失效，请重新登录！");
+                                    window.location.href = "/oms/login/logout";
+                                    return false;
+                                }
+
+                            });
 
                         }
                         alert("取消订单成功");
@@ -1534,12 +1472,46 @@ $(
                 return false;
             } else {
 
-                var a = getreturnedStatus(returnIdArray, "收货成功");
+                var a = getreturnedStatus(returnIdArray, "5");
                 var returnOrChange = getreturnedOrChange(returnIdArray);
                 if (a == "yes") {
                     if (returnOrChange == "return") {
 
-                        createOutBounds(returnIdArray,successCount,errorcount);
+                        for (var j = 0; j < returnIdArray.length; j++) {
+
+                            var id = returnIdArray[j];
+
+                            $.ajax({
+                                type: 'get',
+                                url: '/oms/returned/createRefoundOrder',
+                                data: {
+                                    id: id,
+                                },
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                async: false,
+                                success: function (data) {
+                                    if (data.isSuccess > 0) {
+                                        successCount++;
+
+                                    } else if (data.isSuccess < 0) {
+                                        errorcount++;
+
+                                    }
+                                },
+                                error: function () {
+                                    alert("登录已失效，请重新登录！");
+                                    window.location.href = "/oms/login/logout";
+                                    return false;
+                                }
+                            });
+                            selectReturnByvalue(1);
+                        }
+                        if (errorcount > 0) {
+                            alert("退款单已创建，请不要重复提交，共" + returnIdArray.length + "条,成功" + successCount + "条");
+                        } else if (successCount > 0) {
+                            alert("创建完成,共" + returnIdArray.length + "条,成功" + successCount + "条");
+                        }
 
                     } else {
                         alert('请选择退换货状态为‘return’的退货单');
@@ -1572,12 +1544,46 @@ $(
                 alert("请勾选订单");
                 return false;
             } else {
-                var a = getreturnedStatus(returnIdArray, "收货成功");
+                var a = getreturnedStatus(returnIdArray, "5");
                 var returnOrChange = getreturnedOrChange(returnIdArray);
                 if (a == "yes") {
                     if (returnOrChange == "change") {
 
-                        changeOutBounds(returnIdArray,changesuccessCount,changeErrorCount);
+                        for (var j = 0; j < returnIdArray.length; j++) {
+
+                            var id = returnIdArray[j];
+
+                            $.ajax({
+                                type: 'get',
+                                url: '/oms/returned/createOutBoundOrder',
+                                data: {
+                                    id: id,
+                                },
+                                contentType: "application/json; charset=utf-8",
+                                dataType: "json",
+                                async: false,
+                                success: function (data) {
+                                    if (data.data == "换货成功") {
+                                        changesuccessCount = parseInt(changesuccessCount) + 1;
+                                    } else if (data.data == "-1") {
+                                        changeErrorCount++;
+                                    }
+                                },
+                                error: function () {
+                                    alert("登录已失效，请重新登录！");
+                                    window.location.href = "/oms/login/logout";
+                                    return false;
+                                }
+                            });
+
+
+                        }
+                        if (changeErrorCount > 0) {
+                            alert("订单已换货，请不要重复提交，共" + returnIdArray.length + "条,成功" + changesuccessCount + "条");
+                        } else if (changesuccessCount > 0) {
+                            //if
+                            alert("发货完成,共" + returnIdArray.length + "条,成功" + changesuccessCount + "条");
+                        }
 
 
                     } else {
@@ -1644,8 +1650,8 @@ $(
                 $('#returnedCreaterefoundOder').attr('disabled', "true");
                 $('#changeOutBound').attr('disabled', "true");
             } else {
-                var daishenghe = getreturnedStatus(returnIdArray, "待审核");
-                var shouhuowancheng = getreturnedStatus(returnIdArray, "收货成功");
+                var daishenghe = getreturnedStatus(returnIdArray, "1");
+                var shouhuowancheng = getreturnedStatus(returnIdArray, "5");
                 var returnOrChange = getreturnedOrChange(returnIdArray);
                 if (daishenghe == "yes") {
 
