@@ -625,38 +625,11 @@ function selectReturnByvalue2(pageNow) {
 //将退货单状态显示为中文
 function returnedStatusToCN(returnedStatus){
 
-    switch (parseInt(returnedStatus)){
-        case 1:
-            return "待审核";
-
-        case 2:
-            return "审核通过";
-
-        case 3:
-            return "审核失败";
-
-        case 4:
-            return "等待收货";
-
-        case 5:
-            return "收货成功";
-
-        case 6:
-            return "换货失败";
-
-        case 7:
-            return "换货取消";
-
-        case 8:
-            return "退货失败";
-
-        case 9:
-            return "退货取消";
-
-        default:
-            return "";
-
+    var statusArr=["","待审核","审核通过","审核失败","等待收货","收货成功","换货失败","换货取消","退货失败","退货取消"];
+    if(returnedStatus==""){
+        returnedStatus="0";
     }
+    return statusArr[parseInt(returnedStatus)];
 
 }
 
@@ -763,6 +736,7 @@ $(
 
         if (parseInt(urole) == 1) {
             window.onload = selectByUserName(1);
+            $("#userPageNow").html("1");
             $('#nextUserPage').click(
                 function () {
 
@@ -797,6 +771,7 @@ $(
                         }
                         $('#userPageNow').html(userpage * 1 - 1 * 1);
                         selectByUserName(userpage * 1 - 1 * 1);
+
                     } else {
 
                         alert("已到第一页");
@@ -859,6 +834,7 @@ $(
                                 }
                                 if (data > 0) {
                                     selectByUserName(1);
+                                    $('#userPageNow').html(1);
                                     alert("删除成功");
                                 } else if (data == 0) {
                                     alert("删除失败");
@@ -870,6 +846,7 @@ $(
                                 alert("登录已失效，请重新登录！");
                                 window.location.href = "/oms/login/logout";
                                 selectByUserName(1);
+                                $("#userPageNow").html("1");
                             }
 
                         });
@@ -878,8 +855,9 @@ $(
 
             //添加用户
             $("#addUser").click(function () {
-                $(".loading").hide();
+                $(".loading").show();
                 $(".hbg").show();
+
                 var username = $('#addUserName').val().trim();
                 var password = $('#addUserPassword').val().trim();
                 if (username == '') {
@@ -921,12 +899,14 @@ $(
                                             if (data == 1) {
                                                 $(".loading").hide();
                                                 $(".hbg").hide();
+
                                                 alert("添加成功");
                                                 $("#addUserwindows").hide();
 
                                                 $('#addUserName').val("");
                                                 $('#addUserPassword').val("");
                                                 selectByUserName(1);
+                                                $("#userPageNow").html("1");
 
                                             } else {
 
@@ -961,7 +941,7 @@ $(
 
             //修改用户
             $("#updateUser").click(function () {
-                $(".loading").hide();
+                $(".loading").show();
                 $(".hbg").show();
                 var username = $('#updateUserName').val().trim();
                 var password = $('#updateUserPassword').val().trim();
@@ -1024,6 +1004,7 @@ $(
                                                     $('#updateUserPassword').val("");
                                                     document.getElementById("updateUserBut").disabled = true;
                                                     selectByUserName(1);
+                                                    $("#userPageNow").html("1");
 
                                                 } else if (data == -1) {
                                                     alert("修改成功请重新登陆");
@@ -1074,6 +1055,7 @@ $(
                     alert("请不要输入特殊符号");
                 } else {
                     selectByUserName(1);
+                    $("#userPageNow").html("1");
 
                 }
             });
@@ -1700,6 +1682,7 @@ $(
                 userselectValuetemp = "";
                 $("#userselectvalue").val("");
                 selectByUserName(1);
+                $("#userPageNow").html("1");
             }
         );
 
@@ -1709,6 +1692,7 @@ $(
                 userselectValuetemp = "";
                 $("#userselectvalue").val("");
                 selectByUserName(1);
+                $("#userPageNow").html("1");
             }
         );
 
