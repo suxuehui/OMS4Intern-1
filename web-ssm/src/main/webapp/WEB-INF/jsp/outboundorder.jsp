@@ -21,7 +21,7 @@
                     <li><input type="button" value="查看订单" id="outbtn" name="outorderbtn" onclick="tooutOrderdetail(this.name)" class="btn" disabled="disabled"></li>
                 </ul>
                 <input type="button" id="outsearch" onclick="outGNPage(1)"  value="查询" class="submitBtn fr">
-                <input type="text" class="textArea fr" name="outtxtvalue" id="outtxt">
+                <input type="text" class="textArea fr" name="outtxtvalue" id="outtxt" onkeydown="if (event.keyCode == 13){outGNPage(1)}">
                 <select class="selectArea fr" name="outselect" id="outselectid">
                     <option value="0" class="select_hide">请选择查询条件</option>
                     <option value="1" >订单号</option>
