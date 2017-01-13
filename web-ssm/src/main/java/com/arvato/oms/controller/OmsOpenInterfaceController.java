@@ -226,6 +226,9 @@ public class OmsOpenInterfaceController {
                 {
                     //计算锁定库存
                     Integer lockSum = relationogServiceImpl.selectGoodsRnum(goodsNo2);
+                    if(lockSum==null){
+                        lockSum=0;
+                    }
                     //计算可用库存
                     Integer goodsvnum =  Integer.parseInt(goodsTolnum2)-lockSum.intValue();
                     //修改其商品状态,库存,可用库存
