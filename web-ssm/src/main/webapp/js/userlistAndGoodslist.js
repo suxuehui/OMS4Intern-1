@@ -1102,9 +1102,6 @@ $(
         }
 
 
-
-
-
         window.onload = selectGoodsByValue($('#goodsPageNow').html());
 
         $('#nextGoodsPage').click(
@@ -1346,6 +1343,7 @@ $(
         //审核
         $('#checkreturnedorder').click(
             function () {
+
                 var returnIdArray = new Array();
                 var i = 0;
                 $("input:checkbox[name='returnedcheck']:checked").each(function () {
@@ -1369,6 +1367,7 @@ $(
                                 },
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
+                                async: false,
                                 success: function () {
 
                                     selectReturnByvalue(1);
@@ -1376,14 +1375,16 @@ $(
                                 }
                             });
                         }
+
+                        alert("审核成功");
+
                     } else {
                         alert('请选择待审核订单');
+
                         return false;
                     }
-
                 }
-
-
+                $('#checkreturnedorder').attr('disabled', "true");
             }
         );
 
@@ -1433,6 +1434,7 @@ $(
                     }
 
                 }
+                $('#cancelReturnedOrder').attr('disabled', "true");
             }
         );
 
@@ -1487,6 +1489,7 @@ $(
                             selectReturnByvalue(1);
                             $('#returnedPageNow').html(1);
                         }
+                        $('#returnedCreaterefoundOder').attr('disabled', "true");
                         if (errorcount > 0) {
                             alert("退款单已创建，请不要重复提交，共" + returnIdArray.length + "条,成功" + successCount + "条");
                         } else if (successCount > 0) {
@@ -1527,52 +1530,53 @@ $(
                 alert("请勾选订单");
                 return false;
             } else if (a == "yes") {
-                    if (returnOrChange == "change") {
+                if (returnOrChange == "change") {
 
-                        for (var j = 0; j < returnIdArray.length; j++) {
+                    for (var j = 0; j < returnIdArray.length; j++) {
 
-                            var id = returnIdArray[j];
+                        var id = returnIdArray[j];
 
-                            $.ajax({
-                                type: 'get',
-                                url: '/oms/returned/createOutBoundOrder',
-                                data: {
-                                    id: id,
-                                },
-                                contentType: "application/json; charset=utf-8",
-                                dataType: "json",
-                                async: false,
-                                success: function (data) {
-                                    if (data.data == "换货成功") {
-                                        changesuccessCount = parseInt(changesuccessCount) + 1;
-                                    } else if (data.data == "-1") {
-                                        changeErrorCount++;
-                                    }
-                                },
-                                error: function () {
-                                    alert("登录已失效，请重新登录！");
-                                    window.location.href = "/oms/login/logout";
-                                    return false;
+                        $.ajax({
+                            type: 'get',
+                            url: '/oms/returned/createOutBoundOrder',
+                            data: {
+                                id: id,
+                            },
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            async: false,
+                            success: function (data) {
+                                if (data.data == "换货成功") {
+                                    changesuccessCount = parseInt(changesuccessCount) + 1;
+                                } else if (data.data == "-1") {
+                                    changeErrorCount++;
                                 }
-                            });
+                            },
+                            error: function () {
+                                alert("登录已失效，请重新登录！");
+                                window.location.href = "/oms/login/logout";
+                                return false;
+                            }
+                        });
 
 
-                        }
-                        if (changeErrorCount > 0) {
-                            alert("订单已换货，请不要重复提交，共" + returnIdArray.length + "条,成功" + changesuccessCount + "条");
-                        } else if (changesuccessCount > 0) {
-                            //if
-                            alert("发货完成,共" + returnIdArray.length + "条,成功" + changesuccessCount + "条");
-                        }
-
-                    } else {
-                        alert('请选择退换货状态为‘change’的退货单');
-                        return false;
                     }
+                    if (changeErrorCount > 0) {
+                        alert("订单已换货，请不要重复提交，共" + returnIdArray.length + "条,成功" + changesuccessCount + "条");
+                    } else if (changesuccessCount > 0) {
+                        //if
+                        alert("发货完成,共" + returnIdArray.length + "条,成功" + changesuccessCount + "条");
+                    }
+
                 } else {
-                    alert('请选择收货成功订单');
+                    alert('请选择退换货状态为‘change’的退货单');
                     return false;
                 }
+            } else {
+                alert('请选择收货成功订单');
+                return false;
+            }
+            $('#changeOutBound').attr('disabled', "true");
         });
 
         //退款单查询按钮点击事件

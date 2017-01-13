@@ -234,9 +234,10 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
             String oid = returnedModel.getOid();
             String refoundedId = "RF" + oid + generateRandomNumber(5);
             refoundOrderModel.setDrawbackid(refoundedId);//退款单号
+            refoundOrderModel.setReturnedid(returnedModel.getReturnedid());
             refoundOrderModel.setDrawbackmoney(returnedModel.getReturnedmoney());//退款金额
             refoundOrderModel.setDrawbackstatus("1");//未退款
-            refoundOrderModel.setReturnedid(returnedModel.getReturnedid());//退货单号
+
             int i = refoundOrderModelMapper.insertSelective(refoundOrderModel);
             log.info("a:" + i);
             json.put("isSuccess", i);
