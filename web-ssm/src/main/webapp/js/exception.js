@@ -113,7 +113,7 @@ function excGetnowPage(pagenow){
 }
 
 //回车键绑定查询事件
-$(document).keydown(function(event){
+$('#exception_text').bind('keypress',function(event){
         if(event.keyCode==13){
             $("#search").click();
         }
