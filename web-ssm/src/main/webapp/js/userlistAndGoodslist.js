@@ -263,6 +263,10 @@ function getreturnedOrChange(returnIdArray) {
 
 //查询用户
 function selectByUserName(pageNow) {
+    $('#preUserPage').hide();
+    $('#firstUserPage').hide();
+    $('#endUserPage').hide();
+    $('#nextUserPage').hide();
     var page = pageNow;
     var pageSize = 20;
     $.ajax({
@@ -319,6 +323,10 @@ function selectByUserName(pageNow) {
 
 //查询商品，用于刷新显示
 function selectGoodsByValue(pageNow) {
+    $('#preGoodsPage').hide();
+    $('#firstGoodsPage').hide();
+    $('#endGoodsPage').hide();
+    $('#nextGoodsPage').hide();
     var page = pageNow;
     var pageSize = 20;
     $.ajax({
@@ -705,13 +713,73 @@ function pageShowGoods(pageNow,totalPage) {
         $('#nextGoodsPage').hide();
     }
 }
+
+function selectGoods() {
+    $("#goodsPageNow").html(1);
+    var select = $('#selectGoodssle').val().trim();
+    goodselectValue = $('#goodsvaluetxt').val().trim();
+    if (select == "请选择查询条件") {
+        alert("请选择查询条件");
+    } else {
+
+        var zzbds2 = /^([\u4E00-\u9FA5]|\w)*$/;
+        if (!zzbds2.test(goodselectValue)) {
+            alert("请不要输入特殊符号");
+        } else {
+
+            if (select == "按名称查询") {
+                goodselect = "name";
+
+                selectGoodsByValue2(1);
+                $("#goodsPageNow").html(1);
+
+            } else if (select == "按商品编码查询") {
+                goodselect = "id";
+                selectGoodsByValue2(1);
+                $("#goodsPageNow").html(1);
+            }
+
+        }
+
+    }
+}
+
+function selectReturned() {
+    $("#returnedPageNow").html(1);
+    returnSelect = $('#returnedselect').val().trim();
+    returnSelectValue = $('#returnValue').val().trim();
+    if (returnSelect == "请选择查询条件") {
+        alert("请选择查询条件");
+    } else {
+
+        var zzbds = /^([\u4E00-\u9FA5]|\w)*$/;
+        if (!zzbds.test(returnSelectValue)) {
+            alert("请不要输入特殊符号");
+        } else {
+
+            selectReturnByvalue2(1);
+            $('#returnedPageNow').html(1);
+
+        }
+    }
+}
 $(
     function () {
+
+        $('#preUserPage').hide();
+        $('#firstUserPage').hide();
+        $('#endUserPage').hide();
+        $('#nextUserPage').hide();
 
         $('#prereturnedGoodsPage').hide();
         $('#firstreturnedGoodsPage').hide();
         $('#endreturnedGoodsPage').hide();
         $('#nextreturnedGoodsPage').hide();
+
+        $('#preGoodsPage').hide();
+        $('#firstGoodsPage').hide();
+        $('#endGoodsPage').hide();
+        $('#nextGoodsPage').hide();
 
         var returnIdArray = new Array();
         $("input:checkbox[name='returnedcheck']:checked").each(function () {
@@ -1047,7 +1115,7 @@ $(
             });
 
             //查询用户
-            $('#userselectbutton').click(function () {
+            $('#userselectbutton').click(function selectUser2() {
                 $("#userPageNow").html(1);
                 userselectValue = $("#userselectvalue").val().trim();
                 var zzbds = /^([\u4E00-\u9FA5]|\w)*$/;
@@ -1060,6 +1128,24 @@ $(
                 }
             });
 
+            $('#userselectvalue').bind('keypress',function(event){
+
+                if(event.keyCode == "13")
+
+                {
+                    $("#userPageNow").html(1);
+                    userselectValue = $("#userselectvalue").val().trim();
+                    var zzbds = /^([\u4E00-\u9FA5]|\w)*$/;
+                    if (!zzbds.test(userselectValue)) {
+                        alert("请不要输入特殊符号");
+                    } else {
+                        selectByUserName(1);
+                        $("#userPageNow").html("1");
+
+                    }
+                }
+
+            });
 
             $("#updateUserBut").click(
                 function () {
@@ -1164,37 +1250,21 @@ $(
 
         $('#selectgoodsbut').click(
             function () {
-                $("#goodsPageNow").html(1);
-                var select = $('#selectGoodssle').val().trim();
-                goodselectValue = $('#goodsvaluetxt').val().trim();
-                if (select == "请选择查询条件") {
-                    alert("请选择查询条件");
-                } else {
-
-                    var zzbds2 = /^([\u4E00-\u9FA5]|\w)*$/;
-                    if (!zzbds2.test(goodselectValue)) {
-                        alert("请不要输入特殊符号");
-                    } else {
-
-                        if (select == "按名称查询") {
-                            goodselect = "name";
-
-                            selectGoodsByValue2(1);
-
-
-                        } else if (select == "按商品编码查询") {
-                            goodselect = "id";
-                            selectGoodsByValue(1);
-                        }
-
-                    }
-
-                }
-
-
+                selectGoods();
             }
+
         );
 
+
+        $('#goodsvaluetxt').bind('keypress',function(event){
+
+            if(event.keyCode == "13")
+
+            {
+                selectGoods();
+            }
+
+        });
 
         window.onload = selectReturnByvalue($('#returnedPageNow').html());
 
@@ -1377,6 +1447,7 @@ $(
                                 success: function () {
 
                                     selectReturnByvalue(1);
+                                    $('#returnedPageNow').html(1);
                                 }
                             });
                         }
@@ -1419,6 +1490,7 @@ $(
                                 success: function () {
 
                                     selectReturnByvalue(1);
+                                    $('#returnedPageNow').html(1);
                                 },
                                 error: function () {
                                     alert("登录已失效，请重新登录！");
@@ -1488,6 +1560,7 @@ $(
                                 }
                             });
                             selectReturnByvalue(1);
+                            $('#returnedPageNow').html(1);
                         }
                         if (errorcount > 0) {
                             alert("退款单已创建，请不要重复提交，共" + returnIdArray.length + "条,成功" + successCount + "条");
@@ -1587,28 +1660,20 @@ $(
         //退款单查询按钮点击事件
         $("#serarchReturnedOrder").click(
             function () {
-                $("#returnedPageNow").html(1);
-                returnSelect = $('#returnedselect').val().trim();
-                returnSelectValue = $('#returnValue').val().trim();
-                if (returnSelect == "请选择查询条件") {
-                    alert("请选择查询条件");
-                } else {
-
-                    var zzbds = /^([\u4E00-\u9FA5]|\w)*$/;
-                    if (!zzbds.test(returnSelectValue)) {
-                        alert("请不要输入特殊符号");
-                    } else {
-
-                        selectReturnByvalue2(1);
-
-
-                    }
-
-                }
-
-
+               selectReturned();
             }
         );
+
+        $('#returnValue').bind('keypress',function(event){
+
+            if(event.keyCode == "13")
+
+            {
+                selectReturned();
+            }
+
+        });
+
 
         //选择高亮
         $("tbody").delegate("tr", "click", function () {
@@ -1673,6 +1738,7 @@ $(
                 $("#returnValue").val("");
                 $("#returnedselect").val("请选择查询条件");
                 selectReturnByvalue(1);
+                $('#returnedPageNow').html(1);
             }
         );
 
@@ -1710,6 +1776,7 @@ $(
                 goodselect = "id";
                 goodselectTemp = "id";
                 selectGoodsByValue(1);
+                $("#goodsPageNow").html(1);
             });
 
         $("#goodListSonBut").click(
@@ -1722,7 +1789,10 @@ $(
                 goodselect = "id";
                 goodselectTemp = "id";
                 selectGoodsByValue(1);
+                $("#goodsPageNow").html(1);
             }
         );
+
+
 
     });

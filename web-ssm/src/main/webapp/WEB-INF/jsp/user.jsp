@@ -32,11 +32,11 @@
                         <li><input type="button" value="删除用户" class="btn" id="deleteUser"
                                    disabled="disabled"></li>
                     </ul>
-                    <form>
+                
                         <input type="button" value="查询" class="submitBtn fr" id="userselectbutton">
                         <input type="text" class="textArea fr" id="userselectvalue"
                                onFocus="if(value==defaultValue){value='';}">
-                    </form>
+                    
                 </div>
             </div>
         </div>
