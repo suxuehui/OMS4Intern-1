@@ -62,7 +62,7 @@
         <c:if test="${urole == 1}">
         <!--用户模块-->
             <div id="userList">
-            <jsp:include page="user.jsp"/>
+                <jsp:include page="user.jsp"/>
             </div>
         <!--order结束-->
         <!--用户模块-->
@@ -78,7 +78,7 @@
 
         <!--商品模块-->
         <c:if test="${urole == 2}">
-            <div class="order">
+            <div class="order" id="goodsList">
             </c:if>
             <c:if test="${urole == 1}">
             <div class="order hide" id="goodsList">
