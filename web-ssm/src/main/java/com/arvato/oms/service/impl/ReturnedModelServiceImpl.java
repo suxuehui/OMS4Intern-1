@@ -234,9 +234,10 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
             String oid = returnedModel.getOid();
             String refoundedId = "RF" + oid + generateRandomNumber(5);
             refoundOrderModel.setDrawbackid(refoundedId);//退款单号
+            refoundOrderModel.setReturnedid(returnedModel.getReturnedid());
             refoundOrderModel.setDrawbackmoney(returnedModel.getReturnedmoney());//退款金额
             refoundOrderModel.setDrawbackstatus("1");//未退款
-            refoundOrderModel.setReturnedid(returnedModel.getReturnedid());//退货单号
+
             int i = refoundOrderModelMapper.insertSelective(refoundOrderModel);
             log.info("a:" + i);
             json.put("isSuccess", i);
@@ -585,6 +586,13 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
     public JSONObject getReturnedAndGoodsByid(Integer id)
     {
         ReturnedModel returnedModel = returnedModelMapper.selectByPrimaryKey(id);
+        log.info(returnedModel.getReturnedorchange());
+        returnedModel.setReturnedorchange(returnedModel.getReturnedorchange().equals("return")?"退货":"换货");
+        String[] status={"","待审核","审核通过","审核失败","等待收货","收货成功","换货失败","换货取消","退货失败","退货取消"};
+        if (returnedModel.getReturnedstatus().equals("")){
+            returnedModel.setReturnedstatus("0");
+        }
+        returnedModel.setReturnedstatus(status[Integer.parseInt(returnedModel.getReturnedstatus())]);
         JSONObject json = new JSONObject();
         json.put("returnedModel", returnedModel);
         List<RelationrgModel> relationrgModels = relationrgModelMapper.selectAllGoodsByRid(returnedModel.getReturnedid());

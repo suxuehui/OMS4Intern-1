@@ -87,4 +87,20 @@ public class RefoundOrderModel {
     public void setModifyman(String modifyman) {
         this.modifyman = modifyman == null ? null : modifyman.trim();
     }
+
+    @Override
+    public String toString()
+    {
+        return "RefoundOrderModel{" +
+                "id=" + id +
+                ", drawbackid='" + drawbackid + '\'' +
+                ", drawbackmoney=" + drawbackmoney +
+                ", drawbackstatus='" + drawbackstatus + '\'' +
+                ", returnedid='" + returnedid + '\'' +
+                ", createtime='" + createtime + '\'' +
+                ", modifytime='" + modifytime + '\'' +
+                ", modifyman='" + modifyman + '\'' +
+                ", ft=" + ft +
+                '}';
+    }
 }

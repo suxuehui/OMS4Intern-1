@@ -296,7 +296,7 @@ function selectByUserName(pageNow) {
                 return false;
             } else {
 
-                pageShowUser(pageNow,totalPage);//
+                pageShowUser(pageNow, totalPage);//
 
                 userselectValuetemp = userselectValue;
                 $('#usertbody').html("");
@@ -353,7 +353,7 @@ function selectGoodsByValue(pageNow) {
                 goodselectValueTemp = goodselectValue;
                 goodselectTemp = goodselect;
 
-                pageShowGoods(pageNow,totalPage);//
+                pageShowGoods(pageNow, totalPage);//分页按钮显示控制
 
                 $('#goodsbody').html("");
                 for (var i in goodsList) {
@@ -402,37 +402,7 @@ function selectGoodsByValue2(pageNow) {
             } else {
                 goodselectValueTemp = goodselectValue;
                 goodselectTemp = goodselect;
-                if (pageNow == 1) {
-                    if (totalPage == 0 || totalPage == 1) {
-                        $('#preGoodsPage').hide();
-                        $('#firstGoodsPage').hide();
-                        $('#endGoodsPage').hide();
-                        $('#nextGoodsPage').hide();
-                    } else {
-                        $('#preGoodsPage').hide();
-                        $('#firstGoodsPage').hide();
-                        $('#nextGoodsPage').show();
-                        $('#endGoodsPage').show();
-                    }
-                } else if (pageNow < totalPage) {
-                    if (totalPage == 0 || totalPage == 1) {
-                        $('#preGoodsPage').hide();
-                        $('#firstGoodsPage').hide();
-                        $('#endGoodsPage').hide();
-                        $('#nextGoodsPage').hide();
-                    } else {
-                        $('#nextGoodsPage').show();
-                        $('#endGoodsPage').show();
-                        $('#preGoodsPage').show();
-                        $('#firstGoodsPage').show();
-
-                    }
-                } else if (pageNow = totalPage) {
-                    $('#preGoodsPage').show();
-                    $('#firstGoodsPage').show();
-                    $('#endGoodsPage').hide();
-                    $('#nextGoodsPage').hide();
-                }
+                pageShowGoods(pageNow, totalPage);//分页按钮显示控制
 
                 $('#goodsbody').html("");
                 for (var i in goodsList) {
@@ -483,40 +453,8 @@ function selectReturnByvalue(pageNow) {
                 returnSelectValue = returnSelectValueTemp;
                 return false;
             }
-            if (pageNow == 1) {
-                if (totalPage == 0 || totalPage == 1) {
 
-                    $('#preReturnedPage').hide();
-                    $('#firstReturnedPage').hide();
-                    $('#endReturnedPage').hide();
-                    $('#nextReturnedPage').hide();
-                } else {
-
-                    $('#preReturnedPage').hide();
-                    $('#firstReturnedPage').hide();
-                    $('#endReturnedPage').show();
-                    $('#nextReturnedPage').show();
-                }
-            } else if (pageNow < totalPage) {
-                if (totalPage == 0 || totalPage == 1) {
-                    $('#preReturnedPage').hide();
-                    $('#firstReturnedPage').hide();
-                    $('#endReturnedPage').hide();
-                    $('#nextReturnedPage').hide();
-                } else {
-                    $('#preReturnedPage').show();
-                    $('#firstReturnedPage').show();
-                    $('#endReturnedPage').show();
-                    $('#nextReturnedPage').show();
-
-                }
-            } else if (pageNow = totalPage) {
-
-                $('#preReturnedPage').show();
-                $('#firstReturnedPage').show();
-                $('#endReturnedPage').hide();
-                $('#nextReturnedPage').hide();
-            }
+            pageShowReturned(pageNow, totalPage);
 
             returnSelectValueTemp = returnSelectValue;
             returnSelectTemp = returnSelect;
@@ -571,40 +509,8 @@ function selectReturnByvalue2(pageNow) {
                 returnSelectValue = returnSelectValueTemp;
                 return false;
             }
-            if (pageNow == 1) {
-                if (totalPage == 0 || totalPage == 1) {
 
-                    $('#preReturnedPage').hide();
-                    $('#firstReturnedPage').hide();
-                    $('#endReturnedPage').hide();
-                    $('#nextReturnedPage').hide();
-                } else {
-
-                    $('#preReturnedPage').hide();
-                    $('#firstReturnedPage').hide();
-                    $('#endReturnedPage').show();
-                    $('#nextReturnedPage').show();
-                }
-            } else if (pageNow < totalPage) {
-                if (totalPage == 0 || totalPage == 1) {
-                    $('#preReturnedPage').hide();
-                    $('#firstReturnedPage').hide();
-                    $('#endReturnedPage').hide();
-                    $('#nextReturnedPage').hide();
-                } else {
-                    $('#preReturnedPage').show();
-                    $('#firstReturnedPage').show();
-                    $('#endReturnedPage').show();
-                    $('#nextReturnedPage').show();
-
-                }
-            } else if (pageNow = totalPage) {
-
-                $('#preReturnedPage').show();
-                $('#firstReturnedPage').show();
-                $('#endReturnedPage').hide();
-                $('#nextReturnedPage').hide();
-            }
+            pageShowReturned(pageNow, totalPage);
 
             returnSelectValueTemp = returnSelectValue;
             returnSelectTemp = returnSelect;
@@ -631,17 +537,17 @@ function selectReturnByvalue2(pageNow) {
 }
 
 //将退货单状态显示为中文
-function returnedStatusToCN(returnedStatus){
+function returnedStatusToCN(returnedStatus) {
 
-    var statusArr=["","待审核","审核通过","审核失败","等待收货","收货成功","换货失败","换货取消","退货失败","退货取消"];
-    if(returnedStatus==""){
-        returnedStatus="0";
+    var statusArr = ["", "待审核", "审核通过", "审核失败", "等待收货", "收货成功", "换货失败", "换货取消", "退货失败", "退货取消"];
+    if (returnedStatus == "") {
+        returnedStatus = "0";
     }
     return statusArr[parseInt(returnedStatus)];
 
 }
 
-function pageShowUser(pageNow,totalPage) {
+function pageShowUser(pageNow, totalPage) {
     if (pageNow == 1) {
         if (totalPage == 0 || totalPage == 1) {
 
@@ -679,7 +585,7 @@ function pageShowUser(pageNow,totalPage) {
     }
 }
 
-function pageShowGoods(pageNow,totalPage) {
+function pageShowGoods(pageNow, totalPage) {
 
     if (pageNow == 1) {
         if (totalPage == 0 || totalPage == 1) {
@@ -763,6 +669,95 @@ function selectReturned() {
         }
     }
 }
+
+function pageShowReturned(pageNow, totalPage) {
+    if (pageNow == 1) {
+        if (totalPage == 0 || totalPage == 1) {
+
+            $('#preReturnedPage').hide();
+            $('#firstReturnedPage').hide();
+            $('#endReturnedPage').hide();
+            $('#nextReturnedPage').hide();
+        } else {
+
+            $('#preReturnedPage').hide();
+            $('#firstReturnedPage').hide();
+            $('#endReturnedPage').show();
+            $('#nextReturnedPage').show();
+        }
+    } else if (pageNow < totalPage) {
+        if (totalPage == 0 || totalPage == 1) {
+            $('#preReturnedPage').hide();
+            $('#firstReturnedPage').hide();
+            $('#endReturnedPage').hide();
+            $('#nextReturnedPage').hide();
+        } else {
+            $('#preReturnedPage').show();
+            $('#firstReturnedPage').show();
+            $('#endReturnedPage').show();
+            $('#nextReturnedPage').show();
+
+        }
+    } else if (pageNow = totalPage) {
+
+        $('#preReturnedPage').show();
+        $('#firstReturnedPage').show();
+        $('#endReturnedPage').hide();
+        $('#nextReturnedPage').hide();
+    }
+}
+
+function addUserAjax(username, password) {
+    $.ajax({
+        type: 'get',
+        url: '/oms/user/addUser',
+        data: {
+            userName: username,
+            password: password
+        },
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+            if (data == -5) {
+                alert("用户无此权限");
+                window.location.href = "/oms/oms/index";
+                return false;
+            }
+            if (data == 1) {
+                $(".loading").hide();
+                $(".hbg").hide();
+
+                alert("添加成功");
+                $("#addUserwindows").hide();
+
+                $('#addUserName').val("");
+                $('#addUserPassword').val("");
+                selectByUserName(1);
+                $("#userPageNow").html("1");
+
+            } else {
+
+                alert("用户名已存在");
+
+                $('#addUserName').val("");
+                $('#addUserPassword').val("");
+
+
+            }
+        },
+        error: function () {
+
+            alert("登录已失效，请重新登录！");
+            window.location.href = "/oms/login/logout";
+            $("#addUserwindows").hide();
+            $(".loading").hide();
+            $(".hbg").hide();
+        }
+
+    });
+}
+
+
 $(
     function () {
 
@@ -803,6 +798,7 @@ $(
         var urole = getUserRole();
 
         if (parseInt(urole) == 1) {
+
             window.onload = selectByUserName(1);
             $("#userPageNow").html("1");
             $('#nextUserPage').click(
@@ -925,85 +921,28 @@ $(
             $("#addUser").click(function () {
                 $(".loading").show();
                 $(".hbg").show();
-
                 var username = $('#addUserName').val().trim();
                 var password = $('#addUserPassword').val().trim();
+                var zzbds = /^([\u4E00-\u9FA5]|\w)*$/;
                 if (username == '') {
                     $("#addUserMsg").html("请输入用户名");
                     $(".loading").hide();
+                } else if (password == '') {
+                    $("#addUserMsg").html("请输入密码");
+                    $(".loading").hide();
+                } else if (password.length < 6 || password.length > 15) {
+                    $("#addUserMsg").html("请输入6-15位密码");
+                    $(".loading").hide();
+                } else if (!zzbds.test(username)) {
+                    $("#addUserMsg").html("请输入有效用户名");
+                    $(".loading").hide();
+                } else if (!zzbds.test(password)) {
+                    $("#addUserMsg").html("请输入有效密码");
+                    $(".loading").hide();
                 } else {
-                    if (password == '') {
-                        $("#addUserMsg").html("请输入密码");
-                        $(".loading").hide();
-                    } else {
-                        if (password.length < 6 || password.length > 15) {
-                            $("#addUserMsg").html("请输入6-15位密码");
-                            $(".loading").hide();
-                        } else {
-                            var zzbds = /^([\u4E00-\u9FA5]|\w)*$/;
-                            if (!zzbds.test(username)) {
-                                $("#addUserMsg").html("请输入有效用户名");
-                                $(".loading").hide();
-                            } else {
-                                if (!zzbds.test(password)) {
-                                    $("#addUserMsg").html("请输入有效密码");
-                                    $(".loading").hide();
-                                } else {
-                                    $.ajax({
-                                        type: 'get',
-                                        url: '/oms/user/addUser',
-                                        data: {
-                                            userName: username,
-                                            password: password
-                                        },
-                                        contentType: "application/json; charset=utf-8",
-                                        dataType: "json",
-                                        success: function (data) {
-                                            if (data == -5) {
-                                                alert("用户无此权限");
-                                                window.location.href = "/oms/oms/index";
-                                                return false;
-                                            }
-                                            if (data == 1) {
-                                                $(".loading").hide();
-                                                $(".hbg").hide();
+                    addUserAjax(username, password);
 
-                                                alert("添加成功");
-                                                $("#addUserwindows").hide();
-
-                                                $('#addUserName').val("");
-                                                $('#addUserPassword').val("");
-                                                selectByUserName(1);
-                                                $("#userPageNow").html("1");
-
-                                            } else {
-
-                                                alert("用户名已存在");
-
-                                                $('#addUserName').val("");
-                                                $('#addUserPassword').val("");
-
-
-                                            }
-                                        },
-                                        error: function () {
-
-                                            alert("登录已失效，请重新登录！");
-                                            window.location.href = "/oms/login/logout";
-                                            $("#addUserwindows").hide();
-                                            $(".loading").hide();
-                                            $(".hbg").hide();
-                                        }
-
-                                    });
-
-
-                                }
-                            }
-                        }
-                    }
                 }
-
             });
 
 
@@ -1015,102 +954,89 @@ $(
                 var password = $('#updateUserPassword').val().trim();
                 var preusername = $('#updateusernamehidden').val().trim();
                 var prepassword = $('#updateupasshidden').val().trim();
+                var userIdArray = new Array();
+                var i = 0;
+                var zzbds = /^([\u4E00-\u9FA5]|\w)*$/;
                 if (username == preusername && password == prepassword) {
                     $("#updateUserMsg").html("与原用户信息一致，请重新修改");
                     $(".loading").hide();
+                } else if (username == '') {
+                    $("#updateUserMsg").html("请输入用户名");
+                    $(".loading").hide();
+                } else if (password == '') {
+                    $("#updateUserMsg").html("请输入密码");
+                    $(".loading").hide();
+                } else if (password.length < 6 || password.length > 15) {
+                    $("#updateUserMsg").html("请输入6-15位密码");
+                    $(".loading").hide();
+                } else if (!zzbds.test(username)) {
+                    $("#updateUserMsg").html("请输入有效用户名");
+                    $(".loading").hide();
+                } else if (!zzbds.test(password)) {
+                    $("#updateUserMsg").html("请输入有效密码");
+                    $(".loading").hide();
                 } else {
-                    var userIdArray = new Array();
-                    var i = 0;
-                    if (username == '') {
-                        $("#updateUserMsg").html("请输入用户名");
-                        $(".loading").hide();
-                    } else {
-                        if (password == '') {
-                            $("#updateUserMsg").html("请输入密码");
-                            $(".loading").hide();
-                        } else {
-                            if (password.length < 6 || password.length > 15) {
-                                $("#updateUserMsg").html("请输入6-15位密码");
-                                $(".loading").hide();
-                            } else {
-                                var zzbds = /^([\u4E00-\u9FA5]|\w)*$/;
-                                if (!zzbds.test(username)) {
-                                    $("#updateUserMsg").html("请输入有效用户名");
-                                    $(".loading").hide();
-                                } else {
-                                    if (!zzbds.test(password)) {
-                                        $("#updateUserMsg").html("请输入有效密码");
-                                        $(".loading").hide();
-                                    } else {
-                                        $("input:checkbox[name='usercheck']:checked").each(function () {
-                                            userIdArray[i++] = parseInt($(this).attr("id"));
-                                        });
-                                        var userIds = userIdArray.join("/");
+                    $("input:checkbox[name='usercheck']:checked").each(function () {
+                        userIdArray[i++] = parseInt($(this).attr("id"));
+                    });
+                    var userIds = userIdArray.join("/");
 
-                                        $.ajax({
-                                            type: 'get',
-                                            url: '/oms/user/updateUser',
-                                            data: {
-                                                uid: userIds,
-                                                userName: username,
-                                                password: password
-                                            },
-                                            contentType: "application/json; charset=utf-8",
-                                            dataType: "json",
-                                            success: function (data) {
-                                                if (data == -5) {
-                                                    alert("用户无此权限");
-                                                    window.location.href = "/oms/oms/index";
-                                                    return false;
-                                                }
-                                                if (data == 1) {
-                                                    alert("修改成功");
-                                                    $(".loading").hide();
-                                                    $(".hbg").hide();
-                                                    $("#updateUserBound").hide();
-                                                    $('#updateUserName').val("");
-                                                    $('#updateUserPassword').val("");
-                                                    document.getElementById("updateUserBut").disabled = true;
-                                                    selectByUserName(1);
-                                                    $("#userPageNow").html("1");
-
-                                                } else if (data == -1) {
-                                                    alert("修改成功请重新登陆");
-                                                    $('#updateUserName').val("");
-                                                    $('#updateUserPassword').val("");
-
-                                                    $(".loading").hide();
-                                                    window.location.href = "/oms/login/logout";
-                                                } else {
-
-                                                    $("#updateUserMsg").html("用户名已存在");
-                                                    var unameid = "#" + userIds + "uname";
-                                                    var upassid = "#" + userIds + "upass";
-
-                                                    var uname = $(unameid).html();
-                                                    var upass = $(upassid).html();
-                                                    $('#updateUserName').val(uname);
-                                                    upass = upass.replace("&nbsp;", "");
-                                                    $('#updateUserPassword').val(upass);
-                                                }
-                                            },
-                                            error: function () {
-                                                alert("登录已失效，请重新登录！");
-                                                window.location.href = "/oms/login/logout";
-                                                $(".loading").hide();
-                                                $(".hbg").hide();
-                                                $("#updateUserBound").hide();
-                                                document.getElementById("updateUserBut").disabled = true;
-                                            }
-
-                                        });
-
-
-                                    }
-                                }
+                    $.ajax({
+                        type: 'get',
+                        url: '/oms/user/updateUser',
+                        data: {
+                            uid: userIds,
+                            userName: username,
+                            password: password
+                        },
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data == -5) {
+                                alert("用户无此权限");
+                                window.location.href = "/oms/oms/index";
+                                return false;
                             }
+                            if (data == 1) {
+                                alert("修改成功");
+                                $(".loading").hide();
+                                $(".hbg").hide();
+                                $("#updateUserBound").hide();
+                                $('#updateUserName').val("");
+                                $('#updateUserPassword').val("");
+                                document.getElementById("updateUserBut").disabled = true;
+                                selectByUserName(1);
+                                $("#userPageNow").html("1");
+
+                            } else if (data == -1) {
+                                alert("修改成功请重新登陆");
+                                $('#updateUserName').val("");
+                                $('#updateUserPassword').val("");
+
+                                $(".loading").hide();
+                                window.location.href = "/oms/login/logout";
+                            } else {
+
+                                $("#updateUserMsg").html("用户名已存在");
+                                var unameid = "#" + userIds + "uname";
+                                var upassid = "#" + userIds + "upass";
+
+                                var uname = $(unameid).html();
+                                var upass = $(upassid).html();
+                                $('#updateUserName').val(uname);
+                                upass = upass.replace("&nbsp;", "");
+                                $('#updateUserPassword').val(upass);
+                            }
+                        },
+                        error: function () {
+                            alert("登录已失效，请重新登录！");
+                            window.location.href = "/oms/login/logout";
+                            $(".loading").hide();
+                            $(".hbg").hide();
+                            $("#updateUserBound").hide();
+                            document.getElementById("updateUserBut").disabled = true;
                         }
-                    }
+                    });
                 }
             });
 
@@ -1128,11 +1054,9 @@ $(
                 }
             });
 
-            $('#userselectvalue').bind('keypress',function(event){
+            $('#userselectvalue').bind('keypress', function (event) {
 
-                if(event.keyCode == "13")
-
-                {
+                if (event.keyCode == "13") {
                     $("#userPageNow").html(1);
                     userselectValue = $("#userselectvalue").val().trim();
                     var zzbds = /^([\u4E00-\u9FA5]|\w)*$/;
@@ -1166,16 +1090,17 @@ $(
                 }
             );
 
+            $('#adduserbutindex').click(
+                function () {
+                    $(".hbg").show();
+
+                    $('#addUserName').val("");
+                    $('#addUserPassword').val("");
+                }
+            );
+
         }
 
-        $('#adduserbutindex').click(
-            function () {
-                $(".hbg").show();
-
-                $('#addUserName').val("");
-                $('#addUserPassword').val("");
-            }
-        );
 
         window.onload = selectGoodsByValue($('#goodsPageNow').html());
 
@@ -1252,15 +1177,12 @@ $(
             function () {
                 selectGoods();
             }
-
         );
 
 
-        $('#goodsvaluetxt').bind('keypress',function(event){
+        $('#goodsvaluetxt').bind('keypress', function (event) {
 
-            if(event.keyCode == "13")
-
-            {
+            if (event.keyCode == "13") {
                 selectGoods();
             }
 
@@ -1421,6 +1343,7 @@ $(
         //审核
         $('#checkreturnedorder').click(
             function () {
+
                 var returnIdArray = new Array();
                 var i = 0;
                 $("input:checkbox[name='returnedcheck']:checked").each(function () {
@@ -1444,6 +1367,7 @@ $(
                                 },
                                 contentType: "application/json; charset=utf-8",
                                 dataType: "json",
+                                async: false,
                                 success: function () {
 
                                     selectReturnByvalue(1);
@@ -1451,14 +1375,16 @@ $(
                                 }
                             });
                         }
+
+                        alert("审核成功");
+
                     } else {
                         alert('请选择待审核订单');
+
                         return false;
                     }
-
                 }
-
-
+                $('#checkreturnedorder').attr('disabled', "true");
             }
         );
 
@@ -1508,6 +1434,7 @@ $(
                     }
 
                 }
+                $('#cancelReturnedOrder').attr('disabled', "true");
             }
         );
 
@@ -1562,6 +1489,7 @@ $(
                             selectReturnByvalue(1);
                             $('#returnedPageNow').html(1);
                         }
+                        $('#returnedCreaterefoundOder').attr('disabled', "true");
                         if (errorcount > 0) {
                             alert("退款单已创建，请不要重复提交，共" + returnIdArray.length + "条,成功" + successCount + "条");
                         } else if (successCount > 0) {
@@ -1591,84 +1519,76 @@ $(
             var changeErrorCount = 0;
             var returnIdArray = new Array();
             var i = 0;
+            var a = getreturnedStatus(returnIdArray, "5");
+            var returnOrChange = getreturnedOrChange(returnIdArray);
 
             $("input:checkbox[name='returnedcheck']:checked").each(function () {
                 returnIdArray[i++] = parseInt($(this).attr("id"));
             });
+
             if (returnIdArray.length == 0) {
                 alert("请勾选订单");
                 return false;
-            } else {
-                var a = getreturnedStatus(returnIdArray, "5");
-                var returnOrChange = getreturnedOrChange(returnIdArray);
-                if (a == "yes") {
-                    if (returnOrChange == "change") {
+            } else if (a == "yes") {
+                if (returnOrChange == "change") {
 
-                        for (var j = 0; j < returnIdArray.length; j++) {
+                    for (var j = 0; j < returnIdArray.length; j++) {
 
-                            var id = returnIdArray[j];
+                        var id = returnIdArray[j];
 
-                            $.ajax({
-                                type: 'get',
-                                url: '/oms/returned/createOutBoundOrder',
-                                data: {
-                                    id: id,
-                                },
-                                contentType: "application/json; charset=utf-8",
-                                dataType: "json",
-                                async: false,
-                                success: function (data) {
-                                    if (data.data == "换货成功") {
-                                        changesuccessCount = parseInt(changesuccessCount) + 1;
-                                    } else if (data.data == "-1") {
-                                        changeErrorCount++;
-                                    }
-                                },
-                                error: function () {
-                                    alert("登录已失效，请重新登录！");
-                                    window.location.href = "/oms/login/logout";
-                                    return false;
+                        $.ajax({
+                            type: 'get',
+                            url: '/oms/returned/createOutBoundOrder',
+                            data: {
+                                id: id,
+                            },
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            async: false,
+                            success: function (data) {
+                                if (data.data == "换货成功") {
+                                    changesuccessCount = parseInt(changesuccessCount) + 1;
+                                } else if (data.data == "-1") {
+                                    changeErrorCount++;
                                 }
-                            });
+                            },
+                            error: function () {
+                                alert("登录已失效，请重新登录！");
+                                window.location.href = "/oms/login/logout";
+                                return false;
+                            }
+                        });
 
 
-                        }
-                        if (changeErrorCount > 0) {
-                            alert("订单已换货，请不要重复提交，共" + returnIdArray.length + "条,成功" + changesuccessCount + "条");
-                        } else if (changesuccessCount > 0) {
-                            //if
-                            alert("发货完成,共" + returnIdArray.length + "条,成功" + changesuccessCount + "条");
-                        }
-
-
-                    } else {
-                        alert('请选择退换货状态为‘change’的退货单');
-                        return false;
+                    }
+                    if (changeErrorCount > 0) {
+                        alert("订单已换货，请不要重复提交，共" + returnIdArray.length + "条,成功" + changesuccessCount + "条");
+                    } else if (changesuccessCount > 0) {
+                        //if
+                        alert("发货完成,共" + returnIdArray.length + "条,成功" + changesuccessCount + "条");
                     }
 
                 } else {
-                    alert('请选择收货成功订单');
+                    alert('请选择退换货状态为‘change’的退货单');
                     return false;
                 }
-
-
+            } else {
+                alert('请选择收货成功订单');
+                return false;
             }
-
-
+            $('#changeOutBound').attr('disabled', "true");
         });
 
         //退款单查询按钮点击事件
         $("#serarchReturnedOrder").click(
             function () {
-               selectReturned();
+                selectReturned();
             }
         );
 
-        $('#returnValue').bind('keypress',function(event){
+        $('#returnValue').bind('keypress', function (event) {
 
-            if(event.keyCode == "13")
-
-            {
+            if (event.keyCode == "13") {
                 selectReturned();
             }
 
@@ -1744,8 +1664,7 @@ $(
 
         $("#userListbut").click(
             function () {
-                if($("#userListbut").text()=="")
-                {
+                if ($("#userListbut").text() == "") {
                     return;
                 }
                 userselectValue = "";
@@ -1792,7 +1711,6 @@ $(
                 $("#goodsPageNow").html(1);
             }
         );
-
 
 
     });

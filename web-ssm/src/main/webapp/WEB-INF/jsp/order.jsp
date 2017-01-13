@@ -24,8 +24,8 @@
                     <li><input type="button" value="换货"  class="btn beta" name="orderBtn" id="exchangeGoodsBtn"></li>
                     <li><input type="button" value="查看订单" class="btn" name="orderBtn" id="queryOBtn"></li>
                 </ul>
-                <input type="button" value="查询" class="submitBtn fr" id="queryOrderBtn" onkeypress="if (event.keyCode == 13)">
-                <input type="text" class="textArea fr" id="queryOrderCon"   >
+                <input type="button" value="查询" class="submitBtn fr" onclick="queryOrderByCondition()">
+                <input type="text" class="textArea fr" id="queryOrderCon">
                 <select class="selectArea fr" id="queryMode">
                     <option value="" class="select_hide">请选择查询条件</option>
                     <option value="oId">订单号</option>

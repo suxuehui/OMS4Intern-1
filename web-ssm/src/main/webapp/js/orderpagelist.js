@@ -150,18 +150,25 @@ function translationOrder(data)
 }
 
 $(function () {
-    $("#queryOrderBtn").click(function () {
-        queryMode=$("#queryMode option:selected").val();
-        if(queryMode=="")
+    $('#queryOrderCon').bind('keypress',function(event){
+        if(event.keyCode == "13")
         {
-            alert("请选择查询条件");
-            $("#queryOrderCon").val("");
-            return;
+            queryOrderByCondition();
         }
-        queryData=orderStatusTranslation($("#queryOrderCon").val());
-        queryOrder(1);
-    })
+    });
 })
+
+function queryOrderByCondition() {
+    queryMode=$("#queryMode option:selected").val();
+    if(queryMode=="")
+    {
+        alert("请选择查询条件");
+        $("#queryOrderCon").val("");
+        return;
+    }
+    queryData=orderStatusTranslation($("#queryOrderCon").val());
+    queryOrder(1);
+}
 //首页
 $(function () {
     $("#firstorder").click(function () {
@@ -332,6 +339,8 @@ function matchOrderStatus(status) {
             return "出库异常";
         case 11:
             return "已发货";
+        default:
+            return "";
     }
 }
 //将中文状态对应为数字

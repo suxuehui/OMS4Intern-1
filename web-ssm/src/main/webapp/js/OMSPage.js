@@ -5,7 +5,6 @@ $(document).ready(function(){
 	   $(this).addClass("on").siblings().removeClass("on"); //切换选中的按钮高亮状态
        var index=$(this).index(); //获取被按下按钮的索引值，需要注意index是从0开始的
        $(".content > div").eq(index).show().siblings().hide(); //在按钮选中时在下面显示相应的内容，同时隐藏不需要的框架内容
-
      $(".select_hide").hide();
    });
 });
@@ -84,6 +83,7 @@ function sleep(n) {
 
 $(document).ready(function () {
 	$("body").click(function () {
+		$("#userClass").removeClass("hide");
 		$.ajax({
 			type:"get",
 			url:"/oms/login/checkSession",
@@ -108,6 +108,7 @@ $(document).ready(function () {
 				}
 				else if(!(urole==role)&&role==2)
 				{
+					$("#userClass").addClass("hide");
 					$("#userListbut").text("");
 					$("#userListbut").hide();
 					if($("#userListbut").hasClass("on"))
@@ -115,7 +116,7 @@ $(document).ready(function () {
 						$("#userListbut").removeClass("on");
 						$("#goodsListbut").addClass("on");
 						$("#userList").html('');
-						$("#goodsList").show();
+						$("#goodsList").removeClass("hide");
 					}
 				}
 				if(!(name==uname))
@@ -132,6 +133,7 @@ function loadUser() {
 		url:"/oms/login/loadUser",
 		success:function (data) {
 			$("#userList").html(data);
+			$("#userClass").addClass("hide");
 		}
 	})
 }
