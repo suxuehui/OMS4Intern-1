@@ -108,16 +108,14 @@ $(document).ready(function () {
 				}
 				else if(!(urole==role)&&role==2)
 				{
-					$("#userClass").addClass("hide");
-					$("#userListbut").text("");
-					$("#userListbut").hide();
 					if($("#userListbut").hasClass("on"))
 					{
-						$("#userListbut").removeClass("on");
 						$("#goodsListbut").addClass("on");
-						$("#userList").html('');
-						$("#goodsList").removeClass("hide");
 					}
+					$("#userListbut").text("");
+					$("#userListbut").hide();
+					$("#userList").html('');
+					$("#goodsList").show();
 				}
 				if(!(name==uname))
 				{
