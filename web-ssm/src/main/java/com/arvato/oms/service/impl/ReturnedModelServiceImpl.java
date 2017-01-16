@@ -265,7 +265,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         ReturnedModel returnedModel = returnedModelMapper.selectByPrimaryKey(id);
         long countoid = outboundorderModelMapper.Countoid(returnedModel.getOid());
         HttpSession session = request.getSession();
-
+        log.info("+++++++++++++++++++++++++++++++++countoid"+countoid);
         if (countoid > 1)
         {
             return "-1";

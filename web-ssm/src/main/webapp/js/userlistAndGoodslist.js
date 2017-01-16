@@ -157,13 +157,7 @@ function returngetgoodsfromserver(returnedid, pageNow, pageSize) {
                 }
             }
             $("#returnedidongoods").html(returnedid);
-        },
-        error: function () {
-            alert("登录已失效，请重新登录！");
-            window.location.href = "/oms/login/logout";
         }
-
-
     });
 
 }
@@ -189,10 +183,6 @@ function getreturnedStatus(returnIdArray, statusp) {
         dataType: "json",
         success: function (data) {
             countStatus = data.success;
-        },
-        error: function () {
-            alert("登录已失效，请重新登录！");
-            window.location.href = "/oms/login/logout";
         }
     });
 
@@ -226,17 +216,16 @@ function getreturnedOrChange(returnIdArray) {
         async: false,//同步
         dataType: "json",
         success: function (data) {
-            returncount = data.success
-        },
-        error: function () {
-            alert("登录已失效，请重新登录！");
-            window.location.href = "/oms/login/logout";
+            returncount = data.success;
         }
     });
 
+
     if (returncount == returnIdArray.length) {
+       
         return "return";
     } else if (returncount == 0) {
+
         return "change";
     } else {
         return "error";
@@ -295,10 +284,6 @@ function selectByUserName(pageNow) {
                 }
             }
 
-        },
-        error: function () {
-            alert("登录已失效，请重新登录！");
-            window.location.href = "/oms/login/logout";
         }
 
     });
@@ -348,10 +333,6 @@ function selectGoodsByValue(pageNow) {
                 }
             }
 
-        },
-        error: function () {
-            alert("登录已失效，请重新登录！");
-            window.location.href = "/oms/login/logout";
         }
 
     });
@@ -397,10 +378,6 @@ function selectGoodsByValue2(pageNow) {
                 }
             }
 
-        },
-        error: function () {
-            alert("登录已失效，请重新登录！");
-            window.location.href = "/oms/login/logout";
         }
 
     });
@@ -454,10 +431,6 @@ function selectReturnByvalue(pageNow) {
                 }
             }
 
-        },
-        error: function () {
-            alert("登录已失效，请重新登录！");
-            window.location.href = "/oms/login/logout";
         }
 
     });
@@ -510,10 +483,6 @@ function selectReturnByvalue2(pageNow) {
                 }
             }
 
-        },
-        error: function () {
-            alert("登录已失效，请重新登录！");
-            window.location.href = "/oms/login/logout";
         }
 
     });
@@ -724,14 +693,6 @@ function addUserAjax(username, password) {
 
 
             }
-        },
-        error: function () {
-
-            alert("登录已失效，请重新登录！");
-            window.location.href = "/oms/login/logout";
-            $("#addUserwindows").hide();
-            $(".loading").hide();
-            $(".hbg").hide();
         }
 
     });
@@ -885,14 +846,7 @@ $(
                                 } else if (data == -1) {
                                     alert("不可以删除自己");
                                 }
-                            },
-                            error: function () {
-                                alert("登录已失效，请重新登录！");
-                                window.location.href = "/oms/login/logout";
-                                selectByUserName(1);
-                                $("#userPageNow").html("1");
                             }
-
                         });
                     }
                 });
@@ -1007,15 +961,8 @@ $(
                                 upass = upass.replace("&nbsp;", "");
                                 $('#updateUserPassword').val(upass);
                             }
-                        },
-                        error: function () {
-                            alert("登录已失效，请重新登录！");
-                            window.location.href = "/oms/login/logout";
-                            $(".loading").hide();
-                            $(".hbg").hide();
-                            $("#updateUserBound").hide();
-                            document.getElementById("updateUserBut").disabled = true;
                         }
+
                     });
                 }
             });
@@ -1386,11 +1333,6 @@ $(
                             dataType: "json",
                             success: function (data) {
                                 success = data.success;
-                            },
-                            error: function () {
-                                alert("登录已失效，请重新登录！");
-                                window.location.href = "/oms/login/logout";
-                                return false;
                             }
 
                         });
@@ -1424,6 +1366,7 @@ $(
 
                 var a = getreturnedStatus(returnIdArray, "5");
                 var returnOrChange = getreturnedOrChange(returnIdArray);
+
                 if (a == "yes") {
                     if (returnOrChange == "return") {
                         var jsonStr = {"returnIds": returnIdArray};
@@ -1439,11 +1382,6 @@ $(
                             success: function (data) {
                                 successCount = data.success;
                                 errorcount = data.exception;
-                            },
-                            error: function () {
-                                alert("登录已失效，请重新登录！");
-                                window.location.href = "/oms/login/logout";
-                                return false;
                             }
                         });
                         selectReturnByvalue(1);
@@ -1456,7 +1394,7 @@ $(
                         }
 
                     } else {
-                        alert('请选择退换货状态为‘return’的退货单');
+                        alert('请选择退换货状态为‘退货’的退货单');
                         return false;
                     }
 
@@ -1478,12 +1416,13 @@ $(
             var changeErrorCount = 0;
             var returnIdArray = new Array();
             var i = 0;
-            var a = getreturnedStatus(returnIdArray, "5");
-            var returnOrChange = getreturnedOrChange(returnIdArray);
 
             $("input:checkbox[name='returnedcheck']:checked").each(function () {
                 returnIdArray[i++] = parseInt($(this).attr("id"));
             });
+            var a = getreturnedStatus(returnIdArray, "5");
+            var returnOrChange = getreturnedOrChange(returnIdArray);
+
 
             if (returnIdArray.length == 0) {
                 alert("请勾选订单");
@@ -1503,11 +1442,6 @@ $(
                         success: function (data) {
                             changesuccessCount = data.success
                             changeErrorCount = data.exception;
-                        },
-                        error: function () {
-                            alert("登录已失效，请重新登录！");
-                            window.location.href = "/oms/login/logout";
-                            return false;
                         }
                     });
                     if (changeErrorCount > 0) {
@@ -1518,13 +1452,14 @@ $(
                     }
 
                 } else {
-                    alert('请选择退换货状态为‘change’的退货单');
+                    alert('请选择退换货状态为‘换货’的退货单');
                     return false;
                 }
             } else {
                 alert('请选择收货成功订单');
                 return false;
             }
+            selectReturnByvalue($('#returnedPageNow').html());
             $('#changeOutBound').attr('disabled', "true");
         });
 

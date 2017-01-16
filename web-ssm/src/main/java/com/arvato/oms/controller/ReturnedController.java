@@ -169,7 +169,8 @@ public class ReturnedController
         for (int i = 0; i < returnIds.size(); i++)
         {
             String outbound = returnedModelService.createOutbound(returnIds.get(i), request);
-            if ("收货成功".equals(outbound)){
+            log.info("==============="+outbound);
+            if ("换货成功".equals(outbound)){
                 success++;
             }else if("-1".equals(outbound)){
                 exception++;
