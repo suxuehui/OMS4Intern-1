@@ -33,7 +33,7 @@ public class ReturnedController
 
     @RequestMapping("/cancelReturn")
     @ResponseBody
-    public JSONObject cancelReturn(Integer id, HttpServletRequest request)
+    public JSONObject cancelReturn(String json, HttpServletRequest request)
     {
         /**
          * @Author: 马潇霄
@@ -43,10 +43,28 @@ public class ReturnedController
          * @Return:
          */
 
-        int i = returnedModelService.cancelReturn(id, request);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("isSuccess", i);
-        return jsonObject;
+        int success = 0;
+        int exception = 0;
+        JSONObject jsonObject = JSON.parseObject(json);
+        ArrayList<Integer> returnIds = JSON.parseObject(jsonObject.getString("returnIds"), new TypeReference<ArrayList<Integer>>()
+        {
+        });
+        for (int i = 0; i < returnIds.size(); i++)
+        {
+            int count = returnedModelService.cancelReturn(returnIds.get(i), request);
+            if (count > 0)
+            {
+                success++;
+            } else
+            {
+                exception++;
+            }
+        }
+
+        JSONObject jsonObject2 = new JSONObject();
+        jsonObject2.put("success", success);
+        jsonObject2.put("exception", exception);
+        return jsonObject2;
     }
 
     @RequestMapping("/getAllReturned")
@@ -101,7 +119,7 @@ public class ReturnedController
 
     @RequestMapping("/createRefoundOrder")
     @ResponseBody
-    public JSONObject createRefoundOrder(Integer id)
+    public JSONObject createRefoundOrder(String json)
     {
         /**
          * @Author: 马潇霄
@@ -110,13 +128,30 @@ public class ReturnedController
          * @param
          * @Return:
          */
-
-        return returnedModelService.createRefoundOrders(id);
+        int success = 0;
+        int exception = 0;
+        JSONObject jsonObject = JSON.parseObject(json);
+        ArrayList<Integer> returnIds = JSON.parseObject(jsonObject.getString("returnIds"), new TypeReference<ArrayList<Integer>>()
+        {
+        });
+        for (int i = 0; i < returnIds.size(); i++)
+        {
+            int count = returnedModelService.createRefoundOrders(returnIds.get(i));
+            if (count==1){
+                success++;
+            }else {
+                exception++;
+            }
+        }
+        JSONObject jsonObject2 = new JSONObject();
+        jsonObject2.put("success", success);
+        jsonObject2.put("exception", exception);
+        return jsonObject2;
     }
 
     @RequestMapping("/createOutBoundOrder")
     @ResponseBody
-    public JSONObject createOutBoundOrder(Integer id, HttpServletRequest request)
+    public JSONObject createOutBoundOrder(String json, HttpServletRequest request)
     {
         /**
          * @Author: 马潇霄
@@ -125,13 +160,31 @@ public class ReturnedController
          * @param
          * @Return:
          */
+        int success = 0;
+        int exception = 0;
+        JSONObject jsonObject = JSON.parseObject(json);
+        ArrayList<Integer> returnIds = JSON.parseObject(jsonObject.getString("returnIds"), new TypeReference<ArrayList<Integer>>()
+        {
+        });
+        for (int i = 0; i < returnIds.size(); i++)
+        {
+            String outbound = returnedModelService.createOutbound(returnIds.get(i), request);
+            if ("收货成功".equals(outbound)){
+                success++;
+            }else if("-1".equals(outbound)){
+                exception++;
+            }
+        }
 
-        return returnedModelService.createOutbound(id, request);
+        JSONObject jsonObject2 = new JSONObject();
+        jsonObject2.put("success", success);
+        jsonObject2.put("exception", exception);
+        return jsonObject2;
     }
 
     @RequestMapping("/createInBoundOrder")
     @ResponseBody
-    public JSONObject createInBoundOrder(Integer id, HttpServletRequest request) throws UnsupportedEncodingException
+    public JSONObject createInBoundOrder(String json, HttpServletRequest request) throws UnsupportedEncodingException
     {
         /**
          * @Author: 马潇霄
@@ -140,10 +193,29 @@ public class ReturnedController
          * @param
          * @Return: int 0为失败，1为成功
          */
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("return", returnedModelService.checkInBound(id, request));
 
-        return jsonObject;
+        int success = 0;
+        int exception = 0;
+        JSONObject jsonObject = JSON.parseObject(json);
+        ArrayList<Integer> returnIds = JSON.parseObject(jsonObject.getString("returnIds"), new TypeReference<ArrayList<Integer>>()
+        {
+        });
+        for (int i = 0; i < returnIds.size(); i++)
+        {
+            String s = returnedModelService.checkInBound(returnIds.get(i), request);
+            if ("审核成功".equals(s))
+            {
+                success++;
+            } else
+            {
+                exception++;
+            }
+
+        }
+        JSONObject jsonObject2 = new JSONObject();
+        jsonObject2.put("success", success);
+        jsonObject2.put("exception", exception);
+        return jsonObject2;
     }
 
 
@@ -159,12 +231,14 @@ public class ReturnedController
     @ResponseBody
     public JSONObject getReturnedStatus(String json)
     {
-        JSONObject jsonObject= JSON.parseObject(json);
+        JSONObject jsonObject = JSON.parseObject(json);
         String status = jsonObject.getString("status");
-        ArrayList<Integer> returnIds = JSON.parseObject(jsonObject.getString("returnIds"),new TypeReference<ArrayList<Integer>>(){}) ;
+        ArrayList<Integer> returnIds = JSON.parseObject(jsonObject.getString("returnIds"), new TypeReference<ArrayList<Integer>>()
+        {
+        });
 
-        log.info("++++++++++++++++++++++++"+returnIds);
-        log.info("+++++++++++++++++++++++++"+status);
+        log.info("++++++++++++++++++++++++" + returnIds);
+        log.info("+++++++++++++++++++++++++" + status);
         if (returnIds == null)
         {
             return null;
@@ -195,14 +269,18 @@ public class ReturnedController
     {
         int success = 0;
         int exception = 0;
-        JSONObject jsonObject= JSON.parseObject(json);
-        ArrayList<Integer> returnIds = JSON.parseObject(jsonObject.getString("returnIds"),new TypeReference<ArrayList<Integer>>(){}) ;
+        JSONObject jsonObject = JSON.parseObject(json);
+        ArrayList<Integer> returnIds = JSON.parseObject(jsonObject.getString("returnIds"), new TypeReference<ArrayList<Integer>>()
+        {
+        });
         for (int i = 0; i < returnIds.size(); i++)
         {
             String returnOrChange = returnedModelService.getReturnOrChange(returnIds.get(i));
-            if (returnOrChange.equals("return")){
+            if (returnOrChange.equals("return"))
+            {
                 success++;
-            }else {
+            } else
+            {
                 exception++;
             }
         }

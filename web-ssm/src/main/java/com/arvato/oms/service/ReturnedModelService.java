@@ -24,11 +24,11 @@ public interface ReturnedModelService
     public JSONObject getReturnedListBySelect(String select, String value, int pageNow, int num);
     //条件分页模糊查询
 
-    public JSONObject createRefoundOrders(Integer id);
+    public int createRefoundOrders(Integer id);
     //批量生成退款单
 
 
-    public JSONObject createOutbound(Integer id,HttpServletRequest request);
+    public String createOutbound(Integer id,HttpServletRequest request);
     //换货发货，生成出库单
 
     public String checkInBound(Integer returnedId, HttpServletRequest request);

@@ -144,6 +144,7 @@ public class GoodsController
          * @param pageSize 每页显示个数
          * @Return:
          */
+        value=value.replaceAll(" ","");
         return goodsModelService.selectGoodsByValueAndPage(select, value, nowPage, pageSize);
 
     }

@@ -176,6 +176,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
          */
         List<ReturnedModel> returnedModels ;
         JSONObject json = new JSONObject();
+        value=value.replaceAll(" ","");
 
         if ("退货单号".equals(select))
         {
@@ -213,7 +214,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
 
     }
 
-    public JSONObject createRefoundOrders(Integer id)
+    public int createRefoundOrders(Integer id)
     {
         /**
          * @Author: 马潇霄
@@ -239,18 +240,17 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
             refoundOrderModel.setDrawbackstatus("1");//未退款
 
             int i = refoundOrderModelMapper.insertSelective(refoundOrderModel);
-            log.info("a:" + i);
-            json.put("isSuccess", i);
+
+            return 1;
         } else
         {
-            log.info("b:-1");
-            json.put("isSuccess", -1);
+            return -1;
         }
 
-        return json;
+
     }
 
-    public JSONObject createOutbound(Integer id,HttpServletRequest request)
+    public String  createOutbound(Integer id,HttpServletRequest request)
     {
 
         /**
@@ -262,15 +262,13 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
          *
          */
 
-
-        JSONObject json = new JSONObject();
         ReturnedModel returnedModel = returnedModelMapper.selectByPrimaryKey(id);
         long countoid = outboundorderModelMapper.Countoid(returnedModel.getOid());
         HttpSession session = request.getSession();
 
         if (countoid > 1)
         {
-            json.put("data", "-1");
+            return "-1";
         } else
         {
             String returnedstatus = returnedModel.getReturnedstatus();
@@ -336,42 +334,41 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
                         {//推送成功
 
                             log.info(tsckd + outboundorderModel.getOutboundid() + "成功");
-                            json.put("data", "换货成功");
+                            return "换货成功";
                         } else if ("0".equals(s))
                         {//链接接口异常
                             log.info(tsckd + outboundorderModel.getOutboundid() + JKLJYC);
-                            json.put("data", JKLJYC);
+                            return JKLJYC;//接口连接异常
                         } else if ("101".equals(s))
-                        {//数据格式错误
+                        {
                             log.info(tsckd + outboundorderModel.getOutboundid() + SJKGSCW);
-                            json.put("data", SJKGSCW);
+                            return SJKGSCW;//数据格式错误
                         } else if ("102".equals(s))
-                        {//重复的入库单
+                        {
                             log.info(tsckd + outboundorderModel.getOutboundid() + "重复的出库单");
-                            json.put("data", "重复的出库单");
+                            return  "重复的出库单";//重复的入库单
 
                         } else
                         {//链接失败
-                            json.put("data", "链接失败");
+                            return  "链接失败";
                         }
 
                     } else
                     {
-                        json.put("data", "创建出库单失败");
+                        return  "创建出库单失败";
                     }
                 } else
                 {
-                    json.put("data", "此订单已同步");
+                   return  "此订单已同步";
 
                 }
             } else
             {
-                json.put("data", "退货单不是收货成功状态");
+                return  "退货单不是收货成功状态";
 
             }
         }
 
-        return json;
     }
 
     public String checkInBound(Integer id, HttpServletRequest request)
@@ -641,17 +638,9 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         }
         String oid = bld.toString();
         ReturnedModel returnedModel = returnedModelMapper.selectByOid(oid);
-        returnedModel.setReturnedstatus(state);
+        returnedModel.setReturnedstatus("5");
         returnedModel.setModifyman(modifyman);
         returnedModel.setModifytime(date);
-        int i = returnedModelMapper.updateByPrimaryKeySelective(returnedModel);
-        if (i > 0)
-        {
-            return i;
-        } else
-        {
-            return 0;
-        }
-
+        return  returnedModelMapper.updateByPrimaryKeySelective(returnedModel);
     }
 }
