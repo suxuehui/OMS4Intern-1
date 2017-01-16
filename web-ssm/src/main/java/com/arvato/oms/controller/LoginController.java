@@ -91,8 +91,8 @@ public class LoginController
     }
 
     @RequestMapping("loadUser")
-    public String loadUser()
+    public String loadUser(String page)
     {
-        return "user";
+        return page;
     }
 }

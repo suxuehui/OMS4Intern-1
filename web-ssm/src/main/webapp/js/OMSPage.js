@@ -76,10 +76,6 @@ $(document).ready(function(){
 		$(".orderMain>.relatedOrder").eq(num).show().siblings().hide();
 	});
 });
-function sleep(n) {
-	var start = new Date().getTime();
-	while(true)  if(new Date().getTime()-start > n) break;
-}
 
 $(document).ready(function () {
 	$("body").click(function () {
@@ -104,7 +100,7 @@ $(document).ready(function () {
 					$("#userListbut").text("用户");
 					$("#userListbut").show();
 					//$("#userList").load("/oms/login/loadUser");
-					loadUser();
+					loadUser("user");
 				}
 				else if(!(urole==role)&&role==2)
 				{
@@ -126,9 +122,11 @@ $(document).ready(function () {
 	})
 })
 //加载用户页面
-function loadUser() {
+function loadUser(page) {
 	$.ajax({
+		type:"get",
 		url:"/oms/login/loadUser",
+		data:{page:page},
 		success:function (data) {
 			$("#userList").html(data);
 			$("#userClass").addClass("hide");

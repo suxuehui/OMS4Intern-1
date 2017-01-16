@@ -1,5 +1,7 @@
 package com.arvato.oms.listener;
 
+import org.apache.log4j.Logger;
+
 import javax.servlet.http.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +13,7 @@ public class SessionListener implements HttpSessionAttributeListener{
 
     private Map<String, HttpSession> map = new HashMap<String, HttpSession>();
     private static final String UNAME="uname";
+    private Logger log = Logger.getLogger(SessionListener.class);
 
     public void attributeAdded(HttpSessionBindingEvent httpSessionBindingEvent) {
         HttpSession httpSession=httpSessionBindingEvent.getSession();
@@ -28,7 +31,14 @@ public class SessionListener implements HttpSessionAttributeListener{
     }
 
     public void attributeRemoved(HttpSessionBindingEvent httpSessionBindingEvent) {
-        String name=(String)httpSessionBindingEvent.getValue();
+        String name="";
+        try {
+            name = (String) httpSessionBindingEvent.getValue();
+        }catch(Exception e)
+        {
+            log.info(e);
+            return;
+        }
         if(map.containsKey(name))
         {
             map.remove(name);

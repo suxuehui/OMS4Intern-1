@@ -25,7 +25,7 @@ function  queryAllOrder(pageNo) {
         success:function (data) {
             translationOrder(data);
         },
-        error: function (data) {
+        error: function () {
             alert("登录已失效，请重新登录！");
             window.location.href = "/oms/login/logout";
         }
@@ -86,7 +86,7 @@ function queryOrder(pageNo) {
             queryDateTemp=queryData;
             translationOrder(data);
         },
-        error: function (data) {
+        error: function () {
             alert("登录已失效，请重新登录！");
             window.location.href = "/oms/login/logout";
         }
@@ -269,7 +269,7 @@ function queryGoodsByOid(pageNo,pageSize,oid) {
             }
             judgeGoodsChecked();
         },
-        error: function (data) {
+        error: function () {
             alert("登录已失效，请重新登录！");
             window.location.href = "/oms/login/logout";
         }
@@ -389,6 +389,8 @@ function matchPayStytle(status) {
     {
         case 1:
             return "支付宝";
+        default:
+            return "";
     }
 }
 //将仓库显示为中文
