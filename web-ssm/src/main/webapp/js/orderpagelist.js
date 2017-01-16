@@ -104,8 +104,7 @@ function translationOrder(data)
     for(var i=0;i<orderModels.length;i++)
     {
         html+='<tr class="orderTr" id="tr'+orderModels[i].oid+'"><td>'+(i+1)+'</td><td><input type="checkbox" id="'+orderModels[i].oid
-            +'" onclick="ordercheck(this.id)" name="orderck"></td><td id="'+orderModels[i].oid
-            +'" onclick="ordersgclick(this.id)" ondblclick="orderdbclick(this.id)">'+orderModels[i].oid
+            +'" onclick="ordercheck(this.id)" name="orderck"></td><td name="oid1">'+orderModels[i].oid
             +'</td><td>'+orderModels[i].channeloid+'</td><td id="S'+orderModels[i].oid+'">'+matchOrderStatus(orderModels[i].orderstatus)+'</td><td>'
             +orderModels[i].orderform+'</td><td>'+orderModels[i].buyerid+'</td><td>'
             +orderModels[i].ordertime+'</td><td>'+matchBaseStatus(orderModels[i].basestatus)+'</td><td>'
@@ -200,24 +199,27 @@ $(function () {
 var time = null;
 var oId=null;
 
-function ordersgclick(oid) {
-
-    // 取消上次延时未执行的方法
-    clearTimeout(time);
-    //执行延时
-    time = setTimeout(function(){
-        $(".orderTr").removeClass('changeColor');
-        $("#tr"+oid).addClass('changeColor');
+$(function () {
+    $("#order").delegate("td[name='oid1']","click",function () {
+        // 取消上次延时未执行的方法
+        clearTimeout(time);
+        var oid=$(this).text();
         oId=oid;
-        queryGoodsByOid(1,orderGoodsPageSize,oid);
-    },300);
+        time = setTimeout(function(){
+            queryGoodsByOid(1,orderGoodsPageSize,oid);
+        },300);
+    })
+})
 
-}
-function orderdbclick(oid) {
-    // 取消上次延时未执行的方法
-    clearTimeout(time);
-    window.open("../order/orderdetail?oId="+oid);
-}
+$(function () {
+    $("#order").delegate("td[name='oid1']","dblclick",function () {
+        // 取消上次延时未执行的方法
+        clearTimeout(time);
+        var oid=$(this).text();
+        window.open("../order/orderdetail?oId="+oid);
+    })
+})
+
 //查看商品信息
 function queryGoodsByOid(pageNo,pageSize,oid) {
     $.ajax({

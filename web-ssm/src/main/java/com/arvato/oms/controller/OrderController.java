@@ -121,7 +121,7 @@ public class OrderController
     @ResponseBody
     public JSONObject queryByOid(String queryMode,int pageNo,int pageSize,String data,Model model)
     {
-        String str=data.trim();
+        String str=data.replaceAll(" ","");
         return orderService.selects(queryMode,pageNo,pageSize,"%"+str+"%");
     }
 

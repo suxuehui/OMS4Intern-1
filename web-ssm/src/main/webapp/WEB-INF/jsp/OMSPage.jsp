@@ -35,7 +35,7 @@
 <span id="urole" hidden>${urole}</span>
 <span id="name"></span>
 <div class="wrap">
-    <div class="header clearFix">
+    <div class="header cf">
         <div class="menu fl">
             <div class="menuTit">OMS</div>
             <ul>
@@ -78,10 +78,10 @@
 
         <!--商品模块-->
         <c:if test="${urole == 2}">
-            <div class="order" id="goodsList">
+            <div class="order cf" id="goodsList">
             </c:if>
             <c:if test="${urole == 1}">
-            <div class="order hide" id="goodsList">
+            <div class="order cf hide" id="goodsList">
                 </c:if>
                 <div class="orderList fl">
                     <ul>
@@ -93,7 +93,7 @@
                         </li>
                     </ul>
                 </div><!--orderList结束-->
-                <div class="orderMain fl">
+                <div class="orderMain fr">
                     <div class="orderManage">
                         <div class="orderTag">
                             <div class="orderTit">商品列表</div>
@@ -146,7 +146,7 @@
             <!--仓库模块-->
             <jsp:include page="warehouse.jsp"></jsp:include>
             <!--订单模块-->
-            <div class="order hide">
+            <div class="order cf hide">
                 <div class="orderList fl">
                     <ul class="orderListCent">
                         <li class="listTit"><p class="listContTit">订单管理</p></li>
@@ -160,7 +160,7 @@
                         <li onclick="refoundGetnowPage(1)"><a id="5">退款单列表</a></li>
                     </ul>
                 </div><!--orderList结束-->
-                <div class="orderMain fl">
+                <div class="orderMain fr">
                     <!--订单列表-->
                     <jsp:include page="order.jsp"></jsp:include>
                     <!--异常订单列表-->

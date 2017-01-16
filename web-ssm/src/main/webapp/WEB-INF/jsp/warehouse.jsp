@@ -11,7 +11,7 @@
     <title>warehouse</title>
 </head>
 <body>
-<div class="order hide">
+<div class="order cf hide">
     <div class="orderList fl">
         <ul>
             <li>
@@ -22,7 +22,7 @@
             </li>
         </ul>
     </div>
-    <div class="orderMain fl">
+    <div class="orderMain fr">
         <div class="orderManage">
             <div class="orderTag">
                 <div class="orderTit">仓库列表</div>

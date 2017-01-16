@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<div class="order" id="userClass">
+<div class="order cf" id="userClass">
     <div class="orderList fl">
         <ul>
             <li>
@@ -18,7 +18,7 @@
         </ul>
     </div><!--orderList结束-->
 
-    <div class="orderMain fl">
+    <div class="orderMain fr">
         <div class="orderManage">
             <div class="orderTag">
                 <div class="orderTit">用户列表</div>

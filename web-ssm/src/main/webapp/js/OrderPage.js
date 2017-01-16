@@ -53,7 +53,7 @@ $(function () {
                 $(".hbg").hide();//隐藏阴影层
                 queryOrder(1);
             },
-            error: function (data) {
+            error: function () {
                 alert("登录已失效，请重新登录！");
                 window.location.href = "/oms/login/logout";
             }
@@ -135,7 +135,7 @@ function ordercheck(oid) {
                     return;
                 }
             },
-            error: function (data) {
+            error: function () {
                 alert("登录已失效，请重新登录！");
                 window.location.href = "/oms/login/logout";
             }
@@ -219,7 +219,7 @@ $(function () {
                 queryOrder(pageNo);
                 cancleChecked();
             },
-            error: function (data) {
+            error: function () {
                 alert("登录已失效，请重新登录！");
                 window.location.href = "/oms/login/logout";
             }
@@ -243,7 +243,7 @@ $(function () {
                 queryOrder(pageNo);
                 cancleChecked();
             },
-            error: function (data) {
+            error: function () {
                 alert("登录已失效，请重新登录！");
                 window.location.href = "/oms/login/logout";
             }
@@ -272,7 +272,7 @@ $(function () {
                 queryOrder(pageNo);
                 cancleChecked();
             },
-            error: function (data) {
+            error: function () {
                 alert("登录已失效，请重新登录！");
                 window.location.href = "/oms/login/logout";
             }
@@ -296,7 +296,7 @@ $(function () {
                 queryOrder(pageNo);
                 cancleChecked();
             },
-            error: function (data) {
+            error: function () {
                 alert("登录已失效，请重新登录！");
                 window.location.href = "/oms/login/logout";
             }
@@ -369,7 +369,7 @@ function returnOrExchange(returnoid,returnedOrChange) {
             }
             cancleChecked();
         },
-        error: function (data) {
+        error: function () {
             alert("登录已失效，请重新登录！");
             window.location.href = "/oms/login/logout";
         }
