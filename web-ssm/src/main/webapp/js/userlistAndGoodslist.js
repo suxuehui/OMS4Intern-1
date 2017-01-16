@@ -215,36 +215,25 @@ function getUserRole() {
 //根据退货单id数组判断一批退货单全是return，或全是change，或都有
 function getreturnedOrChange(returnIdArray) {
     var returncount = 0;
-    for (var i = 0; i < returnIdArray.length; i++) {
+    var jsonStr = {"returnIds": returnIdArray};
 
-        var id = returnIdArray[i];
+    $.ajax({
+        type: 'post',
+        url: '/oms/returned/getReturnedOrChange',
+        data: {
+            json: JSON.stringify(jsonStr)
+        },
+        async: false,//同步
+        dataType: "json",
+        success: function (data) {
+            returncount = data.success
+        },
+        error: function () {
+            alert("登录已失效，请重新登录！");
+            window.location.href = "/oms/login/logout";
+        }
+    });
 
-        $.ajax({
-            type: 'get',
-            url: '/oms/returned/getReturnedOrChange',
-            data: {
-                id: id,
-            },
-            async: false,//同步
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (data) {
-
-                if (data.returnOrChange == "return") {
-
-                    returncount++;
-                }
-
-            },
-            error: function () {
-                alert("登录已失效，请重新登录！");
-                window.location.href = "/oms/login/logout";
-            }
-
-
-        });
-
-    }
     if (returncount == returnIdArray.length) {
         return "return";
     } else if (returncount == 0) {
@@ -252,7 +241,6 @@ function getreturnedOrChange(returnIdArray) {
     } else {
         return "error";
     }
-
 
 }
 

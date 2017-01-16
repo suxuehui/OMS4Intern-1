@@ -191,11 +191,25 @@ public class ReturnedController
 
     @RequestMapping("/getReturnedOrChange")
     @ResponseBody
-    public JSONObject getReturnedOrChange(int id)
+    public JSONObject getReturnedOrChange(String json)
     {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("returnOrChange", returnedModelService.getReturnOrChange(id));
-        return jsonObject;
+        int success = 0;
+        int exception = 0;
+        JSONObject jsonObject= JSON.parseObject(json);
+        ArrayList<Integer> returnIds = JSON.parseObject(jsonObject.getString("returnIds"),new TypeReference<ArrayList<Integer>>(){}) ;
+        for (int i = 0; i < returnIds.size(); i++)
+        {
+            String returnOrChange = returnedModelService.getReturnOrChange(returnIds.get(i));
+            if (returnOrChange.equals("return")){
+                success++;
+            }else {
+                exception++;
+            }
+        }
+        JSONObject jsonObject2 = new JSONObject();
+        jsonObject2.put("success", success);
+        jsonObject2.put("exception", exception);
+        return jsonObject2;
     }
 
 
