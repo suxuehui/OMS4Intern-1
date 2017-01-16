@@ -37,7 +37,7 @@ public class ExceptionServiceImpl implements ExceptionService {
     {
         //获取当前页数
         String pageNow = request.getParameter("currentpage");
-        String txtvalue=request.getParameter("txtvalue"); //用户输入的值txtvalue
+        String txtvalue=request.getParameter("txtvalue").replaceAll(" ",""); //用户输入的值txtvalue
 
         int selectValue= Integer.parseInt(request.getParameter("toseachid"))  ;//下拉框的value
         int pagesize=10;
