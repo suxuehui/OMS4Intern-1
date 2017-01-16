@@ -176,31 +176,26 @@ function showReturnDetail(id) {
 //获得退货单状态
 function getreturnedStatus(returnIdArray, statusp) {
 
-    var status;
     var countStatus = 0;
-    for (var i = 0; i < returnIdArray.length; i++) {
-        var id = returnIdArray[i];
+    var jsonStr = {"returnIds": returnIdArray, "status": statusp};
 
-        $.ajax({
-            type: 'get',
-            url: '/oms/returned/getReturnedStatus',
-            data: {
-                id: id,
-            },
-            async: false,//同步
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (data) {
-                if (data.status == statusp) {
-                    countStatus++;
-                }
-            },
-            error: function () {
-                alert("登录已失效，请重新登录！");
-                window.location.href = "/oms/login/logout";
-            }
-        });
-    }
+    $.ajax({
+        type: 'post',
+        url: '/oms/returned/getReturnedStatus',
+        data: {
+            json: JSON.stringify(jsonStr)
+        },
+        async: false,//同步
+        dataType: "json",
+        success: function (data) {
+            countStatus = data.success;
+        },
+        error: function () {
+            alert("登录已失效，请重新登录！");
+            window.location.href = "/oms/login/logout";
+        }
+    });
+
     if (countStatus == returnIdArray.length) {
         return "yes";
     } else {

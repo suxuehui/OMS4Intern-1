@@ -1,9 +1,15 @@
 package com.arvato.oms.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
+import com.alibaba.fastjson.parser.deserializer.IntegerFieldDeserializer;
+import com.arvato.oms.model.GoodsPojo;
+import com.arvato.oms.model.OrderModel;
 import com.arvato.oms.service.ReturnedModelService;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 /**
  * Created by 马潇霄 on 2016/12/9.
@@ -26,7 +33,7 @@ public class ReturnedController
 
     @RequestMapping("/cancelReturn")
     @ResponseBody
-    public JSONObject cancelReturn(Integer id,HttpServletRequest request)
+    public JSONObject cancelReturn(Integer id, HttpServletRequest request)
     {
         /**
          * @Author: 马潇霄
@@ -36,9 +43,9 @@ public class ReturnedController
          * @Return:
          */
 
-        int i = returnedModelService.cancelReturn(id,request);
+        int i = returnedModelService.cancelReturn(id, request);
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("isSuccess",i);
+        jsonObject.put("isSuccess", i);
         return jsonObject;
     }
 
@@ -109,7 +116,7 @@ public class ReturnedController
 
     @RequestMapping("/createOutBoundOrder")
     @ResponseBody
-    public JSONObject createOutBoundOrder(Integer id,HttpServletRequest request)
+    public JSONObject createOutBoundOrder(Integer id, HttpServletRequest request)
     {
         /**
          * @Author: 马潇霄
@@ -119,12 +126,12 @@ public class ReturnedController
          * @Return:
          */
 
-        return returnedModelService.createOutbound(id,request);
+        return returnedModelService.createOutbound(id, request);
     }
 
     @RequestMapping("/createInBoundOrder")
     @ResponseBody
-    public JSONObject createInBoundOrder(Integer id,HttpServletRequest request) throws UnsupportedEncodingException
+    public JSONObject createInBoundOrder(Integer id, HttpServletRequest request) throws UnsupportedEncodingException
     {
         /**
          * @Author: 马潇霄
@@ -134,7 +141,7 @@ public class ReturnedController
          * @Return: int 0为失败，1为成功
          */
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("return", returnedModelService.checkInBound(id,request));
+        jsonObject.put("return", returnedModelService.checkInBound(id, request));
 
         return jsonObject;
     }
@@ -150,11 +157,36 @@ public class ReturnedController
 
     @RequestMapping("/getReturnedStatus")
     @ResponseBody
-    public JSONObject getReturnedStatus(int id)
+    public JSONObject getReturnedStatus(String json)
     {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("status", returnedModelService.getStatus(id));
-        return jsonObject;
+        JSONObject jsonObject= JSON.parseObject(json);
+        String status = jsonObject.getString("status");
+        ArrayList<Integer> returnIds = JSON.parseObject(jsonObject.getString("returnIds"),new TypeReference<ArrayList<Integer>>(){}) ;
+
+        log.info("++++++++++++++++++++++++"+returnIds);
+        log.info("+++++++++++++++++++++++++"+status);
+        if (returnIds == null)
+        {
+            return null;
+        }
+        int success = 0;
+        int exception = 0;
+
+        for (int i = 0; i < returnIds.size(); i++)
+        {
+            String statusTemp = returnedModelService.getStatus(returnIds.get(i));
+            if (statusTemp.equals(status))
+            {
+                success++;
+            } else
+            {
+                exception++;
+            }
+        }
+        JSONObject jsonObject2 = new JSONObject();
+        jsonObject2.put("success", success);
+        jsonObject2.put("exception", exception);
+        return jsonObject2;
     }
 
     @RequestMapping("/getReturnedOrChange")
