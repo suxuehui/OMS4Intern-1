@@ -30,9 +30,10 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     //分页列出所有的仓库
     public String listAllByparam(HttpServletRequest request) throws UnsupportedEncodingException {
-        String pageNow = request.getParameter("currentpage");//获取当前页数pagenow
+        String pageNow = request.getParameter("currentpage").trim();//获取当前页数pagenow
         String option=request.getParameter("txtvalue"); //用户输入的值id
         option= URLDecoder.decode(option, "UTF-8");
+        option=option.replaceAll(" ", "");
         int selectvalue= Integer.parseInt(request.getParameter("toseachid"))  ;//下拉框的value
         //每页展示的行数pagesize
         int pagesize=20;

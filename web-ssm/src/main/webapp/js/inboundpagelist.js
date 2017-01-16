@@ -7,6 +7,7 @@ var inselectModeTemp=0;
 var inqueryDateTemp="";
 var inpagenow
 var inpagenowTem
+
 window.onload= inGetnowPage(1);
 var inboundArray=new Array();
 
@@ -17,6 +18,11 @@ function inGNPage(pagenow){
     inpagenow=pagenow;
     inselectmode =$("#inselectid option:selected").val();//查询条件
     inquerydata=$("#intxt").val();//查询值
+
+    /*
+    * var reg = //s/g;
+      var ss = s.replace(reg, "");
+    * */
 
     if(inselectmode==0){
         alert("请选择查询条件")

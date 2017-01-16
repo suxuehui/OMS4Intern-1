@@ -42,7 +42,7 @@ public class OutboundorderServiceImpl implements OutboundorderService
     //分页查询
     public String outboundsearchAllByparam(HttpServletRequest request) throws UnsupportedEncodingException {
         String pageNow = request.getParameter("currentpage");//获取当前页数pagenow
-        String id=request.getParameter("txtvalue").trim(); //用户输入的值id
+        String id=request.getParameter("txtvalue").replaceAll(" ", ""); //用户输入的值id
         int selectvalue= Integer.parseInt(request.getParameter("toseachid"))  ;//下拉框的value
         int pagesize=10;//每页显示的行数
         Page pagelist=null;

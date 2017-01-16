@@ -48,7 +48,7 @@ public class InboundorderServiceImpl implements InboundorderService {
        *
       * */
         String pageNow = request.getParameter("currentpage").trim ();
-        String id=request.getParameter("txtvalue").trim ();
+        String id=request.getParameter("txtvalue").replaceAll(" ", "");
         int selectvalue= Integer.parseInt(request.getParameter("toseachid"))  ;
         int pagesize=10;
         Page pagelist=null;
