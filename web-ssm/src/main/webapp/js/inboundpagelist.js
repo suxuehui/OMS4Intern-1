@@ -19,10 +19,6 @@ function inGNPage(pagenow){
     inselectmode =$("#inselectid option:selected").val();//查询条件
     inquerydata=$("#intxt").val();//查询值
 
-    /*
-    * var reg = //s/g;
-      var ss = s.replace(reg, "");
-    * */
 
     if(inselectmode==0){
         alert("请选择查询条件")
@@ -209,20 +205,21 @@ function inpageson(oid,pagenow){
         contentType: "application/json; charset=utf-8",
         dataType:"json",
         success:function (data) {
+
             var rglist = data.rglist;
             var gdlist = data.gdslist;
-            var datapage = data.pagelist;
+           var datapage = data.pagelist;
             //清除子页面信息
             $("#inboundertabson tbody tr").eq(0).nextAll().remove();
            var ii=0;
-            for(ii;ii< rglist.size;ii++)
+            for(ii;ii< rglist.length;ii++)
             {
                 var god=gdlist[ii];//获取商品表的一个对象
                 var obj=rglist[ii] ;//获取关系表的一个对象
                     var html='<tr><td><input type="checkbox"/></td><td>' + god.goodsno+'</td><td>'
                         + god.goodsname+'</td><td>'+obj.goodnum +'</td><td>'
                         + obj.goodnum+'</td></tr>'
-                    $("#inboundertabson tbody  ").append(html);
+                    $("#inboundertabson tbody").append(html);
             }
             inpagelistson(datapage.totalPageCount,datapage.pageNow , oid);
         },

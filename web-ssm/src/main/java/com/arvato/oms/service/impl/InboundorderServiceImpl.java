@@ -237,10 +237,12 @@ public class InboundorderServiceImpl implements InboundorderService {
         jsonstr +=",\"obolist\":"+a1.toString(); //出库单列表
         JSONArray a2 = JSONArray.fromObject(godslist);   //商品列表
         jsonstr +=",\"gdslist\":"+a2.toString();
-        JSONArray a3 = JSONArray.fromObject(roglist );   //商品与订单关系列表
+        JSONArray a3 = JSONArray.fromObject(roglist);   //商品与订单关系列表
         jsonstr +=",\"rglist\":"+a3.toString()+"}";
         return jsonstr;
     }
+
+
 
 public  Model inbounderdetail(HttpServletRequest request,Model model){
     String oid=request.getParameter("oid");
@@ -266,7 +268,6 @@ public  Model inbounderdetail(HttpServletRequest request,Model model){
     }
     model.addAttribute("gods",godslist);
     model.addAttribute("obol",iodlist);
-
     return model;
 }
     //精确查找by oid

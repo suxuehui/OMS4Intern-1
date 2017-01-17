@@ -41,7 +41,7 @@ public class InboundorderController {
     {
         log.info("子页面显示");
         String str=inboserciveimpl.listSonPage(request);
-
+        System.out.println("3333333:=="+str);
         return str;
     }
     //详情页面展示
