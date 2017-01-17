@@ -176,11 +176,11 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
          */
         List<ReturnedModel> returnedModels ;
         JSONObject json = new JSONObject();
-        value=value.replaceAll(" ","");
+
 
         if ("退货单号".equals(select))
         {
-            int count = returnedModelMapper.countReturnedbyId(value);
+            int count = returnedModelMapper.countReturnedbyId(value.replaceAll(" ",""));
             Page page = new Page(count, pageNow, num);
             returnedModels = returnedModelMapper.selectReturnedById(page.getStartPos(), num, value);
             json.put(TOTALPAGE, page.getTotalPageCount());
@@ -188,21 +188,21 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
 
         } else if ("订单号".equals(select))
         {
-            int count = returnedModelMapper.countReturnedbyOId(value);
+            int count = returnedModelMapper.countReturnedbyOId(value.replaceAll(" ",""));
             Page page = new Page(count, pageNow, num);
             returnedModels = returnedModelMapper.selectReturnedByOId(page.getStartPos(), num, value);
             json.put(TOTALPAGE, page.getTotalPageCount());
             json.put(RETURNMODELS, returnedModels);
         } else if ("退货状态".equals(select))
         {
-            int count = returnedModelMapper.countReturnedbyStatus(value);
+            int count = returnedModelMapper.countReturnedbyStatus(value.replaceAll(" ",""));
             Page page = new Page(count, pageNow, num);
             returnedModels = returnedModelMapper.selectReturnedByStatus(page.getStartPos(), num, value);
             json.put(TOTALPAGE, page.getTotalPageCount());
             json.put(RETURNMODELS, returnedModels);
         } else if ("渠道订单号".equals(select))
         {
-            int count = returnedModelMapper.countReturnedbyChannelOid(value);
+            int count = returnedModelMapper.countReturnedbyChannelOid(value.replaceAll(" ",""));
             Page page = new Page(count, pageNow, num);
             returnedModels = returnedModelMapper.selectReturnedByChannelOid(page.getStartPos(), num, value);
             json.put(TOTALPAGE, page.getTotalPageCount());
@@ -457,9 +457,9 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
     {
         ReturnedModel returnedModel = returnedModelMapper.selectByPrimaryKey(id);
         log.info(returnedModel.getReturnedorchange());
-        returnedModel.setReturnedorchange(returnedModel.getReturnedorchange().equals("return")?"退货":"换货");
+        returnedModel.setReturnedorchange("return".equals(returnedModel.getReturnedorchange())?"退货":"换货");
         String[] status={"","待审核","审核通过","审核失败","等待收货","收货成功","换货失败","换货取消","退货失败","退货取消"};
-        if (returnedModel.getReturnedstatus().equals("")){
+        if ("".equals(returnedModel.getReturnedstatus())){
             returnedModel.setReturnedstatus("0");
         }
         returnedModel.setReturnedstatus(status[Integer.parseInt(returnedModel.getReturnedstatus())]);
@@ -511,7 +511,12 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         }
         String oid = bld.toString();
         ReturnedModel returnedModel = returnedModelMapper.selectByOid(oid);
-        returnedModel.setReturnedstatus("5");
+        if ("2".equals(state)){
+            returnedModel.setReturnedstatus("5");
+        }else if ("3".equals(state)){
+            returnedModel.setReturnedstatus("10");
+        }
+
         returnedModel.setModifyman(modifyman);
         returnedModel.setModifytime(date);
         return  returnedModelMapper.updateByPrimaryKeySelective(returnedModel);

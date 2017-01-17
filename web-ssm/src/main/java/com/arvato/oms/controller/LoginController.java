@@ -19,8 +19,8 @@ public class LoginController
 {
 
     private Logger log = Logger.getLogger(LoginController.class);
-    private final static String UNAME = "uname";
-    private final static String UROLE = "urole";
+    private  static final String UNAME = "uname";
+    private  static final String UROLE = "urole";
     @Resource
     private UserModelService userModelService;
 

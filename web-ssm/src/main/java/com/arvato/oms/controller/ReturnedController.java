@@ -3,13 +3,11 @@ package com.arvato.oms.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
-import com.alibaba.fastjson.parser.deserializer.IntegerFieldDeserializer;
-import com.arvato.oms.model.GoodsPojo;
-import com.arvato.oms.model.OrderModel;
+
 import com.arvato.oms.service.ReturnedModelService;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,9 +26,9 @@ public class ReturnedController
 {
     private Logger log = Logger.getLogger(ReturnedController.class);
 
-    private final static String RETURNEDIDS = "returnIds";
-    private final static String SUCCESS = "success";
-    private final static String EXCEPTION = "exception";
+    private  static final String RETURNEDIDS = "returnIds";
+    private  static final String SUCCESS = "success";
+    private  static final String EXCEPTION = "exception";
     @Resource
     ReturnedModelService returnedModelService;
 
@@ -280,7 +278,7 @@ public class ReturnedController
         for (int i = 0; i < returnIds.size(); i++)
         {
             String returnOrChange = returnedModelService.getReturnOrChange(returnIds.get(i));
-            if (returnOrChange.equals("return"))
+            if ("return".equals(returnOrChange))
             {
                 success++;
             } else

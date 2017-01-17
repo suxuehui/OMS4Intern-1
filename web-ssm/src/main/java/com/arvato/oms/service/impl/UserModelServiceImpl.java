@@ -25,6 +25,7 @@ public class UserModelServiceImpl implements UserModelService
 
     private Logger log = Logger.getLogger(UserModelServiceImpl.class);
 
+    private static final String UROLE = "urole";
     public int login(String uName, String uPassword)
     {
         /**
@@ -36,16 +37,16 @@ public class UserModelServiceImpl implements UserModelService
          * @Return: int 1表示超级管理员，2表示普通管理员，3表示既不是超级管理员，又不是普通管理员（基本不会出现，除非数据库填错了）
          */
         List<UsersModel> users = userModelMapper.selectUserByNameAndPWD(uName, uPassword);
-        if (users.size() == 0)
+        if (users.isEmpty())
         {
             return 0;
         } else
         {
-            if (users.get(0).getUrole().equals("1"))
+            if ("1".equals(users.get(0).getUrole()))
             {
                 return 1;
 
-            } else if (users.get(0).getUrole().equals("2"))
+            } else if ("2".equals(users.get(0).getUrole()))
             {
                 return 2;
             }
@@ -64,8 +65,8 @@ public class UserModelServiceImpl implements UserModelService
          * @param uPassword 用户密码
          * @Return: int 1为添加成功，2为添加失败
          */
-        int i = userModelMapper.insertUser(uName, uPassword);
-        return i;
+        return userModelMapper.insertUser(uName, uPassword);
+
     }
 
     public int checkUname(String uName)
@@ -102,8 +103,8 @@ public class UserModelServiceImpl implements UserModelService
          * @param uPassword
          * @Return: int 1表示修改成功，0表示修改失败
          */
-        int i = userModelMapper.updateUser(uId, uName, uPassword);
-        return i;
+        return userModelMapper.updateUser(uId, uName, uPassword);
+
     }
 
     public JSONObject getUsersByUname(String name, int num, int pageNow,int urole)
@@ -124,9 +125,9 @@ public class UserModelServiceImpl implements UserModelService
         log.info("StartPos:"+page.getStartPos());
         JSONObject json = new JSONObject();
         if (urole==2){
-            json.put("urole",2);
+            json.put(UROLE,2);
         }else {
-            json.put("urole",1);
+            json.put(UROLE,1);
             json.put("totalPage",page.getTotalPageCount());
             json.put("userList",usersModels);
         }
@@ -152,9 +153,9 @@ public class UserModelServiceImpl implements UserModelService
 
         JSONObject jsonObject = new JSONObject();
         if (urole==2){
-            jsonObject.put("urole",2);
+            jsonObject.put(UROLE,2);
         }else {
-            jsonObject.put("urole",2);
+            jsonObject.put(UROLE,2);
             jsonObject.put("userList",usersModels);
             jsonObject.put("totalPage",page.getTotalPageCount());
         }
@@ -186,13 +187,8 @@ public class UserModelServiceImpl implements UserModelService
          */
         UsersModel usersModel = userModelMapper.selectOneUserByName(uname);
         String urole = usersModel.getUrole();//1表示管理员，2表示普通用户
-        if (urole.equals("1"))
-        {
-            return true;
-        } else
-        {
-            return false;
-        }
+        return  "1".equals(urole);
+
     }
 
     public int checkUnameEXself(String uname, int uid)

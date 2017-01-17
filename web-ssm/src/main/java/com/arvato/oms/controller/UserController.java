@@ -109,11 +109,11 @@ public class UserController
          * @param model
          * @Return:
          */
-        username=username.replaceAll(" ","");
+
         log.info("根据用户名分页查询用户");
         HttpSession session = request.getSession();
         int urole = (Integer) session.getAttribute(UROLE);
-        return userModelService.getUsersByUname(username,pageSize,nowPage,urole);
+        return userModelService.getUsersByUname(username.replaceAll(" ",""),pageSize,nowPage,urole);
     }
 
     @RequestMapping("/getAllUsers")

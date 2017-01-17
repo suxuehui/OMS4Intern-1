@@ -116,8 +116,8 @@ public class GoodsModelServiceImpl implements GoodsModelService
          * @Return:  int 1为插入成功，0为插入失败
          */
         BigDecimal goodsPrice = BigDecimal.valueOf(goodsPriceD);
-        int i = goodsModelMapper.insertGoods(goodsNo, goodsName, goodsTolnum, goodsPrice);
-        return i;
+        return goodsModelMapper.insertGoods(goodsNo, goodsName, goodsTolnum, goodsPrice);
+
     }
 
     public int deleteGoodsByNo(String goodsNo)
@@ -129,8 +129,8 @@ public class GoodsModelServiceImpl implements GoodsModelService
          * @param goodsNo
          * @Return:  int 1为插入成功，0为插入失败
          */
-        int i = goodsModelMapper.deleteGoodsByNo(goodsNo);
-        return i;
+        return goodsModelMapper.deleteGoodsByNo(goodsNo);
+
     }
 
     public int deleteGoodsByNos(List<String> goodNos)
@@ -142,8 +142,8 @@ public class GoodsModelServiceImpl implements GoodsModelService
          * @param goodNos
          * @Return: int 1为插入成功，0为插入失败
          */
-        int i = goodsModelMapper.deleteGoodsByNos(goodNos);
-        return i;
+        return goodsModelMapper.deleteGoodsByNos(goodNos);
+
     }
 
     public JSONObject selectGoodsByValueAndPage(String select, String value, int nowPage, int pageSize)
@@ -160,7 +160,7 @@ public class GoodsModelServiceImpl implements GoodsModelService
          * @Return: JSONObject
          */
         JSONObject json = new JSONObject();
-        if (select.equals("name"))
+        if ("name".equals(select))
         {
             int goodsCount = goodsModelMapper.countGoodsByNameAndPage(value);
             Page page = new Page(goodsCount,nowPage, pageSize);
@@ -183,7 +183,7 @@ public class GoodsModelServiceImpl implements GoodsModelService
             json.put("size", goodsAndStatus.size());
             json.put("totalPage", page.getTotalPageCount());
 
-        } else if (select.equals("id"))
+        } else if ("id".equals(select))
         {
             int goodsCount = goodsModelMapper.countGoodsByNoAndPage(value);
             Page page = new Page(goodsCount,nowPage, pageSize);
@@ -214,8 +214,8 @@ public class GoodsModelServiceImpl implements GoodsModelService
 
     //通过goodsno获取一件商品的全部信息
     public GoodsModel selectByGoodsNo(String goodsno) {
-        GoodsModel gm=goodsModelMapper.selectByGoodsNo(goodsno);
-        return gm;
+        return goodsModelMapper.selectByGoodsNo(goodsno);
+
     }
 
     //添加一条商品信息
