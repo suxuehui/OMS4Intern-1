@@ -107,11 +107,11 @@ $(document).ready(function () {
 					if($("#userListbut").hasClass("on"))
 					{
 						$("#goodsListbut").addClass("on");
+						$("#goodsList").show();
 					}
 					$("#userListbut").text("");
 					$("#userListbut").hide();
 					$("#userList").html('');
-					$("#goodsList").show();
 				}
 				if(!(name==uname))
 				{
