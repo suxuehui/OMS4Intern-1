@@ -28,6 +28,9 @@ public class ReturnedController
 {
     private Logger log = Logger.getLogger(ReturnedController.class);
 
+    private final static String RETURNEDIDS = "returnIds";
+    private final static String SUCCESS = "success";
+    private final static String EXCEPTION = "exception";
     @Resource
     ReturnedModelService returnedModelService;
 
@@ -46,7 +49,7 @@ public class ReturnedController
         int success = 0;
         int exception = 0;
         JSONObject jsonObject = JSON.parseObject(json);
-        ArrayList<Integer> returnIds = JSON.parseObject(jsonObject.getString("returnIds"), new TypeReference<ArrayList<Integer>>()
+        ArrayList<Integer> returnIds = JSON.parseObject(jsonObject.getString(RETURNEDIDS), new TypeReference<ArrayList<Integer>>()
         {
         });
         for (int i = 0; i < returnIds.size(); i++)
@@ -62,8 +65,8 @@ public class ReturnedController
         }
 
         JSONObject jsonObject2 = new JSONObject();
-        jsonObject2.put("success", success);
-        jsonObject2.put("exception", exception);
+        jsonObject2.put(SUCCESS, success);
+        jsonObject2.put(EXCEPTION, exception);
         return jsonObject2;
     }
 
@@ -131,7 +134,7 @@ public class ReturnedController
         int success = 0;
         int exception = 0;
         JSONObject jsonObject = JSON.parseObject(json);
-        ArrayList<Integer> returnIds = JSON.parseObject(jsonObject.getString("returnIds"), new TypeReference<ArrayList<Integer>>()
+        ArrayList<Integer> returnIds = JSON.parseObject(jsonObject.getString(RETURNEDIDS), new TypeReference<ArrayList<Integer>>()
         {
         });
         for (int i = 0; i < returnIds.size(); i++)
@@ -144,8 +147,8 @@ public class ReturnedController
             }
         }
         JSONObject jsonObject2 = new JSONObject();
-        jsonObject2.put("success", success);
-        jsonObject2.put("exception", exception);
+        jsonObject2.put(SUCCESS, success);
+        jsonObject2.put(EXCEPTION, exception);
         return jsonObject2;
     }
 
@@ -163,7 +166,7 @@ public class ReturnedController
         int success = 0;
         int exception = 0;
         JSONObject jsonObject = JSON.parseObject(json);
-        ArrayList<Integer> returnIds = JSON.parseObject(jsonObject.getString("returnIds"), new TypeReference<ArrayList<Integer>>()
+        ArrayList<Integer> returnIds = JSON.parseObject(jsonObject.getString(RETURNEDIDS), new TypeReference<ArrayList<Integer>>()
         {
         });
         for (int i = 0; i < returnIds.size(); i++)
@@ -178,8 +181,8 @@ public class ReturnedController
         }
 
         JSONObject jsonObject2 = new JSONObject();
-        jsonObject2.put("success", success);
-        jsonObject2.put("exception", exception);
+        jsonObject2.put(SUCCESS, success);
+        jsonObject2.put(EXCEPTION, exception);
         return jsonObject2;
     }
 
@@ -198,7 +201,7 @@ public class ReturnedController
         int success = 0;
         int exception = 0;
         JSONObject jsonObject = JSON.parseObject(json);
-        ArrayList<Integer> returnIds = JSON.parseObject(jsonObject.getString("returnIds"), new TypeReference<ArrayList<Integer>>()
+        ArrayList<Integer> returnIds = JSON.parseObject(jsonObject.getString(RETURNEDIDS), new TypeReference<ArrayList<Integer>>()
         {
         });
         for (int i = 0; i < returnIds.size(); i++)
@@ -214,8 +217,8 @@ public class ReturnedController
 
         }
         JSONObject jsonObject2 = new JSONObject();
-        jsonObject2.put("success", success);
-        jsonObject2.put("exception", exception);
+        jsonObject2.put(SUCCESS, success);
+        jsonObject2.put(EXCEPTION, exception);
         return jsonObject2;
     }
 
@@ -234,7 +237,7 @@ public class ReturnedController
     {
         JSONObject jsonObject = JSON.parseObject(json);
         String status = jsonObject.getString("status");
-        ArrayList<Integer> returnIds = JSON.parseObject(jsonObject.getString("returnIds"), new TypeReference<ArrayList<Integer>>()
+        ArrayList<Integer> returnIds = JSON.parseObject(jsonObject.getString(RETURNEDIDS), new TypeReference<ArrayList<Integer>>()
         {
         });
 
@@ -259,8 +262,8 @@ public class ReturnedController
             }
         }
         JSONObject jsonObject2 = new JSONObject();
-        jsonObject2.put("success", success);
-        jsonObject2.put("exception", exception);
+        jsonObject2.put(SUCCESS, success);
+        jsonObject2.put(EXCEPTION, exception);
         return jsonObject2;
     }
 
@@ -271,7 +274,7 @@ public class ReturnedController
         int success = 0;
         int exception = 0;
         JSONObject jsonObject = JSON.parseObject(json);
-        ArrayList<Integer> returnIds = JSON.parseObject(jsonObject.getString("returnIds"), new TypeReference<ArrayList<Integer>>()
+        ArrayList<Integer> returnIds = JSON.parseObject(jsonObject.getString(RETURNEDIDS), new TypeReference<ArrayList<Integer>>()
         {
         });
         for (int i = 0; i < returnIds.size(); i++)
@@ -286,8 +289,8 @@ public class ReturnedController
             }
         }
         JSONObject jsonObject2 = new JSONObject();
-        jsonObject2.put("success", success);
-        jsonObject2.put("exception", exception);
+        jsonObject2.put(SUCCESS, success);
+        jsonObject2.put(EXCEPTION, exception);
         return jsonObject2;
     }
 

@@ -697,6 +697,13 @@ function addUserAjax(username, password) {
 
     });
 }
+function tipsRefound(errorcount,returnIdArray,successCount){
+    if (errorcount > 0) {
+        alert("退款单已创建，请不要重复提交，共" + returnIdArray.length + "条,成功" + successCount + "条");
+    } else if (successCount > 0) {
+        alert("创建完成,共" + returnIdArray.length + "条,成功" + successCount + "条");
+    }
+}
 
 
 $(
@@ -1387,11 +1394,7 @@ $(
                         selectReturnByvalue(1);
                         $('#returnedPageNow').html(1);
                         $('#returnedCreaterefoundOder').attr('disabled', "true");
-                        if (errorcount > 0) {
-                            alert("退款单已创建，请不要重复提交，共" + returnIdArray.length + "条,成功" + successCount + "条");
-                        } else if (successCount > 0) {
-                            alert("创建完成,共" + returnIdArray.length + "条,成功" + successCount + "条");
-                        }
+                        tipsRefound(errorcount,returnIdArray,successCount);
 
                     } else {
                         alert('请选择退换货状态为‘退货’的退货单');

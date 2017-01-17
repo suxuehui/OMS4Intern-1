@@ -225,7 +225,6 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
          */
 
         ReturnedModel returnedModel = returnedModelMapper.selectByPrimaryKey(id);
-        JSONObject json = new JSONObject();
         long l = refoundOrderModelMapper.CountReturnedId(returnedModel.getReturnedid());
         if (l == 0)
         {
@@ -239,7 +238,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
             refoundOrderModel.setDrawbackmoney(returnedModel.getReturnedmoney());//退款金额
             refoundOrderModel.setDrawbackstatus("1");//未退款
 
-            int i = refoundOrderModelMapper.insertSelective(refoundOrderModel);
+            refoundOrderModelMapper.insertSelective(refoundOrderModel);
 
             return 1;
         } else
@@ -295,68 +294,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
 
                 if (i > 0)
                 {
-                    //拼接传入WMS信息
-                    DeliveryOrder deliveryOrder = new DeliveryOrder();
-                    deliveryOrder.setReceiveraddress(outboundorderModel.getReceiveraddress());
-                    deliveryOrder.setReceiver(outboundorderModel.getReceivername());
-                    deliveryOrder.setReceivertel(orderModel.getReceivermobel());
-
-
-                    List<RelationrgModel> relationrgModels = relationrgModelMapper.selectAllGoodsByRid(returnedModel.getReturnedid());
-                    List<Outboundordergoods> outboundordergoodss = new ArrayList<Outboundordergoods>();
-                    for (int j = 0; j < relationrgModels.size(); j++)
-                    {
-                        RelationrgModel relationrgModel = relationrgModels.get(j);
-                        GoodsModel goodsModel = goodsModelMapper.selectOneGoodsByNo(relationrgModel.getGoodsno());
-                        Outboundordergoods outboundordergoods = new Outboundordergoods();
-                        outboundordergoods.setName(goodsModel.getGoodsname());
-                        outboundordergoods.setNum(relationrgModel.getGoodnum());
-                        outboundordergoods.setOutboundnum(relationrgModel.getGoodnum());
-                        outboundordergoods.setPrice(goodsModel.getGoodsprice());
-                        outboundordergoods.setSku(relationrgModel.getGoodsno());
-                        outboundordergoods.setTotalprice(goodsModel.getGoodsprice().multiply(new BigDecimal(relationrgModel.getGoodnum())));//商品总价
-                        outboundordergoodss.add(outboundordergoods);
-                    }
-                    OutBoundRoot outBoundRoot = new OutBoundRoot();
-                    outBoundRoot.setChannelorderid(returnedModel.getChanneloid());
-                    outBoundRoot.setDeliveryOrder(deliveryOrder);
-                    outBoundRoot.setMessage("");
-                    outBoundRoot.setOrderid(returnedModel.getOid());
-                    outBoundRoot.setOutboundordergoods(outboundordergoodss);
-                    outBoundRoot.setOutboundorderid(outboundorderModel.getOutboundid());
-
-                    Boolean synchrostate1 = outboundorderModel.getSynchrostate();
-                    if (synchrostate1)
-                    {
-                        String s = sendOutBoundToWMS(outBoundRoot);
-                        String tsckd = "推送出库单";
-                        if ("100".equals(s))
-                        {//推送成功
-
-                            log.info(tsckd + outboundorderModel.getOutboundid() + "成功");
-                            return "换货成功";
-                        } else if ("0".equals(s))
-                        {//链接接口异常
-                            log.info(tsckd + outboundorderModel.getOutboundid() + JKLJYC);
-                            return JKLJYC;//接口连接异常
-                        } else if ("101".equals(s))
-                        {
-                            log.info(tsckd + outboundorderModel.getOutboundid() + SJKGSCW);
-                            return SJKGSCW;//数据格式错误
-                        } else if ("102".equals(s))
-                        {
-                            log.info(tsckd + outboundorderModel.getOutboundid() + "重复的出库单");
-                            return  "重复的出库单";//重复的入库单
-
-                        } else
-                        {//链接失败
-                            return  "链接失败";
-                        }
-
-                    } else
-                    {
-                        return  "创建出库单失败";
-                    }
+                    return  pushOutboundOrrder(outboundorderModel,orderModel,returnedModel);
                 } else
                 {
                    return  "此订单已同步";
@@ -414,72 +352,7 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
                 } else if (i1 == 1)
                 {
 
-                    //以下代码为拼 需要同步给WMS的数据
-                    Inbounddeliveryorder inbounddeliveryorder = new Inbounddeliveryorder();
-                    inbounddeliveryorder.setReceiver(orderModel.getReceivername());
-                    inbounddeliveryorder.setReceivertel(orderModel.getReceivermobel());
-                    inbounddeliveryorder.setReceiveraddress(orderModel.getReceiverprovince() + orderModel.getReceivercity() + orderModel.getReceiverarea());
-                    List<RelationrgModel> relationrgModels = relationrgModelMapper.selectAllGoodsByRid(returnedModel.getReturnedid());
-                    List<Inboundordergoods> inboundordergoodss = new ArrayList<Inboundordergoods>();
-                    for (int j = 0; j < relationrgModels.size(); j++)
-                    {
-                        RelationrgModel relationrgModel = relationrgModels.get(j);
-                        GoodsModel goodsModel = goodsModelMapper.selectOneGoodsByNo(relationrgModel.getGoodsno());
-                        Inboundordergoods inboundordergoods = new Inboundordergoods();
-                        inboundordergoods.setInboundnum(relationrgModel.getGoodnum().toString());//商品入库数量
-                        inboundordergoods.setSku(relationrgModel.getGoodsno());//商品编码
-                        inboundordergoods.setName(goodsModel.getGoodsname());//商品名称
-                        inboundordergoods.setNum(relationrgModel.getGoodnum().toString());//商品总数
-                        inboundordergoods.setPrice(goodsModel.getGoodsprice().toString());//商品单价
-                        inboundordergoods.setTotalprice(goodsModel.getGoodsprice().multiply(new BigDecimal(relationrgModel.getGoodnum())).toString());//商品总价
-                        inboundordergoodss.add(inboundordergoods);
-                    }
-                    InBoundRoot inBoundRoot = new InBoundRoot();
-                    inBoundRoot.setInbounddeliveryorder(inbounddeliveryorder);
-                    inBoundRoot.setInboundordergoods(inboundordergoodss);
-                    inBoundRoot.setInboundorderid(inboundorderModel.getInboundid());
-                    inBoundRoot.setOrderid(inboundorderModel.getOid());
-                    inBoundRoot.setReturnorderid(inboundorderModel.getReturnedid());
-
-
-                    String s = "1";//推送给WMS，返回状态码
-                    try
-                    {
-                        s = sendInboundToWMS(inBoundRoot);
-                    } catch (Exception e)
-                    {
-                        log.info("推送入库单给wms失败"+e);
-                    }
-                    if ("100".equals(s))
-                    {//推送成功
-                        log.info(tsrkd + inboundorderModel.getInboundid() + "成功");
-                        returnedModel.setReturnedstatus("4");//等待收货
-                        returnedModel.setModifytime(new Date());
-
-                        returnedModel.setModifyman(session.getAttribute(UNAME).toString());
-                        returnedModelMapper.updateByPrimaryKeySelective(returnedModel);
-                       //更新入库单同步状态为已同步
-
-                        return "审核成功";
-                    } else if ("0".equals(s))
-                    {//链接接口异常
-                        log.info(tsrkd + inboundorderModel.getInboundid() + JKLJYC);
-
-                        return JKLJYC;
-                    } else if ("101".equals(s))
-                    {//数据格式错误
-                        log.info(tsrkd + inboundorderModel.getInboundid() + SJKGSCW);
-
-                        return SJKGSCW;
-                    } else if ("102".equals(s))
-                    {//重复的入库单
-                        log.info(tsrkd + inboundorderModel.getInboundid() + "重复的入库单");
-
-                        return "重复的入库单";
-                    } else
-                    {//链接失败
-                        return JKLJYC;
-                    }
+                    return  pushInboundOrder(orderModel,returnedModel,inboundorderModel,session,tsrkd);
                 }
 
             } else
@@ -642,5 +515,139 @@ public class ReturnedModelServiceImpl implements ReturnedModelService
         returnedModel.setModifyman(modifyman);
         returnedModel.setModifytime(date);
         return  returnedModelMapper.updateByPrimaryKeySelective(returnedModel);
+    }
+
+    public String pushInboundOrder(OrderModel orderModel,ReturnedModel returnedModel,InboundorderModel inboundorderModel,HttpSession session,String tsrkd){
+        //以下代码为拼 需要同步给WMS的数据
+        Inbounddeliveryorder inbounddeliveryorder = new Inbounddeliveryorder();
+        inbounddeliveryorder.setReceiver(orderModel.getReceivername());
+        inbounddeliveryorder.setReceivertel(orderModel.getReceivermobel());
+        inbounddeliveryorder.setReceiveraddress(orderModel.getReceiverprovince() + orderModel.getReceivercity() + orderModel.getReceiverarea());
+        List<RelationrgModel> relationrgModels = relationrgModelMapper.selectAllGoodsByRid(returnedModel.getReturnedid());
+        List<Inboundordergoods> inboundordergoodss = new ArrayList<Inboundordergoods>();
+        for (int j = 0; j < relationrgModels.size(); j++)
+        {
+            RelationrgModel relationrgModel = relationrgModels.get(j);
+            GoodsModel goodsModel = goodsModelMapper.selectOneGoodsByNo(relationrgModel.getGoodsno());
+            Inboundordergoods inboundordergoods = new Inboundordergoods();
+            inboundordergoods.setInboundnum(relationrgModel.getGoodnum().toString());//商品入库数量
+            inboundordergoods.setSku(relationrgModel.getGoodsno());//商品编码
+            inboundordergoods.setName(goodsModel.getGoodsname());//商品名称
+            inboundordergoods.setNum(relationrgModel.getGoodnum().toString());//商品总数
+            inboundordergoods.setPrice(goodsModel.getGoodsprice().toString());//商品单价
+            inboundordergoods.setTotalprice(goodsModel.getGoodsprice().multiply(new BigDecimal(relationrgModel.getGoodnum())).toString());//商品总价
+            inboundordergoodss.add(inboundordergoods);
+        }
+        InBoundRoot inBoundRoot = new InBoundRoot();
+        inBoundRoot.setInbounddeliveryorder(inbounddeliveryorder);
+        inBoundRoot.setInboundordergoods(inboundordergoodss);
+        inBoundRoot.setInboundorderid(inboundorderModel.getInboundid());
+        inBoundRoot.setOrderid(inboundorderModel.getOid());
+        inBoundRoot.setReturnorderid(inboundorderModel.getReturnedid());
+
+
+        String s = "1";//推送给WMS，返回状态码
+        try
+        {
+            s = sendInboundToWMS(inBoundRoot);
+        } catch (Exception e)
+        {
+            log.info("推送入库单给wms失败"+e);
+        }
+        if ("100".equals(s))
+        {//推送成功
+            log.info(tsrkd + inboundorderModel.getInboundid() + "成功");
+            returnedModel.setReturnedstatus("4");//等待收货
+            returnedModel.setModifytime(new Date());
+
+            returnedModel.setModifyman(session.getAttribute(UNAME).toString());
+            returnedModelMapper.updateByPrimaryKeySelective(returnedModel);
+            //更新入库单同步状态为已同步
+
+            return "审核成功";
+        } else if ("0".equals(s))
+        {//链接接口异常
+            log.info(tsrkd + inboundorderModel.getInboundid() + JKLJYC);
+
+            return JKLJYC;
+        } else if ("101".equals(s))
+        {//数据格式错误
+            log.info(tsrkd + inboundorderModel.getInboundid() + SJKGSCW);
+
+            return SJKGSCW;
+        } else if ("102".equals(s))
+        {//重复的入库单
+            log.info(tsrkd + inboundorderModel.getInboundid() + "重复的入库单");
+
+            return "重复的入库单";
+        } else
+        {//链接失败
+            return JKLJYC;
+        }
+    }
+
+    public String pushOutboundOrrder(OutboundorderModel outboundorderModel,OrderModel orderModel,ReturnedModel returnedModel){
+        //拼接传入WMS信息
+        DeliveryOrder deliveryOrder = new DeliveryOrder();
+        deliveryOrder.setReceiveraddress(outboundorderModel.getReceiveraddress());
+        deliveryOrder.setReceiver(outboundorderModel.getReceivername());
+        deliveryOrder.setReceivertel(orderModel.getReceivermobel());
+
+
+        List<RelationrgModel> relationrgModels = relationrgModelMapper.selectAllGoodsByRid(returnedModel.getReturnedid());
+        List<Outboundordergoods> outboundordergoodss = new ArrayList<Outboundordergoods>();
+        for (int j = 0; j < relationrgModels.size(); j++)
+        {
+            RelationrgModel relationrgModel = relationrgModels.get(j);
+            GoodsModel goodsModel = goodsModelMapper.selectOneGoodsByNo(relationrgModel.getGoodsno());
+            Outboundordergoods outboundordergoods = new Outboundordergoods();
+            outboundordergoods.setName(goodsModel.getGoodsname());
+            outboundordergoods.setNum(relationrgModel.getGoodnum());
+            outboundordergoods.setOutboundnum(relationrgModel.getGoodnum());
+            outboundordergoods.setPrice(goodsModel.getGoodsprice());
+            outboundordergoods.setSku(relationrgModel.getGoodsno());
+            outboundordergoods.setTotalprice(goodsModel.getGoodsprice().multiply(new BigDecimal(relationrgModel.getGoodnum())));//商品总价
+            outboundordergoodss.add(outboundordergoods);
+        }
+        OutBoundRoot outBoundRoot = new OutBoundRoot();
+        outBoundRoot.setChannelorderid(returnedModel.getChanneloid());
+        outBoundRoot.setDeliveryOrder(deliveryOrder);
+        outBoundRoot.setMessage("");
+        outBoundRoot.setOrderid(returnedModel.getOid());
+        outBoundRoot.setOutboundordergoods(outboundordergoodss);
+        outBoundRoot.setOutboundorderid(outboundorderModel.getOutboundid());
+
+        Boolean synchrostate1 = outboundorderModel.getSynchrostate();
+        if (synchrostate1)
+        {
+            String s = sendOutBoundToWMS(outBoundRoot);
+            String tsckd = "推送出库单";
+            if ("100".equals(s))
+            {//推送成功
+
+                log.info(tsckd + outboundorderModel.getOutboundid() + "成功");
+                return "换货成功";
+            } else if ("0".equals(s))
+            {//链接接口异常
+                log.info(tsckd + outboundorderModel.getOutboundid() + JKLJYC);
+                return JKLJYC;//接口连接异常
+            } else if ("101".equals(s))
+            {
+                log.info(tsckd + outboundorderModel.getOutboundid() + SJKGSCW);
+                return SJKGSCW;//数据格式错误
+            } else if ("102".equals(s))
+            {
+                log.info(tsckd + outboundorderModel.getOutboundid() + "重复的出库单");
+                return  "重复的出库单";//重复的入库单
+
+            } else
+            {//链接失败
+                return  "链接失败";
+            }
+
+        } else
+        {
+            return  "创建出库单失败";
+        }
     }
 }

@@ -19,7 +19,8 @@ public class LoginController
 {
 
     private Logger log = Logger.getLogger(LoginController.class);
-
+    private final static String UNAME = "uname";
+    private final static String UROLE = "urole";
     @Resource
     private UserModelService userModelService;
 
@@ -45,8 +46,8 @@ public class LoginController
         log.info("查询用户名密码是否匹配，判断" + uname + "身份是" + i + "密码是" + password);
         HttpSession session = request.getSession();
 
-        session.setAttribute("uname", uname);
-        session.setAttribute("urole", userModelService.isAdmin(uname) ? 1 : 2);
+        session.setAttribute(UNAME, uname);
+        session.setAttribute(UROLE, userModelService.isAdmin(uname) ? 1 : 2);
         session.setMaxInactiveInterval(30*60);
         JSONObject json = new JSONObject();
         json.put("check", i);
@@ -79,14 +80,14 @@ public class LoginController
     public JSONObject checkSession(HttpSession session)
     {
         JSONObject jsonObject=new JSONObject();
-        Integer urole=(Integer)session.getAttribute("urole");
-        String uname=(String)session.getAttribute("uname");
+        Integer urole=(Integer)session.getAttribute(UROLE);
+        String uname=(String)session.getAttribute(UNAME);
         if(urole==null)
         {
             return null;
         }
-        jsonObject.put("urole",urole);
-        jsonObject.put("uname",uname);
+        jsonObject.put(UROLE,urole);
+        jsonObject.put(UNAME,uname);
         return jsonObject;
     }
 
