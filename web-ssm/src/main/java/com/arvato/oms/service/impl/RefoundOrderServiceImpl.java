@@ -142,47 +142,27 @@ public class RefoundOrderServiceImpl implements RefoundOrderService{
         RefoundOrderModel refoundOrderModelList = refoundOrderModelMapper.selectByDrawbackId(drawbackId);
         //获取商品编码 查询关系表
         String returnedId = refoundOrderModelList.getReturnedid();
-        if(returnedId==null||"".equals(returnedId)){
+
             String oid = drawbackId.substring(2,17);
             List<RelationogModel> roglist2 = relationogModelMapper.selectMessageByOid(oid);
             //获取商品实体 查询商品表
-            List<Object> goodsList=new ArrayList<Object>();
+            List<Object> goodsList2=new ArrayList<Object>();
             for(int i=0;i<roglist2.size();i++){
                 //获取商品编号
                 String sno= roglist2.get(i).getGoodsno();
                 //查询所有商品列
                 GoodsModel gm= goodsModelMapper.selectByGoodsNo(sno);
-                goodsList.add(gm);
+                goodsList2.add(gm);
             }
             //对象转JSON
             JSONArray a1= JSONArray.fromObject(refoundOrderModelList);
             String jsonstr2="{\"refoundOrderModelList\":"+a1.toString(); //异常订单列表
-            JSONArray a2 = JSONArray.fromObject(goodsList); //商品列表
+            JSONArray a2 = JSONArray.fromObject(goodsList2); //商品列表
             jsonstr2 +=",\"goods\":"+a2.toString();
             JSONArray a3 = JSONArray.fromObject(roglist2);  //商品与退款单关系列表
             jsonstr2 +=",\"rglist\":"+a3.toString()+"}";
             return jsonstr2;
-        }
-        List<RelationrgModel> roglist = relationrgModelMapper.selectByReturnedId(returnedId);
-        //获取商品实体 查询商品表
-        List<Object> goodsList=new ArrayList<Object>();
 
-        for(int i=0;i<roglist.size();i++){
-              //获取商品编号
-              String sno= roglist.get(i).getGoodsno();
-              //查询所有商品列
-              GoodsModel gm= goodsModelMapper.selectByGoodsNo(sno);
-              goodsList.add(gm);
-        }
-
-        //对象转JSON
-        JSONArray a1= JSONArray.fromObject(refoundOrderModelList);
-        String jsonstr="{\"refoundOrderModelList\":"+a1.toString(); //异常订单列表
-        JSONArray a2 = JSONArray.fromObject(goodsList); //商品列表
-        jsonstr +=",\"goods\":"+a2.toString();
-        JSONArray a3 = JSONArray.fromObject(roglist);  //商品与退款单关系列表
-        jsonstr +=",\"rglist\":"+a3.toString()+"}";
-        return jsonstr;
     }
 
     public void updataRefoundDrawbackId(String drawbackStatus,String dataNow,String userName,String drawbackId) {
