@@ -20,6 +20,7 @@ function  queryAllOrder(pageNo) {
             pageSize: orderPageSize,
             data: queryData
         },
+        cache:false,
         contentType: "application/json; charset=utf-8",
         dataType:"json",
         success:function (data) {
@@ -71,6 +72,7 @@ function queryOrder(pageNo) {
             pageSize:orderPageSize,
             data:queryData
         },
+        cache:false,
         contentType: "application/json; charset=utf-8",
         dataType:"json",
         success:function (data) {
@@ -230,6 +232,7 @@ function queryGoodsByOid(pageNo,pageSize,oid) {
             pageSize:pageSize,
             oId:oid
         },
+        cache:false,
         contentType:"application/json;charset=utf-8",
         dataType:"json",
         success:function (data) {
@@ -406,6 +409,7 @@ function matchWareHouse(num,i) {
         type:"get",
         data:{num:num},
         datatype:"json",
+        cache:false,
         success:function (data) {
             if(data=="")
             {

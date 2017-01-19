@@ -106,6 +106,7 @@ $(document).ready(function () {
 				{
 					if($("#userListbut").hasClass("on"))
 					{
+						$("#userListbut").removeClass("on")
 						$("#goodsListbut").addClass("on");
 						$("#goodsList").show();
 					}
