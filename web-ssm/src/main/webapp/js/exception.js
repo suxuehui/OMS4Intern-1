@@ -70,6 +70,7 @@ function excGetnowPage(pagenow){
     $.ajax({
         type : 'get',
         url :'../exceptionOrder/showExceptionList',
+        cache:false,
         data : {
             currentpage: s1,
             toseachid: optxt,

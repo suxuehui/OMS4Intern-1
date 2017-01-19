@@ -32,6 +32,7 @@ function outGNPage(pagenow){
     $.ajax({
         type : 'get',
         url :'../outboundorder/listseach',
+        cache:false,
         data : {
             currentpage: outpagenow,
             toseachid: outselectmode,

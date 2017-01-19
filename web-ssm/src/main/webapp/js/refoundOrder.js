@@ -65,6 +65,7 @@ function refGetnowPage(pagenow){
     $.ajax({
         type : 'get',
         url :'../refoundOrder/showRefoundOrderList',
+        cache:false,
         data : {
             currentpage: s1,
             refoundToseachid: optxt,
@@ -164,7 +165,7 @@ function refoundpageson(drawbackId,pagenow){
                 //显示第几页数据
                 if( pagesize*(pagenow-1)<=i && i< pagesize*pagenow) //
                 {
-                    var obj=rglist[i] ;//获取关系表的一个对象
+                    var obj=rglist[i];//获取关系表的一个对象
                     var god=gdlist[i];//获取商品表的一个对象
                     var totalPrice=rglist[i].divideorderfee*obj.goodnum;//商品总价
                     var html='<tr><td><input type="checkbox" value="" name="" onclick="" ></td><td>' + god.goodsno+'</td><td>'
@@ -213,7 +214,7 @@ function refoundOrder_getDrawbackid() {
     return info;
 }
 
-//点击查看出库订单进入详情页
+//点击查看对款订单进入详情页
 function refoundOrder_details(){
     var drawbackId2 = refoundOrder_getDrawbackid();
     var Array = drawbackId2.split(",");
