@@ -283,5 +283,7 @@ public  Model inbounderdetail(HttpServletRequest request,Model model){
         int s=ibodao.updateByInboundId(inboundid,inboundstate,modifytime,modifyman);
         return s;
     }
+
+
 }
 

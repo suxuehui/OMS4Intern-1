@@ -198,7 +198,14 @@
     <include refid="Base_Column_List" />
     from inboundorder
     where oId = #{oid,jdbcType=VARCHAR}
+  </select>
 
+  <!--通过inboundid选出oid-->
+  <select id="selectByinboundId" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+     oId
+    from inboundorder
+    where  inboundId = #{inboundid,jdbcType=VARCHAR}
   </select>
 
     <!--获取总数-->

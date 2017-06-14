@@ -17,5 +17,7 @@ public interface InboundorderService {
 
      //更新入库单列表
      int updateByInboundId(String inboundid, String inboundstate,Date modifytime,String modifyman);
-     //inbounderdetail
+
+
+
 }

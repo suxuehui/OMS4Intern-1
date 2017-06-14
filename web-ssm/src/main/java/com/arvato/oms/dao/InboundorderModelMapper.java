@@ -40,6 +40,8 @@ public interface InboundorderModelMapper
     //更新入库单列表
     int updateByInboundId(@Param("inboundid") String inboundid, @Param("inboundstate") String inboundstate,@Param("modifytime") Date modifytime,@Param("modifyman") String modifyman);
 
+    //选出oid by inboundid
+    String selectByinboundId(String inboundid);
 
     int insertSelective(InboundorderModel record);
     //生成新入库单

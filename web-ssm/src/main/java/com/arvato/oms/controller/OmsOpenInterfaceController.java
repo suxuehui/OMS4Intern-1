@@ -276,6 +276,7 @@ public class OmsOpenInterfaceController {
                 String inboundState = inbound.getJSONObject(i).getString("inboundState");
                 Date date=new Date();
                 s = inboundorderserviceimpl.updateByInboundId(inboundId, inboundState,date,modifyman);
+
                 updateReturnedOrderSign = returnedModelService.updateReturnedStateByIid(inboundId,inboundState,date,modifyman);
                 //判断传来的数据是否不合法
                 if (s == 0 || updateReturnedOrderSign==0) {
