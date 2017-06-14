@@ -250,6 +250,7 @@ function selectByUserName(pageNow) {
             pageSize: pageSize
         },
         contentType: "application/json; charset=utf-8",
+        cache:false,
         dataType: "json",
         success: function (data) {
             var userList = data.userList;
@@ -306,6 +307,7 @@ function selectGoodsByValue(pageNow) {
             nowPage: page,
             pageSize: pageSize
         },
+        cache:false,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
@@ -351,6 +353,7 @@ function selectGoodsByValue2(pageNow) {
             nowPage: page,
             pageSize: pageSize
         },
+        cache:false,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
@@ -398,8 +401,9 @@ function selectReturnByvalue(pageNow) {
             value: returnSelectValue,
             pageNow: page,
             pageSize: 10,
-            async: false
         },
+        cache:false,
+        async: false,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
@@ -448,8 +452,10 @@ function selectReturnByvalue2(pageNow) {
             value: returnSelectValue,
             pageNow: page,
             pageSize: 10,
-            async: false
+
         },
+        async: false,
+        cache:false,
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (data) {
@@ -491,7 +497,7 @@ function selectReturnByvalue2(pageNow) {
 //将退货单状态显示为中文
 function returnedStatusToCN(returnedStatus) {
 
-    var statusArr = ["", "待审核", "审核通过", "审核失败", "等待收货", "收货成功", "换货失败", "换货取消", "退货失败", "退货取消"];
+    var statusArr = ["", "待审核", "审核通过", "审核失败", "等待收货", "收货成功", "换货失败", "换货取消", "退货失败", "退货取消","收货失败"];
     if (returnedStatus == "") {
         returnedStatus = "0";
     }

@@ -34,6 +34,7 @@ function inGNPage(pagenow){
     $.ajax({
         type : 'get',
         url :'../inboundorder/listseach',
+        cache:false,
         data : {
             currentpage: inpagenow,
             toseachid: inselectmode,
